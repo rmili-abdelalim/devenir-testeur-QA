@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parcours QA — Devenir testeur logiciel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#05070D; --surface:#0E1424; --surface-2:#141B30; --border:#212A47; --border-strong:#31406B;
+    --text:#EEF1FA; --text-dim:#A6AFCC; --text-faint:#67709A;
+    --accent:#4C6FFF; --accent-strong:#8FA6FF; --accent-tint:#161F42;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0; background:var(--bg);}
+  body{color:var(--text); font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, sans-serif; font-size:16.5px; line-height:1.6; -webkit-font-smoothing:antialiased;}
+  a{ color: var(--accent); text-decoration:none; } a:hover{ color: var(--accent-strong); }
+  .mono{font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;}
+  .wrap{max-width:760px; margin:0 auto; padding:64px 32px 100px;}
+  @media (max-width:640px){ .wrap{padding:44px 18px 70px;} }
+
+  .eyebrow-row{display:flex; align-items:center; gap:10px; margin-bottom:24px;}
+  .badge{width:34px; height:34px; border-radius:9px; background:var(--accent-tint); display:flex; align-items:center; justify-content:center; color:var(--accent); flex:0 0 auto;}
+  .eyebrow{font-family:"IBM Plex Mono"; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.14em; color:var(--accent);}
+  h1{font-family:"Bricolage Grotesque", "IBM Plex Sans", sans-serif; font-weight:700; font-size:clamp(32px,6vw,52px); line-height:1.05; letter-spacing:-0.02em; margin:0 0 20px; text-wrap:balance;}
+  .lede{color:var(--text-dim); font-size:16.5px; line-height:1.65; max-width:56ch; margin:0 0 28px;}
+  .stat-row{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:60px;}
+  .stat-chip{font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-dim); border:1px solid var(--border-strong); border-radius:20px; padding:6px 13px;}
+  .stat-chip b{color:var(--accent-strong); font-weight:600;}
+
+  .group-label{font-family:"Bricolage Grotesque", "IBM Plex Sans", sans-serif; font-weight:700; font-size:22px; margin:52px 0 6px; letter-spacing:-0.01em; color:var(--text);}
+  .group-label:first-of-type{margin-top:0;}
+  .group-sub{color:var(--text-faint); font-size:13.5px; margin:0 0 20px; max-width:52ch;}
+
+  .list{display:flex; flex-direction:column; gap:14px;}
+  .row{
+    display:flex; align-items:flex-start; gap:16px; padding:20px; text-decoration:none; color:var(--text);
+    background:var(--surface); border-radius:16px; border-left:4px solid var(--row-accent, var(--accent));
+    box-shadow:0 1px 2px rgba(0,0,0,0.25);
+    transition:transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+  .row:hover{background:var(--surface-2); transform:translateY(-2px); box-shadow:0 10px 26px -14px rgba(0,0,0,0.6);}
+  .row.disabled{opacity:0.45; cursor:default; pointer-events:none;}
+  .row-icon{width:52px; height:52px; border-radius:14px; flex:0 0 auto; display:flex; align-items:center; justify-content:center; background:#EEF0F7; font-size:24px; line-height:1;}
+  .row-body{min-width:0; flex:1 1 auto; padding-top:2px;}
+  .row-title{font-family:"Bricolage Grotesque","IBM Plex Sans",sans-serif; font-weight:700; font-size:16.5px; margin:0 0 6px; color:var(--text);}
+  .row-desc{color:var(--text-dim); font-size:13.5px; line-height:1.55; margin:0 0 8px;}
+  .row-meta{font-family:"IBM Plex Mono"; font-size:11px; color:var(--text-faint);}
+  .row-arrow{flex:0 0 auto; color:var(--text-faint); display:flex; margin-top:6px;}
+
+  .footer-note{margin-top:56px; padding-top:24px; border-top:1px solid var(--border); color:var(--text-faint); font-size:12.5px;}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="eyebrow-row">
+    <span class="badge">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 6.1L20 11l-6.1 1.9L12 19l-1.9-6.1L4 11l6.1-1.9L12 3z"/><circle cx="19" cy="5" r="1.3" fill="currentColor" stroke="none"/></svg>
+    </span>
+    <span class="eyebrow">Parcours ouvert &amp; gratuit</span>
+  </div>
+  <h1>Devenir testeur QA — un parcours, une étape à la fois.</h1>
+  <p class="lede">Dix cours gratuits pour apprendre le test logiciel, de zéro jusqu'à un niveau employable — fondamentaux, outillage, langages, et les sujets qui font la différence en entretien. Pensé pour toute personne en reconversion ou en auto-formation. Clique sur une étape pour l'ouvrir.</p>
+  <div class="stat-row">
+    <span class="stat-chip"><b>10</b> cours</span>
+    <span class="stat-chip">Gratuit &amp; open</span>
+    <span class="stat-chip">Suivi de progression <b>local</b>, dans ton navigateur</span>
+  </div>
+
+  <div class="group-label">Cœur du parcours</div>
+  <p class="group-sub">Les fondations techniques, dans l'ordre où elles s'enchaînent le mieux.</p>
+  <div class="list">
+
+    <a class="row" style="--row-accent:#0F8A5F;" href="./qualite-logicielle.html">
+      <span class="row-icon">🧪</span>
+      <span class="row-body">
+        <p class="row-title">Qualité Logicielle Automatisée</p>
+        <p class="row-desc">Le cours principal : fondamentaux du test, Playwright en Python, API, performance, sécurité, mobile, CI/CD.</p>
+        <p class="row-meta">28 modules</p>
+      </span>
+      <span class="row-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+    </a>
+
+    <a class="row" style="--row-accent:#3572A5;" href="./python.html">
+      <span class="row-icon">🐍</span>
+      <span class="row-body">
+        <p class="row-title">Python</p>
+        <p class="row-desc">Les bases du langage utilisé dans tout le reste du parcours — Playwright, scripts, automatisation.</p>
+        <p class="row-meta">14 modules</p>
+      </span>
+      <span class="row-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+    </a>
+
+    <a class="row" style="--row-accent:#C9A400;" href="./javascript.html">
+      <span class="row-icon">⚡</span>
+      <span class="row-body">
+        <p class="row-title">JavaScript Moderne</p>
+        <p class="row-desc">Cours interactif avec bacs à sable exécutables en direct, jusqu'à un projet portfolio complet.</p>
+        <p class="row-meta">20 modules · interactif</p>
+      </span>
+      <span class="row-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+    </a>
+
+    <a class="row" style="--row-accent:#E0632E;" href="./html-css.html">
+      <span class="row-icon">🎨</span>
+      <span class="row-body">
+        <p class="row-title">HTML &amp; CSS — Rappel Pratique</p>
+        <p class="row-desc">Un rappel court avec bacs à sable live, jusqu'à une page portfolio complète à publier.</p>
+        <p class="row-meta">12 modules · interactif</p>
+      </span>
+      <span class="row-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+    </a>
+
+    <a class="row" style="--row-accent:#2F7DC4;" href="./sql.html">
+      <span class="row-icon">🗄️</span>
+      <span class="row-body">
+        <p class="row-title">SQL pour la Qualité Logicielle</p>
+        <p class="row-desc">Des requêtes de base aux vérifications de données en contexte QA, avec PostgreSQL.</p>
+        <p class="row-meta">22 modules</p>
+      </span>
+      <span class="row-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+    </a>
+
+    <a class="row" style="--row-accent:#8A5CE6;" href="./github.html">
+      <span class="row-icon">🐙</span>
+      <span class="row-body">
+        <p class="row-title">GitHub pour la Qualité Logicielle</p>
+        <p class="row-desc">Git, GitHub, GitHub Desktop et CI/CD — avec un projet fil rouge pour donner du sens à chaque commande.</p>
+        <p class="row-meta">22 modules</p>
+      </span>
+      <span class="row-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+    </a>
+
+  </div>
+
+  <div class="group-label">Pour se démarquer</div>
+  <p class="group-sub">Des cours plus ciblés, pour être parmi les meilleurs candidats sur les sujets qui comptent en entretien.</p>
+  <div class="list">
+
+    <a class="row" style="--row-accent:#D9840F;" href="./istqb.html">
+      <span class="row-icon">🎓</span>
+      <span class="row-body">
+        <p class="row-title">ISTQB Foundation Level</p>
+        <p class="row-desc">Préparation directe à l'examen de certification — syllabus officiel, QCM, examen blanc, + un module bonus sur la lecture UML.</p>
+        <p class="row-meta">17 modules</p>
+      </span>
+      <span class="row-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+    </a>
+
+    <a class="row" style="--row-accent:#E0417F;" href="./agile-scrum.html">
+      <span class="row-icon">🔄</span>
+      <span class="row-body">
+        <p class="row-title">Agile &amp; Scrum pour la QA</p>
+        <p class="row-desc">Ton rôle de testeur dans une équipe Scrum — cérémonies, user stories, Definition of Done.</p>
+        <p class="row-meta">12 modules</p>
+      </span>
+      <span class="row-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+    </a>
+
+    <a class="row" style="--row-accent:#6C63E0;" href="./api.html">
+      <span class="row-icon">🔌</span>
+      <span class="row-body">
+        <p class="row-title">API Avancé pour la QA</p>
+        <p class="row-desc">GraphQL, gRPC, REST Assured, mocking, authentification OAuth2/JWT.</p>
+        <p class="row-meta">13 modules</p>
+      </span>
+      <span class="row-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+    </a>
+
+    <a class="row" style="--row-accent:#22B4C8;" href="./cloud.html">
+      <span class="row-icon">☁️</span>
+      <span class="row-body">
+        <p class="row-title">Cloud pour Testeurs</p>
+        <p class="row-desc">Les bases AWS/Azure utiles à un testeur — sans devenir ingénieur cloud.</p>
+        <p class="row-meta">12 modules</p>
+      </span>
+      <span class="row-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+    </a>
+
+  </div>
+
+  <div class="footer-note">
+    <p>Ce parcours est gratuit et ouvert à tous. Chaque cours s'ouvre dans la même fenêtre et garde son propre suivi de progression, enregistré uniquement dans ton navigateur (rien n'est envoyé ni partagé). Une idée, une coquille, une envie de contribuer ? Ouvre une issue sur le dépôt GitHub de ce projet.</p>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1306 @@
+<title>GitHub pour la Qualité Logicielle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F7FA;
+    --surface:#FFFFFF;
+    --surface-2:#EBF0F5;
+    --border:#D9E1E9;
+    --border-strong:#B9C6D3;
+    --text:#16202B;
+    --text-dim:#4C5A68;
+    --text-faint:#7C8B99;
+    --accent:#6E40C9;
+    --accent-strong:#5A32A3;
+    --accent-tint:#F0EBFB;
+    --fail:#B8433A;
+    --fail-tint:#FBEAE7;
+    --warn:#93650F;
+    --warn-tint:#FBF0DC;
+    --ok:#1A7F37;
+    --ok-tint:#E4F5E9;
+    --code-bg:#101A24;
+    --code-text:#DCE7EE;
+    --code-border:#223247;
+    --shadow: 0 1px 2px rgba(16,24,32,0.04), 0 8px 24px -12px rgba(16,24,32,0.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0E1520;
+      --surface:#151F2B;
+      --surface-2:#1A2635;
+      --border:#293A4D;
+      --border-strong:#3C5066;
+      --text:#E9EEF3;
+      --text-dim:#A6B4C2;
+      --text-faint:#7C8B99;
+      --accent:#A371F7;
+      --accent-strong:#BC8CFF;
+      --accent-tint:#271C3E;
+      --fail:#E3766B;
+      --fail-tint:#33201D;
+      --warn:#E3B564;
+      --warn-tint:#332813;
+      --ok:#57C778;
+      --ok-tint:#152A1D;
+      --code-bg:#0A1017;
+      --code-text:#D8E5EE;
+      --code-border:#1F2E3E;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0E1520;
+    --surface:#151F2B;
+    --surface-2:#1A2635;
+    --border:#293A4D;
+    --border-strong:#3C5066;
+    --text:#E9EEF3;
+    --text-dim:#A6B4C2;
+    --text-faint:#7C8B99;
+    --accent:#A371F7;
+    --accent-strong:#BC8CFF;
+    --accent-tint:#271C3E;
+    --fail:#E3766B;
+    --fail-tint:#33201D;
+    --warn:#E3B564;
+    --warn-tint:#332813;
+    --ok:#57C778;
+    --ok-tint:#152A1D;
+    --code-bg:#0A1017;
+    --code-text:#D8E5EE;
+    --code-border:#1F2E3E;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size:16.5px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;}
+  a{color:var(--accent-strong);}
+  ::selection{background:var(--accent-tint); color:var(--text);}
+
+  .shell{display:grid; grid-template-columns: 280px minmax(0,1fr); max-width:1180px; margin:0 auto;}
+  @media (max-width: 900px){ .shell{grid-template-columns: 1fr;} }
+
+  .sidebar{position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; padding:28px 20px 40px; border-right:1px solid var(--border);}
+  @media (max-width: 900px){ .sidebar{position:static; height:auto; border-right:none; border-bottom:1px solid var(--border);} }
+  .brand{display:flex; align-items:baseline; gap:9px; margin-bottom:4px;}
+  .brand-mark{font-family:"IBM Plex Mono"; font-weight:700; font-size:13px; color:var(--accent-strong); background:var(--accent-tint); border:1px solid var(--border-strong); border-radius:4px; padding:2px 6px; letter-spacing:0.02em;}
+  .brand-name{font-family:"IBM Plex Mono"; font-weight:600; font-size:14.5px; letter-spacing:-0.01em;}
+  .tagline{color:var(--text-faint); font-size:12.5px; margin:2px 0 20px;}
+
+  .progress-wrap{margin-bottom:22px;}
+  .progress-label{display:flex; justify-content:space-between; align-items:baseline; font-family:"IBM Plex Mono"; font-size:11.5px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;}
+  #progress-count{color:var(--accent-strong); font-weight:600;}
+  .progress-track{height:6px; border-radius:3px; background:var(--surface-2); border:1px solid var(--border); overflow:hidden;}
+  .progress-fill{height:100%; width:0%; background:var(--accent); transition:width 0.35s ease;}
+
+  .nav-part-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-faint); margin:18px 0 8px;}
+  .nav-list{list-style:none; margin:0; padding:0;}
+  .nav-item{margin-bottom:1px;}
+  .nav-link{display:flex; align-items:center; gap:9px; padding:6px 8px; border-radius:6px; color:var(--text-dim); text-decoration:none; font-size:13.5px; line-height:1.35; border:1px solid transparent;}
+  .nav-link:hover{background:var(--surface-2); color:var(--text);}
+  .nav-link.active{background:var(--accent-tint); color:var(--accent-strong); border-color:var(--border-strong);}
+  .nav-check{flex:0 0 auto; width:15px; height:15px; border-radius:4px; border:1.5px solid var(--border-strong); background:var(--surface); display:inline-flex; align-items:center; justify-content:center; cursor:pointer;}
+  .nav-check[data-done="true"]{background:var(--accent); border-color:var(--accent);}
+  .nav-check[data-done="true"]::after{content:"✓"; color:#fff; font-size:10px; font-weight:700;}
+  .nav-num{color:var(--text-faint); font-family:"IBM Plex Mono"; font-size:11.5px; min-width:16px;}
+
+  main{padding:44px 48px 100px; min-width:0;}
+  @media (max-width: 900px){ main{padding:32px 20px 80px;} }
+  @media (max-width: 560px){ main{padding:24px 16px 64px;} }
+
+  .doc-header{max-width:660px; margin-bottom:56px;}
+  .eyebrow{font-family:"IBM Plex Mono"; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent-strong); margin-bottom:12px;}
+  h1.doc-title{font-family:"IBM Plex Mono"; font-weight:600; font-size:clamp(28px, 4vw, 38px); line-height:1.15; letter-spacing:-0.01em; margin:0 0 16px; text-wrap:balance;}
+  .doc-lede{color:var(--text-dim); font-size:17px; line-height:1.6; margin:0 0 22px;}
+  .stat-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .stat-chip{font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-dim); border:1px solid var(--border); background:var(--surface); border-radius:20px; padding:5px 12px;}
+  .stat-chip b{color:var(--text); font-weight:600;}
+
+  .schema-box{max-width:680px; margin:0 0 24px; padding:16px 18px; border:1px solid var(--border-strong); border-radius:8px; background:var(--surface); box-shadow:var(--shadow);}
+  .schema-box-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--accent-strong); margin-bottom:10px;}
+  .schema-table{font-family:"IBM Plex Mono"; font-size:12.5px; margin-bottom:8px;}
+  .schema-table:last-child{margin-bottom:0;}
+  .schema-table .tname{font-weight:700; color:var(--accent-strong);}
+  .schema-table .tcols{color:var(--text-dim);}
+
+  section.module{max-width:680px; padding-top:52px; margin-top:-8px; border-top:1px solid var(--border);}
+  section.module:first-of-type{border-top:none;}
+  .part-divider{max-width:680px; margin:64px 0 8px; display:flex; align-items:center; gap:14px;}
+  .part-divider .part-tag{font-family:"IBM Plex Mono"; font-size:12px; font-weight:700; color:var(--accent-strong); background:var(--accent-tint); border:1px solid var(--border-strong); border-radius:5px; padding:4px 9px; letter-spacing:0.04em; white-space:nowrap;}
+  .part-divider h2.part-title{font-family:"IBM Plex Mono"; font-size:14px; font-weight:600; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; margin:0;}
+  .part-divider::after{content:""; flex:1; height:1px; background:var(--border);}
+  .part-intro{max-width:680px; color:var(--text-dim); margin:10px 0 0; font-size:15px;}
+
+  .mod-eyebrow{font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-faint); letter-spacing:0.04em; margin-bottom:8px;}
+  h2.mod-title{font-family:"IBM Plex Mono"; font-weight:600; font-size:24px; letter-spacing:-0.01em; margin:0 0 18px; text-wrap:balance;}
+  h3{font-family:"IBM Plex Mono"; font-weight:600; font-size:15.5px; margin:30px 0 10px; color:var(--text);}
+  p{margin:0 0 16px; max-width:66ch;}
+  ul, ol{margin:0 0 16px; padding-left:22px;}
+  li{margin-bottom:6px; max-width:62ch;}
+  strong{font-weight:600;}
+
+  .callout{border:1px solid var(--border-strong); background:var(--surface); border-radius:8px; padding:16px 18px; margin:20px 0; box-shadow:var(--shadow); max-width:680px;}
+  .callout-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--accent-strong); margin-bottom:6px;}
+  .callout p:last-child{margin-bottom:0;}
+  .callout.warn{border-color:var(--warn); background:var(--warn-tint);}
+  .callout.warn .callout-label{color:var(--warn);}
+
+  .exercise{border:1px solid var(--border-strong); background:var(--surface-2); border-radius:8px; padding:16px 18px; margin:26px 0 8px; max-width:680px;}
+  .exercise-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-faint); margin-bottom:8px;}
+  .exercise p{margin:0 0 10px; max-width:none;}
+  .exercise p:last-of-type{margin-bottom:0;}
+  .exercise details{margin-top:4px;}
+  .exercise summary{cursor:pointer; font-family:"IBM Plex Mono"; font-size:12.5px; font-weight:600; color:var(--accent-strong); list-style:none; display:inline-flex; align-items:center; gap:6px;}
+  .exercise summary::-webkit-details-marker{display:none;}
+  .exercise summary::before{content:"▸"; font-size:10px; display:inline-block; transition:transform 0.15s ease;}
+  .exercise details[open] summary::before{transform:rotate(90deg);}
+  .exercise .exercise-solution-body{margin-top:10px; padding-top:10px; border-top:1px dashed var(--border-strong);}
+  .exercise .exercise-solution-body p:last-child{margin-bottom:0;}
+  .exercise .exercise-solution-body pre{margin:10px 0 0; max-width:none;}
+
+  table{width:100%; border-collapse:collapse; margin:18px 0 22px; font-size:13.5px; background:var(--surface); border:1px solid var(--border); border-radius:8px; overflow:hidden;}
+  .table-scroll{overflow-x:auto; max-width:680px; margin:18px 0 22px;}
+  .table-scroll table{margin:0;}
+  th, td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--border); vertical-align:top;}
+  th{font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-faint); background:var(--surface-2);}
+  tr:last-child td{border-bottom:none;}
+  td.mono, th.mono{font-family:"IBM Plex Mono"; font-size:12.5px;}
+  .tag{display:inline-block; font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; padding:2px 7px; border-radius:4px;}
+  .tag.pass{background:var(--ok-tint); color:var(--ok);}
+  .tag.fail{background:var(--fail-tint); color:var(--fail);}
+  .tag.warn{background:var(--warn-tint); color:var(--warn);}
+
+  pre{background:var(--code-bg); color:var(--code-text); border:1px solid var(--code-border); border-radius:8px; padding:16px 18px; overflow-x:auto; margin:16px 0 22px; font-size:13px; line-height:1.6; max-width:680px;}
+  code{font-family:"IBM Plex Mono";}
+  p code, li code, td code{background:var(--surface-2); border:1px solid var(--border); border-radius:4px; padding:1px 5px; font-size:0.88em;}
+  .code-label{font-family:"IBM Plex Mono"; font-size:11px; color:var(--text-faint); margin:0 0 6px; letter-spacing:0.02em;}
+
+  .diff-line{font-family:"IBM Plex Mono"; font-size:12.5px; padding:3px 10px; border-radius:4px; margin-bottom:2px; white-space:pre-wrap;}
+  .diff-block{max-width:680px; margin:16px 0 22px; background:var(--code-bg); border:1px solid var(--code-border); border-radius:8px; padding:10px;}
+  .diff-add{background:rgba(46,160,67,0.18); color:#7ee2a8;}
+  .diff-rem{background:rgba(248,81,73,0.18); color:#ff9a94;}
+  .diff-ctx{color:var(--text-faint);}
+
+  /* --- Mockups d'interface (illustratifs) --- */
+  .gh-mock{border:1px solid var(--border-strong); border-radius:10px; overflow:hidden; background:var(--surface); box-shadow:var(--shadow); margin:18px 0 8px; max-width:680px;}
+  .gh-mock-chrome{display:flex; align-items:center; gap:7px; padding:9px 12px; background:var(--surface-2); border-bottom:1px solid var(--border);}
+  .gh-mock-dot{width:8px; height:8px; border-radius:50%; background:var(--border-strong);}
+  .gh-mock-url{flex:1; font-family:"IBM Plex Mono"; font-size:11px; color:var(--text-faint); background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:3px 10px; margin-left:6px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .gh-mock-body{padding:14px 16px 16px;}
+  .gh-mock-caption{max-width:680px; margin:0 0 20px; font-size:11.5px; color:var(--text-faint); font-style:italic;}
+
+  .gh-tabs{display:flex; gap:16px; border-bottom:1px solid var(--border); margin-bottom:14px; font-family:"IBM Plex Mono"; font-size:12px; flex-wrap:wrap;}
+  .gh-tab{padding:8px 1px; color:var(--text-faint); white-space:nowrap;}
+  .gh-tab.active{color:var(--text); border-bottom:2px solid var(--accent); font-weight:600;}
+
+  .gh-toolbar{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px; flex-wrap:wrap;}
+  .gh-btn{display:inline-flex; align-items:center; gap:6px; font-family:"IBM Plex Mono"; font-size:11.5px; font-weight:600; padding:5px 11px; border-radius:6px; border:1px solid var(--border-strong); background:var(--surface-2); color:var(--text); white-space:nowrap;}
+  .gh-btn.primary{background:var(--ok); border-color:var(--ok); color:#fff;}
+  .gh-btn.violet{background:var(--accent); border-color:var(--accent); color:#fff;}
+
+  .gh-row{display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border); font-size:12px; gap:10px;}
+  .gh-row:last-child{border-bottom:none;}
+  .gh-row .fname{font-family:"IBM Plex Mono"; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .gh-row .fmeta{color:var(--text-faint); font-size:11px; white-space:nowrap;}
+
+  .gh-badge{display:inline-block; font-family:"IBM Plex Mono"; font-size:10.5px; font-weight:600; padding:1px 7px; border-radius:10px;}
+  .gh-badge.ok{background:var(--ok-tint); color:var(--ok);}
+  .gh-badge.warn{background:var(--warn-tint); color:var(--warn);}
+  .gh-badge.violet{background:var(--accent-tint); color:var(--accent-strong);}
+
+  .app-mock{border:1px solid var(--border-strong); border-radius:10px; overflow:hidden; background:var(--surface); box-shadow:var(--shadow); margin:18px 0 8px; max-width:680px;}
+  .app-mock-bar{display:flex; align-items:center; gap:8px; padding:9px 12px; background:var(--surface-2); border-bottom:1px solid var(--border);}
+  .app-mock-title{flex:1; text-align:center; font-family:"IBM Plex Mono"; font-size:11px; color:var(--text-faint);}
+  .app-mock-grid{display:grid; grid-template-columns: 140px 1fr; min-height:180px;}
+  .app-mock-side{border-right:1px solid var(--border); padding:10px 8px; background:var(--surface-2);}
+  .app-mock-main{padding:12px 14px;}
+  .app-mock-side .item{font-family:"IBM Plex Mono"; font-size:11px; padding:6px 8px; border-radius:5px; color:var(--text-dim); margin-bottom:2px;}
+  .app-mock-side .item.active{background:var(--accent-tint); color:var(--accent-strong); font-weight:600;}
+  .app-mock-side .item-h{font-family:"IBM Plex Mono"; font-size:10px; text-transform:uppercase; letter-spacing:.05em; color:var(--text-faint); margin:10px 0 4px; padding:0 8px;}
+
+  .done-toggle{display:inline-flex; align-items:center; gap:8px; font-family:"IBM Plex Mono"; font-size:12.5px; color:var(--text-dim); border:1px solid var(--border-strong); background:var(--surface); border-radius:20px; padding:6px 14px 6px 10px; cursor:pointer; margin-top:28px; user-select:none;}
+  .done-toggle:hover{border-color:var(--accent);}
+  .done-toggle .box{width:15px; height:15px; border-radius:4px; border:1.5px solid var(--border-strong); display:inline-flex; align-items:center; justify-content:center; background:var(--surface);}
+  .done-toggle[data-done="true"] .box{background:var(--accent); border-color:var(--accent);}
+  .done-toggle[data-done="true"] .box::after{content:"✓"; color:#fff; font-size:10px; font-weight:700;}
+  .done-toggle[data-done="true"]{color:var(--accent-strong); border-color:var(--accent);}
+
+  .footer-note{max-width:680px; margin-top:70px; padding-top:24px; border-top:1px solid var(--border); color:var(--text-faint); font-size:12.5px;}
+  .footer-note a{color:var(--text-dim);}
+
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} .progress-fill{transition:none;} }
+</style>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Sommaire du cours">
+    <div class="brand">
+      <span class="brand-mark">GH</span>
+      <span class="brand-name">GitHub pour la<br>Qualité Logicielle</span>
+    </div>
+    <p class="tagline">Git, GitHub, GitHub Desktop et CI — édition 2026</p>
+
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/22</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+
+    <div class="nav-part-label">Partie 1 — Git, les fondamentaux</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m1" href="#m1"><span class="nav-check" data-modcheck="m1"></span><span class="nav-num">01</span> Qu'est-ce que Git ?</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m2" href="#m2"><span class="nav-check" data-modcheck="m2"></span><span class="nav-num">02</span> Le cycle de vie d'un fichier</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m3" href="#m3"><span class="nav-check" data-modcheck="m3"></span><span class="nav-num">03</span> Créer, changer, fusionner une branche</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m4" href="#m4"><span class="nav-check" data-modcheck="m4"></span><span class="nav-num">04</span> Résoudre un conflit de fusion</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m5" href="#m5"><span class="nav-check" data-modcheck="m5"></span><span class="nav-num">05</span> Revenir en arrière sans casse</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 2 — GitHub, la plateforme</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m6" href="#m6"><span class="nav-check" data-modcheck="m6"></span><span class="nav-num">06</span> Créer un compte et un dépôt</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m7" href="#m7"><span class="nav-check" data-modcheck="m7"></span><span class="nav-num">07</span> Clone, remote, push, pull, fetch</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m8" href="#m8"><span class="nav-check" data-modcheck="m8"></span><span class="nav-num">08</span> Issues : signaler et suivre</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m9" href="#m9"><span class="nav-check" data-modcheck="m9"></span><span class="nav-num">09</span> Pull requests : créer et décrire</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m10" href="#m10"><span class="nav-check" data-modcheck="m10"></span><span class="nav-num">10</span> La revue de code</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m11" href="#m11"><span class="nav-check" data-modcheck="m11"></span><span class="nav-num">11</span> Fusionner et protéger une branche</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m12" href="#m12"><span class="nav-check" data-modcheck="m12"></span><span class="nav-num">12</span> README, Wiki, GitHub Pages</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m13" href="#m13"><span class="nav-check" data-modcheck="m13"></span><span class="nav-num">13</span> Projects : organiser le travail</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 3 — GitHub Desktop</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m14" href="#m14"><span class="nav-check" data-modcheck="m14"></span><span class="nav-num">14</span> Installer et découvrir l'interface</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m15" href="#m15"><span class="nav-check" data-modcheck="m15"></span><span class="nav-num">15</span> Le workflow quotidien</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m16" href="#m16"><span class="nav-check" data-modcheck="m16"></span><span class="nav-num">16</span> Branches et conflits, en visuel</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m17" href="#m17"><span class="nav-check" data-modcheck="m17"></span><span class="nav-num">17</span> Nouveauté 2026 : worktrees et Copilot</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 4 — Automatisation et sécurité</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m18" href="#m18"><span class="nav-check" data-modcheck="m18"></span><span class="nav-num">18</span> GitHub Actions : les concepts</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m19" href="#m19"><span class="nav-check" data-modcheck="m19"></span><span class="nav-num">19</span> Un pipeline CI pour Playwright</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m20" href="#m20"><span class="nav-check" data-modcheck="m20"></span><span class="nav-num">20</span> Sécurité : Dependabot & scanning</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m21" href="#m21"><span class="nav-check" data-modcheck="m21"></span><span class="nav-num">21</span> Bonnes pratiques de collaboration</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 5 — Se positionner</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m22" href="#m22"><span class="nav-check" data-modcheck="m22"></span><span class="nav-num">22</span> Git/GitHub sur le marché en 2026</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <header class="doc-header">
+      <div class="eyebrow">Cours autoportant · Compagnon des cours QA et SQL</div>
+      <h1 class="doc-title">GitHub pour la Qualité Logicielle</h1>
+      <p class="doc-lede">Même méthode que tes deux autres cours : on part des vraies bases — c'est quoi un commit — jusqu'à l'usage réel en entreprise : pull requests, revue de code, CI/CD et sécurité. Le fil rouge est ton propre projet, le <strong>livret de mission</strong>, pour que chaque commande ait un sens concret. Chaque module se termine par un exercice corrigé, et les modules les plus visuels incluent des aperçus d'interface.</p>
+      <div class="stat-row">
+        <span class="stat-chip"><b>22</b> modules</span>
+        <span class="stat-chip"><b>5</b> parties : Git → GitHub → Desktop → CI/sécurité → marché</span>
+        <span class="stat-chip"><b>22</b> exercices corrigés</span>
+        <span class="stat-chip">Fil rouge : ton projet <b>livret-mission</b></span>
+      </div>
+
+      <div class="schema-box">
+        <div class="schema-box-label">Le dépôt utilisé dans tout le cours</div>
+        <div class="schema-table"><span class="tname">livret-mission/</span> <span class="tcols">— dépôt GitHub, basé sur ton vrai projet</span></div>
+        <div class="schema-table"><span class="tname">├─ site/</span> <span class="tcols">le site web (HTML/CSS/JS)</span></div>
+        <div class="schema-table"><span class="tname">├─ pdf/</span> <span class="tcols">génération du PDF (Python)</span></div>
+        <div class="schema-table"><span class="tname">├─ pwa/</span> <span class="tcols">manifest, service-worker.js</span></div>
+        <div class="schema-table"><span class="tname">├─ tests/</span> <span class="tcols">tests pytest-playwright</span></div>
+        <div class="schema-table"><span class="tname">└─ .github/workflows/</span> <span class="tcols">pipelines CI (partie 4)</span></div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">Une précision avant de commencer</div>
+        <p>Les encadrés qui ressemblent à une capture d'écran dans ce cours sont des <strong>reconstitutions simplifiées</strong> de l'interface réelle, pas des captures littérales — l'interface de GitHub évolue en continu et les vraies captures deviennent vite obsolètes. La disposition, les libellés et le comportement décrits, eux, sont fidèles à ce que tu verras en te connectant à <span class="mono">github.com</span> ou en ouvrant GitHub Desktop.</p>
+      </div>
+    </header>
+
+    <!-- ============ PARTIE 1 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 1</span><h2 class="part-title">Git, les fondamentaux</h2></div>
+    <p class="part-intro">Cinq modules pour comprendre Git en ligne de commande — le socle sur lequel repose absolument tout ce qui suit, y compris GitHub Desktop qui n'est qu'une interface graphique posée par-dessus.</p>
+
+    <section class="module" id="m1">
+      <div class="mod-eyebrow">Partie 1 · Module 01</div>
+      <h2 class="mod-title">Qu'est-ce que Git ?</h2>
+      <p>Avant Git, il fallait imaginer autre chose : des dossiers nommés <code>site_final</code>, <code>site_final_v2</code>, <code>site_final_v2_VRAI</code>. Un <strong>système de contrôle de version</strong> comme Git résout ce problème en gardant l'historique complet de chaque changement, avec la possibilité de revenir à n'importe quel état passé, de comparer deux versions, ou de travailler sur plusieurs idées en parallèle sans qu'elles se marchent dessus.</p>
+
+      <p>Git a été créé en 2005 par Linus Torvalds (le créateur de Linux) pour gérer le développement du noyau Linux — un projet avec des milliers de contributeurs. C'est un outil <strong>distribué</strong> : chaque copie du projet contient l'historique complet, pas seulement les derniers fichiers. Concrètement, ça veut dire que Git fonctionne très bien <strong>sans connexion internet</strong> — tu peux committer, créer des branches, consulter tout l'historique en local. Internet n'entre en jeu que lorsque tu veux synchroniser ton travail avec une copie distante.</p>
+
+      <h3>Git et GitHub, ce n'est pas la même chose</h3>
+      <p>Confusion très courante chez les débutants — et normale, vu qu'on les apprend souvent ensemble.</p>
+      <div class="table-scroll"><table>
+        <tr><th>Git</th><th>GitHub</th></tr>
+        <tr><td>Un <strong>logiciel</strong> installé sur ton ordinateur</td><td>Un <strong>site web</strong> qui héberge des dépôts Git</td></tr>
+        <tr><td>Gère l'historique en local, sans compte, sans internet</td><td>Ajoute la collaboration : pull requests, issues, revue de code, CI</td></tr>
+        <tr><td>Créé en 2005, open source</td><td>Créé en 2008, racheté par Microsoft en 2018</td></tr>
+        <tr><td>Seul système sérieux du marché</td><td>Alternatives : GitLab, Bitbucket — GitHub reste le plus utilisé</td></tr>
+      </table></div>
+      <p>Autrement dit : tu pourrais utiliser Git toute ta carrière sans jamais toucher à GitHub. Mais en entreprise, la quasi-totalité des équipes combinent les deux — Git pour l'historique, GitHub pour le travail à plusieurs. C'est ce combo qu'on construit dans ce cours.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Vrai ou faux : "Git a besoin d'une connexion internet pour fonctionner." Justifie ta réponse en une phrase.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Faux.</strong> Git est un outil distribué et local : commit, branches, historique, tout fonctionne sans réseau. Internet n'est nécessaire que pour synchroniser avec un dépôt distant comme GitHub (via <code>push</code>/<code>pull</code>), ce qu'on verra au module 7.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m1"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m2">
+      <div class="mod-eyebrow">Partie 1 · Module 02</div>
+      <h2 class="mod-title">Le cycle de vie d'un fichier</h2>
+      <p>Un fichier suivi par Git traverse trois zones. Comprendre ces trois zones, c'est comprendre 80 % de Git.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Zone</th><th>Ce que ça veut dire</th><th>Commande pour y arriver</th></tr>
+        <tr><td><strong>Répertoire de travail</strong></td><td>Tes fichiers tels qu'ils sont sur le disque, modifiés ou non</td><td>—</td></tr>
+        <tr><td><strong>Zone de staging (index)</strong></td><td>Les changements que tu as choisis d'inclure dans le prochain commit</td><td class="mono">git add</td></tr>
+        <tr><td><strong>Dépôt (historique)</strong></td><td>Les changements enregistrés définitivement, avec un message</td><td class="mono">git commit</td></tr>
+      </table></div>
+      <p>Le point important : <code>git add</code> ne "sauvegarde" rien de définitif, ça prépare juste ce qui ira dans le prochain commit. Tu peux modifier trois fichiers, n'en <code>add</code> que deux, et committer seulement ces deux-là — le troisième reste en attente pour un commit séparé, plus propre.</p>
+
+      <p class="code-label">Démarrer le suivi du projet livret-mission</p>
+      <pre>cd livret-mission
+git init                     # crée le dépôt (dossier caché .git)
+git status                   # que voit Git en ce moment ?
+git add site/index.html      # met ce fichier en staging
+git add .                    # ou : tout ce qui a changé
+git commit -m "Ajout de la page d'accueil"
+git log                      # l'historique des commits</pre>
+
+      <h3>.gitignore : ce qu'on ne suit jamais</h3>
+      <p>Certains fichiers ne doivent jamais entrer dans l'historique : des secrets (clés d'API, mots de passe), des fichiers générés automatiquement, ou des dossiers volumineux comme <code>node_modules/</code> ou <code>__pycache__/</code>. Un fichier <code>.gitignore</code> à la racine du projet liste ces exclusions.</p>
+      <pre class="mono">__pycache__/
+*.pyc
+.env
+node_modules/
+.DS_Store</pre>
+
+      <div class="callout warn">
+        <div class="callout-label">Le piège classique</div>
+        <p>Un fichier déjà suivi par Git n'est <strong>pas</strong> retiré rétroactivement si tu l'ajoutes après coup à <code>.gitignore</code> — il faut d'abord faire <code>git rm --cached nom_du_fichier</code>. C'est pour ça qu'on écrit son <code>.gitignore</code> dès le tout premier commit, avant d'ajouter quoi que ce soit de sensible.</p>
+        </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Tu viens de modifier trois fichiers dans livret-mission : <code>site/index.html</code>, <code>pdf/generate.py</code> et un fichier temporaire <code>notes.txt</code> que tu ne veux pas committer. Écris la séquence de commandes qui committe uniquement les deux premiers, avec le message "Corrige la mise en page et la génération PDF".</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>git add site/index.html pdf/generate.py
+git commit -m "Corrige la mise en page et la génération PDF"</pre>
+            <p><code>notes.txt</code> n'étant jamais passé par <code>git add</code>, il reste dans le répertoire de travail, non suivi — libre à toi de l'ajouter à <code>.gitignore</code> s'il doit rester définitivement hors du dépôt.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m2"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m3">
+      <div class="mod-eyebrow">Partie 1 · Module 03</div>
+      <h2 class="mod-title">Créer, changer, fusionner une branche</h2>
+      <p>Une branche est simplement une <strong>étiquette mobile</strong> qui pointe vers un commit — pas une copie du projet, juste un pointeur. C'est ce qui rend les branches Git légères et quasi instantanées à créer, contrairement à d'autres systèmes plus anciens.</p>
+
+      <p>La branche par défaut s'appelle généralement <code>main</code>. En pratique, on ne travaille presque jamais directement dessus : on crée une <strong>branche de fonctionnalité</strong> pour chaque tâche, on y committe, puis on la fusionne dans <code>main</code> une fois le travail terminé et validé.</p>
+
+      <p class="code-label">Ajouter le mode hors-ligne de la PWA sans toucher à main</p>
+      <pre>git switch -c feature/pwa-offline   # crée la branche et bascule dessus
+# ... on travaille, on committe ...
+git add pwa/service-worker.js
+git commit -m "Ajoute la mise en cache hors-ligne"
+
+git switch main                     # retour sur main
+git merge feature/pwa-offline       # rapatrie le travail dans main</pre>
+      <p><code>git switch -c</code> est la commande moderne (elle remplace l'ancien <code>git checkout -b</code>, qu'on croise encore beaucoup en entreprise — les deux font la même chose).</p>
+
+      <h3>Fast-forward ou commit de fusion ?</h3>
+      <p>Si <code>main</code> n'a reçu aucun nouveau commit depuis la création de ta branche, Git fait un <strong>fast-forward</strong> : il avance simplement le pointeur de <code>main</code>, sans créer de commit supplémentaire. Si <code>main</code> a évolué entre-temps, Git crée un <strong>commit de fusion</strong> qui relie les deux historiques.</p>
+      <pre class="mono">Fast-forward :          Commit de fusion :
+main → A─B─C            main → A─B────────M
+             ╲feature              ╲      ╱
+              (rien à fusionner)     C─D──╯ feature</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris la séquence de commandes pour créer une branche <code>fix/lien-casse</code> depuis <code>main</code>, corriger un lien dans <code>site/index.html</code>, committer, puis fusionner cette correction dans <code>main</code>.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>git switch main
+git switch -c fix/lien-casse
+git add site/index.html
+git commit -m "Corrige le lien vers le formulaire"
+git switch main
+git merge fix/lien-casse</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m3"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m4">
+      <div class="mod-eyebrow">Partie 1 · Module 04</div>
+      <h2 class="mod-title">Résoudre un conflit de fusion</h2>
+      <p>Un conflit survient quand Git ne peut pas décider tout seul comment combiner deux changements — typiquement, deux branches ont modifié les <strong>mêmes lignes</strong> du même fichier de façons différentes. Ce n'est pas une erreur ni un échec : c'est Git qui te demande, légitimement, de trancher.</p>
+
+      <p class="code-label">Git signale le conflit dans le fichier lui-même</p>
+      <pre>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+&lt;title&gt;Livret de mission — v1&lt;/title&gt;
+=======
+&lt;title&gt;Livret de mission — Édition 2026&lt;/title&gt;
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/renommage</pre>
+      <p>Tout ce qui est entre <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> et <code>=======</code> vient de ta branche actuelle ; entre <code>=======</code> et <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> vient de la branche qu'on fusionne. Résoudre le conflit consiste à éditer le fichier pour ne garder que le résultat voulu, en supprimant les marqueurs.</p>
+
+      <div class="diff-block">
+        <div class="diff-line diff-rem">- &lt;title&gt;Livret de mission — v1&lt;/title&gt;</div>
+        <div class="diff-line diff-add">+ &lt;title&gt;Livret de mission — Édition 2026&lt;/title&gt;</div>
+      </div>
+
+      <p class="code-label">Une fois le fichier corrigé à la main</p>
+      <pre>git add site/index.html      # marque le conflit comme résolu
+git commit                   # Git propose déjà un message de fusion</pre>
+
+      <div class="callout">
+        <div class="callout-label">Bon réflexe</div>
+        <p>En cas de doute sur ce qui doit vraiment rester, ne devine pas : va relire le contexte des deux commits (<code>git log</code>), ou demande à la personne qui a écrit l'autre changement. Un conflit mal résolu à la va-vite est une source classique de régression.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Voici un conflit sur le fichier <code>pdf/generate.py</code> :</p>
+        <pre>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+MARGE_PAGE = 20
+=======
+MARGE_PAGE = 15
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/mise-en-page</pre>
+        <p>Tu décides de garder la marge de 15. Écris le contenu final du fichier après résolution, puis les commandes pour finaliser la fusion.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre class="mono">MARGE_PAGE = 15</pre>
+            <p>Tous les marqueurs de conflit disparaissent — il ne reste que la ligne choisie. Puis :</p>
+            <pre>git add pdf/generate.py
+git commit</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m4"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m5">
+      <div class="mod-eyebrow">Partie 1 · Module 05</div>
+      <h2 class="mod-title">Revenir en arrière sans casse</h2>
+      <p>Git offre plusieurs façons d'annuler quelque chose — mais elles n'ont pas du tout le même niveau de danger. Les confondre est l'une des façons les plus sûres de perdre du travail ou de mettre une équipe entière dans l'embarras.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Commande</th><th>Portée</th><th>Danger</th><th>Quand l'utiliser</th></tr>
+        <tr><td class="mono">git restore fichier</td><td>Un fichier, non commité</td><td><span class="tag pass">Sûr</span></td><td>Annuler des modifications locales pas encore ajoutées</td></tr>
+        <tr><td class="mono">git revert &lt;commit&gt;</td><td>Un commit précis</td><td><span class="tag pass">Sûr</span></td><td>Annuler un commit déjà poussé, en créant un nouveau commit d'annulation</td></tr>
+        <tr><td class="mono">git reset --soft</td><td>Déplace l'historique local</td><td><span class="tag warn">Prudence</span></td><td>Refaire un commit local pas encore partagé</td></tr>
+        <tr><td class="mono">git reset --hard</td><td>Réécrit l'historique ET les fichiers</td><td><span class="tag fail">Destructeur</span></td><td>Uniquement sur du travail 100% local, jamais partagé</td></tr>
+      </table></div>
+
+      <div class="callout warn">
+        <div class="callout-label">Règle à ne jamais transgresser</div>
+        <p><strong>Ne fais jamais <code>git reset --hard</code> (ou tout autre réécriture d'historique) sur une branche déjà poussée et partagée</strong>, comme <code>main</code>. Ça force ensuite tout le monde à resynchroniser son historique local, souvent dans la confusion. Sur une branche déjà partagée, la commande sûre pour annuler un commit est <code>git revert</code> : elle ajoute un nouveau commit qui inverse les changements, sans réécrire ce qui existe déjà.</p>
+      </div>
+
+      <p class="code-label">Annuler proprement un commit déjà poussé sur main</p>
+      <pre>git log --oneline           # repérer le hash du commit fautif, ex. a1b2c3d
+git revert a1b2c3d          # crée un nouveau commit qui annule celui-ci
+git push</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Un commit cassant la génération du PDF a été poussé sur <code>main</code> il y a deux heures, et un collègue a déjà récupéré ces changements. Quelle commande utilises-tu pour l'annuler, et pourquoi pas une autre ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><code>git revert &lt;hash-du-commit&gt;</code>. Le commit est déjà partagé (le collègue l'a récupéré) : réécrire l'historique avec <code>git reset --hard</code> désynchroniserait son dépôt local. <code>git revert</code> ajoute un commit d'annulation visible dans l'historique, sans rien casser chez personne.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m5"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 2 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 2</span><h2 class="part-title">GitHub, la plateforme</h2></div>
+    <p class="part-intro">Huit modules pour passer de Git en solo à GitHub en équipe : héberger, proposer des changements, les relire, les fusionner, documenter, organiser.</p>
+
+    <section class="module" id="m6">
+      <div class="mod-eyebrow">Partie 2 · Module 06</div>
+      <h2 class="mod-title">Créer un compte et un dépôt</h2>
+      <p>Un compte GitHub gratuit suffit largement pour tout ce cours, y compris les dépôts privés (illimités depuis 2019) et GitHub Actions dans une certaine limite de minutes gratuites par mois. Une fois inscrit, la première étape est de créer un <strong>dépôt</strong> (repository) pour livret-mission.</p>
+
+      <div class="gh-mock">
+        <div class="gh-mock-chrome"><span class="gh-mock-dot"></span><span class="gh-mock-dot"></span><span class="gh-mock-dot"></span><span class="gh-mock-url">github.com/new</span></div>
+        <div class="gh-mock-body">
+          <div class="gh-tabs"><span class="gh-tab active">Create a new repository</span></div>
+          <div class="gh-row"><span class="fname">Repository name</span><span class="fmeta">livret-mission</span></div>
+          <div class="gh-row"><span class="fname">Description (optional)</span><span class="fmeta">Livret de mission — site, PDF, PWA</span></div>
+          <div class="gh-row"><span class="fname">Visibility</span><span class="gh-badge violet">Private</span></div>
+          <div class="gh-row"><span class="fname">Initialize with README</span><span class="fmeta">☑</span></div>
+          <div class="gh-row"><span class="fname">.gitignore template</span><span class="fmeta">Python</span></div>
+          <div class="gh-toolbar" style="margin-top:12px;"><span></span><span class="gh-btn primary">Create repository</span></div>
+        </div>
+      </div>
+      <p class="gh-mock-caption">Aperçu illustratif de la page de création d'un dépôt.</p>
+
+      <p>Une fois le dépôt créé côté GitHub, deux chemins possibles : partir de zéro sur GitHub puis <code>clone</code> en local (module suivant), ou — ton cas — relier un dossier local existant à ce nouveau dépôt vide :</p>
+      <pre>cd livret-mission
+git remote add origin https://github.com/ton-compte/livret-mission.git
+git branch -M main
+git push -u origin main</pre>
+      <p><code>-u</code> (pour <code>--set-upstream</code>) ne sert qu'une fois : il relie ta branche locale <code>main</code> à <code>origin/main</code>, pour que les prochains <code>git push</code> tout court sachent où envoyer.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Tu as un dossier local <code>livret-mission</code> déjà suivi par Git, avec des commits, mais pas encore relié à GitHub. Tu viens de créer un dépôt vide <code>livret-mission</code> sur ton compte. Écris les commandes pour l'y relier et pousser tout l'historique existant.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>git remote add origin https://github.com/ton-compte/livret-mission.git
+git branch -M main
+git push -u origin main</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m6"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m7">
+      <div class="mod-eyebrow">Partie 2 · Module 07</div>
+      <h2 class="mod-title">Clone, remote, push, pull, fetch</h2>
+      <p><code>git clone</code> télécharge un dépôt distant complet, avec tout son historique, et configure automatiquement <code>origin</code> comme raccourci vers son adresse.</p>
+      <pre>git clone https://github.com/ton-compte/livret-mission.git
+cd livret-mission
+git remote -v          # vérifie l'adresse d'origin (lecture et écriture)</pre>
+
+      <p>HTTPS demande ton mot de passe ou un token à chaque envoi (ou une seule fois si tu utilises un gestionnaire d'identifiants) ; SSH utilise une paire de clés générée une fois pour toutes. En entreprise, SSH est souvent la norme pour éviter de ressaisir des identifiants en boucle.</p>
+
+      <h3>Trois commandes qu'on confond souvent</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Commande</th><th>Ce qu'elle fait</th></tr>
+        <tr><td class="mono">git fetch</td><td>Télécharge les nouveautés distantes, <strong>sans</strong> toucher à ton travail local</td></tr>
+        <tr><td class="mono">git pull</td><td><code>fetch</code> + fusion automatique dans ta branche courante</td></tr>
+        <tr><td class="mono">git push</td><td>Envoie tes commits locaux vers le dépôt distant</td></tr>
+      </table></div>
+      <p><code>git fetch</code> est le choix le plus sûr quand tu veux juste "voir" où en sont les autres avant de décider comment intégrer leurs changements — <code>git pull</code> fusionne tout de suite, ce qui peut créer un conflit surprise si tu avais des changements locaux en cours.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Quelle est la différence concrète entre <code>git fetch</code> et <code>git pull</code>, et dans quel cas préférerais-tu <code>fetch</code> ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><code>fetch</code> récupère les commits distants sans les fusionner dans ta branche — tu peux les inspecter avant d'agir. <code>pull</code> fait la même chose puis fusionne immédiatement. On préfère <code>fetch</code> quand on a des changements locaux en cours et qu'on veut d'abord vérifier ce qui a changé côté distant avant de risquer un conflit.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m7"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m8">
+      <div class="mod-eyebrow">Partie 2 · Module 08</div>
+      <h2 class="mod-title">Issues : signaler et suivre</h2>
+      <p>Une <strong>issue</strong> GitHub sert à suivre un bug, une amélioration ou une tâche — l'équivalent d'un ticket Jira (vu au module 22 du cours QA), mais intégré directement au dépôt de code. En tant que futur testeur, c'est probablement l'outil GitHub que tu utiliseras le plus souvent au quotidien.</p>
+
+      <div class="gh-mock">
+        <div class="gh-mock-chrome"><span class="gh-mock-dot"></span><span class="gh-mock-dot"></span><span class="gh-mock-dot"></span><span class="gh-mock-url">github.com/ton-compte/livret-mission/issues/14</span></div>
+        <div class="gh-mock-body">
+          <div class="gh-tabs"><span class="gh-tab">Code</span><span class="gh-tab active">Issues</span><span class="gh-tab">Pull requests</span><span class="gh-tab">Actions</span><span class="gh-tab">Projects</span></div>
+          <p style="margin-bottom:8px;"><strong style="font-family:'IBM Plex Mono';font-size:13px;">#14 — Le PDF n'inclut pas la dernière mission ajoutée</strong> <span class="gh-badge fail" style="background:var(--fail-tint);color:var(--fail);">open</span></p>
+          <div class="gh-row"><span class="fname">Labels</span><span class="gh-badge fail" style="background:var(--fail-tint);color:var(--fail);">bug</span></div>
+          <div class="gh-row"><span class="fname">Assignee</span><span class="fmeta">toi</span></div>
+          <div class="gh-row"><span class="fname">Lié à</span><span class="fmeta">PR #17 (Fixes #14)</span></div>
+        </div>
+      </div>
+      <p class="gh-mock-caption">Aperçu illustratif d'une issue.</p>
+
+      <p>Une bonne issue reprend la même rigueur qu'un bon rapport de bug (module 22, cours QA) : titre précis, étapes de reproduction, résultat attendu vs obtenu, environnement. Les <strong>labels</strong> (<code>bug</code>, <code>enhancement</code>, <code>documentation</code>...) et les <strong>assignees</strong> permettent de trier et répartir le travail. Petit plus utile : écrire <code>Fixes #14</code> dans le message d'un commit ou d'une pull request ferme automatiquement l'issue correspondante dès la fusion.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Rédige le titre et la description d'une issue pour ce bug : sur mobile, le bouton "Télécharger le PDF" du livret-mission ne réagit pas au premier clic, il faut cliquer deux fois.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Titre :</strong> "Le bouton Télécharger le PDF nécessite deux clics sur mobile"<br>
+            <strong>Description type :</strong> Étapes — ouvrir le site sur mobile, cliquer une fois sur "Télécharger le PDF". Résultat obtenu — rien ne se passe au premier clic. Résultat attendu — le téléchargement démarre dès le premier clic. Environnement — Safari iOS 18, iPhone 13. Label : <code>bug</code>.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m8"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m9">
+      <div class="mod-eyebrow">Partie 2 · Module 09</div>
+      <h2 class="mod-title">Pull requests : créer et décrire</h2>
+      <p>Une <strong>pull request</strong> (PR) propose de fusionner une branche dans une autre — le plus souvent, ta branche de fonctionnalité vers <code>main</code>. C'est le cœur du travail collaboratif sur GitHub : au lieu de pousser directement sur <code>main</code>, tu ouvres une PR, quelqu'un la relit, et elle n'est fusionnée qu'une fois validée.</p>
+
+      <pre>git push -u origin feature/pwa-offline
+# puis, sur GitHub : "Compare & pull request"</pre>
+
+      <div class="gh-mock">
+        <div class="gh-mock-chrome"><span class="gh-mock-dot"></span><span class="gh-mock-dot"></span><span class="gh-mock-dot"></span><span class="gh-mock-url">github.com/ton-compte/livret-mission/pull/new</span></div>
+        <div class="gh-mock-body">
+          <div class="gh-toolbar"><span class="fmeta mono">base: main ← compare: feature/pwa-offline</span></div>
+          <div class="gh-row"><span class="fname">Title</span><span class="fmeta">Ajoute le mode hors-ligne à la PWA</span></div>
+          <div class="gh-row"><span class="fname">Description</span><span class="fmeta">Fixes #9 — voir détail ci-dessous</span></div>
+          <div class="gh-toolbar" style="margin-top:12px;"><span class="gh-btn">Draft pull request</span><span class="gh-btn violet">Create pull request</span></div>
+        </div>
+      </div>
+      <p class="gh-mock-caption">Aperçu illustratif de la création d'une pull request.</p>
+
+      <p>Une bonne description de PR répond à trois questions : qu'est-ce que ce changement fait, pourquoi, et comment le vérifier. Beaucoup d'équipes utilisent un <strong>template</strong> (fichier <code>.github/PULL_REQUEST_TEMPLATE.md</code>) qui pré-remplit ces sections à chaque nouvelle PR.</p>
+
+      <h3>PR "brouillon" (draft)</h3>
+      <p>Une PR peut être ouverte en mode <strong>draft</strong> — visible par l'équipe, mais explicitement marquée comme non prête à être fusionnée ni même relue en détail. Pratique pour partager un travail en cours, demander un avis préliminaire, ou déclencher la CI sans demander une revue complète.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris une description de PR pour la branche <code>feature/pwa-offline</code> qui ajoute la mise en cache hors-ligne du livret-mission et corrige l'issue #9.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Ce que ça fait :</strong> ajoute un service worker qui met en cache les pages consultées, pour un accès hors-ligne sur intervention.<br>
+            <strong>Pourquoi :</strong> les équipes sur le terrain signalent une couverture réseau instable lors de leurs interventions (Fixes #9).<br>
+            <strong>Comment vérifier :</strong> ouvrir le site, naviguer sur 2-3 pages, couper le réseau, recharger — les pages visitées doivent rester accessibles.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m9"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m10">
+      <div class="mod-eyebrow">Partie 2 · Module 10</div>
+      <h2 class="mod-title">La revue de code</h2>
+      <p>La revue de code (code review) est l'étape où un ou plusieurs collègues examinent une pull request avant fusion. En tant que testeur, tu seras autant relu (sur tes scripts de test) que relecteur (sur le code applicatif) — savoir lire une diff avec méthode est une compétence à part entière.</p>
+
+      <p>Trois issues possibles pour une revue :</p>
+      <div class="table-scroll"><table>
+        <tr><th>Verdict</th><th>Ce que ça signifie</th></tr>
+        <tr><td><span class="gh-badge ok">Approve</span></td><td>Le changement est bon, prêt à être fusionné</td></tr>
+        <tr><td><span class="gh-badge warn">Comment</span></td><td>Remarques sans bloquer la fusion</td></tr>
+        <tr><td><span class="gh-badge fail" style="background:var(--fail-tint);color:var(--fail);">Request changes</span></td><td>Des modifications sont nécessaires avant de pouvoir fusionner</td></tr>
+      </table></div>
+
+      <p>Les commentaires peuvent être laissés directement sur une ligne précise de la diff, et peuvent inclure une <strong>suggestion</strong> — un bout de code que l'auteur accepte ou rejette en un clic.</p>
+      <div class="diff-block">
+        <div class="diff-line diff-ctx">  def calcule_total(commande):</div>
+        <div class="diff-line diff-rem">-     return sum(l.prix for l in commande.lignes)</div>
+        <div class="diff-line diff-add">+     return sum(l.prix * l.quantite for l in commande.lignes)</div>
+      </div>
+      <p style="font-size:13px;color:var(--text-dim);">💬 Commentaire attaché : "Le total actuel ignore la quantité — voir la suggestion ci-dessus."</p>
+
+      <div class="callout">
+        <div class="callout-label">Donner un bon feedback</div>
+        <p>Commente le code, pas la personne ; distingue ce qui est bloquant de ce qui est une préférence ; explique le <em>pourquoi</em>, pas seulement le <em>quoi</em>. Ces réflexes comptent particulièrement en alternance, où tu seras souvent le plus junior — savoir relire proprement, même sans trancher, est déjà remarqué.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Un relecteur a mis "Request changes" sur ta PR avec un commentaire pertinent. Quelle est la bonne suite d'actions ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Corriger le code sur ta branche locale, committer la correction, la pousser — la PR se met à jour automatiquement (pas besoin d'en recréer une). Répondre au commentaire pour indiquer que c'est corrigé, puis attendre une nouvelle relecture ou une ré-approbation avant fusion.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m10"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m11">
+      <div class="mod-eyebrow">Partie 2 · Module 11</div>
+      <h2 class="mod-title">Fusionner et protéger une branche</h2>
+      <p>Au moment de fusionner une PR approuvée, GitHub propose trois stratégies :</p>
+      <div class="table-scroll"><table>
+        <tr><th>Stratégie</th><th>Effet sur l'historique</th><th>Quand la choisir</th></tr>
+        <tr><td><strong>Merge commit</strong></td><td>Garde tous les commits de la branche + un commit de fusion</td><td>Historique détaillé souhaité, branches longues</td></tr>
+        <tr><td><strong>Squash and merge</strong></td><td>Compresse toute la PR en un seul commit propre sur main</td><td>Le plus courant en équipe : historique de main lisible, un commit = une fonctionnalité</td></tr>
+        <tr><td><strong>Rebase and merge</strong></td><td>Rejoue les commits de la branche un par un sur main, sans commit de fusion</td><td>Historique linéaire, équipes plus expérimentées avec Git</td></tr>
+      </table></div>
+      <p>En 2026, <strong>squash and merge</strong> reste le choix par défaut le plus répandu dans les équipes produit : il garde l'historique de <code>main</code> facile à parcourir, même si la branche de travail contenait quinze petits commits "wip" ou "fix typo".</p>
+
+      <h3>Protéger la branche main</h3>
+      <p>Une <strong>branch protection rule</strong> empêche de pousser directement sur <code>main</code> et impose des conditions avant toute fusion — c'est ce qui rend la revue de code réellement obligatoire, et pas juste une convention d'équipe.</p>
+      <div class="gh-mock">
+        <div class="gh-mock-chrome"><span class="gh-mock-dot"></span><span class="gh-mock-dot"></span><span class="gh-mock-dot"></span><span class="gh-mock-url">github.com/.../settings/branches</span></div>
+        <div class="gh-mock-body">
+          <div class="gh-row"><span class="fname">Require a pull request before merging</span><span class="fmeta">☑</span></div>
+          <div class="gh-row"><span class="fname">Require approvals</span><span class="fmeta">☑ (1 minimum)</span></div>
+          <div class="gh-row"><span class="fname">Require status checks to pass</span><span class="fmeta">☑ (CI Playwright)</span></div>
+          <div class="gh-row"><span class="fname">Do not allow bypassing the above</span><span class="fmeta">☑</span></div>
+        </div>
+      </div>
+      <p class="gh-mock-caption">Aperçu illustratif des règles de protection de branche.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Une PR contient douze commits, dont plusieurs "fix typo" et "wip". L'équipe veut un historique de main propre, une fonctionnalité = un commit. Quelle stratégie de fusion choisir ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Squash and merge</strong> — les douze commits deviennent un seul commit propre sur <code>main</code>, avec un message unique décrivant la fonctionnalité dans son ensemble.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m11"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m12">
+      <div class="mod-eyebrow">Partie 2 · Module 12</div>
+      <h2 class="mod-title">README, Wiki, GitHub Pages</h2>
+      <p>Le fichier <code>README.md</code>, à la racine du dépôt, est la première chose que tout le monde voit — recruteur y compris si ton profil GitHub est public. Il mérite autant de soin que le code lui-même.</p>
+
+      <h3>Ce qu'un bon README contient</h3>
+      <ul>
+        <li>Une phrase qui dit ce que fait le projet, et pour qui</li>
+        <li>Comment l'installer et le lancer en local (les vraies commandes, testées)</li>
+        <li>Une capture d'écran ou un GIF, si c'est visuel</li>
+        <li>Comment lancer les tests — précieux pour montrer ta pratique QA</li>
+        <li>La stack technique utilisée</li>
+      </ul>
+
+      <p class="code-label">Extrait de README pour livret-mission</p>
+      <pre class="mono"># Livret de mission
+
+Application pour les équipes de terrain : site web, génération
+de PDF et PWA installable hors-ligne.
+
+## Installation
+pip install -r requirements.txt
+python pdf/generate.py
+
+## Tests
+pytest tests/ --headed</pre>
+
+      <p>Le <strong>Wiki</strong> d'un dépôt convient à une documentation plus longue et évolutive (procédures internes, décisions d'architecture) qui n'a pas sa place dans un README déjà long. <strong>GitHub Pages</strong>, lui, héberge gratuitement un site statique directement depuis le dépôt — exactement adapté à un projet comme le site du livret-mission, sans serveur à gérer.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Liste, dans l'ordre, les cinq sections que tu mettrais dans le README de livret-mission pour qu'un recruteur qui le découvre comprenne le projet en moins d'une minute.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>1) Une phrase de résumé du projet et son contexte réel (usage sur le terrain). 2) Un aperçu visuel (capture ou GIF). 3) La stack technique. 4) Installation et lancement. 5) Comment lancer les tests — c'est cette dernière section qui parle directement à un recruteur QA.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m12"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m13">
+      <div class="mod-eyebrow">Partie 2 · Module 13</div>
+      <h2 class="mod-title">Projects : organiser le travail</h2>
+      <p><strong>GitHub Projects</strong> est un tableau Kanban intégré au dépôt, qui relie directement issues et pull requests aux colonnes d'avancement — pas besoin d'un outil externe séparé pour un petit projet ou une petite équipe.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Colonne</th><th>Contenu</th></tr>
+        <tr><td><strong>To do</strong></td><td>Issues pas encore prises en charge</td></tr>
+        <tr><td><strong>In progress</strong></td><td>Issue assignée, branche créée, travail en cours</td></tr>
+        <tr><td><strong>In review</strong></td><td>PR ouverte, en attente de relecture</td></tr>
+        <tr><td><strong>Done</strong></td><td>PR fusionnée, issue fermée</td></tr>
+      </table></div>
+      <p>Des règles d'automatisation peuvent déplacer une carte toute seule — par exemple, faire glisser automatiquement une issue vers "Done" dès que la PR qui la referme est fusionnée.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Trois cartes existent sur le board de livret-mission : "Corriger le bug du double-clic" (issue ouverte, personne assignée), "Ajouter le mode hors-ligne" (PR ouverte, en attente de relecture), "Renommer le titre de la page" (PR fusionnée hier). Place chacune dans la bonne colonne.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>"Corriger le bug du double-clic" → <strong>To do</strong>. "Ajouter le mode hors-ligne" → <strong>In review</strong>. "Renommer le titre de la page" → <strong>Done</strong>.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m13"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 3 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 3</span><h2 class="part-title">GitHub Desktop</h2></div>
+    <p class="part-intro">Quatre modules pour retrouver exactement les mêmes gestes que les parties 1 et 2, mais dans l'interface graphique officielle — utile en entretien, en pair-programming, ou simplement quand tu préfères voir les changements plutôt que les deviner en ligne de commande.</p>
+
+    <section class="module" id="m14">
+      <div class="mod-eyebrow">Partie 3 · Module 14</div>
+      <h2 class="mod-title">Installer et découvrir l'interface</h2>
+      <p><strong>GitHub Desktop</strong> est l'application graphique officielle de GitHub (macOS et Windows ; une version communautaire existe pour Linux). Elle ne remplace pas Git — elle pilote les mêmes commandes vues en partie 1, mais via des clics plutôt que le terminal. Rien de ce que tu apprends ici ne contredit les parties précédentes : c'est la même chose, vue autrement.</p>
+
+      <p>Pourquoi l'utiliser alors que tu sais déjà taper des commandes ? Parce que la diff visuelle (voir précisément quelles lignes ont changé, en couleur) et l'historique graphique des branches sont souvent plus rapides à lire d'un coup d'œil — beaucoup de développeurs expérimentés alternent entre les deux selon la tâche.</p>
+
+      <div class="app-mock">
+        <div class="app-mock-bar"><span class="gh-mock-dot"></span><span class="gh-mock-dot"></span><span class="gh-mock-dot"></span><span class="app-mock-title">GitHub Desktop — livret-mission</span></div>
+        <div class="app-mock-grid">
+          <div class="app-mock-side">
+            <div class="item-h">Current branch</div>
+            <div class="item active">main</div>
+            <div class="item-h">Changes (3)</div>
+            <div class="item">site/index.html</div>
+            <div class="item">pdf/generate.py</div>
+            <div class="item">pwa/manifest.json</div>
+          </div>
+          <div class="app-mock-main">
+            <p style="margin:0 0 8px;font-family:'IBM Plex Mono';font-size:11.5px;color:var(--text-faint);">Summary</p>
+            <div class="gh-row" style="border:1px solid var(--border);border-radius:6px;padding:8px;"><span class="fmeta">Corrige la mise en page du PDF</span></div>
+            <div class="gh-toolbar" style="margin-top:12px;"><span class="gh-btn violet">Commit to main</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="gh-mock-caption">Aperçu illustratif de la fenêtre principale : branche courante, fichiers modifiés à gauche, zone de commit à droite.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Dans le mockup ci-dessus, à quoi correspond exactement, en commande Git, la liste "Changes (3)" affichée dans la colonne de gauche ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>C'est l'équivalent visuel de <code>git status</code> : les fichiers du répertoire de travail qui ont été modifiés depuis le dernier commit, et pas encore mis en staging ni committés.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m14"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m15">
+      <div class="mod-eyebrow">Partie 3 · Module 15</div>
+      <h2 class="mod-title">Le workflow quotidien</h2>
+      <p>Le geste répété toute la journée avec GitHub Desktop tient en quatre étapes, sans jamais toucher au terminal :</p>
+      <div class="table-scroll"><table>
+        <tr><th>Étape</th><th>Dans GitHub Desktop</th><th>Équivalent en ligne de commande</th></tr>
+        <tr><td>1. Récupérer les nouveautés</td><td>Bouton "Fetch origin"</td><td class="mono">git fetch</td></tr>
+        <tr><td>2. Revoir ses changements</td><td>Onglet "Changes", diff colorée par fichier</td><td class="mono">git diff</td></tr>
+        <tr><td>3. Committer</td><td>Champ résumé + description, bouton "Commit to ..."</td><td class="mono">git add -A && git commit</td></tr>
+        <tr><td>4. Envoyer</td><td>Bouton "Push origin"</td><td class="mono">git push</td></tr>
+      </table></div>
+      <p>Un détail pratique : dans l'onglet "Changes", chaque fichier a une case à cocher — décocher un fichier revient à ne pas faire son <code>git add</code>, exactement comme au module 2. Tu peux même cocher seulement <strong>certaines lignes</strong> d'un fichier modifié, pour un commit encore plus précis.</p>
+
+      <p>L'onglet <strong>"History"</strong> affiche l'équivalent de <code>git log</code>, avec la diff de chaque commit consultable en un clic — pratique pour retrouver "c'est quand exactement que j'ai cassé ça".</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Tu as modifié deux fichiers, mais tu veux committer seulement l'un des deux pour l'instant. Décris ce que tu fais dans GitHub Desktop, puis l'équivalent en ligne de commande.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Dans Desktop : décocher la case du fichier que tu ne veux pas inclure dans l'onglet "Changes", écrire un résumé, cliquer "Commit to main". En ligne de commande : <code>git add fichier-voulu.py</code> puis <code>git commit -m "..."</code>, en laissant l'autre fichier de côté.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m15"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m16">
+      <div class="mod-eyebrow">Partie 3 · Module 16</div>
+      <h2 class="mod-title">Branches et conflits, en visuel</h2>
+      <p>Le sélecteur de branche, en haut de la fenêtre, remplace <code>git switch</code> et <code>git branch</code> : un clic pour changer de branche, un bouton "New branch" pour en créer une nouvelle depuis la branche courante.</p>
+
+      <p>En cas de conflit lors d'une fusion, GitHub Desktop liste les fichiers concernés et propose de les ouvrir dans ton éditeur de code habituel (VS Code, par exemple) pour les résoudre — les marqueurs <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> restent exactement les mêmes qu'au module 4, seule la façon d'y accéder change.</p>
+
+      <div class="app-mock">
+        <div class="app-mock-bar"><span class="gh-mock-dot"></span><span class="gh-mock-dot"></span><span class="gh-mock-dot"></span><span class="app-mock-title">Résoudre les conflits avant de fusionner</span></div>
+        <div class="app-mock-grid" style="grid-template-columns:1fr;">
+          <div class="app-mock-main">
+            <div class="gh-row"><span class="fname">site/index.html</span><span class="gh-badge fail" style="background:var(--fail-tint);color:var(--fail);">1 conflit</span></div>
+            <div class="gh-toolbar" style="margin-top:10px;"><span class="gh-btn">Open in Visual Studio Code</span><span class="gh-btn violet">Continue merge</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="gh-mock-caption">Aperçu illustratif de l'écran de résolution de conflit.</p>
+
+      <p>Une fois le fichier corrigé et enregistré dans l'éditeur, il suffit de revenir dans GitHub Desktop et de cliquer "Continue merge" — l'application détecte que les marqueurs de conflit ont disparu et propose de finaliser le commit de fusion.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>GitHub Desktop affiche "1 conflit" sur <code>site/index.html</code> après une tentative de fusion. Décris, étape par étape, comment tu le résous jusqu'à la fusion terminée.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>1) Cliquer "Open in [éditeur]" pour ouvrir le fichier. 2) Repérer les marqueurs <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> / <code>=======</code> / <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> et choisir le contenu final, en supprimant les marqueurs. 3) Enregistrer le fichier. 4) Revenir dans GitHub Desktop, cliquer "Continue merge" pour créer le commit de fusion.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m16"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m17">
+      <div class="mod-eyebrow">Partie 3 · Module 17</div>
+      <h2 class="mod-title">Nouveauté 2026 : worktrees et Copilot</h2>
+      <p>GitHub Desktop 3.6 (juin 2026) a ajouté deux évolutions notables, à connaître même si tu ne les utilises pas encore au quotidien — ça se remarque en entretien de savoir ce qui bouge dans l'écosystème.</p>
+
+      <h3>Les worktrees</h3>
+      <p>Un <strong>worktree</strong> permet de travailler sur plusieurs branches <strong>en parallèle</strong>, chacune dans son propre dossier, sans avoir à cloner le dépôt plusieurs fois ni à faire des allers-retours de <code>stash</code>/<code>switch</code>. Concrètement : tu peux avoir <code>feature/pwa-offline</code> ouvert dans un dossier pendant que <code>fix/lien-casse</code> tourne dans un autre, en parallèle, sans jamais perdre de contexte ni interrompre ce que tu étais en train de faire.</p>
+
+      <h3>Copilot intégré à Desktop</h3>
+      <p>Deux usages concrets ont été ajoutés : la <strong>génération de messages de commit</strong> (qui respecte les conventions du dépôt si un fichier <code>.github/copilot-instructions.md</code> existe), et une <strong>proposition de résolution</strong> lors d'un conflit de fusion — Copilot explique ce qui diverge entre les deux versions et propose une fusion, que tu peux accepter, modifier ou rejeter.</p>
+
+      <div class="app-mock">
+        <div class="app-mock-bar"><span class="gh-mock-dot"></span><span class="gh-mock-dot"></span><span class="gh-mock-dot"></span><span class="app-mock-title">Copilot — suggestion de résolution</span></div>
+        <div class="app-mock-grid" style="grid-template-columns:1fr;">
+          <div class="app-mock-main">
+            <p style="font-size:12px;color:var(--text-dim);margin-bottom:8px;">🤖 Copilot : "Les deux versions renomment le titre différemment — je propose de garder la version la plus récente (feature/renommage)."</p>
+            <div class="gh-toolbar"><span class="gh-btn">Modifier</span><span class="gh-btn">Rejeter</span><span class="gh-btn violet">Accepter</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="gh-mock-caption">Aperçu illustratif de la suggestion de résolution de conflit par Copilot.</p>
+
+      <div class="callout warn">
+        <div class="callout-label">Le même principe que dans tes deux autres cours</div>
+        <p>Un message de commit ou une résolution de conflit générés par l'IA restent des <strong>propositions</strong>, jamais une vérité automatique. Avant d'accepter, vérifie que le résumé du commit correspond vraiment à ce que tu as changé, et qu'une résolution de conflit proposée ne fait pas disparaître silencieusement une des deux intentions en jeu. Exactement le réflexe déjà vu pour les cas de test générés par IA (cours QA, module 15) et le SQL généré par IA (cours SQL, module 22).</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Copilot te propose une résolution de conflit dans GitHub Desktop. Que dois-tu faire avant de cliquer "Accepter" ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Relire la proposition et vérifier qu'elle garde bien l'intention des <strong>deux</strong> branches concernées (ou justifie clairement pourquoi une seule est retenue), exactement comme tu le ferais en résolvant le conflit toi-même à la main — l'IA propose, elle ne valide pas à ta place.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m17"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 4 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 4</span><h2 class="part-title">Automatisation et sécurité</h2></div>
+    <p class="part-intro">Quatre modules qui relient directement ce cours à ton cours QA : GitHub comme moteur de CI/CD pour tes tests Playwright, et les garde-fous de sécurité qu'un testeur doit savoir reconnaître.</p>
+
+    <section class="module" id="m18">
+      <div class="mod-eyebrow">Partie 4 · Module 18</div>
+      <h2 class="mod-title">GitHub Actions : les concepts</h2>
+      <p><strong>GitHub Actions</strong> est le moteur de CI/CD intégré à GitHub : il exécute automatiquement des tâches (lancer les tests, construire une application, déployer) en réaction à des événements comme un <code>push</code> ou une pull request. C'est directement la suite du module 20 du cours QA, mais vu ici côté configuration GitHub plutôt que côté script de test.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Terme</th><th>Ce que c'est</th></tr>
+        <tr><td><strong>Workflow</strong></td><td>Un fichier YAML dans <code>.github/workflows/</code> qui décrit l'automatisation</td></tr>
+        <tr><td><strong>Event</strong></td><td>Ce qui déclenche le workflow : <code>push</code>, <code>pull_request</code>, planification...</td></tr>
+        <tr><td><strong>Job</strong></td><td>Un ensemble d'étapes exécutées sur une même machine</td></tr>
+        <tr><td><strong>Step</strong></td><td>Une action précise dans un job : cloner le code, installer, exécuter une commande</td></tr>
+        <tr><td><strong>Runner</strong></td><td>La machine (fournie par GitHub, ou auto-hébergée) qui exécute le job</td></tr>
+      </table></div>
+
+      <p class="code-label">Workflow minimal — .github/workflows/hello.yml</p>
+      <pre class="mono">name: Hello CI
+on: [push]
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Le code vient d'être poussé !"</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris un workflow minimal qui se déclenche uniquement sur les pull requests ciblant <code>main</code>, et qui affiche "Vérification en cours".</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre class="mono">name: Check PR
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Vérification en cours"</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m18"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m19">
+      <div class="mod-eyebrow">Partie 4 · Module 19</div>
+      <h2 class="mod-title">Un pipeline CI pour Playwright</h2>
+      <p>On assemble maintenant un vrai pipeline pour livret-mission : à chaque pull request, on installe les dépendances Python, on lance la suite pytest-playwright vue dans le cours QA, et on archive le rapport de test même en cas d'échec.</p>
+
+      <p class="code-label">.github/workflows/tests.yml</p>
+      <pre class="mono">name: Tests
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  playwright-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installer les dépendances
+        run: |
+          pip install -r requirements.txt
+          playwright install --with-deps
+
+      - name: Lancer les tests
+        run: pytest tests/ --html=report.html
+
+      - name: Archiver le rapport
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rapport-tests
+          path: report.html</pre>
+      <p><code>if: always()</code> est le détail qui change tout : sans lui, l'étape d'archivage serait sautée dès qu'un test échoue — exactement le moment où le rapport est le plus utile à consulter.</p>
+
+      <div class="gh-mock">
+        <div class="gh-mock-chrome"><span class="gh-mock-dot"></span><span class="gh-mock-dot"></span><span class="gh-mock-dot"></span><span class="gh-mock-url">github.com/.../actions/runs/1842</span></div>
+        <div class="gh-mock-body">
+          <div class="gh-row"><span class="fname">playwright-tests</span><span class="gh-badge ok">✓ success</span></div>
+          <div class="gh-row"><span class="fname">Checkout</span><span class="gh-badge ok">2s</span></div>
+          <div class="gh-row"><span class="fname">Setup Python</span><span class="gh-badge ok">8s</span></div>
+          <div class="gh-row"><span class="fname">Lancer les tests</span><span class="gh-badge ok">41s</span></div>
+          <div class="gh-row"><span class="fname">Archiver le rapport</span><span class="gh-badge ok">1s</span></div>
+        </div>
+      </div>
+      <p class="gh-mock-caption">Aperçu illustratif d'une exécution de workflow réussie.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Ajoute à ce workflow une étape qui affiche un badge de statut cliquable dans le README. Indique la syntaxe Markdown à ajouter (pas de code YAML supplémentaire nécessaire).</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre class="mono">![Tests](https://github.com/ton-compte/livret-mission/actions/workflows/tests.yml/badge.svg)</pre>
+            <p>GitHub génère ce badge automatiquement pour chaque workflow — aucune étape YAML supplémentaire n'est nécessaire, seulement ce lien à coller dans le README.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m19"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m20">
+      <div class="mod-eyebrow">Partie 4 · Module 20</div>
+      <h2 class="mod-title">Sécurité : Dependabot & scanning</h2>
+      <p>GitHub embarque trois protections automatiques gratuites sur les dépôts publics (et activables sur les dépôts privés selon l'offre), qu'un testeur QA doit savoir reconnaître même sans les configurer soi-même — elles apparaissent régulièrement dans les PR et les alertes du dépôt.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Fonctionnalité</th><th>Ce qu'elle fait</th></tr>
+        <tr><td><strong>Dependabot</strong></td><td>Détecte les dépendances avec des failles connues et ouvre automatiquement une PR pour les mettre à jour</td></tr>
+        <tr><td><strong>Secret scanning</strong></td><td>Détecte une clé d'API ou un mot de passe accidentellement commité, et peut <strong>bloquer le push</strong> avant qu'il n'atteigne le dépôt (push protection)</td></tr>
+        <tr><td><strong>Code scanning (CodeQL)</strong></td><td>Analyse statiquement le code à la recherche de vulnérabilités (injection SQL, XSS...)</td></tr>
+      </table></div>
+
+      <p>Évolution 2026 à connaître : GitHub a étendu le support <strong>OIDC</strong> (OpenID Connect) pour Dependabot et le code scanning, permettant une authentification par jeton temporaire plutôt que par identifiants stockés en dur dans la configuration CI — une amélioration de sécurité pour les pipelines eux-mêmes, pas seulement pour le code qu'ils testent.</p>
+
+      <div class="callout warn">
+        <div class="callout-label">Si un push est bloqué pour "secret détecté"</div>
+        <p>Ne contourne jamais ce blocage en désactivant la protection pour "juste pousser ce commit" — le secret concerné (clé, token, mot de passe) doit être considéré comme compromis dès qu'il a été commité, même localement. La bonne réaction : retirer le secret du code, le régénérer côté service concerné, et le déplacer dans une variable d'environnement ou un secret GitHub Actions (<code>Settings → Secrets and variables</code>), jamais dans le code source.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>GitHub bloque ton <code>git push</code> avec le message "Push cannot contain secrets — detected: OpenAI API Key". Que fais-tu, dans l'ordre ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>1) Retirer la clé du fichier concerné et la remplacer par une lecture depuis une variable d'environnement. 2) Régénérer la clé côté OpenAI (elle est compromise dès qu'elle a existé dans un commit, même local et jamais poussé avec succès). 3) Ajouter le fichier contenant la vraie clé (<code>.env</code>) à <code>.gitignore</code> s'il n'y était pas déjà. 4) Recommencer le commit et le push proprement.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m20"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m21">
+      <div class="mod-eyebrow">Partie 4 · Module 21</div>
+      <h2 class="mod-title">Bonnes pratiques de collaboration</h2>
+      <p>Trois habitudes distinguent immédiatement un profil qui a déjà travaillé en équipe d'un profil purement solo — précisément ce que cherche à évaluer un recruteur en repensant ton historique GitHub.</p>
+
+      <h3>Des messages de commit qui se lisent</h3>
+      <p>La convention <strong>Conventional Commits</strong> préfixe chaque message par son type — largement adoptée en 2026, notamment parce qu'elle permet de générer un changelog automatiquement.</p>
+      <div class="diff-block">
+        <div class="diff-line diff-add">✓ feat: ajoute le mode hors-ligne à la PWA</div>
+        <div class="diff-line diff-add">✓ fix: corrige le calcul du total avec quantité</div>
+        <div class="diff-line diff-add">✓ docs: complète le README avec les instructions de test</div>
+        <div class="diff-line diff-rem">✗ update</div>
+        <div class="diff-line diff-rem">✗ fix bug</div>
+        <div class="diff-line diff-rem">✗ ça marche enfin!!</div>
+      </div>
+      <p>Les types les plus courants : <code>feat</code> (nouvelle fonctionnalité), <code>fix</code> (correction de bug), <code>docs</code>, <code>test</code>, <code>refactor</code>, <code>chore</code> (tâche technique sans impact fonctionnel).</p>
+
+      <h3>Trunk-based vs Git flow</h3>
+      <p>Deux modèles de branches dominent le marché. <strong>Git flow</strong>, plus ancien, multiplie les branches longues (<code>develop</code>, <code>release</code>, <code>hotfix</code>...) — encore présent dans certaines grandes équipes avec des cycles de release stricts. <strong>Trunk-based development</strong>, aujourd'hui largement dominant dans les équipes produit modernes, garde <code>main</code> comme unique branche longue et privilégie des branches de fonctionnalité courtes, fusionnées vite. C'est le modèle utilisé tout au long de ce cours.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Classe ces messages de commit en "bon" ou "à corriger", et pour ceux à corriger, réécris-les selon Conventional Commits : (a) "wip", (b) "fix: le PDF ne s'ouvrait plus sous Firefox", (c) "changements divers".</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>(a) À corriger — ex. <code>fix: corrige l'ouverture du PDF</code> (une fois le travail terminé, pas laissé en "wip"). (b) Bon — type clair, description précise. (c) À corriger — trop vague ; ex. <code>refactor: réorganise les fonctions de génération PDF</code> si c'est bien de ça qu'il s'agit.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m21"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 5 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 5</span><h2 class="part-title">Se positionner</h2></div>
+    <p class="part-intro">Un dernier module pour transformer ce que tu viens d'apprendre en argument d'entretien concret.</p>
+
+    <section class="module" id="m22">
+      <div class="mod-eyebrow">Partie 5 · Module 22</div>
+      <h2 class="mod-title">Git/GitHub sur le marché en 2026</h2>
+      <p>Contrairement à Docker (cours QA, module 26) ou même SQL, Git n'est presque jamais mentionné comme un "plus" différenciant dans les offres — parce qu'il est devenu un <strong>prérequis silencieux</strong>. Une offre de testeur QA junior ne précise pas toujours "connaissance de Git exigée", au même titre qu'elle ne précise pas "sait utiliser un clavier" : c'est supposé acquis. L'absence totale de pratique Git, en revanche, se voit très vite en entretien technique ou lors d'un test pratique.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Niveau attendu d'un junior</th><th>Ce qui te distingue</th></tr>
+        <tr><td>Cloner, committer, pousser, créer une branche</td><td>Résoudre un conflit sans paniquer, en direct devant quelqu'un</td></tr>
+        <tr><td>Ouvrir une pull request basique</td><td>Écrire une description de PR claire, avec contexte et façon de vérifier</td></tr>
+        <tr><td>Savoir ce qu'est une issue</td><td>Rédiger un rapport de bug exploitable directement dans une issue</td></tr>
+        <tr><td>Avoir déjà vu GitHub Actions tourner</td><td>Comprendre et modifier un fichier de workflow existant</td></tr>
+      </table></div>
+
+      <h3>Ce que ton profil GitHub raconte de toi</h3>
+      <p>Un recruteur qui ouvre ton profil GitHub public regarde rarement le code ligne à ligne — il regarde des signaux rapides : des messages de commit propres, un README soigné sur ton projet phare, une activité régulière plutôt qu'un unique gros commit "projet final". Ton dépôt <strong>livret-mission</strong> est exactement le genre de projet à épingler (pin) sur ton profil : un vrai besoin, de vrais utilisateurs, du code, des tests, et — après ce module — un historique Git qui se lit bien.</p>
+
+      <div class="callout">
+        <div class="callout-label">Pour l'entretien</div>
+        <p>Ce module complète directement la préparation à l'entretien du module 27 de ton cours QA : quand on te demande de parler d'un projet, tu peux littéralement ouvrir ton dépôt livret-mission et montrer une pull request réelle, avec sa description et sa revue — un argument bien plus concret qu'une réponse uniquement orale.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>En entretien, on te demande : "Racontez-nous comment vous travaillez avec Git au quotidien." Prépare une réponse de 30 secondes en t'appuyant sur livret-mission et ce que tu as appris dans ce cours.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Un exemple de structure : "Je travaille toujours sur une branche de fonctionnalité dédiée, jamais directement sur main. Sur mon projet livret-mission, par exemple, j'ai ouvert une PR pour ajouter le mode hors-ligne de la PWA, avec une description qui explique le contexte et comment la tester. J'ai aussi mis en place un pipeline GitHub Actions qui lance ma suite de tests Playwright à chaque pull request, pour être sûr qu'un changement ne casse rien avant de fusionner." Le point fort de cette réponse : elle est vérifiable, pas juste déclarée.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m22"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <div class="footer-note">
+      <p>Cours rédigé comme compagnon des cours "Qualité Logicielle Automatisée" et "SQL pour la Qualité Logicielle" — même méthode, même fil rouge adapté (ici, ton propre projet livret-mission). Les nouveautés 2026 mentionnées (GitHub Desktop 3.6, worktrees, Copilot dans Desktop, extension OIDC pour Dependabot et le code scanning) sont sourcées depuis le changelog officiel GitHub. Le suivi de progression (cases à cocher) est enregistré uniquement dans ce navigateur.</p>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'github-course-progress-v1';
+  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','m15','m16','m17','m18','m19','m20','m21','m22'];
+
+  function loadDone(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    }catch(e){ return {}; }
+  }
+  function saveDone(done){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(done)); }catch(e){}
+  }
+
+  var done = loadDone();
+
+  function render(){
+    var count = 0;
+    ids.forEach(function(id){
+      var isDone = !!done[id];
+      if(isDone) count++;
+      var navCheck = document.querySelector('[data-modcheck="'+id+'"]');
+      if(navCheck) navCheck.setAttribute('data-done', isDone ? 'true' : 'false');
+      var toggle = document.querySelector('[data-toggle="'+id+'"]');
+      if(toggle) toggle.setAttribute('data-done', isDone ? 'true' : 'false');
+    });
+    var countEl = document.getElementById('progress-count');
+    var fillEl = document.getElementById('progress-fill');
+    if(countEl) countEl.textContent = String(count);
+    if(fillEl) fillEl.style.width = (count / ids.length * 100) + '%';
+  }
+
+  function toggle(id){
+    done[id] = !done[id];
+    saveDone(done);
+    render();
+  }
+
+  ids.forEach(function(id){
+    var navCheck = document.querySelector('[data-modcheck="'+id+'"]');
+    if(navCheck){
+      navCheck.addEventListener('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        toggle(id);
+      });
+    }
+    var btn = document.querySelector('[data-toggle="'+id+'"]');
+    if(btn){
+      btn.addEventListener('click', function(){ toggle(id); });
+    }
+  });
+
+  render();
+
+  var sections = ids.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+  var navLinks = {};
+  ids.forEach(function(id){
+    var l = document.querySelector('.nav-link[data-id="'+id+'"]');
+    if(l) navLinks[id] = l;
+  });
+
+  if('IntersectionObserver' in window){
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var id = entry.target.id;
+        var link = navLinks[id];
+        if(!link) return;
+        if(entry.isIntersecting){
+          Object.keys(navLinks).forEach(function(k){ navLinks[k].classList.remove('active'); });
+          link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+    sections.forEach(function(s){ observer.observe(s); });
+  }
+})();
+</script>

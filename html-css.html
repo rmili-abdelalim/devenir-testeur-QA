@@ -1,0 +1,734 @@
+<title>HTML & CSS — Rappel Pratique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F7FA; --surface:#FFFFFF; --surface-2:#EBF0F5; --border:#D9E1E9; --border-strong:#B9C6D3;
+    --text:#16202B; --text-dim:#4C5A68; --text-faint:#7C8B99;
+    --accent:#C2410C; --accent-strong:#9A3412; --accent-tint:#FDECE0;
+    --shadow: 0 1px 2px rgba(16,24,32,0.04), 0 10px 28px -14px rgba(16,24,32,0.16);
+    --code-bg:#F1EAE3; --warn-bg:#FBF0E0; --warn-border:#D8A34D;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0E1520; --surface:#151F2B; --surface-2:#1A2635; --border:#293A4D; --border-strong:#3C5066;
+      --text:#E9EEF3; --text-dim:#A6B4C2; --text-faint:#7C8B99;
+      --accent:#FB923C; --accent-strong:#FDBA74; --accent-tint:#3A2415;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 28px -14px rgba(0,0,0,0.55);
+      --code-bg:#1E1712; --warn-bg:#2E2410; --warn-border:#8A652B;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0E1520; --surface:#151F2B; --surface-2:#1A2635; --border:#293A4D; --border-strong:#3C5066;
+    --text:#E9EEF3; --text-dim:#A6B4C2; --text-faint:#7C8B99;
+    --accent:#FB923C; --accent-strong:#FDBA74; --accent-tint:#3A2415;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 28px -14px rgba(0,0,0,0.55);
+    --code-bg:#1E1712; --warn-bg:#2E2410; --warn-border:#8A652B;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--text); font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; font-size:16.5px; line-height:1.65; -webkit-font-smoothing:antialiased;}
+  .mono{font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;}
+  ::selection{background:var(--accent-tint); color:var(--text);}
+  a{color:var(--accent-strong);}
+  code{font-family:"IBM Plex Mono"; background:var(--code-bg); border-radius:4px; padding:1px 5px; font-size:0.9em;}
+  pre{background:var(--code-bg); border-radius:10px; padding:14px 16px; overflow-x:auto; font-family:"IBM Plex Mono"; font-size:13px; line-height:1.55;}
+  pre code{background:none; padding:0;}
+
+  .layout{display:flex; max-width:1180px; margin:0 auto;}
+  nav.side{position:sticky; top:0; height:100vh; width:270px; flex:0 0 auto; overflow-y:auto; padding:28px 18px 40px; border-right:1px solid var(--border);}
+  @media (max-width:900px){ .layout{display:block;} nav.side{position:static; height:auto; width:auto; border-right:none; border-bottom:1px solid var(--border);} }
+  .side-title{font-family:"IBM Plex Mono"; font-weight:600; font-size:13px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-faint); padding:0 10px 14px;}
+  .side-part{font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.07em; color:var(--text-faint); margin:18px 0 6px; padding:0 10px;}
+  .side-link{display:flex; align-items:center; gap:9px; padding:8px 10px; border-radius:8px; color:var(--text-dim); text-decoration:none; font-size:13.5px; cursor:pointer;}
+  .side-link:hover{background:var(--surface-2);}
+  .side-link.active{background:var(--accent-tint); color:var(--accent-strong); font-weight:600;}
+  .side-check{flex:0 0 auto; width:15px; height:15px; border-radius:50%; border:1.5px solid var(--border-strong); display:flex; align-items:center; justify-content:center; font-size:10px; color:transparent;}
+  .side-link.done .side-check{background:var(--accent); border-color:var(--accent); color:#fff;}
+  .progress-bar{height:5px; border-radius:3px; background:var(--surface-2); margin:12px 10px 0; overflow:hidden;}
+  .progress-fill{height:100%; background:var(--accent); width:0%; transition:width 0.3s ease;}
+  .progress-label{padding:6px 10px 0; font-size:11px; color:var(--text-faint); font-family:"IBM Plex Mono";}
+
+  main{flex:1 1 auto; min-width:0; padding:0 0 100px;}
+  .hero{max-width:700px; padding:56px 44px 30px;}
+  @media (max-width:900px){ .hero{padding:40px 22px 20px;} }
+  .eyebrow{font-family:"IBM Plex Mono"; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-faint); margin-bottom:12px;}
+  .hero h1{font-family:"IBM Plex Mono"; font-weight:600; font-size:clamp(26px,4vw,36px); line-height:1.15; letter-spacing:-0.01em; margin:0 0 14px;}
+  .hero p{color:var(--text-dim); max-width:60ch;}
+  .stat-row{display:flex; flex-wrap:wrap; gap:9px; margin-top:16px;}
+  .stat-chip{font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-dim); border:1px solid var(--border); background:var(--surface); border-radius:20px; padding:5px 12px;}
+  .stat-chip b{color:var(--text); font-weight:600;}
+
+  .module{max-width:700px; padding:36px 44px; border-top:1px solid var(--border);}
+  @media (max-width:900px){ .module{padding:30px 22px;} }
+  .module-eyebrow{font-family:"IBM Plex Mono"; font-size:11.5px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:8px;}
+  .module h2{font-family:"IBM Plex Mono"; font-size:22px; font-weight:600; letter-spacing:-0.005em; margin:0 0 16px;}
+  .module h3{font-family:"IBM Plex Mono"; font-size:16px; font-weight:600; margin:26px 0 10px;}
+  .module p{color:var(--text-dim);}
+  .module ul, .module ol{color:var(--text-dim); padding-left:22px;}
+  .module li{margin-bottom:6px;}
+
+  .part-divider{max-width:700px; padding:44px 44px 0; }
+  @media (max-width:900px){ .part-divider{padding:36px 22px 0;} }
+  .part-divider .num{font-family:"IBM Plex Mono"; font-size:12px; color:var(--accent-strong); font-weight:600;}
+  .part-divider h2{font-family:"IBM Plex Mono"; font-size:26px; margin:4px 0 6px;}
+  .part-divider p{color:var(--text-faint); margin:0;}
+
+  .callout{border:1px solid var(--border); border-left:3px solid var(--accent); background:var(--surface); border-radius:10px; padding:14px 16px; margin:18px 0; font-size:14.5px; color:var(--text-dim);}
+  .callout b{color:var(--text);}
+  .callout.warn{border-left-color:var(--warn-border); background:var(--warn-bg);}
+
+  details.exercise{border:1px solid var(--border-strong); border-radius:10px; margin:18px 0; background:var(--surface); overflow:hidden;}
+  details.exercise summary{cursor:pointer; list-style:none; padding:13px 16px; font-family:"IBM Plex Mono"; font-size:13px; font-weight:600; color:var(--accent-strong); display:flex; align-items:center; gap:8px;}
+  details.exercise summary::-webkit-details-marker{display:none;}
+  details.exercise summary:before{content:"▸"; transition:transform 0.15s;}
+  details.exercise[open] summary:before{transform:rotate(90deg);}
+  details.exercise .ex-body{padding:2px 16px 16px; border-top:1px solid var(--border);}
+
+  /* web playground */
+  .web-playground{border:1px solid var(--border-strong); border-radius:12px; background:var(--surface); box-shadow:var(--shadow); margin:20px 0; overflow:hidden;}
+  .wp-panes{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border);}
+  @media (max-width:640px){ .wp-panes{grid-template-columns:1fr;} }
+  .wp-pane{background:var(--surface);}
+  .wp-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-faint); padding:9px 12px 0;}
+  .wp-code{width:100%; border:none; background:none; color:var(--text); font-family:"IBM Plex Mono"; font-size:12.5px; line-height:1.55; padding:8px 12px 12px; resize:vertical; min-height:110px; outline:none;}
+  .wp-actions{display:flex; gap:8px; padding:9px 12px; border-top:1px solid var(--border); background:var(--surface-2);}
+  .wp-btn{font-family:"IBM Plex Mono"; font-size:12px; font-weight:600; border-radius:7px; padding:6px 13px; cursor:pointer; border:1px solid var(--border-strong); background:var(--surface); color:var(--text);}
+  .wp-btn.run{background:var(--accent); border-color:var(--accent); color:#fff;}
+  .wp-btn:hover{opacity:0.88;}
+  .wp-frame{width:100%; height:180px; border:none; border-top:1px solid var(--border); background:#fff; display:block;}
+  .wp-frame.tall{height:340px;}
+
+  .footer-note{max-width:700px; margin:20px 44px 0; padding-top:22px; border-top:1px solid var(--border); color:var(--text-faint); font-size:12.5px;}
+  @media (max-width:900px){ .footer-note{margin:20px 22px 0;} }
+</style>
+
+<div class="layout">
+  <nav class="side">
+    <div class="side-title">HTML &amp; CSS — Rappel</div>
+    <a class="side-link" data-target="m0"><span class="side-check"></span>Pourquoi ce rappel</a>
+
+    <div class="side-part">Partie 1 · Bases HTML</div>
+    <a class="side-link" data-target="m1"><span class="side-check"></span>Structure d'une page</a>
+    <a class="side-link" data-target="m2"><span class="side-check"></span>Texte, liens, images</a>
+    <a class="side-link" data-target="m3"><span class="side-check"></span>Listes, tableaux, formulaires</a>
+
+    <div class="side-part">Partie 2 · Bases CSS</div>
+    <a class="side-link" data-target="m4"><span class="side-check"></span>Sélecteurs et cascade</a>
+    <a class="side-link" data-target="m5"><span class="side-check"></span>Le box model</a>
+    <a class="side-link" data-target="m6"><span class="side-check"></span>Flexbox</a>
+    <a class="side-link" data-target="m7"><span class="side-check"></span>Responsive &amp; media queries</a>
+
+    <div class="side-part">Bonus</div>
+    <a class="side-link" data-target="m7b"><span class="side-check"></span>Le design system</a>
+
+    <div class="side-part">Partie 3 · Projet final</div>
+    <a class="side-link" data-target="m8"><span class="side-check"></span>Cahier des charges</a>
+    <a class="side-link" data-target="m9"><span class="side-check"></span>Construction du projet</a>
+    <a class="side-link" data-target="m10"><span class="side-check"></span>Finitions &amp; publication</a>
+
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="progress-label" id="progress-label">0 / 12 modules</div>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <div class="eyebrow">Rappel pratique</div>
+      <h1>HTML &amp; CSS — l'essentiel, en pratique</h1>
+      <p>Un rappel court et concret : les bases d'HTML et de CSS que tu as déjà croisées, remises à plat avec de petits exemples que tu modifies et exécutes directement dans la page. Le cours se termine par un petit projet complet à ajouter à ton portfolio.</p>
+      <div class="stat-row">
+        <span class="stat-chip"><b>12</b> modules</span>
+        <span class="stat-chip">Bacs à sable <b>live</b></span>
+        <span class="stat-chip">Projet <b>portfolio</b> à la clé</span>
+      </div>
+    </div>
+
+    <section class="module" id="m0">
+      <div class="module-eyebrow">Introduction</div>
+      <h2>Pourquoi ce rappel, même pour un testeur</h2>
+      <p>Tu ne vas pas devenir développeur front-end — mais HTML et CSS te servent tous les jours en tant que testeur QA, même sans les écrire :</p>
+      <ul>
+        <li><b>Lire le DOM</b> pour écrire un sélecteur Playwright fiable (<code>button.submit-btn</code>, <code>[data-testid="login"]</code>) plutôt qu'un sélecteur fragile.</li>
+        <li><b>Rédiger un bug report précis</b> : « le bouton a un <code>padding</code> incohérent » est plus utile pour un dev que « c'est moche ».</li>
+        <li><b>Comprendre le responsive</b> pour savoir pourquoi un test passe sur desktop mais casse sur mobile.</li>
+        <li><b>Construire ton propre portfolio</b> — la page qui présente ton projet livret-mission et ta candidature QA aux recruteurs.</li>
+      </ul>
+      <div class="callout">Ce cours suppose que tu as déjà vu HTML/CSS une fois (même vaguement). On ne repart pas de zéro : on consolide, avec la pratique.</div>
+    </section>
+
+    <div class="part-divider">
+      <div class="num">Partie 1 / 3</div>
+      <h2>Les bases HTML</h2>
+      <p>La structure et le contenu d'une page.</p>
+    </div>
+
+    <section class="module" id="m1">
+      <div class="module-eyebrow">Module 1</div>
+      <h2>Structure d'une page HTML</h2>
+      <p>Une page HTML a toujours le même squelette : <code>&lt;!doctype html&gt;</code> indique la version, <code>&lt;head&gt;</code> contient les métadonnées (titre, encodage, liens CSS), <code>&lt;body&gt;</code> contient ce qui s'affiche.</p>
+      <pre><code>&lt;!doctype html&gt;
+&lt;html lang="fr"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Ma page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Bonjour&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      <h3>Les balises sémantiques</h3>
+      <p>Plutôt que d'empiler des <code>&lt;div&gt;</code> partout, HTML5 propose des balises qui décrivent le <i>rôle</i> du contenu : <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;footer&gt;</code>. C'est important pour l'accessibilité (lecteurs d'écran) et pour le SEO — et ça rend tes sélecteurs de test plus lisibles.</p>
+
+      <div class="web-playground" data-wp>
+        <div class="wp-panes">
+          <div class="wp-pane">
+            <div class="wp-label">HTML</div>
+            <textarea class="wp-code" data-lang="html" spellcheck="false">&lt;header&gt;
+  &lt;h1&gt;Mon Portfolio&lt;/h1&gt;
+&lt;/header&gt;
+&lt;main&gt;
+  &lt;p&gt;Bienvenue sur ma page.&lt;/p&gt;
+&lt;/main&gt;
+&lt;footer&gt;
+  &lt;p&gt;© 2027&lt;/p&gt;
+&lt;/footer&gt;</textarea>
+          </div>
+          <div class="wp-pane">
+            <div class="wp-label">CSS</div>
+            <textarea class="wp-code" data-lang="css" spellcheck="false">header{ background:#C2410C; color:#fff; padding:16px; }
+footer{ color:#888; padding:12px; font-size:13px; }
+body{ font-family:sans-serif; margin:0; }</textarea>
+          </div>
+        </div>
+        <div class="wp-actions">
+          <button class="wp-btn run" data-run>Exécuter</button>
+          <button class="wp-btn" data-reset>Réinitialiser</button>
+        </div>
+        <iframe class="wp-frame" sandbox="allow-same-origin"></iframe>
+      </div>
+
+      <details class="exercise">
+        <summary>Exercice — ajoute une balise nav</summary>
+        <div class="ex-body">
+          <p>Dans le HTML ci-dessus, ajoute un <code>&lt;nav&gt;</code> entre le <code>&lt;header&gt;</code> et le <code>&lt;main&gt;</code>, avec trois liens factices (<code>#</code>) : Accueil, Projets, Contact. Clique sur Exécuter pour vérifier le résultat.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="module" id="m2">
+      <div class="module-eyebrow">Module 2</div>
+      <h2>Texte, liens et images</h2>
+      <p>Les balises de texte les plus courantes : <code>&lt;p&gt;</code>, <code>&lt;h1&gt;</code>…<code>&lt;h6&gt;</code>, <code>&lt;strong&gt;</code> (important), <code>&lt;em&gt;</code> (emphase). Un lien : <code>&lt;a href="..."&gt;</code>. Une image : <code>&lt;img src="..." alt="..."&gt;</code>.</p>
+      <div class="callout warn"><b>L'attribut <code>alt</code> n'est pas optionnel.</b> Il décrit l'image pour les lecteurs d'écran et s'affiche si l'image ne charge pas. En test, une image sans <code>alt</code> est un vrai bug d'accessibilité à signaler.</div>
+
+      <div class="web-playground" data-wp>
+        <div class="wp-panes">
+          <div class="wp-pane">
+            <div class="wp-label">HTML</div>
+            <textarea class="wp-code" data-lang="html" spellcheck="false">&lt;p&gt;Je suis en reconversion vers la
+&lt;strong&gt;qualité logicielle&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Retrouvez mon travail sur
+&lt;a href="#"&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;img src="https://placehold.co/120x80" alt="Aperçu du projet livret-mission"&gt;</textarea>
+          </div>
+          <div class="wp-pane">
+            <div class="wp-label">CSS</div>
+            <textarea class="wp-code" data-lang="css" spellcheck="false">body{ font-family:sans-serif; padding:10px; }
+a{ color:#C2410C; }
+img{ border-radius:8px; margin-top:8px; }</textarea>
+          </div>
+        </div>
+        <div class="wp-actions">
+          <button class="wp-btn run" data-run>Exécuter</button>
+          <button class="wp-btn" data-reset>Réinitialiser</button>
+        </div>
+        <iframe class="wp-frame" sandbox="allow-same-origin"></iframe>
+      </div>
+    </section>
+
+    <section class="module" id="m3">
+      <div class="module-eyebrow">Module 3</div>
+      <h2>Listes, tableaux et formulaires</h2>
+      <p>Listes : <code>&lt;ul&gt;</code> (à puces) ou <code>&lt;ol&gt;</code> (numérotée), avec des <code>&lt;li&gt;</code> à l'intérieur. Tableaux : <code>&lt;table&gt;</code>, <code>&lt;tr&gt;</code> (ligne), <code>&lt;th&gt;</code> (en-tête), <code>&lt;td&gt;</code> (cellule).</p>
+      <h3>Les formulaires — essentiels en test</h3>
+      <p>Un formulaire est probablement la chose que tu testeras le plus souvent : champs, validations, soumission. Chaque champ mérite un <code>&lt;label&gt;</code> lié par <code>for</code>/<code>id</code> — sans ça, un lecteur d'écran (et parfois un sélecteur de test) ne sait pas à quoi correspond le champ.</p>
+      <pre><code>&lt;form&gt;
+  &lt;label for="email"&gt;Email&lt;/label&gt;
+  &lt;input type="email" id="email" name="email" required&gt;
+  &lt;button type="submit"&gt;Envoyer&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+      <div class="web-playground" data-wp>
+        <div class="wp-panes">
+          <div class="wp-pane">
+            <div class="wp-label">HTML</div>
+            <textarea class="wp-code" data-lang="html" spellcheck="false">&lt;form&gt;
+  &lt;label for="nom"&gt;Nom&lt;/label&gt;
+  &lt;input type="text" id="nom" name="nom"&gt;
+  &lt;label for="niveau"&gt;Niveau&lt;/label&gt;
+  &lt;select id="niveau"&gt;
+    &lt;option&gt;Débutant&lt;/option&gt;
+    &lt;option&gt;Confirmé&lt;/option&gt;
+  &lt;/select&gt;
+  &lt;button type="submit"&gt;Envoyer&lt;/button&gt;
+&lt;/form&gt;</textarea>
+          </div>
+          <div class="wp-pane">
+            <div class="wp-label">CSS</div>
+            <textarea class="wp-code" data-lang="css" spellcheck="false">form{ display:flex; flex-direction:column; gap:6px; max-width:220px; font-family:sans-serif; padding:10px; }
+button{ background:#C2410C; color:#fff; border:none; padding:8px; border-radius:6px; }</textarea>
+          </div>
+        </div>
+        <div class="wp-actions">
+          <button class="wp-btn run" data-run>Exécuter</button>
+          <button class="wp-btn" data-reset>Réinitialiser</button>
+        </div>
+        <iframe class="wp-frame" sandbox="allow-same-origin"></iframe>
+      </div>
+
+      <details class="exercise">
+        <summary>Exercice — un tableau de résultats de tests</summary>
+        <div class="ex-body">
+          <p>Construis un <code>&lt;table&gt;</code> avec une ligne d'en-tête (<code>Test</code>, <code>Statut</code>) et deux lignes de données. C'est exactement ce que tu produiras plus tard pour présenter des résultats de campagne de test.</p>
+        </div>
+      </details>
+    </section>
+
+    <div class="part-divider">
+      <div class="num">Partie 2 / 3</div>
+      <h2>Les bases CSS</h2>
+      <p>Mettre en forme et en page.</p>
+    </div>
+
+    <section class="module" id="m4">
+      <div class="module-eyebrow">Module 4</div>
+      <h2>Sélecteurs et cascade</h2>
+      <p>CSS applique des styles via des sélecteurs : <code>p</code> (toutes les balises <code>p</code>), <code>.carte</code> (classe), <code>#titre</code> (id unique). Quand plusieurs règles s'appliquent au même élément, la plus <i>spécifique</i> gagne — d'où le nom « cascade ».</p>
+      <div class="callout">Ordre de spécificité (du plus faible au plus fort) : élément → classe → id → style inline. En pratique, privilégie les classes : elles sont réutilisables et faciles à cibler en test.</div>
+
+      <div class="web-playground" data-wp>
+        <div class="wp-panes">
+          <div class="wp-pane">
+            <div class="wp-label">HTML</div>
+            <textarea class="wp-code" data-lang="html" spellcheck="false">&lt;p class="alerte"&gt;Texte normal&lt;/p&gt;
+&lt;p class="alerte" id="critique"&gt;Texte critique&lt;/p&gt;</textarea>
+          </div>
+          <div class="wp-pane">
+            <div class="wp-label">CSS</div>
+            <textarea class="wp-code" data-lang="css" spellcheck="false">p{ font-family:sans-serif; }
+.alerte{ color:orange; font-weight:bold; }
+#critique{ color:red; }</textarea>
+          </div>
+        </div>
+        <div class="wp-actions">
+          <button class="wp-btn run" data-run>Exécuter</button>
+          <button class="wp-btn" data-reset>Réinitialiser</button>
+        </div>
+        <iframe class="wp-frame" sandbox="allow-same-origin"></iframe>
+      </div>
+    </section>
+
+    <section class="module" id="m5">
+      <div class="module-eyebrow">Module 5</div>
+      <h2>Le box model</h2>
+      <p>Chaque élément HTML est une boîte : <code>content</code> (le contenu), <code>padding</code> (l'espace intérieur), <code>border</code> (la bordure), <code>margin</code> (l'espace extérieur). Ajoute <code>box-sizing: border-box</code> pour que <code>width</code> inclue le padding et la bordure — sinon les tailles deviennent vite imprévisibles.</p>
+
+      <div class="web-playground" data-wp>
+        <div class="wp-panes">
+          <div class="wp-pane">
+            <div class="wp-label">HTML</div>
+            <textarea class="wp-code" data-lang="html" spellcheck="false">&lt;div class="boite"&gt;Contenu&lt;/div&gt;</textarea>
+          </div>
+          <div class="wp-pane">
+            <div class="wp-label">CSS</div>
+            <textarea class="wp-code" data-lang="css" spellcheck="false">*{ box-sizing:border-box; }
+.boite{
+  width:200px;
+  padding:16px;
+  border:3px solid #C2410C;
+  margin:20px;
+  background:#FDECE0;
+  font-family:sans-serif;
+}</textarea>
+          </div>
+        </div>
+        <div class="wp-actions">
+          <button class="wp-btn run" data-run>Exécuter</button>
+          <button class="wp-btn" data-reset>Réinitialiser</button>
+        </div>
+        <iframe class="wp-frame" sandbox="allow-same-origin"></iframe>
+      </div>
+
+      <details class="exercise">
+        <summary>Exercice — retire <code>box-sizing: border-box</code></summary>
+        <div class="ex-body">
+          <p>Supprime la ligne <code>*{ box-sizing:border-box; }</code> et relance. Observe : la boîte devient plus large que 200px, car le padding et la bordure s'ajoutent désormais à la largeur. C'est exactement le genre de détail qu'un testeur repère en comparant une maquette au rendu réel.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="module" id="m6">
+      <div class="module-eyebrow">Module 6</div>
+      <h2>Flexbox</h2>
+      <p>Flexbox est l'outil principal pour aligner des éléments sur une ligne ou une colonne. <code>display:flex</code> sur un parent active flexbox pour ses enfants directs. <code>justify-content</code> gère l'axe principal (horizontal par défaut), <code>align-items</code> l'axe secondaire, <code>gap</code> l'espacement entre éléments.</p>
+
+      <div class="web-playground" data-wp>
+        <div class="wp-panes">
+          <div class="wp-pane">
+            <div class="wp-label">HTML</div>
+            <textarea class="wp-code" data-lang="html" spellcheck="false">&lt;div class="barre"&gt;
+  &lt;div class="carte"&gt;Test 1&lt;/div&gt;
+  &lt;div class="carte"&gt;Test 2&lt;/div&gt;
+  &lt;div class="carte"&gt;Test 3&lt;/div&gt;
+&lt;/div&gt;</textarea>
+          </div>
+          <div class="wp-pane">
+            <div class="wp-label">CSS</div>
+            <textarea class="wp-code" data-lang="css" spellcheck="false">.barre{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  align-items:center;
+  padding:16px;
+}
+.carte{
+  background:#C2410C;
+  color:#fff;
+  padding:14px 18px;
+  border-radius:8px;
+  font-family:sans-serif;
+}</textarea>
+          </div>
+        </div>
+        <div class="wp-actions">
+          <button class="wp-btn run" data-run>Exécuter</button>
+          <button class="wp-btn" data-reset>Réinitialiser</button>
+        </div>
+        <iframe class="wp-frame" sandbox="allow-same-origin"></iframe>
+      </div>
+
+      <details class="exercise">
+        <summary>Exercice — passe en colonne</summary>
+        <div class="ex-body">
+          <p>Ajoute <code>flex-direction: column;</code> à <code>.barre</code> et change <code>justify-content</code> en <code>flex-start</code>. Observe comment les cartes s'empilent verticalement au lieu de s'aligner horizontalement.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="module" id="m7">
+      <div class="module-eyebrow">Module 7</div>
+      <h2>Responsive &amp; media queries</h2>
+      <p>Une <code>@media query</code> applique des styles seulement si une condition est vraie (le plus souvent, une largeur d'écran). L'approche recommandée est <i>mobile-first</i> : on écrit les styles de base pour mobile, puis on ajoute des règles pour les écrans plus larges avec <code>min-width</code>.</p>
+      <pre><code>.grille{ display:grid; grid-template-columns:1fr; }
+
+@media (min-width: 640px) {
+  .grille{ grid-template-columns:1fr 1fr; }
+}</code></pre>
+      <div class="callout">Redimensionne la fenêtre de l'aperçu ci-dessous (ou regarde-la sur ton téléphone) pour voir la mise en page changer selon la largeur.</div>
+
+      <div class="web-playground" data-wp>
+        <div class="wp-panes">
+          <div class="wp-pane">
+            <div class="wp-label">HTML</div>
+            <textarea class="wp-code" data-lang="html" spellcheck="false">&lt;div class="grille"&gt;
+  &lt;div class="carte"&gt;Carte A&lt;/div&gt;
+  &lt;div class="carte"&gt;Carte B&lt;/div&gt;
+&lt;/div&gt;</textarea>
+          </div>
+          <div class="wp-pane">
+            <div class="wp-label">CSS</div>
+            <textarea class="wp-code" data-lang="css" spellcheck="false">.grille{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+  padding:14px;
+}
+.carte{ background:#FDECE0; border:1px solid #C2410C; border-radius:8px; padding:14px; font-family:sans-serif; }
+
+@media (min-width: 420px) {
+  .grille{ grid-template-columns:1fr 1fr; }
+}</textarea>
+          </div>
+        </div>
+        <div class="wp-actions">
+          <button class="wp-btn run" data-run>Exécuter</button>
+          <button class="wp-btn" data-reset>Réinitialiser</button>
+        </div>
+        <iframe class="wp-frame" sandbox="allow-same-origin"></iframe>
+      </div>
+
+      <div class="callout">Pour aller plus loin (pas indispensable pour débuter) : les <b>container queries</b> (<code>@container</code>) adaptent un composant à la taille de son conteneur plutôt qu'à l'écran entier, le <b>nesting CSS natif</b> permet d'imbriquer des règles comme en Sass, et <code>:has()</code> permet de styler un parent selon ses enfants. Ce sont des standards modernes largement supportés en 2026, bons à connaître pour ne pas être surpris en lisant du code récent.</div>
+    </section>
+
+    <section class="module" id="m7b">
+      <div class="module-eyebrow">Bonus · Module 7 bis</div>
+      <h2>Le design system</h2>
+      <p>Un <b>design system</b> est un ensemble cohérent de règles et de composants réutilisables — couleurs, typographies, espacements, boutons, cartes, états (survol, focus, désactivé, erreur) — que design et développement partagent pour garder une interface cohérente sur tout un produit. Techniquement, il repose souvent sur des <b>design tokens</b> : des valeurs nommées (une couleur, un espacement) définies une seule fois et réutilisées partout, au lieu d'être copiées-collées dans chaque composant.</p>
+      <div class="callout">Tu en utilises déjà un sans le savoir : regarde le haut du CSS de cette page — <code>--bg</code>, <code>--accent</code>, <code>--border</code>… ce sont des <b>design tokens</b> sous forme de variables CSS. Chaque bouton, chaque carte de ce cours les réutilise plutôt que de redéfinir ses propres couleurs. C'est un mini design system.</div>
+
+      <h3>Pourquoi ça concerne un testeur</h3>
+      <p>Tu ne construis pas le design system, mais tu vérifies qu'il est bien respecté :</p>
+      <ul>
+        <li>Deux boutons "primaires" sur deux pages différentes ont-ils exactement la même couleur, le même arrondi, le même espacement ?</li>
+        <li>Un composant a-t-il bien tous ses états prévus — <code>hover</code>, <code>focus</code>, <code>disabled</code>, <code>erreur</code> — ou seulement l'état par défaut ?</li>
+        <li>Le contraste texte/fond reste-t-il suffisant dans chaque état, y compris en thème sombre ?</li>
+        <li>Un changement de token (par exemple la couleur de marque) se répercute-t-il bien partout, sans qu'un composant isolé garde l'ancienne couleur en dur ?</li>
+      </ul>
+
+      <div class="web-playground" data-wp>
+        <div class="wp-panes">
+          <div class="wp-pane">
+            <div class="wp-label">HTML</div>
+            <textarea class="wp-code" data-lang="html" spellcheck="false">&lt;button class="btn primaire"&gt;Valider&lt;/button&gt;
+&lt;button class="btn secondaire"&gt;Annuler&lt;/button&gt;
+&lt;div class="carte"&gt;Une carte qui suit les mêmes tokens&lt;/div&gt;</textarea>
+          </div>
+          <div class="wp-pane">
+            <div class="wp-label">CSS</div>
+            <textarea class="wp-code" data-lang="css" spellcheck="false">:root{
+  --token-couleur: #C2410C;
+  --token-rayon: 8px;
+  --token-espace: 12px;
+}
+body{ font-family:sans-serif; padding:14px; }
+.btn{
+  border-radius:var(--token-rayon);
+  padding:10px var(--token-espace);
+  border:none;
+  font-weight:600;
+  margin-right:8px;
+  cursor:pointer;
+}
+.btn.primaire{ background:var(--token-couleur); color:#fff; }
+.btn.secondaire{ background:#fff; color:var(--token-couleur); border:1px solid var(--token-couleur); }
+.btn.primaire:hover{ opacity:0.85; }
+.carte{
+  margin-top:12px;
+  border-radius:var(--token-rayon);
+  padding:var(--token-espace);
+  border:1px solid var(--token-couleur);
+}</textarea>
+          </div>
+        </div>
+        <div class="wp-actions">
+          <button class="wp-btn run" data-run>Exécuter</button>
+          <button class="wp-btn" data-reset>Réinitialiser</button>
+        </div>
+        <iframe class="wp-frame" sandbox="allow-same-origin"></iframe>
+      </div>
+
+      <details class="exercise">
+        <summary>Exercice — change un seul token</summary>
+        <div class="ex-body">
+          <p>Change uniquement la valeur de <code>--token-couleur</code> (par exemple en <code>#1E5A96</code>) et relance. Observe : le bouton primaire, la bordure du bouton secondaire et la carte changent tous ensemble, parce qu'ils pointent vers le même token. C'est exactement ce que tu vérifierais en test : si un seul de ces trois éléments n'avait pas bougé, ce serait un bug de cohérence avec le design system — un cas fréquent en test visuel.</p>
+        </div>
+      </details>
+    </section>
+
+    <div class="part-divider">
+      <div class="num">Partie 3 / 3</div>
+      <h2>Projet final — une page portfolio</h2>
+      <p>Mets tout bout à bout dans un livrable réel.</p>
+    </div>
+
+    <section class="module" id="m8">
+      <div class="module-eyebrow">Module 8</div>
+      <h2>Cahier des charges du projet</h2>
+      <p>Le projet : une <b>page de présentation personnelle</b> — une seule page HTML/CSS que tu pourras publier et mettre en lien dans tes candidatures. Elle montre à un recruteur que tu sais construire une page propre, structurée et responsive — utile pour un profil QA qui doit comprendre ce qu'il teste.</p>
+      <h3>User stories</h3>
+      <ul>
+        <li>En tant que visiteur, je vois <b>immédiatement qui tu es</b> et ce que tu vises (reconversion QA) en haut de page.</li>
+        <li>En tant que visiteur, je peux lire une <b>courte présentation</b> de ton parcours.</li>
+        <li>En tant que visiteur, je vois tes <b>compétences clés</b> (Python, Playwright, SQL, Git…) présentées clairement.</li>
+        <li>En tant que visiteur, je peux voir <b>ton projet phare</b> (le livret de mission) avec un lien vers son code.</li>
+        <li>En tant que visiteur, je peux te <b>contacter</b> (email ou LinkedIn) facilement.</li>
+        <li>En tant que visiteur sur mobile, la page reste <b>lisible et bien mise en page</b>.</li>
+      </ul>
+      <div class="callout">C'est la même logique de user stories que dans le cours Agile &amp; Scrum — la « Definition of Done » ici, c'est : structure sémantique correcte, aucun <code>alt</code> manquant, responsive testé, liens fonctionnels.</div>
+    </section>
+
+    <section class="module" id="m9">
+      <div class="module-eyebrow">Module 9</div>
+      <h2>Construction du projet</h2>
+      <p>Voici une base de départ qui couvre toutes les user stories. Modifie-la avec tes propres informations dans le bac à sable — c'est ton brouillon de travail.</p>
+
+      <div class="web-playground" data-wp>
+        <div class="wp-panes">
+          <div class="wp-pane">
+            <div class="wp-label">HTML</div>
+            <textarea class="wp-code" data-lang="html" spellcheck="false">&lt;header class="hero"&gt;
+  &lt;h1&gt;Ton Nom&lt;/h1&gt;
+  &lt;p&gt;En reconversion vers la Qualité Logicielle (QA)&lt;/p&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+  &lt;section&gt;
+    &lt;h2&gt;À propos&lt;/h2&gt;
+    &lt;p&gt;Après plusieurs années dans un autre secteur, je me forme
+    aujourd'hui au test logiciel, avec un objectif clair :
+    une alternance QA.&lt;/p&gt;
+  &lt;/section&gt;
+
+  &lt;section&gt;
+    &lt;h2&gt;Compétences&lt;/h2&gt;
+    &lt;ul class="skills"&gt;
+      &lt;li&gt;Python&lt;/li&gt;
+      &lt;li&gt;Playwright&lt;/li&gt;
+      &lt;li&gt;SQL&lt;/li&gt;
+      &lt;li&gt;Git &amp; GitHub&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/section&gt;
+
+  &lt;section&gt;
+    &lt;h2&gt;Projet&lt;/h2&gt;
+    &lt;article class="carte-projet"&gt;
+      &lt;h3&gt;Livret de mission&lt;/h3&gt;
+      &lt;p&gt;Une application développée pour un usage réel sur le terrain.&lt;/p&gt;
+      &lt;a href="#"&gt;Voir le code sur GitHub →&lt;/a&gt;
+    &lt;/article&gt;
+  &lt;/section&gt;
+&lt;/main&gt;
+
+&lt;footer&gt;
+  &lt;p&gt;Contact : &lt;a href="#"&gt;email&lt;/a&gt; · &lt;a href="#"&gt;LinkedIn&lt;/a&gt;&lt;/p&gt;
+&lt;/footer&gt;</textarea>
+          </div>
+          <div class="wp-pane">
+            <div class="wp-label">CSS</div>
+            <textarea class="wp-code" data-lang="css" spellcheck="false">*{ box-sizing:border-box; }
+body{ margin:0; font-family:sans-serif; color:#222; }
+.hero{ background:#C2410C; color:#fff; padding:36px 20px; text-align:center; }
+main{ max-width:640px; margin:0 auto; padding:24px 20px; }
+section{ margin-bottom:28px; }
+.skills{ display:flex; flex-wrap:wrap; gap:8px; list-style:none; padding:0; }
+.skills li{ background:#FDECE0; border:1px solid #C2410C; border-radius:20px; padding:5px 12px; font-size:13px; }
+.carte-projet{ border:1px solid #ddd; border-radius:10px; padding:16px; }
+footer{ text-align:center; padding:18px; color:#777; font-size:13px; }
+
+@media (min-width: 640px) {
+  .skills{ gap:10px; }
+}</textarea>
+          </div>
+        </div>
+        <div class="wp-actions">
+          <button class="wp-btn run" data-run>Exécuter</button>
+          <button class="wp-btn" data-reset>Réinitialiser</button>
+        </div>
+        <iframe class="wp-frame tall" sandbox="allow-same-origin"></iframe>
+      </div>
+
+      <details class="exercise">
+        <summary>Exercice — personnalise la page</summary>
+        <div class="ex-body">
+          <p>Remplace le texte par le tien, ajoute une couleur qui te ressemble, et vérifie chaque user story du module 8 une par une. Rétrécis la fenêtre d'aperçu pour vérifier le comportement responsive des compétences en <code>flex-wrap</code>.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="module" id="m10">
+      <div class="module-eyebrow">Module 10</div>
+      <h2>Finitions et publication</h2>
+      <p>Avant de publier, une petite checklist qualité — le réflexe testeur appliqué à ton propre travail :</p>
+      <ul>
+        <li>Tous les <code>&lt;img&gt;</code> ont un <code>alt</code> pertinent.</li>
+        <li>Les liens (<code>href="#"</code>) pointent vers de vraies adresses (GitHub, LinkedIn, mailto:).</li>
+        <li>La page reste lisible à 375px de large (mobile) et à 1440px (desktop).</li>
+        <li>Un seul <code>&lt;h1&gt;</code> par page ; la hiérarchie <code>h1 → h2 → h3</code> est respectée.</li>
+        <li>Le contraste texte/fond est suffisant (texte blanc sur orange foncé : ok ; texte gris clair sur blanc : à éviter).</li>
+      </ul>
+      <h3>Publier la page</h3>
+      <p>Le plus simple : reprends le fichier HTML final, crée un dépôt GitHub (comme vu dans le cours GitHub pour la QA), puis active <b>GitHub Pages</b> dans les paramètres du dépôt (Settings → Pages → Deploy from branch). Ta page devient accessible via une URL publique en quelques minutes — c'est ce lien que tu mets dans tes candidatures et sur ton CV.</p>
+      <div class="callout"><b>Projet livrable :</b> une page HTML/CSS complète, responsive, publiée sur GitHub Pages, avec ton vrai profil et un lien vers ton projet livret-mission. C'est un deuxième élément de portfolio, complémentaire à l'application JavaScript du cours JS Moderne.</div>
+    </section>
+
+    <div class="footer-note">
+      <p>Rappel : ce cours est volontairement court — l'essentiel pour être à l'aise, pas un cours complet de développeur front-end. Ta progression est enregistrée automatiquement dans ce navigateur.</p>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var IDS = ['m0','m1','m2','m3','m4','m5','m6','m7','m7b','m8','m9','m10'];
+  var STORAGE_KEY = 'html-css-course-progress-v1';
+  var done = {};
+  try{
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){ done = JSON.parse(raw); }
+  }catch(e){}
+
+  var links = {};
+  IDS.forEach(function(id){
+    var link = document.querySelector('.side-link[data-target="' + id + '"]');
+    links[id] = link;
+    link.addEventListener('click', function(){
+      var el = document.getElementById(id);
+      if(el){ el.scrollIntoView({behavior:'smooth', block:'start'}); }
+    });
+  });
+
+  function updateProgressUI(){
+    var count = 0;
+    IDS.forEach(function(id){
+      if(done[id]){ count++; links[id].classList.add('done'); }
+      else{ links[id].classList.remove('done'); }
+    });
+    var pct = Math.round((count / IDS.length) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-label').textContent = count + ' / ' + IDS.length + ' modules';
+  }
+
+  function markDone(id){
+    if(!done[id]){
+      done[id] = true;
+      try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(done)); }catch(e){}
+      updateProgressUI();
+    }
+  }
+
+  updateProgressUI();
+
+  var sections = IDS.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      var id = entry.target.id;
+      if(entry.isIntersecting){
+        Object.keys(links).forEach(function(k){ links[k].classList.remove('active'); });
+        if(links[id]){ links[id].classList.add('active'); }
+      }
+      if(entry.intersectionRatio > 0.5 || entry.boundingClientRect.top < 0){
+        markDone(id);
+      }
+    });
+  }, { threshold: [0, 0.5, 1], rootMargin: '-10% 0px -60% 0px' });
+  sections.forEach(function(s){ observer.observe(s); });
+
+  // Web playgrounds (HTML + CSS live preview, sandboxed iframe)
+  var playgrounds = document.querySelectorAll('[data-wp]');
+  playgrounds.forEach(function(box){
+    var htmlArea = box.querySelector('textarea[data-lang="html"]');
+    var cssArea = box.querySelector('textarea[data-lang="css"]');
+    var frame = box.querySelector('.wp-frame');
+    var runBtn = box.querySelector('[data-run]');
+    var resetBtn = box.querySelector('[data-reset]');
+    var initialHtml = htmlArea.value;
+    var initialCss = cssArea.value;
+
+    function render(){
+      var doc = '<!doctype html><html><head><meta charset="utf-8">'
+        + '<style>' + cssArea.value + '</style></head><body>'
+        + htmlArea.value + '</body></html>';
+      frame.srcdoc = doc;
+    }
+
+    runBtn.addEventListener('click', render);
+    resetBtn.addEventListener('click', function(){
+      htmlArea.value = initialHtml;
+      cssArea.value = initialCss;
+      render();
+    });
+
+    render();
+  });
+})();
+</script>

@@ -1,0 +1,789 @@
+<title>API Avancé pour la Qualité Logicielle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F7FA; --surface:#FFFFFF; --surface-2:#EBF0F5; --border:#D9E1E9; --border-strong:#B9C6D3;
+    --text:#16202B; --text-dim:#4C5A68; --text-faint:#7C8B99;
+    --accent:#4338CA; --accent-strong:#3730A3; --accent-tint:#ECEBFC;
+    --fail:#B8433A; --fail-tint:#FBEAE7; --warn:#93650F; --warn-tint:#FBF0DC; --ok:#1A7F37; --ok-tint:#E4F5E9;
+    --code-bg:#101A24; --code-text:#DCE7EE; --code-border:#223247;
+    --shadow: 0 1px 2px rgba(16,24,32,0.04), 0 8px 24px -12px rgba(16,24,32,0.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0E1520; --surface:#151F2B; --surface-2:#1A2635; --border:#293A4D; --border-strong:#3C5066;
+      --text:#E9EEF3; --text-dim:#A6B4C2; --text-faint:#7C8B99;
+      --accent:#818CF8; --accent-strong:#A5B0FA; --accent-tint:#22224A;
+      --fail:#E3766B; --fail-tint:#33201D; --warn:#E3B564; --warn-tint:#332813; --ok:#57C778; --ok-tint:#152A1D;
+      --code-bg:#0A1017; --code-text:#D8E5EE; --code-border:#1F2E3E;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0E1520; --surface:#151F2B; --surface-2:#1A2635; --border:#293A4D; --border-strong:#3C5066;
+    --text:#E9EEF3; --text-dim:#A6B4C2; --text-faint:#7C8B99;
+    --accent:#818CF8; --accent-strong:#A5B0FA; --accent-tint:#22224A;
+    --fail:#E3766B; --fail-tint:#33201D; --warn:#E3B564; --warn-tint:#332813; --ok:#57C778; --ok-tint:#152A1D;
+    --code-bg:#0A1017; --code-text:#D8E5EE; --code-border:#1F2E3E;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--text); font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; font-size:16.5px; line-height:1.65; -webkit-font-smoothing:antialiased;}
+  .mono{font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;}
+  a{color:var(--accent-strong);}
+  ::selection{background:var(--accent-tint); color:var(--text);}
+  .shell{display:grid; grid-template-columns: 280px minmax(0,1fr); max-width:1180px; margin:0 auto;}
+  @media (max-width: 900px){ .shell{grid-template-columns: 1fr;} }
+  .sidebar{position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; padding:28px 20px 40px; border-right:1px solid var(--border);}
+  @media (max-width: 900px){ .sidebar{position:static; height:auto; border-right:none; border-bottom:1px solid var(--border);} }
+  .brand{display:flex; align-items:baseline; gap:9px; margin-bottom:4px;}
+  .brand-mark{font-family:"IBM Plex Mono"; font-weight:700; font-size:13px; color:var(--accent-strong); background:var(--accent-tint); border:1px solid var(--border-strong); border-radius:4px; padding:2px 6px; letter-spacing:0.02em;}
+  .brand-name{font-family:"IBM Plex Mono"; font-weight:600; font-size:14.5px; letter-spacing:-0.01em;}
+  .tagline{color:var(--text-faint); font-size:12.5px; margin:2px 0 20px;}
+  .progress-wrap{margin-bottom:22px;}
+  .progress-label{display:flex; justify-content:space-between; align-items:baseline; font-family:"IBM Plex Mono"; font-size:11.5px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;}
+  #progress-count{color:var(--accent-strong); font-weight:600;}
+  .progress-track{height:6px; border-radius:3px; background:var(--surface-2); border:1px solid var(--border); overflow:hidden;}
+  .progress-fill{height:100%; width:0%; background:var(--accent); transition:width 0.35s ease;}
+  .nav-part-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-faint); margin:18px 0 8px;}
+  .nav-list{list-style:none; margin:0; padding:0;}
+  .nav-item{margin-bottom:1px;}
+  .nav-link{display:flex; align-items:center; gap:9px; padding:6px 8px; border-radius:6px; color:var(--text-dim); text-decoration:none; font-size:13.5px; line-height:1.35; border:1px solid transparent;}
+  .nav-link:hover{background:var(--surface-2); color:var(--text);}
+  .nav-link.active{background:var(--accent-tint); color:var(--accent-strong); border-color:var(--border-strong);}
+  .nav-check{flex:0 0 auto; width:15px; height:15px; border-radius:4px; border:1.5px solid var(--border-strong); background:var(--surface); display:inline-flex; align-items:center; justify-content:center; cursor:pointer;}
+  .nav-check[data-done="true"]{background:var(--accent); border-color:var(--accent);}
+  .nav-check[data-done="true"]::after{content:"✓"; color:#fff; font-size:10px; font-weight:700;}
+  .nav-num{color:var(--text-faint); font-family:"IBM Plex Mono"; font-size:11.5px; min-width:16px;}
+  main{padding:44px 48px 100px; min-width:0;}
+  @media (max-width: 900px){ main{padding:32px 20px 80px;} }
+  @media (max-width: 560px){ main{padding:24px 16px 64px;} }
+  .doc-header{max-width:660px; margin-bottom:56px;}
+  .eyebrow{font-family:"IBM Plex Mono"; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent-strong); margin-bottom:12px;}
+  h1.doc-title{font-family:"IBM Plex Mono"; font-weight:600; font-size:clamp(28px, 4vw, 38px); line-height:1.15; letter-spacing:-0.01em; margin:0 0 16px; text-wrap:balance;}
+  .doc-lede{color:var(--text-dim); font-size:17px; line-height:1.6; margin:0 0 22px;}
+  .stat-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .stat-chip{font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-dim); border:1px solid var(--border); background:var(--surface); border-radius:20px; padding:5px 12px;}
+  .stat-chip b{color:var(--text); font-weight:600;}
+  .schema-box{max-width:680px; margin:0 0 24px; padding:16px 18px; border:1px solid var(--border-strong); border-radius:8px; background:var(--surface); box-shadow:var(--shadow);}
+  .schema-box-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--accent-strong); margin-bottom:10px;}
+  .schema-table{font-family:"IBM Plex Mono"; font-size:12.5px; margin-bottom:8px;}
+  .schema-table:last-child{margin-bottom:0;}
+  .schema-table .tname{font-weight:700; color:var(--accent-strong);}
+  .schema-table .tcols{color:var(--text-dim);}
+  section.module{max-width:680px; padding-top:52px; margin-top:-8px; border-top:1px solid var(--border);}
+  section.module:first-of-type{border-top:none;}
+  .part-divider{max-width:680px; margin:64px 0 8px; display:flex; align-items:center; gap:14px;}
+  .part-divider .part-tag{font-family:"IBM Plex Mono"; font-size:12px; font-weight:700; color:var(--accent-strong); background:var(--accent-tint); border:1px solid var(--border-strong); border-radius:5px; padding:4px 9px; letter-spacing:0.04em; white-space:nowrap;}
+  .part-divider h2.part-title{font-family:"IBM Plex Mono"; font-size:14px; font-weight:600; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; margin:0;}
+  .part-divider::after{content:""; flex:1; height:1px; background:var(--border);}
+  .part-intro{max-width:680px; color:var(--text-dim); margin:10px 0 0; font-size:15px;}
+  .mod-eyebrow{font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-faint); letter-spacing:0.04em; margin-bottom:8px;}
+  h2.mod-title{font-family:"IBM Plex Mono"; font-weight:600; font-size:24px; letter-spacing:-0.01em; margin:0 0 18px; text-wrap:balance;}
+  h3{font-family:"IBM Plex Mono"; font-weight:600; font-size:15.5px; margin:30px 0 10px; color:var(--text);}
+  p{margin:0 0 16px; max-width:66ch;}
+  ul, ol{margin:0 0 16px; padding-left:22px;}
+  li{margin-bottom:6px; max-width:62ch;}
+  strong{font-weight:600;}
+  .callout{border:1px solid var(--border-strong); background:var(--surface); border-radius:8px; padding:16px 18px; margin:20px 0; box-shadow:var(--shadow); max-width:680px;}
+  .callout-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--accent-strong); margin-bottom:6px;}
+  .callout p:last-child{margin-bottom:0;}
+  .callout.warn{border-color:var(--warn); background:var(--warn-tint);}
+  .callout.warn .callout-label{color:var(--warn);}
+  .exercise{border:1px solid var(--border-strong); background:var(--surface-2); border-radius:8px; padding:16px 18px; margin:26px 0 8px; max-width:680px;}
+  .exercise-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-faint); margin-bottom:8px;}
+  .exercise p{margin:0 0 10px; max-width:none;}
+  .exercise p:last-of-type{margin-bottom:0;}
+  .exercise details{margin-top:4px;}
+  .exercise summary{cursor:pointer; font-family:"IBM Plex Mono"; font-size:12.5px; font-weight:600; color:var(--accent-strong); list-style:none; display:inline-flex; align-items:center; gap:6px;}
+  .exercise summary::-webkit-details-marker{display:none;}
+  .exercise summary::before{content:"▸"; font-size:10px; display:inline-block; transition:transform 0.15s ease;}
+  .exercise details[open] summary::before{transform:rotate(90deg);}
+  .exercise .exercise-solution-body{margin-top:10px; padding-top:10px; border-top:1px dashed var(--border-strong);}
+  .exercise .exercise-solution-body p:last-child{margin-bottom:0;}
+  .exercise .exercise-solution-body pre{margin:10px 0 0; max-width:none;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 22px; font-size:13.5px; background:var(--surface); border:1px solid var(--border); border-radius:8px; overflow:hidden;}
+  .table-scroll{overflow-x:auto; max-width:680px; margin:18px 0 22px;}
+  .table-scroll table{margin:0;}
+  th, td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--border); vertical-align:top;}
+  th{font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-faint); background:var(--surface-2);}
+  tr:last-child td{border-bottom:none;}
+  td.mono, th.mono{font-family:"IBM Plex Mono"; font-size:12.5px;}
+  .tag{display:inline-block; font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; padding:2px 7px; border-radius:4px;}
+  .tag.pass{background:var(--ok-tint); color:var(--ok);}
+  .tag.fail{background:var(--fail-tint); color:var(--fail);}
+  .tag.warn{background:var(--warn-tint); color:var(--warn);}
+  pre{background:var(--code-bg); color:var(--code-text); border:1px solid var(--code-border); border-radius:8px; padding:16px 18px; overflow-x:auto; margin:16px 0 22px; font-size:13px; line-height:1.6; max-width:680px;}
+  code{font-family:"IBM Plex Mono";}
+  p code, li code, td code{background:var(--surface-2); border:1px solid var(--border); border-radius:4px; padding:1px 5px; font-size:0.88em;}
+  .code-label{font-family:"IBM Plex Mono"; font-size:11px; color:var(--text-faint); margin:0 0 6px; letter-spacing:0.02em;}
+  .done-toggle{display:inline-flex; align-items:center; gap:8px; font-family:"IBM Plex Mono"; font-size:12.5px; color:var(--text-dim); border:1px solid var(--border-strong); background:var(--surface); border-radius:20px; padding:6px 14px 6px 10px; cursor:pointer; margin-top:28px; user-select:none;}
+  .done-toggle:hover{border-color:var(--accent);}
+  .done-toggle .box{width:15px; height:15px; border-radius:4px; border:1.5px solid var(--border-strong); display:inline-flex; align-items:center; justify-content:center; background:var(--surface);}
+  .done-toggle[data-done="true"] .box{background:var(--accent); border-color:var(--accent);}
+  .done-toggle[data-done="true"] .box::after{content:"✓"; color:#fff; font-size:10px; font-weight:700;}
+  .done-toggle[data-done="true"]{color:var(--accent-strong); border-color:var(--accent);}
+  .footer-note{max-width:680px; margin-top:70px; padding-top:24px; border-top:1px solid var(--border); color:var(--text-faint); font-size:12.5px;}
+  .footer-note a{color:var(--text-dim);}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} .progress-fill{transition:none;} }
+</style>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Sommaire du cours">
+    <div class="brand">
+      <span class="brand-mark">API</span>
+      <span class="brand-name">API Avancé<br>pour la QA</span>
+    </div>
+    <p class="tagline">GraphQL, gRPC et contrats d'API — édition 2026</p>
+
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/13</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+
+    <div class="nav-part-label">Partie 1 — Au-delà de REST</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m1" href="#m1"><span class="nav-check" data-modcheck="m1"></span><span class="nav-num">01</span> Les limites de REST</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m2" href="#m2"><span class="nav-check" data-modcheck="m2"></span><span class="nav-num">02</span> Panorama des protocoles en 2026</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 2 — GraphQL</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m3" href="#m3"><span class="nav-check" data-modcheck="m3"></span><span class="nav-num">03</span> Les bases : schéma, queries, mutations</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m4" href="#m4"><span class="nav-check" data-modcheck="m4"></span><span class="nav-num">04</span> Interroger une API GraphQL</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m5" href="#m5"><span class="nav-check" data-modcheck="m5"></span><span class="nav-num">05</span> Tester une API GraphQL</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m6" href="#m6"><span class="nav-check" data-modcheck="m6"></span><span class="nav-num">06</span> Cas limites pour un testeur</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 3 — gRPC</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m7" href="#m7"><span class="nav-check" data-modcheck="m7"></span><span class="nav-num">07</span> Les bases : protobuf et HTTP/2</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m8" href="#m8"><span class="nav-check" data-modcheck="m8"></span><span class="nav-num">08</span> Outils pour tester une API gRPC</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m9" href="#m9"><span class="nav-check" data-modcheck="m9"></span><span class="nav-num">09</span> Écrire un test gRPC en Python</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 4 — Contrats, mocks, sécurité</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m10" href="#m10"><span class="nav-check" data-modcheck="m10"></span><span class="nav-num">10</span> REST Assured et son équivalent Python</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m11" href="#m11"><span class="nav-check" data-modcheck="m11"></span><span class="nav-num">11</span> Mocker une API</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m12" href="#m12"><span class="nav-check" data-modcheck="m12"></span><span class="nav-num">12</span> Tester l'authentification OAuth2/JWT</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 5 — Se positionner</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m13" href="#m13"><span class="nav-check" data-modcheck="m13"></span><span class="nav-num">13</span> L'API testing sur le marché en 2026</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <header class="doc-header">
+      <div class="eyebrow">Cours autoportant · Compagnon des cours QA, SQL, GitHub, ISTQB et Agile</div>
+      <h1 class="doc-title">API Avancé pour la Qualité Logicielle</h1>
+      <p class="doc-lede">Le cours QA t'a donné les bases du test d'API REST avec Postman et Playwright. Celui-ci va plus loin : GraphQL et gRPC, deux protocoles que tu croiseras de plus en plus souvent dès que tu travailleras sur des architectures en microservices, plus le test de contrat, le mocking, et l'authentification — les sujets qui distinguent un testeur API confirmé d'un testeur qui sait juste envoyer une requête GET.</p>
+      <div class="stat-row">
+        <span class="stat-chip"><b>13</b> modules</span>
+        <span class="stat-chip"><b>5</b> parties : REST → GraphQL → gRPC → contrats → marché</span>
+        <span class="stat-chip"><b>13</b> exercices corrigés</span>
+        <span class="stat-chip">Exemples en <b>Python</b></span>
+      </div>
+
+      <div class="schema-box">
+        <div class="schema-box-label">Le service utilisé dans tout le cours</div>
+        <div class="schema-table"><span class="tname">NovaCart API</span> <span class="tcols">— la même boutique que dans le cours QA, exposée sous trois formes</span></div>
+        <div class="schema-table"><span class="tname">/rest/v1/...</span> <span class="tcols">l'API REST déjà vue dans le cours QA</span></div>
+        <div class="schema-table"><span class="tname">/graphql</span> <span class="tcols">un endpoint unique, requêtes flexibles (parties 2)</span></div>
+        <div class="schema-table"><span class="tname">catalogue.NovaCartService</span> <span class="tcols">un service gRPC interne, entre microservices (partie 3)</span></div>
+      </div>
+    </header>
+
+    <!-- ============ PARTIE 1 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 1</span><h2 class="part-title">Au-delà de REST</h2></div>
+    <p class="part-intro">Deux modules pour comprendre pourquoi REST, malgré sa domination, ne suffit plus partout — et où GraphQL et gRPC prennent le relais.</p>
+
+    <section class="module" id="m1">
+      <div class="mod-eyebrow">Partie 1 · Module 01</div>
+      <h2 class="mod-title">Les limites de REST</h2>
+      <p>REST reste, de loin, le style d'API le plus répandu — et rien dans ce cours ne remet ça en cause. Mais deux limites concrètes ont poussé certaines équipes vers d'autres approches, et un testeur doit savoir les reconnaître.</p>
+
+      <h3>Over-fetching et under-fetching</h3>
+      <p>Sur NovaCart, l'endpoint REST <code>GET /articles/42</code> renvoie <strong>tout</strong> l'objet article — nom, prix, stock, description, dimensions — même si l'écran mobile n'a besoin que du nom et du prix. C'est de l'<strong>over-fetching</strong> : plus de données transférées que nécessaire. À l'inverse, afficher une commande avec le nom de chaque article demande souvent plusieurs appels successifs (la commande, puis chaque article un par un) — c'est de l'<strong>under-fetching</strong>, qui multiplie les allers-retours réseau.</p>
+
+      <h3>Le problème du contrat entre microservices</h3>
+      <p>Quand des dizaines de microservices communiquent entre eux en interne (pas exposés aux utilisateurs finaux), la flexibilité de REST devient parfois un défaut : sans schéma strict, une légère divergence entre ce qu'un service envoie et ce qu'un autre attend passe facilement inaperçue jusqu'en production. C'est exactement le problème que gRPC (partie 3) a été conçu pour résoudre.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>La page de liste des commandes NovaCart n'affiche que le numéro de commande et son statut, mais l'API REST actuelle renvoie l'objet commande complet (client, articles, adresses, montants). De quel problème s'agit-il, et quelle famille d'API le résout structurellement ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>C'est de l'<strong>over-fetching</strong> — bien plus de données que nécessaire sont transférées pour cet écran. GraphQL (partie 2) résout structurellement ce problème : le client précise exactement les champs qu'il veut, rien de plus.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m1"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m2">
+      <div class="mod-eyebrow">Partie 1 · Module 02</div>
+      <h2 class="mod-title">Panorama des protocoles en 2026</h2>
+      <p>Les trois familles coexistent — le choix dépend du contexte, pas d'une mode. En 2026, REST reste dominant pour les API publiques, GraphQL s'est stabilisé sur les applications avec des interfaces riches et changeantes (mobile, dashboards), et gRPC s'est généralisé dans les communications internes entre microservices, notamment quand la performance et la validation stricte comptent.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th></th><th>REST</th><th>GraphQL</th><th>gRPC</th></tr>
+        <tr><td><strong>Format</strong></td><td>JSON, texte lisible</td><td>JSON, texte lisible</td><td>Protocol Buffers, binaire</td></tr>
+        <tr><td><strong>Endpoints</strong></td><td>Un par ressource</td><td>Un seul, requêtes flexibles</td><td>Des méthodes de service, typées</td></tr>
+        <tr><td><strong>Cas d'usage typique</strong></td><td>API publique, simplicité</td><td>Apps avec besoins d'affichage variés (mobile/web)</td><td>Communication interne microservices, performance</td></tr>
+        <tr><td><strong>Lisible dans un navigateur ?</strong></td><td>Oui</td><td>Oui (via un client dédié)</td><td>Non, nécessite un outil dédié</td></tr>
+      </table></div>
+
+      <p>Pour toi en tant que testeur, la bonne nouvelle : les principes de fond du test d'API — vérifier les cas nominaux, les cas d'erreur, les valeurs limites, l'authentification — restent identiques d'un protocole à l'autre. Ce qui change, ce sont les outils et la façon de formuler la requête, pas la logique de test elle-même.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Une équipe construit une application mobile NovaCart où chaque écran affiche des combinaisons différentes de données (parfois juste le prix, parfois toute la fiche produit). Quel protocole conviendrait le mieux, et pourquoi ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>GraphQL</strong> — sa capacité à laisser chaque écran demander exactement les champs dont il a besoin correspond précisément à ce besoin de combinaisons variées, sans multiplier les endpoints REST spécifiques à chaque écran.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m2"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 2 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 2</span><h2 class="part-title">GraphQL</h2></div>
+    <p class="part-intro">Quatre modules pour comprendre et tester une API GraphQL — le protocole le plus susceptible d'apparaître rapidement dans une offre d'emploi QA en 2026.</p>
+
+    <section class="module" id="m3">
+      <div class="mod-eyebrow">Partie 2 · Module 03</div>
+      <h2 class="mod-title">Les bases : schéma, queries, mutations</h2>
+      <p>Une API GraphQL expose un <strong>schéma</strong> unique et fortement typé, qui décrit précisément toutes les données disponibles et leurs relations — un vrai contrat, contrairement à une API REST où la structure exacte des réponses n'est documentée qu'à part (Swagger/OpenAPI, souvent).</p>
+
+      <p class="code-label">Extrait du schéma NovaCart (langage SDL de GraphQL)</p>
+      <pre class="mono">type Article {
+  id: ID!
+  nom: String!
+  prix: Float!
+  stock: Int!
+}
+
+type Query {
+  article(id: ID!): Article
+  articles(stockMin: Int): [Article!]!
+}
+
+type Mutation {
+  ajouterAuPanier(articleId: ID!, quantite: Int!): Panier!
+}</pre>
+      <p>Le <code>!</code> signifie "non-nullable" — le schéma garantit qu'un champ marqué ainsi ne sera jamais absent. Deux opérations principales : une <strong>query</strong> lit des données (l'équivalent d'un GET), une <strong>mutation</strong> en modifie (l'équivalent d'un POST/PUT/DELETE). Une troisième existe, la <strong>subscription</strong>, pour recevoir des mises à jour en temps réel — moins fréquente, on ne s'y attarde pas ici.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Dans le schéma ci-dessus, la mutation <code>ajouterAuPanier</code> peut-elle être appelée sans préciser de quantité ? Justifie à partir du schéma.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Non.</strong> <code>quantite: Int!</code> — le <code>!</code> rend ce paramètre obligatoire. Une requête qui omet <code>quantite</code> sera rejetée par le serveur GraphQL avant même d'atteindre la logique métier, avec une erreur de validation de schéma.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m3"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m4">
+      <div class="mod-eyebrow">Partie 2 · Module 04</div>
+      <h2 class="mod-title">Interroger une API GraphQL</h2>
+      <p>Toutes les requêtes GraphQL passent par un <strong>seul endpoint</strong> (souvent <code>/graphql</code>), en <code>POST</code>, quel que soit le type d'opération — une différence fondamentale avec REST où chaque ressource a sa propre URL.</p>
+
+      <p class="code-label">Une query qui ne demande que ce dont on a besoin</p>
+      <pre class="mono">query {
+  article(id: "42") {
+    nom
+    prix
+  }
+}</pre>
+      <p class="code-label">Envoyée en Python avec requests</p>
+      <pre>import requests
+
+query = """
+query {
+  article(id: "42") {
+    nom
+    prix
+  }
+}
+"""
+
+response = requests.post(
+    "https://api.novacart.fr/graphql",
+    json={"query": query}
+)
+data = response.json()["data"]["article"]
+assert data["nom"] == "Casque audio"</pre>
+
+      <p>Remarque la structure de la réponse : les données utiles sont toujours nichées sous une clé <code>"data"</code>, elle-même sous une clé correspondant au nom du champ demandé (<code>article</code>) — une convention fixe, quel que soit le schéma.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris la query GraphQL qui récupère le nom et le stock de tous les articles ayant un stock supérieur à 10 (en te basant sur le schéma du module 3).</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre class="mono">query {
+  articles(stockMin: 11) {
+    nom
+    stock
+  }
+}</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m4"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m5">
+      <div class="mod-eyebrow">Partie 2 · Module 05</div>
+      <h2 class="mod-title">Tester une API GraphQL</h2>
+      <p>Le piège n°1 pour un testeur habitué à REST : en GraphQL, le code de statut HTTP est <strong>presque toujours 200</strong>, même en cas d'erreur métier ou de validation. Vérifier uniquement <code>response.status_code == 200</code> ne prouve donc absolument rien — il faut inspecter le corps de la réponse.</p>
+
+      <p class="code-label">Une requête invalide reste en HTTP 200</p>
+      <pre class="mono">{
+  "errors": [
+    {
+      "message": "Article introuvable",
+      "path": ["article"]
+    }
+  ],
+  "data": {
+    "article": null
+  }
+}</pre>
+      <pre>response = requests.post(url, json={"query": query})
+assert response.status_code == 200          # presque toujours vrai, n'apporte rien
+body = response.json()
+assert "errors" not in body, body.get("errors")   # le vrai test
+assert body["data"]["article"] is not None</pre>
+
+      <h3>L'introspection</h3>
+      <p>GraphQL permet d'interroger le schéma lui-même via une requête spéciale (<code>__schema</code>) — très utile pour un testeur qui découvre une API : au lieu de chercher une documentation externe parfois obsolète, on demande directement à l'API de décrire tous ses types et champs disponibles. Des outils comme Postman ou GraphiQL exploitent cette introspection pour offrir de l'auto-complétion.</p>
+
+      <div class="callout warn">
+        <div class="callout-label">Point de vigilance sécurité</div>
+        <p>L'introspection, pratique en développement, expose la structure complète de l'API — y compris des champs qui ne devraient pas être visibles publiquement. En production, elle est généralement désactivée ; vérifier qu'elle l'est bien fait partie d'une checklist de sécurité API basique.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Un test vérifie uniquement <code>assert response.status_code == 200</code> sur un appel GraphQL. Explique pourquoi ce test peut passer au vert alors que la requête a en réalité échoué, et corrige-le.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>En GraphQL, une erreur métier ou de validation renvoie généralement quand même un HTTP 200, avec le détail de l'erreur dans une clé <code>"errors"</code> du corps JSON. Le test doit inspecter ce corps : <code>assert "errors" not in response.json()</code>, en plus (ou à la place) de la vérification du code HTTP.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m5"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m6">
+      <div class="mod-eyebrow">Partie 2 · Module 06</div>
+      <h2 class="mod-title">Cas limites pour un testeur</h2>
+      <p>Trois pièges spécifiques à GraphQL qu'un testeur expérimenté sait chercher, au-delà du fonctionnement nominal.</p>
+
+      <h3>Le problème N+1</h3>
+      <p>Une query qui demande une liste de commandes, et pour chacune le nom du client, peut déclencher — côté serveur, invisible pour toi en tant que consommateur de l'API — une requête base de données par commande en plus de la requête initiale. Sur 100 commandes, ça fait 101 requêtes SQL au lieu d'une jointure bien pensée. En tant que testeur, ce n'est pas à toi de corriger ce problème technique, mais un test de performance ciblé sur une requête GraphQL imbriquée (nested query) permet souvent de le détecter avant qu'il ne devienne critique en production.</p>
+
+      <h3>Les autorisations au niveau du champ</h3>
+      <p>Contrairement à REST où un endpoint entier est protégé ou non, GraphQL permet une autorisation beaucoup plus fine : un utilisateur peut avoir le droit de voir <code>article.nom</code> mais pas <code>article.margeInterne</code>, dans la même requête. Un testeur doit donc vérifier les autorisations champ par champ, pas seulement au niveau de l'opération globale — une requête utilisateur standard qui demanderait un champ réservé aux admins doit échouer proprement sur ce champ précis, sans faire échouer toute la requête si d'autres champs demandés sont légitimes.</p>
+
+      <h3>La profondeur des requêtes (query depth)</h3>
+      <p>Rien n'empêche, en théorie, une query GraphQL malicieuse d'imbriquer des relations sur une profondeur énorme (commandes → client → autres commandes → autres clients → ...) pour surcharger le serveur. Une bonne API limite cette profondeur — un test de sécurité API consiste justement à vérifier qu'une requête excessivement profonde est bien rejetée plutôt qu'exécutée.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Un utilisateur standard envoie une query demandant à la fois <code>article.nom</code> (public) et <code>article.margeInterne</code> (réservé aux admins). Quel comportement attends-tu d'une API GraphQL bien conçue ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>La réponse doit contenir <code>nom</code> normalement dans <code>data</code>, et une entrée dans <code>errors</code> spécifique au champ <code>margeInterne</code> (accès refusé), sans faire échouer toute la requête. C'est l'autorisation au niveau du champ, une spécificité à tester en GraphQL qui n'a pas d'équivalent direct en REST.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m6"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 3 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 3</span><h2 class="part-title">gRPC</h2></div>
+    <p class="part-intro">Trois modules pour un protocole moins visible côté utilisateur final, mais omniprésent dans les architectures en microservices — et donc régulièrement présent en entretien technique dès qu'une entreprise a une architecture un peu avancée.</p>
+
+    <section class="module" id="m7">
+      <div class="mod-eyebrow">Partie 3 · Module 07</div>
+      <h2 class="mod-title">Les bases : protobuf et HTTP/2</h2>
+      <p><strong>gRPC</strong> (Google Remote Procedure Call) définit ses contrats dans des fichiers <code>.proto</code>, en <strong>Protocol Buffers</strong> — un format binaire compact, plus rapide à transmettre et à parser qu'un JSON texte, mais illisible sans outil dédié.</p>
+
+      <p class="code-label">Extrait d'un fichier catalogue.proto pour NovaCart</p>
+      <pre class="mono">service NovaCartService {
+  rpc ObtenirArticle (ArticleRequest) returns (Article);
+  rpc ListerArticles (ListeRequest) returns (stream Article);
+}
+
+message ArticleRequest {
+  string id = 1;
+}
+
+message Article {
+  string id = 1;
+  string nom = 2;
+  float prix = 3;
+  int32 stock = 4;
+}</pre>
+
+      <p>À partir de ce fichier <code>.proto</code>, un outil (<code>protoc</code>) génère automatiquement le code client et serveur dans le langage voulu (Python inclus) — c'est ce contrat strict et généré qui élimine la classe entière de bugs "le client envoie un champ que le serveur n'attend pas".</p>
+
+      <h3>Quatre types d'appels</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Type</th><th>Principe</th></tr>
+        <tr><td><strong>Unary</strong></td><td>Une requête, une réponse — l'équivalent classique d'un appel REST</td></tr>
+        <tr><td><strong>Server streaming</strong></td><td>Une requête, un flux de réponses successives</td></tr>
+        <tr><td><strong>Client streaming</strong></td><td>Un flux de requêtes, une réponse finale</td></tr>
+        <tr><td><strong>Bidirectionnel</strong></td><td>Flux dans les deux sens, en parallèle</td></tr>
+      </table></div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Dans le fichier <code>.proto</code> ci-dessus, quel appel serait le plus adapté pour lister progressivement 10 000 articles sans tout charger en mémoire d'un coup ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><code>ListerArticles</code>, déjà défini avec <code>stream Article</code> — un <strong>server streaming</strong> : une seule requête envoyée, puis les articles arrivent progressivement au fil de l'eau plutôt que dans une seule réponse massive.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m7"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m8">
+      <div class="mod-eyebrow">Partie 3 · Module 08</div>
+      <h2 class="mod-title">Outils pour tester une API gRPC</h2>
+      <p>Un navigateur ou un simple <code>curl</code> ne suffisent pas pour du gRPC — le format binaire et HTTP/2 demandent des outils dédiés.</p>
+      <div class="table-scroll"><table>
+        <tr><th>Outil</th><th>Usage</th></tr>
+        <tr><td><strong>grpcurl</strong></td><td>L'équivalent de <code>curl</code> pour gRPC, en ligne de commande — le plus simple pour explorer rapidement un service</td></tr>
+        <tr><td><strong>Postman</strong></td><td>Supporte gRPC nativement depuis plusieurs années — pratique si tu es déjà à l'aise avec son interface pour REST</td></tr>
+        <tr><td><strong>grpcio (Python)</strong></td><td>La librairie officielle pour écrire des clients/tests gRPC directement en Python</td></tr>
+      </table></div>
+
+      <p class="code-label">Explorer un service avec grpcurl</p>
+      <pre>grpcurl -plaintext localhost:50051 list
+grpcurl -plaintext -d '{"id": "42"}' \
+  localhost:50051 catalogue.NovaCartService/ObtenirArticle</pre>
+      <p>Sans réflexion serveur activée (<code>grpc reflection</code>), <code>grpcurl</code> a besoin du fichier <code>.proto</code> en local pour connaître la structure du service — un détail à vérifier avant de se lancer.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Pourquoi <code>curl</code> seul ne peut-il pas tester efficacement un service gRPC, contrairement à une API REST ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>gRPC encode ses messages en Protocol Buffers, un format binaire, sur HTTP/2 — <code>curl</code> est conçu pour du texte lisible sur HTTP/1.1 classique. Il faut un outil qui comprend le format protobuf et sait sérialiser/désérialiser les messages selon le contrat <code>.proto</code>, comme <code>grpcurl</code>.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m8"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m9">
+      <div class="mod-eyebrow">Partie 3 · Module 09</div>
+      <h2 class="mod-title">Écrire un test gRPC en Python</h2>
+      <p>Une fois le code généré à partir du fichier <code>.proto</code> (via <code>protoc</code>), écrire un test gRPC en Python ressemble beaucoup à un test d'API classique — la différence se joue surtout dans la préparation du canal de communication.</p>
+
+      <pre>import grpc
+import pytest
+import catalogue_pb2
+import catalogue_pb2_grpc
+
+@pytest.fixture
+def stub():
+    channel = grpc.insecure_channel("localhost:50051")
+    return catalogue_pb2_grpc.NovaCartServiceStub(channel)
+
+def test_obtenir_article_existant(stub):
+    requete = catalogue_pb2.ArticleRequest(id="42")
+    reponse = stub.ObtenirArticle(requete)
+    assert reponse.nom == "Casque audio"
+    assert reponse.prix > 0
+
+def test_article_introuvable_leve_une_erreur(stub):
+    requete = catalogue_pb2.ArticleRequest(id="id-inexistant")
+    with pytest.raises(grpc.RpcError) as exc_info:
+        stub.ObtenirArticle(requete)
+    assert exc_info.value.code() == grpc.StatusCode.NOT_FOUND</pre>
+
+      <p>Remarque la gestion des erreurs : gRPC a son propre jeu de codes de statut (<code>NOT_FOUND</code>, <code>INVALID_ARGUMENT</code>, <code>UNAUTHENTICATED</code>...), l'équivalent des codes HTTP en REST mais spécifique au protocole — à connaître pour écrire des assertions précises plutôt que de se contenter d'attraper une exception générique.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris un test qui vérifie qu'appeler <code>ObtenirArticle</code> sans fournir d'<code>id</code> (chaîne vide) lève une erreur gRPC de type <code>INVALID_ARGUMENT</code>.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>def test_id_vide_leve_invalid_argument(stub):
+    requete = catalogue_pb2.ArticleRequest(id="")
+    with pytest.raises(grpc.RpcError) as exc_info:
+        stub.ObtenirArticle(requete)
+    assert exc_info.value.code() == grpc.StatusCode.INVALID_ARGUMENT</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m9"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 4 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 4</span><h2 class="part-title">Contrats, mocks, sécurité</h2></div>
+    <p class="part-intro">Trois modules transversaux, valables quel que soit le protocole — ce qui distingue un testeur API rigoureux d'un testeur qui teste "au cas par cas".</p>
+
+    <section class="module" id="m10">
+      <div class="mod-eyebrow">Partie 4 · Module 10</div>
+      <h2 class="mod-title">REST Assured et son équivalent Python</h2>
+      <p><strong>REST Assured</strong> est une librairie <strong>Java</strong> extrêmement répandue pour tester des API REST avec une syntaxe fluide et lisible — tu la verras citée dans énormément d'offres d'emploi QA, même si tu travailles en Python. Il est utile de savoir la reconnaître, sans avoir besoin de l'apprendre en profondeur.</p>
+
+      <p class="code-label">À quoi ressemble REST Assured (Java) — pour la reconnaître, pas pour l'écrire</p>
+      <pre class="mono">given()
+    .header("Content-Type", "application/json")
+.when()
+    .get("/articles/42")
+.then()
+    .statusCode(200)
+    .body("nom", equalTo("Casque audio"));</pre>
+
+      <p>L'équivalent en Python, avec <code>requests</code> et <code>pytest</code>, exprime exactement la même logique — donner/quand/vérifier — avec une syntaxe différente :</p>
+      <pre>response = requests.get(f"{BASE_URL}/articles/42")
+assert response.status_code == 200
+assert response.json()["nom"] == "Casque audio"</pre>
+
+      <h3>Le test de contrat (contract testing)</h3>
+      <p>Au-delà de vérifier une réponse précise, le test de contrat vérifie que la <strong>structure</strong> d'une réponse respecte un schéma défini — utile pour détecter automatiquement qu'un champ a disparu ou changé de type, même sans connaître à l'avance la valeur exacte attendue. En Python, la librairie <strong>schemathesis</strong> génère automatiquement des tests à partir d'une spécification OpenAPI/Swagger existante :</p>
+      <pre>import schemathesis
+
+schema = schemathesis.from_uri("https://api.novacart.fr/openapi.json")
+
+@schema.parametrize()
+def test_respecte_le_contrat(case):
+    case.call_and_validate()</pre>
+      <p>Cette seule fonction génère et exécute automatiquement des dizaines de cas de test, dérivés directement de la spécification OpenAPI — un gain de temps considérable comparé à écrire chaque cas à la main, particulièrement adapté pour vérifier qu'une API respecte son propre contrat après chaque déploiement.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Une offre d'emploi mentionne "expérience avec REST Assured" mais tu ne connais que Python. Comment présenter honnêtement cette compétence en entretien ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Expliquer que la logique de test (given/when/then, vérification du statut et du corps de la réponse) est la même quel que soit l'outil, que tu la pratiques en Python avec <code>requests</code>/<code>pytest</code>, et que la syntaxe Java de REST Assured se lirait sans difficulté majeure — sans prétendre l'avoir pratiquée si ce n'est pas le cas. C'est exactement l'esprit du module 27 du cours QA : ne jamais bluffer sur une compétence non maîtrisée.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m10"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m11">
+      <div class="mod-eyebrow">Partie 4 · Module 11</div>
+      <h2 class="mod-title">Mocker une API</h2>
+      <p>Un <strong>mock</strong> d'API simule les réponses d'un vrai service, sans l'appeler réellement — utile quand le vrai service n'existe pas encore, est instable, coûte de l'argent à chaque appel (une API de paiement tierce, par exemple), ou quand on veut forcer un scénario d'erreur précis, difficile à provoquer sur le vrai système.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Outil</th><th>Principe</th></tr>
+        <tr><td><strong>WireMock</strong></td><td>Serveur de mock configurable par règles (stubs), très utilisé en Java mais utilisable depuis n'importe quel langage via HTTP</td></tr>
+        <tr><td><strong>Prism</strong></td><td>Génère un serveur de mock directement à partir d'une spécification OpenAPI existante</td></tr>
+        <tr><td><strong>responses / pytest-httpserver (Python)</strong></td><td>Mock léger directement dans le code de test Python, sans serveur externe à lancer</td></tr>
+      </table></div>
+
+      <p class="code-label">Mocker l'API de paiement tierce avec la librairie responses</p>
+      <pre>import responses
+import requests
+
+@responses.activate
+def test_paiement_refuse_est_gere_correctement():
+    responses.add(
+        responses.POST,
+        "https://paiement-externe.fr/api/charge",
+        json={"status": "refused", "reason": "carte expirée"},
+        status=402,
+    )
+    reponse = requests.post("https://paiement-externe.fr/api/charge", json={})
+    assert reponse.status_code == 402
+    assert reponse.json()["reason"] == "carte expirée"</pre>
+      <p>Ce test vérifie que le code NovaCart gère bien un refus de paiement — sans jamais appeler la vraie API tierce, sans dépendre de sa disponibilité, et de façon totalement reproductible à chaque exécution.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Pourquoi est-il risqué de tester le cas "l'API de paiement externe est indisponible" uniquement contre le vrai service tiers, plutôt qu'avec un mock ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>On ne peut généralement pas provoquer une vraie panne d'un service tiers à volonté — le test serait au mieux non reproductible, au pire impossible à exécuter. Un mock permet de simuler cette panne de façon déterministe, à chaque exécution, sans dépendre de la disponibilité réelle du tiers ni risquer un vrai paiement de test.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m11"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m12">
+      <div class="mod-eyebrow">Partie 4 · Module 12</div>
+      <h2 class="mod-title">Tester l'authentification OAuth2/JWT</h2>
+      <p>La quasi-totalité des API professionnelles protègent leurs endpoints avec un jeton — un testeur doit savoir vérifier non seulement le cas nominal (jeton valide), mais surtout les cas d'échec, souvent négligés en développement.</p>
+
+      <h3>JWT, en bref</h3>
+      <p>Un <strong>JWT</strong> (JSON Web Token) est une chaîne encodée en trois parties (en-tête, données, signature) qui prouve l'identité et les droits d'un utilisateur, sans que le serveur ait besoin de vérifier une session en base à chaque requête — la signature suffit à garantir que le jeton n'a pas été altéré.</p>
+
+      <p class="code-label">Cas à tester systématiquement sur un endpoint protégé</p>
+      <div class="table-scroll"><table>
+        <tr><th>Cas</th><th>Résultat attendu</th></tr>
+        <tr><td>Aucun jeton fourni</td><td>401 Unauthorized</td></tr>
+        <tr><td>Jeton expiré</td><td>401 Unauthorized, message explicite</td></tr>
+        <tr><td>Jeton malformé (signature invalide)</td><td>401 Unauthorized</td></tr>
+        <tr><td>Jeton valide, mais droits insuffisants (scope manquant)</td><td>403 Forbidden</td></tr>
+        <tr><td>Jeton valide, droits suffisants</td><td>200 OK, accès accordé</td></tr>
+      </table></div>
+
+      <pre>def test_endpoint_protege_sans_jeton_renvoie_401():
+    response = requests.get(f"{BASE_URL}/commandes/mine")
+    assert response.status_code == 401
+
+def test_endpoint_protege_avec_jeton_expire_renvoie_401(jeton_expire):
+    headers = {"Authorization": f"Bearer {jeton_expire}"}
+    response = requests.get(f"{BASE_URL}/commandes/mine", headers=headers)
+    assert response.status_code == 401</pre>
+
+      <div class="callout warn">
+        <div class="callout-label">Distinction à ne pas confondre</div>
+        <p><strong>401 Unauthorized</strong> signifie "je ne sais pas qui tu es" (pas de jeton, ou jeton invalide) ; <strong>403 Forbidden</strong> signifie "je sais qui tu es, mais tu n'as pas le droit" (jeton valide, mais scope ou rôle insuffisant). Une API qui renvoie 401 au lieu de 403 (ou l'inverse) a un bug d'autorisation qu'un testeur doit repérer et signaler précisément.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Un endpoint <code>DELETE /articles/42</code> réservé aux administrateurs renvoie 401 quand un utilisateur normal, correctement authentifié, tente d'y accéder. Ce comportement est-il correct ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Non.</strong> L'utilisateur est authentifié (le serveur sait qui il est) mais n'a pas les droits suffisants — la réponse correcte est <strong>403 Forbidden</strong>, pas 401. Renvoyer 401 ici est un bug d'autorisation à signaler.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m12"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 5 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 5</span><h2 class="part-title">Se positionner</h2></div>
+    <p class="part-intro">Un dernier module pour situer ces compétences sur le marché du travail 2026.</p>
+
+    <section class="module" id="m13">
+      <div class="mod-eyebrow">Partie 5 · Module 13</div>
+      <h2 class="mod-title">L'API testing sur le marché en 2026</h2>
+      <p>Le test d'API REST (Postman, requests) reste, de très loin, la compétence attendue en priorité — c'est ce que couvre déjà le cours QA, et c'est suffisant pour la grande majorité des postes juniors. GraphQL et gRPC, en revanche, fonctionnent comme des <strong>signaux de différenciation</strong> : peu de candidats juniors les mentionnent, ce qui les rend disproportionnellement remarqués sur un CV, même sans expérience professionnelle dessus.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Niveau attendu d'un junior</th><th>Ce qui te distingue</th></tr>
+        <tr><td>Tester une API REST avec Postman</td><td>Savoir expliquer la différence de test entre REST et GraphQL (statut HTTP toujours 200)</td></tr>
+        <tr><td>Vérifier un code de statut HTTP</td><td>Distinguer précisément 401 et 403, et savoir pourquoi ça compte</td></tr>
+        <tr><td>Avoir déjà entendu "microservices"</td><td>Savoir ce qu'est gRPC et pourquoi on l'utilise en interne plutôt que REST</td></tr>
+        <tr><td>Écrire un test d'API au cas par cas</td><td>Connaître le principe du test de contrat (schemathesis, OpenAPI) pour générer des tests automatiquement</td></tr>
+      </table></div>
+
+      <div class="callout">
+        <div class="callout-label">Pour l'entretien</div>
+        <p>Tu n'as pas besoin d'avoir travaillé en entreprise sur GraphQL ou gRPC pour en parler intelligemment : explique que tu connais les principes et les pièges spécifiques à chaque protocole (statut HTTP GraphQL, contrat strict gRPC), que tu saurais rapidement devenir opérationnel dessus vu la proximité avec ce que tu pratiques déjà en REST — une réponse honnête et solide, dans l'esprit du module 27 du cours QA.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>En entretien, on te demande : "Avez-vous déjà testé du GraphQL ?" Tu ne l'as pratiqué que dans ce cours, jamais en entreprise. Prépare une réponse honnête et valorisante.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Un exemple de structure : "Pas encore en contexte professionnel, mais je me suis formé spécifiquement dessus parce que je savais que ça se généralisait. Je connais les différences clés avec REST — notamment le fait qu'une erreur métier reste souvent en HTTP 200, ce qui change la façon d'écrire les assertions — et je serais rapidement opérationnel vu que la logique de test reste la même." Cette réponse montre une vraie compréhension, sans surjouer une expérience qui n'existe pas.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m13"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <div class="footer-note">
+      <p>Cours rédigé comme compagnon des cours "Qualité Logicielle Automatisée", "SQL pour la Qualité Logicielle", "GitHub pour la Qualité Logicielle", "ISTQB Foundation Level" et "Agile & Scrum pour la Qualité Logicielle" — même méthode, même fil rouge NovaCart. Le suivi de progression (cases à cocher) est enregistré uniquement dans ce navigateur.</p>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'api-course-progress-v1';
+  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13'];
+
+  function loadDone(){
+    try{ var raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : {}; }catch(e){ return {}; }
+  }
+  function saveDone(done){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(done)); }catch(e){} }
+  var done = loadDone();
+
+  function render(){
+    var count = 0;
+    ids.forEach(function(id){
+      var isDone = !!done[id];
+      if(isDone) count++;
+      var navCheck = document.querySelector('[data-modcheck="'+id+'"]');
+      if(navCheck) navCheck.setAttribute('data-done', isDone ? 'true' : 'false');
+      var toggle = document.querySelector('[data-toggle="'+id+'"]');
+      if(toggle) toggle.setAttribute('data-done', isDone ? 'true' : 'false');
+    });
+    var countEl = document.getElementById('progress-count');
+    var fillEl = document.getElementById('progress-fill');
+    if(countEl) countEl.textContent = String(count);
+    if(fillEl) fillEl.style.width = (count / ids.length * 100) + '%';
+  }
+  function toggle(id){ done[id] = !done[id]; saveDone(done); render(); }
+
+  ids.forEach(function(id){
+    var navCheck = document.querySelector('[data-modcheck="'+id+'"]');
+    if(navCheck){ navCheck.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); toggle(id); }); }
+    var btn = document.querySelector('[data-toggle="'+id+'"]');
+    if(btn){ btn.addEventListener('click', function(){ toggle(id); }); }
+  });
+  render();
+
+  var sections = ids.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+  var navLinks = {};
+  ids.forEach(function(id){ var l = document.querySelector('.nav-link[data-id="'+id+'"]'); if(l) navLinks[id] = l; });
+
+  if('IntersectionObserver' in window){
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var id = entry.target.id;
+        var link = navLinks[id];
+        if(!link) return;
+        if(entry.isIntersecting){
+          Object.keys(navLinks).forEach(function(k){ navLinks[k].classList.remove('active'); });
+          link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+    sections.forEach(function(s){ observer.observe(s); });
+  }
+})();
+</script>

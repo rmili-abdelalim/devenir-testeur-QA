@@ -1,0 +1,631 @@
+<title>Agile & Scrum pour la Qualité Logicielle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F7FA; --surface:#FFFFFF; --surface-2:#EBF0F5; --border:#D9E1E9; --border-strong:#B9C6D3;
+    --text:#16202B; --text-dim:#4C5A68; --text-faint:#7C8B99;
+    --accent:#BE185D; --accent-strong:#9D174D; --accent-tint:#FBE8F0;
+    --fail:#B8433A; --fail-tint:#FBEAE7; --warn:#93650F; --warn-tint:#FBF0DC; --ok:#1A7F37; --ok-tint:#E4F5E9;
+    --code-bg:#101A24; --code-text:#DCE7EE; --code-border:#223247;
+    --shadow: 0 1px 2px rgba(16,24,32,0.04), 0 8px 24px -12px rgba(16,24,32,0.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0E1520; --surface:#151F2B; --surface-2:#1A2635; --border:#293A4D; --border-strong:#3C5066;
+      --text:#E9EEF3; --text-dim:#A6B4C2; --text-faint:#7C8B99;
+      --accent:#F472A0; --accent-strong:#F9A8CB; --accent-tint:#331A26;
+      --fail:#E3766B; --fail-tint:#33201D; --warn:#E3B564; --warn-tint:#332813; --ok:#57C778; --ok-tint:#152A1D;
+      --code-bg:#0A1017; --code-text:#D8E5EE; --code-border:#1F2E3E;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0E1520; --surface:#151F2B; --surface-2:#1A2635; --border:#293A4D; --border-strong:#3C5066;
+    --text:#E9EEF3; --text-dim:#A6B4C2; --text-faint:#7C8B99;
+    --accent:#F472A0; --accent-strong:#F9A8CB; --accent-tint:#331A26;
+    --fail:#E3766B; --fail-tint:#33201D; --warn:#E3B564; --warn-tint:#332813; --ok:#57C778; --ok-tint:#152A1D;
+    --code-bg:#0A1017; --code-text:#D8E5EE; --code-border:#1F2E3E;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--text); font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; font-size:16.5px; line-height:1.65; -webkit-font-smoothing:antialiased;}
+  .mono{font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;}
+  a{color:var(--accent-strong);}
+  ::selection{background:var(--accent-tint); color:var(--text);}
+  .shell{display:grid; grid-template-columns: 280px minmax(0,1fr); max-width:1180px; margin:0 auto;}
+  @media (max-width: 900px){ .shell{grid-template-columns: 1fr;} }
+  .sidebar{position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; padding:28px 20px 40px; border-right:1px solid var(--border);}
+  @media (max-width: 900px){ .sidebar{position:static; height:auto; border-right:none; border-bottom:1px solid var(--border);} }
+  .brand{display:flex; align-items:baseline; gap:9px; margin-bottom:4px;}
+  .brand-mark{font-family:"IBM Plex Mono"; font-weight:700; font-size:13px; color:var(--accent-strong); background:var(--accent-tint); border:1px solid var(--border-strong); border-radius:4px; padding:2px 6px; letter-spacing:0.02em;}
+  .brand-name{font-family:"IBM Plex Mono"; font-weight:600; font-size:14.5px; letter-spacing:-0.01em;}
+  .tagline{color:var(--text-faint); font-size:12.5px; margin:2px 0 20px;}
+  .progress-wrap{margin-bottom:22px;}
+  .progress-label{display:flex; justify-content:space-between; align-items:baseline; font-family:"IBM Plex Mono"; font-size:11.5px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;}
+  #progress-count{color:var(--accent-strong); font-weight:600;}
+  .progress-track{height:6px; border-radius:3px; background:var(--surface-2); border:1px solid var(--border); overflow:hidden;}
+  .progress-fill{height:100%; width:0%; background:var(--accent); transition:width 0.35s ease;}
+  .nav-part-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-faint); margin:18px 0 8px;}
+  .nav-list{list-style:none; margin:0; padding:0;}
+  .nav-item{margin-bottom:1px;}
+  .nav-link{display:flex; align-items:center; gap:9px; padding:6px 8px; border-radius:6px; color:var(--text-dim); text-decoration:none; font-size:13.5px; line-height:1.35; border:1px solid transparent;}
+  .nav-link:hover{background:var(--surface-2); color:var(--text);}
+  .nav-link.active{background:var(--accent-tint); color:var(--accent-strong); border-color:var(--border-strong);}
+  .nav-check{flex:0 0 auto; width:15px; height:15px; border-radius:4px; border:1.5px solid var(--border-strong); background:var(--surface); display:inline-flex; align-items:center; justify-content:center; cursor:pointer;}
+  .nav-check[data-done="true"]{background:var(--accent); border-color:var(--accent);}
+  .nav-check[data-done="true"]::after{content:"✓"; color:#fff; font-size:10px; font-weight:700;}
+  .nav-num{color:var(--text-faint); font-family:"IBM Plex Mono"; font-size:11.5px; min-width:16px;}
+  main{padding:44px 48px 100px; min-width:0;}
+  @media (max-width: 900px){ main{padding:32px 20px 80px;} }
+  @media (max-width: 560px){ main{padding:24px 16px 64px;} }
+  .doc-header{max-width:660px; margin-bottom:56px;}
+  .eyebrow{font-family:"IBM Plex Mono"; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent-strong); margin-bottom:12px;}
+  h1.doc-title{font-family:"IBM Plex Mono"; font-weight:600; font-size:clamp(28px, 4vw, 38px); line-height:1.15; letter-spacing:-0.01em; margin:0 0 16px; text-wrap:balance;}
+  .doc-lede{color:var(--text-dim); font-size:17px; line-height:1.6; margin:0 0 22px;}
+  .stat-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .stat-chip{font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-dim); border:1px solid var(--border); background:var(--surface); border-radius:20px; padding:5px 12px;}
+  .stat-chip b{color:var(--text); font-weight:600;}
+  .schema-box{max-width:680px; margin:0 0 24px; padding:16px 18px; border:1px solid var(--border-strong); border-radius:8px; background:var(--surface); box-shadow:var(--shadow);}
+  .schema-box-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--accent-strong); margin-bottom:10px;}
+  section.module{max-width:680px; padding-top:52px; margin-top:-8px; border-top:1px solid var(--border);}
+  section.module:first-of-type{border-top:none;}
+  .part-divider{max-width:680px; margin:64px 0 8px; display:flex; align-items:center; gap:14px;}
+  .part-divider .part-tag{font-family:"IBM Plex Mono"; font-size:12px; font-weight:700; color:var(--accent-strong); background:var(--accent-tint); border:1px solid var(--border-strong); border-radius:5px; padding:4px 9px; letter-spacing:0.04em; white-space:nowrap;}
+  .part-divider h2.part-title{font-family:"IBM Plex Mono"; font-size:14px; font-weight:600; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; margin:0;}
+  .part-divider::after{content:""; flex:1; height:1px; background:var(--border);}
+  .part-intro{max-width:680px; color:var(--text-dim); margin:10px 0 0; font-size:15px;}
+  .mod-eyebrow{font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-faint); letter-spacing:0.04em; margin-bottom:8px;}
+  h2.mod-title{font-family:"IBM Plex Mono"; font-weight:600; font-size:24px; letter-spacing:-0.01em; margin:0 0 18px; text-wrap:balance;}
+  h3{font-family:"IBM Plex Mono"; font-weight:600; font-size:15.5px; margin:30px 0 10px; color:var(--text);}
+  p{margin:0 0 16px; max-width:66ch;}
+  ul, ol{margin:0 0 16px; padding-left:22px;}
+  li{margin-bottom:6px; max-width:62ch;}
+  strong{font-weight:600;}
+  .callout{border:1px solid var(--border-strong); background:var(--surface); border-radius:8px; padding:16px 18px; margin:20px 0; box-shadow:var(--shadow); max-width:680px;}
+  .callout-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--accent-strong); margin-bottom:6px;}
+  .callout p:last-child{margin-bottom:0;}
+  .callout.warn{border-color:var(--warn); background:var(--warn-tint);}
+  .callout.warn .callout-label{color:var(--warn);}
+  .exercise{border:1px solid var(--border-strong); background:var(--surface-2); border-radius:8px; padding:16px 18px; margin:26px 0 8px; max-width:680px;}
+  .exercise-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-faint); margin-bottom:8px;}
+  .exercise p{margin:0 0 10px; max-width:none;}
+  .exercise p:last-of-type{margin-bottom:0;}
+  .exercise details{margin-top:4px;}
+  .exercise summary{cursor:pointer; font-family:"IBM Plex Mono"; font-size:12.5px; font-weight:600; color:var(--accent-strong); list-style:none; display:inline-flex; align-items:center; gap:6px;}
+  .exercise summary::-webkit-details-marker{display:none;}
+  .exercise summary::before{content:"▸"; font-size:10px; display:inline-block; transition:transform 0.15s ease;}
+  .exercise details[open] summary::before{transform:rotate(90deg);}
+  .exercise .exercise-solution-body{margin-top:10px; padding-top:10px; border-top:1px dashed var(--border-strong);}
+  .exercise .exercise-solution-body p:last-child{margin-bottom:0;}
+  .qcm-opts{list-style:none; margin:0 0 10px; padding:0;}
+  .qcm-opts li{font-size:13.5px; padding:6px 10px; border:1px solid var(--border); border-radius:6px; margin-bottom:6px; background:var(--surface);}
+  .qcm-opts li b{font-family:"IBM Plex Mono"; color:var(--accent-strong); margin-right:6px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 22px; font-size:13.5px; background:var(--surface); border:1px solid var(--border); border-radius:8px; overflow:hidden;}
+  .table-scroll{overflow-x:auto; max-width:680px; margin:18px 0 22px;}
+  .table-scroll table{margin:0;}
+  th, td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--border); vertical-align:top;}
+  th{font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-faint); background:var(--surface-2);}
+  tr:last-child td{border-bottom:none;}
+  td.mono, th.mono{font-family:"IBM Plex Mono"; font-size:12.5px;}
+  .tag{display:inline-block; font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; padding:2px 7px; border-radius:4px;}
+  .tag.pass{background:var(--ok-tint); color:var(--ok);}
+  .tag.fail{background:var(--fail-tint); color:var(--fail);}
+  .tag.warn{background:var(--warn-tint); color:var(--warn);}
+  pre{background:var(--code-bg); color:var(--code-text); border:1px solid var(--code-border); border-radius:8px; padding:16px 18px; overflow-x:auto; margin:16px 0 22px; font-size:13px; line-height:1.6; max-width:680px;}
+  code{font-family:"IBM Plex Mono";}
+  p code, li code, td code{background:var(--surface-2); border:1px solid var(--border); border-radius:4px; padding:1px 5px; font-size:0.88em;}
+  .code-label{font-family:"IBM Plex Mono"; font-size:11px; color:var(--text-faint); margin:0 0 6px; letter-spacing:0.02em;}
+  .quad{display:grid; grid-template-columns:1fr 1fr; gap:2px; max-width:680px; margin:18px 0 22px; border:1px solid var(--border-strong); border-radius:8px; overflow:hidden; box-shadow:var(--shadow);}
+  .quad-cell{background:var(--surface); padding:14px 16px;}
+  .quad-cell .qn{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; color:var(--accent-strong); text-transform:uppercase; letter-spacing:.04em; margin-bottom:6px;}
+  .quad-cell p{font-size:13px; margin:0; max-width:none;}
+  .done-toggle{display:inline-flex; align-items:center; gap:8px; font-family:"IBM Plex Mono"; font-size:12.5px; color:var(--text-dim); border:1px solid var(--border-strong); background:var(--surface); border-radius:20px; padding:6px 14px 6px 10px; cursor:pointer; margin-top:28px; user-select:none;}
+  .done-toggle:hover{border-color:var(--accent);}
+  .done-toggle .box{width:15px; height:15px; border-radius:4px; border:1.5px solid var(--border-strong); display:inline-flex; align-items:center; justify-content:center; background:var(--surface);}
+  .done-toggle[data-done="true"] .box{background:var(--accent); border-color:var(--accent);}
+  .done-toggle[data-done="true"] .box::after{content:"✓"; color:#fff; font-size:10px; font-weight:700;}
+  .done-toggle[data-done="true"]{color:var(--accent-strong); border-color:var(--accent);}
+  .footer-note{max-width:680px; margin-top:70px; padding-top:24px; border-top:1px solid var(--border); color:var(--text-faint); font-size:12.5px;}
+  .footer-note a{color:var(--text-dim);}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} .progress-fill{transition:none;} }
+</style>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Sommaire du cours">
+    <div class="brand">
+      <span class="brand-mark">AGL</span>
+      <span class="brand-name">Agile & Scrum<br>pour la QA</span>
+    </div>
+    <p class="tagline">Le testeur dans une équipe agile — édition 2026</p>
+
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/12</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+
+    <div class="nav-part-label">Partie 1 — Comprendre l'agilité</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m1" href="#m1"><span class="nav-check" data-modcheck="m1"></span><span class="nav-num">01</span> Le Manifeste Agile</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m2" href="#m2"><span class="nav-check" data-modcheck="m2"></span><span class="nav-num">02</span> Scrum, Kanban et les autres</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m3" href="#m3"><span class="nav-check" data-modcheck="m3"></span><span class="nav-num">03</span> Les rôles Scrum</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 2 — Le cadre Scrum</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m4" href="#m4"><span class="nav-check" data-modcheck="m4"></span><span class="nav-num">04</span> Le Sprint et le Backlog</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m5" href="#m5"><span class="nav-check" data-modcheck="m5"></span><span class="nav-num">05</span> Les quatre cérémonies</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m6" href="#m6"><span class="nav-check" data-modcheck="m6"></span><span class="nav-num">06</span> User stories et critères d'acceptation</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m7" href="#m7"><span class="nav-check" data-modcheck="m7"></span><span class="nav-num">07</span> Definition of Ready / Done</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 3 — Le testeur en agile</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m8" href="#m8"><span class="nav-check" data-modcheck="m8"></span><span class="nav-num">08</span> Shift-left et whole team approach</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m9" href="#m9"><span class="nav-check" data-modcheck="m9"></span><span class="nav-num">09</span> Les quadrants de test agile</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m10" href="#m10"><span class="nav-check" data-modcheck="m10"></span><span class="nav-num">10</span> Estimer : story points et vélocité</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m11" href="#m11"><span class="nav-check" data-modcheck="m11"></span><span class="nav-num">11</span> Tester dans le rythme du sprint</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 4 — Se positionner</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m12" href="#m12"><span class="nav-check" data-modcheck="m12"></span><span class="nav-num">12</span> L'agilité sur le marché en 2026</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <header class="doc-header">
+      <div class="eyebrow">Cours autoportant · Compagnon des cours QA, SQL, GitHub et ISTQB</div>
+      <h1 class="doc-title">Agile & Scrum pour la Qualité Logicielle</h1>
+      <p class="doc-lede">Pas un cours de management générique : chaque notion est reliée à ta place réelle de testeur dans une équipe agile — quand tu interviens, ce que tu apportes à chaque cérémonie, comment le test s'intègre dans le rythme du sprint plutôt que d'arriver "à la fin", trop tard. Le fil rouge reste NovaCart, la même équipe fictive que dans le cours QA.</p>
+      <div class="stat-row">
+        <span class="stat-chip"><b>12</b> modules</span>
+        <span class="stat-chip"><b>4</b> parties : agilité → Scrum → le testeur → marché</span>
+        <span class="stat-chip"><b>12</b> exercices corrigés</span>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">Pourquoi ce cours, en plus du reste</div>
+        <p>Le test automatisé (cours QA) et l'agilité (ce cours) sont deux savoirs distincts qui se recoupent souvent en entretien : "comment travaillez-vous en Scrum ?" est une question quasi systématique, même pour un poste très technique. Savoir répondre avec précision — pas juste "je connais le Daily" — distingue immédiatement un profil qui a compris le fonctionnement d'équipe d'un profil qui a juste retenu du vocabulaire.</p>
+      </div>
+    </header>
+
+    <!-- ============ PARTIE 1 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 1</span><h2 class="part-title">Comprendre l'agilité</h2></div>
+    <p class="part-intro">Trois modules pour comprendre d'où vient l'agilité et pourquoi elle a supplanté les approches séquentielles dans la majorité des équipes produit.</p>
+
+    <section class="module" id="m1">
+      <div class="mod-eyebrow">Partie 1 · Module 01</div>
+      <h2 class="mod-title">Le Manifeste Agile</h2>
+      <p>En 2001, dix-sept développeurs publient le <strong>Manifeste Agile</strong> — une réaction aux approches séquentielles (cycle en V) qui livraient souvent, après des mois de développement, un produit qui ne correspondait plus au besoin réel du client. L'idée centrale : livrer plus tôt, plus souvent, et ajuster en fonction du retour réel des utilisateurs plutôt que de tout figer dans une spécification initiale.</p>
+
+      <h3>Les quatre valeurs</h3>
+      <div class="table-scroll"><table>
+        <tr><th>On valorise davantage...</th><th>...que</th></tr>
+        <tr><td>Les individus et leurs interactions</td><td>Les processus et les outils</td></tr>
+        <tr><td>Un logiciel qui fonctionne</td><td>Une documentation exhaustive</td></tr>
+        <tr><td>La collaboration avec le client</td><td>La négociation contractuelle</td></tr>
+        <tr><td>L'adaptation au changement</td><td>Le suivi rigide d'un plan</td></tr>
+      </table></div>
+      <p>Nuance importante, souvent mal comprise : le manifeste ne dit jamais que la documentation ou la planification sont inutiles — seulement qu'en cas d'arbitrage, la colonne de gauche l'emporte. Une équipe agile documente et planifie, mais moins lourdement et plus fréquemment qu'une équipe en cycle en V.</p>
+
+      <p>Les <strong>12 principes</strong> qui accompagnent le manifeste précisent cette philosophie : livrer fréquemment (de quelques semaines à quelques mois), accueillir le changement même tard dans le projet, faire travailler développeurs et métier ensemble quotidiennement, et mesurer l'avancement par le logiciel livré plutôt que par les documents produits.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Un chef de projet affirme : "L'agilité veut dire qu'on ne documente jamais rien et qu'on code au fur et à mesure sans plan." Explique en deux phrases pourquoi c'est une interprétation erronée du Manifeste.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Le Manifeste ne rejette pas la documentation ni la planification, il les priorise différemment : un logiciel fonctionnel et l'adaptation au changement passent avant une documentation exhaustive et un plan rigide — mais les deux existent toujours, sous une forme plus légère et itérative.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m1"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m2">
+      <div class="mod-eyebrow">Partie 1 · Module 02</div>
+      <h2 class="mod-title">Scrum, Kanban et les autres</h2>
+      <p>L'agilité est une philosophie ; <strong>Scrum</strong> et <strong>Kanban</strong> sont des cadres concrets qui la mettent en pratique, avec des logiques différentes.</p>
+      <div class="table-scroll"><table>
+        <tr><th></th><th>Scrum</th><th>Kanban</th></tr>
+        <tr><td><strong>Rythme</strong></td><td>Itérations à durée fixe (sprints, souvent 2 semaines)</td><td>Flux continu, sans itération fixe</td></tr>
+        <tr><td><strong>Rôles</strong></td><td>Product Owner, Scrum Master, Developers — définis précisément</td><td>Pas de rôles imposés par le cadre</td></tr>
+        <tr><td><strong>Outil visuel</strong></td><td>Sprint Backlog</td><td>Tableau Kanban avec limites de travail en cours (WIP)</td></tr>
+        <tr><td><strong>Bien adapté à</strong></td><td>Des livraisons régulières et prévisibles, un produit en construction active</td><td>Du support, de la maintenance, un flux de demandes irrégulier</td></tr>
+      </table></div>
+      <p>En pratique, beaucoup d'équipes mélangent les deux ("Scrumban") : un rythme de sprint pour la planification, mais un tableau limité en travail en cours pour éviter la surcharge. D'autres cadres existent à plus grande échelle — <strong>SAFe</strong> (Scaled Agile Framework) coordonne plusieurs équipes Scrum sur un même produit complexe, mais c'est un sujet d'entreprise plutôt qu'un prérequis pour un poste de testeur junior.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Une équipe de support technique traite des demandes qui arrivent en continu, jamais prévisibles à l'avance, avec des priorités qui changent d'heure en heure. Scrum ou Kanban ? Justifie.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Kanban.</strong> Le flux de demandes est continu et imprévisible — un sprint à durée fixe et une planification en début d'itération conviennent mal à ce contexte. Kanban, avec ses limites de travail en cours, gère mieux un flux irrégulier sans figer un engagement sur deux semaines.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m2"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m3">
+      <div class="mod-eyebrow">Partie 1 · Module 03</div>
+      <h2 class="mod-title">Les rôles Scrum</h2>
+      <p>Scrum définit précisément trois rôles — et volontairement, aucun rôle nommé "testeur". Ce point surprend souvent les débutants : dans une équipe Scrum, le testeur fait partie des <strong>Developers</strong> au sens Scrum du terme (toute personne qui contribue à livrer l'incrément), même si son métier réel est spécifiquement le test.</p>
+      <div class="table-scroll"><table>
+        <tr><th>Rôle</th><th>Responsabilité principale</th></tr>
+        <tr><td><strong>Product Owner</strong></td><td>Maximise la valeur du produit, priorise le Product Backlog, représente les besoins métier/utilisateur</td></tr>
+        <tr><td><strong>Scrum Master</strong></td><td>Facilite le cadre Scrum, retire les obstacles, protège l'équipe des perturbations externes — n'est pas un chef hiérarchique</td></tr>
+        <tr><td><strong>Developers</strong></td><td>Toute l'équipe qui construit l'incrément — développeurs, testeurs, designers UX inclus</td></tr>
+      </table></div>
+
+      <div class="callout">
+        <div class="callout-label">Ce que ça change concrètement pour toi</div>
+        <p>Dans une équipe Scrum saine, tu n'es pas "le testeur qui valide à la fin" — tu es un membre à part entière de l'équipe de développement, avec la même voix que les autres pour estimer les tâches, participer aux décisions techniques, et remonter des risques dès la planification, pas seulement à l'exécution.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Vrai ou faux : "Dans Scrum, le Scrum Master est le supérieur hiérarchique de l'équipe de développement." Justifie.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Faux.</strong> Le Scrum Master est un facilitateur au service de l'équipe — il retire les obstacles et fait respecter le cadre Scrum, mais n'a pas d'autorité hiérarchique sur les Developers ni sur le Product Owner.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m3"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 2 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 2</span><h2 class="part-title">Le cadre Scrum</h2></div>
+    <p class="part-intro">Quatre modules pour maîtriser le vocabulaire et le rythme exact d'un sprint Scrum — ce qui te permettra de suivre une équipe dès ton premier jour sans avoir à demander "c'est quoi déjà, un Daily ?"</p>
+
+    <section class="module" id="m4">
+      <div class="mod-eyebrow">Partie 2 · Module 04</div>
+      <h2 class="mod-title">Le Sprint et le Backlog</h2>
+      <p>Un <strong>Sprint</strong> est une itération à durée fixe — le plus souvent deux semaines — au terme de laquelle l'équipe livre un <strong>Incrément</strong> : une version du produit potentiellement livrable, même si elle n'est pas mise en production immédiatement.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Artefact</th><th>Ce que c'est</th></tr>
+        <tr><td><strong>Product Backlog</strong></td><td>La liste priorisée de tout ce qui pourrait être fait sur le produit — jamais figée, jamais "complète"</td></tr>
+        <tr><td><strong>Sprint Backlog</strong></td><td>Le sous-ensemble d'éléments choisis pour le sprint en cours, plus le plan pour les réaliser</td></tr>
+        <tr><td><strong>Incrément</strong></td><td>Le résultat cumulé de tous les sprints, utilisable, qui respecte la Definition of Done (module 7)</td></tr>
+      </table></div>
+
+      <p>Sur NovaCart, un Product Backlog typique contiendrait des éléments comme "ajouter le paiement en plusieurs fois", "corriger le bug du panier qui se vide", "améliorer le temps de chargement de la page produit" — mélangeant fonctionnalités, bugs et améliorations techniques, tous priorisés sur une même liste.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Le Product Backlog de NovaCart contient 40 éléments. L'équipe en sélectionne 6 pour les deux prochaines semaines. Comment s'appelle ce sous-ensemble de 6 éléments, et où vit-il ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>C'est le <strong>Sprint Backlog</strong> — le sous-ensemble d'éléments du Product Backlog sélectionnés pour ce sprint précis, accompagné du plan de l'équipe pour les réaliser.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m4"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m5">
+      <div class="mod-eyebrow">Partie 2 · Module 05</div>
+      <h2 class="mod-title">Les quatre cérémonies</h2>
+      <p>Scrum structure le sprint autour de quatre événements — chacun a un objectif précis, et un testeur y a un rôle actif, pas seulement une présence passive.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Cérémonie</th><th>Objectif</th><th>Ton rôle en tant que testeur</th></tr>
+        <tr><td><strong>Sprint Planning</strong></td><td>Décider ce qui sera fait ce sprint et comment</td><td>Estimer l'effort de test, signaler les risques et dépendances tôt</td></tr>
+        <tr><td><strong>Daily Scrum</strong></td><td>Synchroniser l'équipe, 15 min maximum</td><td>Partager l'avancement des tests, signaler un blocage immédiatement</td></tr>
+        <tr><td><strong>Sprint Review</strong></td><td>Présenter l'incrément aux parties prenantes, recueillir du feedback</td><td>Démontrer ce qui a été testé et validé, pas juste ce qui a été codé</td></tr>
+        <tr><td><strong>Sprint Retrospective</strong></td><td>Améliorer le fonctionnement de l'équipe pour le prochain sprint</td><td>Remonter les difficultés du process de test (environnement instable, specs floues...)</td></tr>
+      </table></div>
+
+      <p>Le Daily Scrum n'est <strong>pas</strong> un rapport de statut à destination du Scrum Master ou du manager — c'est un point de synchronisation entre pairs. La question centrale n'est pas "qu'as-tu fait hier", mais "qu'est-ce qui pourrait nous empêcher d'atteindre l'objectif du sprint".</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Pendant le Daily, tu réalises qu'un environnement de test est instable depuis hier et bloque l'exécution de ta suite Playwright. Que fais-tu, et dans quelle cérémonie cela a-t-il aussi sa place en fin de sprint ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Signaler le blocage immédiatement pendant le Daily, pour qu'il soit traité au plus vite (potentiellement par le Scrum Master, qui retire les obstacles). Le sujet de fond — pourquoi cet environnement est instable — a sa place en <strong>Sprint Retrospective</strong>, pour identifier une amélioration durable du process, pas juste un correctif ponctuel.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m5"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m6">
+      <div class="mod-eyebrow">Partie 2 · Module 06</div>
+      <h2 class="mod-title">User stories et critères d'acceptation</h2>
+      <p>Une <strong>user story</strong> décrit une fonctionnalité du point de vue de celui qui en bénéficie, dans un format volontairement court qui laisse la place à la conversation plutôt qu'à une spécification figée :</p>
+      <pre class="mono">En tant que [rôle],
+je veux [action],
+afin de [bénéfice].</pre>
+      <p class="code-label">Exemple sur NovaCart</p>
+      <pre class="mono">En tant que client,
+je veux payer ma commande en trois fois sans frais,
+afin de pouvoir acheter un article plus cher sans attendre.</pre>
+
+      <h3>Le principe INVEST</h3>
+      <p>Un acronyme pour vérifier qu'une story est bien formée : <strong>I</strong>ndépendante, <strong>N</strong>égociable (pas gravée dans le marbre), a de la <strong>V</strong>aleur pour l'utilisateur, <strong>E</strong>stimable, suffisamment petite (<strong>S</strong>mall) pour tenir dans un sprint, et <strong>T</strong>estable.</p>
+
+      <p>Ce dernier point te concerne directement : une story qui n'est pas testable — trop vague, sans résultat observable — est un signal à remonter dès le Sprint Planning, pas une fois le développement commencé. Les <strong>critères d'acceptation</strong> précisent justement ce qui rend la story testable :</p>
+      <pre class="mono">Étant donné un panier à 150 €,
+Quand le client choisit le paiement en 3 fois,
+Alors trois prélèvements de 50 € sont planifiés,
+à un mois d'intervalle.</pre>
+      <p>Ce format Étant donné / Quand / Alors ne t'est pas inconnu — c'est exactement la syntaxe Gherkin du BDD, déjà vue dans le cours QA (module 19). Les critères d'acceptation d'une story deviennent souvent, presque mot pour mot, les scénarios <code>.feature</code> qui serviront à l'automatiser.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris une user story et un critère d'acceptation (format Étant donné/Quand/Alors) pour la fonctionnalité "un client peut suivre l'état de sa commande NovaCart".</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre class="mono">En tant que client,
+je veux suivre l'état de ma commande,
+afin de savoir quand elle sera livrée.
+
+Étant donné une commande passée et payée,
+Quand je consulte la page "mes commandes",
+Alors je vois son statut actuel (payée, expédiée ou livrée)
+et la date de dernière mise à jour.</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m6"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m7">
+      <div class="mod-eyebrow">Partie 2 · Module 07</div>
+      <h2 class="mod-title">Definition of Ready / Done</h2>
+      <p>Deux checklists, souvent confondues, qui encadrent respectivement le début et la fin du travail sur une story.</p>
+      <div class="table-scroll"><table>
+        <tr><th></th><th>Definition of Ready (DoR)</th><th>Definition of Done (DoD)</th></tr>
+        <tr><td><strong>Répond à</strong></td><td>Cette story est-elle prête à entrer dans un sprint ?</td><td>Ce travail est-il vraiment terminé ?</td></tr>
+        <tr><td><strong>Vérifiée</strong></td><td>Au Sprint Planning, avant de s'engager dessus</td><td>Avant de considérer l'incrément livrable</td></tr>
+        <tr><td><strong>Exemple de critère</strong></td><td>Critères d'acceptation écrits, dépendances identifiées</td><td>Tests automatisés passés, code relu et fusionné, pas de régression connue</td></tr>
+      </table></div>
+
+      <p>La Definition of Done est un engagement d'équipe, pas une checklist personnelle — elle doit être la même pour tout le monde, sur toutes les stories, sans exception "cette fois on skip les tests parce qu'on est pressés". C'est précisément le rôle du testeur de rappeler ce principe quand la pression du planning pousse à le contourner.</p>
+
+      <div class="callout warn">
+        <div class="callout-label">Un piège fréquent</div>
+        <p>Une équipe qui déclare une story "Done" sans que les tests automatisés soient réellement passés — juste "codé, on testera plus tard" — accumule une dette qui finit toujours par ressortir, souvent au pire moment. Une Definition of Done qui n'inclut pas explicitement le test n'en est pas vraiment une.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Classe ces critères entre Definition of Ready et Definition of Done : (a) "Les critères d'acceptation sont écrits et compris par l'équipe", (b) "La suite de tests Playwright passe sans échec", (c) "La story est estimée en story points", (d) "Le code est relu et fusionné sur main".</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Definition of Ready :</strong> (a) et (c) — nécessaires avant de commencer le travail. <strong>Definition of Done :</strong> (b) et (d) — nécessaires pour considérer le travail terminé.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m7"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 3 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 3</span><h2 class="part-title">Le testeur dans une équipe agile</h2></div>
+    <p class="part-intro">Quatre modules qui répondent à la vraie question : concrètement, comment fait un testeur pour ne jamais devenir le goulot d'étranglement en fin de sprint ?</p>
+
+    <section class="module" id="m8">
+      <div class="mod-eyebrow">Partie 3 · Module 08</div>
+      <h2 class="mod-title">Shift-left et whole team approach</h2>
+      <p>Le <strong>shift-left</strong> — déjà introduit dans le cours QA — prend tout son sens en agile : plutôt que le test soit une phase séparée après le développement, il commence dès la rédaction de la story, en même temps que le code, pas après.</p>
+
+      <p>La <strong>whole team approach</strong> pousse ce principe plus loin : la qualité n'est pas la responsabilité exclusive du testeur, mais celle de toute l'équipe. Concrètement, ça veut dire que les développeurs écrivent des tests unitaires (pas seulement le testeur qui automatise en aval), que le Product Owner participe à la définition des critères d'acceptation testables, et que le testeur, de son côté, s'implique dans la conception technique — pas seulement dans la validation finale.</p>
+
+      <h3>Les Three Amigos</h3>
+      <p>Une pratique concrète de cette approche : avant de développer une story, trois perspectives se rencontrent brièvement — le <strong>métier</strong> (Product Owner, "qu'est-ce qu'on veut vraiment"), le <strong>développement</strong> ("comment on le construit"), et le <strong>test</strong> ("comment on saura que ça marche, et qu'est-ce qui pourrait mal tourner"). Cette discussion, souvent tenue avant même le Sprint Planning, évite énormément d'allers-retours plus tard.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Une story arrive dans le sprint sans que le testeur ait été consulté sur les critères d'acceptation. Le développement est déjà bien avancé quand le testeur découvre un cas limite non prévu. Quelle pratique, appliquée plus tôt, aurait évité ce problème ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Une session <strong>Three Amigos</strong> avant le début du développement, réunissant métier, développement et test, aurait permis de repérer ce cas limite avant que le code ne soit écrit — exactement l'objectif du shift-left appliqué concrètement.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m8"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m9">
+      <div class="mod-eyebrow">Partie 3 · Module 09</div>
+      <h2 class="mod-title">Les quadrants de test agile</h2>
+      <p>Le modèle des <strong>quadrants de test agile</strong>, popularisé par Brian Marick puis Lisa Crispin et Janet Gregory, classe les tests selon deux axes : orienté <strong>métier</strong> ou <strong>technologie</strong>, et destiné à <strong>guider le développement</strong> ou à <strong>critiquer le produit</strong> une fois construit.</p>
+
+      <div class="quad">
+        <div class="quad-cell"><div class="qn">Q2 — Business, guide le dév.</div><p>Tests fonctionnels, exemples métier, prototypes — souvent écrits <em>avant</em> le code (BDD, critères d'acceptation)</p></div>
+        <div class="quad-cell"><div class="qn">Q3 — Business, critique le produit</div><p>Test exploratoire, tests d'utilisabilité, tests d'acceptation utilisateur — exécutés sur le produit fini, du point de vue humain</p></div>
+        <div class="quad-cell"><div class="qn">Q1 — Techno, guide le dév.</div><p>Tests unitaires, tests de composant — écrits par les développeurs, très automatisés</p></div>
+        <div class="quad-cell"><div class="qn">Q4 — Techno, critique le produit</div><p>Performance (k6), sécurité (OWASP ZAP), tests de charge — évaluent le système sous contrainte</p></div>
+      </div>
+
+      <p>L'intérêt pratique de ce modèle : il évite qu'une équipe se concentre uniquement sur un quadrant (souvent Q1, les tests unitaires) en négligeant les trois autres. Une suite de tests "complète" au sens agile couvre les quatre — exactement ce que couvre, dans l'ensemble, le cours QA que tu as déjà suivi.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Place ces trois activités dans le bon quadrant : (a) un scénario Gherkin écrit avec le Product Owner avant le développement, (b) un test de montée en charge avec k6, (c) une session de test exploratoire sur la nouvelle page de paiement.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>(a) → <strong>Q2</strong> (business, guide le développement). (b) → <strong>Q4</strong> (technologie, critique le produit). (c) → <strong>Q3</strong> (business, critique le produit).</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m9"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m10">
+      <div class="mod-eyebrow">Partie 3 · Module 10</div>
+      <h2 class="mod-title">Estimer : story points et vélocité</h2>
+      <p>En Scrum, l'effort d'une story se mesure rarement en heures — trop précis pour être fiable si tôt — mais en <strong>story points</strong>, une unité relative qui compare la complexité et le risque d'une story à d'autres déjà réalisées, généralement sur l'échelle de Fibonacci (1, 2, 3, 5, 8, 13...).</p>
+
+      <p class="code-label">Le Planning Poker, en pratique</p>
+      <p>Chaque membre de l'équipe choisit en privé une carte représentant son estimation, puis tout le monde révèle en même temps. Si les écarts sont grands (un dev dit 2, un autre dit 13), c'est un signal important : les deux ont probablement compris la story différemment, et cette divergence mérite d'être discutée avant de trancher — c'est souvent là, en tant que testeur, que tu identifies un cas non prévu par le développeur.</p>
+
+      <h3>La vélocité</h3>
+      <p>La somme des story points effectivement complétés (donc "Done" au sens strict de la Definition of Done) sur un sprint. Après quelques sprints, la vélocité moyenne de l'équipe permet de prévoir, de façon réaliste, combien de travail elle peut engager sur le prochain sprint — jamais un chiffre à comparer entre équipes différentes, seulement à suivre dans le temps pour une même équipe.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Pendant un Planning Poker, un développeur estime une story à 2, une testeuse l'estime à 8. Que devrait-il se passer ensuite, et pourquoi cet écart est-il utile plutôt que gênant ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>L'écart déclenche une discussion : la testeuse explique probablement ce qu'elle voit comme complexe (cas limites, données à préparer, dépendances) que le développeur n'avait pas anticipé en se concentrant sur le code seul. C'est justement l'intérêt du Planning Poker : révéler ces divergences de compréhension avant qu'elles ne deviennent des surprises en cours de sprint.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m10"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m11">
+      <div class="mod-eyebrow">Partie 3 · Module 11</div>
+      <h2 class="mod-title">Tester dans le rythme du sprint</h2>
+      <p>Le piège le plus courant d'une équipe qui débute en agile : tester uniquement en toute fin de sprint, une fois tout le développement terminé — ce qui recrée, à l'intérieur même du sprint, le problème que l'agilité voulait résoudre (le test comme goulot d'étranglement final).</p>
+
+      <h3>Répartir le test sur la durée du sprint</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Moment du sprint</th><th>Ce que fait le testeur</th></tr>
+        <tr><td>Avant / début de sprint</td><td>Three Amigos, clarification des critères d'acceptation, préparation des données de test</td></tr>
+        <tr><td>Pendant le développement d'une story</td><td>Écrire les tests automatisés en parallèle du code (pas après), tester au fur et à mesure que des morceaux sont prêts</td></tr>
+        <tr><td>Story terminée par le développeur</td><td>Test exploratoire ciblé, vérification de la Definition of Done</td></tr>
+        <tr><td>Fin de sprint</td><td>Régression globale légère, préparation de la démo pour la Review</td></tr>
+      </table></div>
+
+      <p>Cette répartition suppose une chose : que les stories du sprint soient elles-mêmes suffisamment petites (le "S" de INVEST, module 6) pour être terminées en quelques jours, pas entassées toutes en fin de sprint. Un testeur qui voit systématiquement tout le développement arriver le dernier jour a de bonnes raisons de soulever ce point en rétrospective.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>À trois jours de la fin d'un sprint de deux semaines, aucune story n'est encore passée en test — tout le développement est "presque fini" en même temps. Que devrais-tu faire, et où en parler ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Signaler le risque dès maintenant, pas en attendant — au Daily si c'est un blocage immédiat, sinon dès que le constat est fait. Et surtout, remonter le schéma récurrent en <strong>Sprint Retrospective</strong> : les stories sont probablement trop grosses ou mal découpées, ce qui empêche le test de s'étaler naturellement sur le sprint.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m11"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 4 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 4</span><h2 class="part-title">Se positionner</h2></div>
+    <p class="part-intro">Un dernier module pour transformer ce vocabulaire en argument d'entretien concret.</p>
+
+    <section class="module" id="m12">
+      <div class="mod-eyebrow">Partie 4 · Module 12</div>
+      <h2 class="mod-title">L'agilité sur le marché en 2026</h2>
+      <p>Une très large majorité des offres de testeur QA mentionnent "environnement Agile" ou "méthodologie Scrum" — souvent sans plus de détail, ce qui en fait, comme Git, un prérequis implicite plutôt qu'un critère différenciant en soi. Ce qui distingue en revanche un candidat, c'est la capacité à parler concrètement de <strong>ta place</strong> dans ce fonctionnement, pas juste de connaître le vocabulaire.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Niveau attendu d'un junior</th><th>Ce qui te distingue</th></tr>
+        <tr><td>Savoir citer les cérémonies Scrum</td><td>Expliquer ton rôle précis dans chacune, pas juste leur définition</td></tr>
+        <tr><td>Avoir déjà entendu parler de story points</td><td>Expliquer pourquoi un écart d'estimation entre coéquipiers est une information utile</td></tr>
+        <tr><td>Savoir ce qu'est une Definition of Done</td><td>Donner un exemple concret où tu as fait respecter ce standard malgré la pression du planning</td></tr>
+        <tr><td>Connaître le terme "shift-left"</td><td>Décrire une pratique réelle qui l'illustre (Three Amigos, tests écrits avant/pendant le code)</td></tr>
+      </table></div>
+
+      <div class="callout">
+        <div class="callout-label">Pour l'entretien</div>
+        <p>Ce module complète directement la préparation à l'entretien du module 27 de ton cours QA. Une bonne réponse à "comment travaillez-vous en agile" décrit un exemple précis — un sprint, une story, un moment où tu as anticipé un risque ou signalé un blocage — pas une liste de définitions récitées.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>En entretien, on te demande : "Quel est votre rôle en tant que testeur pendant un Sprint Planning ?" Prépare une réponse de 30 secondes.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Un exemple de structure : "Pendant le Sprint Planning, je participe à l'estimation avec le reste de l'équipe — pas seulement sur la complexité du code, mais sur l'effort de test que représente chaque story. Si une story me semble mal définie ou pas vraiment testable, je le signale à ce moment-là plutôt qu'une fois le développement commencé, pour qu'on clarifie les critères d'acceptation avant de s'engager dessus." Le point fort : ça montre une participation active, pas une posture passive de "je valide à la fin".</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m12"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <div class="footer-note">
+      <p>Cours rédigé comme compagnon des cours "Qualité Logicielle Automatisée", "SQL pour la Qualité Logicielle", "GitHub pour la Qualité Logicielle" et "ISTQB Foundation Level" — même méthode, même fil rouge NovaCart. Le suivi de progression (cases à cocher) est enregistré uniquement dans ce navigateur.</p>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'agile-course-progress-v1';
+  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12'];
+
+  function loadDone(){
+    try{ var raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : {}; }catch(e){ return {}; }
+  }
+  function saveDone(done){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(done)); }catch(e){} }
+  var done = loadDone();
+
+  function render(){
+    var count = 0;
+    ids.forEach(function(id){
+      var isDone = !!done[id];
+      if(isDone) count++;
+      var navCheck = document.querySelector('[data-modcheck="'+id+'"]');
+      if(navCheck) navCheck.setAttribute('data-done', isDone ? 'true' : 'false');
+      var toggle = document.querySelector('[data-toggle="'+id+'"]');
+      if(toggle) toggle.setAttribute('data-done', isDone ? 'true' : 'false');
+    });
+    var countEl = document.getElementById('progress-count');
+    var fillEl = document.getElementById('progress-fill');
+    if(countEl) countEl.textContent = String(count);
+    if(fillEl) fillEl.style.width = (count / ids.length * 100) + '%';
+  }
+  function toggle(id){ done[id] = !done[id]; saveDone(done); render(); }
+
+  ids.forEach(function(id){
+    var navCheck = document.querySelector('[data-modcheck="'+id+'"]');
+    if(navCheck){ navCheck.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); toggle(id); }); }
+    var btn = document.querySelector('[data-toggle="'+id+'"]');
+    if(btn){ btn.addEventListener('click', function(){ toggle(id); }); }
+  });
+  render();
+
+  var sections = ids.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+  var navLinks = {};
+  ids.forEach(function(id){ var l = document.querySelector('.nav-link[data-id="'+id+'"]'); if(l) navLinks[id] = l; });
+
+  if('IntersectionObserver' in window){
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var id = entry.target.id;
+        var link = navLinks[id];
+        if(!link) return;
+        if(entry.isIntersecting){
+          Object.keys(navLinks).forEach(function(k){ navLinks[k].classList.remove('active'); });
+          link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+    sections.forEach(function(s){ observer.observe(s); });
+  }
+})();
+</script>

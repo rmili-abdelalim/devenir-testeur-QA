@@ -1,0 +1,1404 @@
+<title>JavaScript Moderne — Cours Interactif</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F7FA; --surface:#FFFFFF; --surface-2:#EBF0F5; --border:#D9E1E9; --border-strong:#B9C6D3;
+    --text:#16202B; --text-dim:#4C5A68; --text-faint:#7C8B99;
+    --accent:#92720C; --accent-strong:#6B5209; --accent-tint:#FBF3D3;
+    --fail:#B8433A; --fail-tint:#FBEAE7; --warn:#93650F; --warn-tint:#FBF0DC; --ok:#1A7F37; --ok-tint:#E4F5E9;
+    --code-bg:#101A24; --code-text:#DCE7EE; --code-border:#223247;
+    --shadow: 0 1px 2px rgba(16,24,32,0.04), 0 8px 24px -12px rgba(16,24,32,0.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0E1520; --surface:#151F2B; --surface-2:#1A2635; --border:#293A4D; --border-strong:#3C5066;
+      --text:#E9EEF3; --text-dim:#A6B4C2; --text-faint:#7C8B99;
+      --accent:#FBBF24; --accent-strong:#FCD34D; --accent-tint:#332708;
+      --fail:#E3766B; --fail-tint:#33201D; --warn:#E3B564; --warn-tint:#332813; --ok:#57C778; --ok-tint:#152A1D;
+      --code-bg:#0A1017; --code-text:#D8E5EE; --code-border:#1F2E3E;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0E1520; --surface:#151F2B; --surface-2:#1A2635; --border:#293A4D; --border-strong:#3C5066;
+    --text:#E9EEF3; --text-dim:#A6B4C2; --text-faint:#7C8B99;
+    --accent:#FBBF24; --accent-strong:#FCD34D; --accent-tint:#332708;
+    --fail:#E3766B; --fail-tint:#33201D; --warn:#E3B564; --warn-tint:#332813; --ok:#57C778; --ok-tint:#152A1D;
+    --code-bg:#0A1017; --code-text:#D8E5EE; --code-border:#1F2E3E;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--text); font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; font-size:16.5px; line-height:1.65; -webkit-font-smoothing:antialiased;}
+  .mono{font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;}
+  a{color:var(--accent-strong);}
+  ::selection{background:var(--accent-tint); color:var(--text);}
+  .shell{display:grid; grid-template-columns: 280px minmax(0,1fr); max-width:1180px; margin:0 auto;}
+  @media (max-width: 900px){ .shell{grid-template-columns: 1fr;} }
+  .sidebar{position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; padding:28px 20px 40px; border-right:1px solid var(--border);}
+  @media (max-width: 900px){ .sidebar{position:static; height:auto; border-right:none; border-bottom:1px solid var(--border);} }
+  .brand{display:flex; align-items:baseline; gap:9px; margin-bottom:4px;}
+  .brand-mark{font-family:"IBM Plex Mono"; font-weight:700; font-size:13px; color:var(--accent-strong); background:var(--accent-tint); border:1px solid var(--border-strong); border-radius:4px; padding:2px 6px; letter-spacing:0.02em;}
+  .brand-name{font-family:"IBM Plex Mono"; font-weight:600; font-size:14.5px; letter-spacing:-0.01em;}
+  .tagline{color:var(--text-faint); font-size:12.5px; margin:2px 0 20px;}
+  .progress-wrap{margin-bottom:22px;}
+  .progress-label{display:flex; justify-content:space-between; align-items:baseline; font-family:"IBM Plex Mono"; font-size:11.5px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;}
+  #progress-count{color:var(--accent-strong); font-weight:600;}
+  .progress-track{height:6px; border-radius:3px; background:var(--surface-2); border:1px solid var(--border); overflow:hidden;}
+  .progress-fill{height:100%; width:0%; background:var(--accent); transition:width 0.35s ease;}
+  .nav-part-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-faint); margin:18px 0 8px;}
+  .nav-list{list-style:none; margin:0; padding:0;}
+  .nav-item{margin-bottom:1px;}
+  .nav-link{display:flex; align-items:center; gap:9px; padding:6px 8px; border-radius:6px; color:var(--text-dim); text-decoration:none; font-size:13.5px; line-height:1.35; border:1px solid transparent;}
+  .nav-link:hover{background:var(--surface-2); color:var(--text);}
+  .nav-link.active{background:var(--accent-tint); color:var(--accent-strong); border-color:var(--border-strong);}
+  .nav-check{flex:0 0 auto; width:15px; height:15px; border-radius:4px; border:1.5px solid var(--border-strong); background:var(--surface); display:inline-flex; align-items:center; justify-content:center; cursor:pointer;}
+  .nav-check[data-done="true"]{background:var(--accent); border-color:var(--accent);}
+  .nav-check[data-done="true"]::after{content:"✓"; color:#111; font-size:10px; font-weight:700;}
+  .nav-num{color:var(--text-faint); font-family:"IBM Plex Mono"; font-size:11.5px; min-width:16px;}
+  main{padding:44px 48px 100px; min-width:0;}
+  @media (max-width: 900px){ main{padding:32px 20px 80px;} }
+  @media (max-width: 560px){ main{padding:24px 16px 64px;} }
+  .doc-header{max-width:660px; margin-bottom:56px;}
+  .eyebrow{font-family:"IBM Plex Mono"; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent-strong); margin-bottom:12px;}
+  h1.doc-title{font-family:"IBM Plex Mono"; font-weight:600; font-size:clamp(28px, 4vw, 38px); line-height:1.15; letter-spacing:-0.01em; margin:0 0 16px; text-wrap:balance;}
+  .doc-lede{color:var(--text-dim); font-size:17px; line-height:1.6; margin:0 0 22px;}
+  .stat-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .stat-chip{font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-dim); border:1px solid var(--border); background:var(--surface); border-radius:20px; padding:5px 12px;}
+  .stat-chip b{color:var(--text); font-weight:600;}
+  section.module{max-width:680px; padding-top:52px; margin-top:-8px; border-top:1px solid var(--border);}
+  section.module:first-of-type{border-top:none;}
+  .part-divider{max-width:680px; margin:64px 0 8px; display:flex; align-items:center; gap:14px;}
+  .part-divider .part-tag{font-family:"IBM Plex Mono"; font-size:12px; font-weight:700; color:var(--accent-strong); background:var(--accent-tint); border:1px solid var(--border-strong); border-radius:5px; padding:4px 9px; letter-spacing:0.04em; white-space:nowrap;}
+  .part-divider h2.part-title{font-family:"IBM Plex Mono"; font-size:14px; font-weight:600; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; margin:0;}
+  .part-divider::after{content:""; flex:1; height:1px; background:var(--border);}
+  .part-intro{max-width:680px; color:var(--text-dim); margin:10px 0 0; font-size:15px;}
+  .mod-eyebrow{font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-faint); letter-spacing:0.04em; margin-bottom:8px;}
+  h2.mod-title{font-family:"IBM Plex Mono"; font-weight:600; font-size:24px; letter-spacing:-0.01em; margin:0 0 18px; text-wrap:balance;}
+  h3{font-family:"IBM Plex Mono"; font-weight:600; font-size:15.5px; margin:30px 0 10px; color:var(--text);}
+  p{margin:0 0 16px; max-width:66ch;}
+  ul, ol{margin:0 0 16px; padding-left:22px;}
+  li{margin-bottom:6px; max-width:62ch;}
+  strong{font-weight:600;}
+  .callout{border:1px solid var(--border-strong); background:var(--surface); border-radius:8px; padding:16px 18px; margin:20px 0; box-shadow:var(--shadow); max-width:680px;}
+  .callout-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--accent-strong); margin-bottom:6px;}
+  .callout p:last-child{margin-bottom:0;}
+  .callout.warn{border-color:var(--warn); background:var(--warn-tint);}
+  .callout.warn .callout-label{color:var(--warn);}
+  .exercise{border:1px solid var(--border-strong); background:var(--surface-2); border-radius:8px; padding:16px 18px; margin:26px 0 8px; max-width:680px;}
+  .exercise-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-faint); margin-bottom:8px;}
+  .exercise p{margin:0 0 10px; max-width:none;}
+  .exercise p:last-of-type{margin-bottom:0;}
+  .exercise details{margin-top:10px;}
+  .exercise summary{cursor:pointer; font-family:"IBM Plex Mono"; font-size:12.5px; font-weight:600; color:var(--accent-strong); list-style:none; display:inline-flex; align-items:center; gap:6px;}
+  .exercise summary::-webkit-details-marker{display:none;}
+  .exercise summary::before{content:"▸"; font-size:10px; display:inline-block; transition:transform 0.15s ease;}
+  .exercise details[open] summary::before{transform:rotate(90deg);}
+  .exercise .exercise-solution-body{margin-top:10px; padding-top:10px; border-top:1px dashed var(--border-strong);}
+  .exercise .exercise-solution-body p:last-child{margin-bottom:0;}
+  .exercise .exercise-solution-body pre{margin:10px 0 0; max-width:none;}
+  .qcm-opts{list-style:none; margin:0 0 10px; padding:0;}
+  .qcm-opts li{font-size:13.5px; padding:6px 10px; border:1px solid var(--border); border-radius:6px; margin-bottom:6px; background:var(--surface);}
+  .qcm-opts li b{font-family:"IBM Plex Mono"; color:var(--accent-strong); margin-right:6px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 22px; font-size:13.5px; background:var(--surface); border:1px solid var(--border); border-radius:8px; overflow:hidden;}
+  .table-scroll{overflow-x:auto; max-width:680px; margin:18px 0 22px;}
+  .table-scroll table{margin:0;}
+  th, td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--border); vertical-align:top;}
+  th{font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-faint); background:var(--surface-2);}
+  tr:last-child td{border-bottom:none;}
+  td.mono, th.mono{font-family:"IBM Plex Mono"; font-size:12.5px;}
+  .tag{display:inline-block; font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; padding:2px 7px; border-radius:4px;}
+  .tag.pass{background:var(--ok-tint); color:var(--ok);}
+  .tag.fail{background:var(--fail-tint); color:var(--fail);}
+  .tag.warn{background:var(--warn-tint); color:var(--warn);}
+  pre{background:var(--code-bg); color:var(--code-text); border:1px solid var(--code-border); border-radius:8px; padding:16px 18px; overflow-x:auto; margin:16px 0 22px; font-size:13px; line-height:1.6; max-width:680px;}
+  code{font-family:"IBM Plex Mono";}
+  p code, li code, td code{background:var(--surface-2); border:1px solid var(--border); border-radius:4px; padding:1px 5px; font-size:0.88em;}
+  .code-label{font-family:"IBM Plex Mono"; font-size:11px; color:var(--text-faint); margin:0 0 6px; letter-spacing:0.02em;}
+  .done-toggle{display:inline-flex; align-items:center; gap:8px; font-family:"IBM Plex Mono"; font-size:12.5px; color:var(--text-dim); border:1px solid var(--border-strong); background:var(--surface); border-radius:20px; padding:6px 14px 6px 10px; cursor:pointer; margin-top:28px; user-select:none;}
+  .done-toggle:hover{border-color:var(--accent);}
+  .done-toggle .box{width:15px; height:15px; border-radius:4px; border:1.5px solid var(--border-strong); display:inline-flex; align-items:center; justify-content:center; background:var(--surface);}
+  .done-toggle[data-done="true"] .box{background:var(--accent); border-color:var(--accent);}
+  .done-toggle[data-done="true"] .box::after{content:"✓"; color:#111; font-size:10px; font-weight:700;}
+  .done-toggle[data-done="true"]{color:var(--accent-strong); border-color:var(--accent);}
+  .footer-note{max-width:680px; margin-top:70px; padding-top:24px; border-top:1px solid var(--border); color:var(--text-faint); font-size:12.5px;}
+  .footer-note a{color:var(--text-dim);}
+
+  /* --- Bacs à sable interactifs --- */
+  .playground, .dom-playground{border:1px solid var(--border-strong); border-radius:8px; overflow:hidden; margin:20px 0 8px; max-width:680px; background:var(--surface); box-shadow:var(--shadow);}
+  .pg-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--accent-strong); padding:9px 14px; border-bottom:1px solid var(--border); background:var(--surface-2);}
+  .pg-code{width:100%; min-height:100px; resize:vertical; border:none; background:var(--code-bg); color:var(--code-text); font-family:"IBM Plex Mono"; font-size:13px; line-height:1.6; padding:14px 16px; box-sizing:border-box; display:block;}
+  .pg-code:focus{outline:2px solid var(--accent); outline-offset:-2px;}
+  .pg-actions{display:flex; gap:8px; padding:9px 14px; border-top:1px solid var(--code-border); background:var(--code-bg);}
+  .pg-btn{font-family:"IBM Plex Mono"; font-size:11.5px; font-weight:600; padding:6px 12px; border-radius:6px; border:1px solid var(--border-strong); background:var(--surface); color:var(--text); cursor:pointer;}
+  .pg-btn.run{background:var(--accent); border-color:var(--accent); color:#171308;}
+  .pg-output{margin:0; border-top:1px solid var(--border); background:var(--surface-2); color:var(--text-dim); font-family:"IBM Plex Mono"; font-size:12.5px; padding:12px 16px; max-height:200px; overflow:auto; white-space:pre-wrap; border-radius:0; box-shadow:none; max-width:none;}
+  .pg-output.err{color:var(--fail);}
+  .pg-frame{width:100%; height:170px; border:none; border-top:1px solid var(--border); background:#fff; display:block;}
+  .pg-frame.tall{height:360px;}
+
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} .progress-fill{transition:none;} }
+</style>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Sommaire du cours">
+    <div class="brand">
+      <span class="brand-mark">JS</span>
+      <span class="brand-name">JavaScript Moderne<br>— Cours Interactif</span>
+    </div>
+    <p class="tagline">Bases → DOM → async → projet portfolio — édition 2027</p>
+
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/20</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+
+    <div class="nav-part-label">Partie 1 — Les bases modernes</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m1" href="#m1"><span class="nav-check" data-modcheck="m1"></span><span class="nav-num">01</span> Pourquoi JavaScript</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m2" href="#m2"><span class="nav-check" data-modcheck="m2"></span><span class="nav-num">02</span> Variables et types</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m3" href="#m3"><span class="nav-check" data-modcheck="m3"></span><span class="nav-num">03</span> Fonctions modernes</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m4" href="#m4"><span class="nav-check" data-modcheck="m4"></span><span class="nav-num">04</span> Conditions et boucles</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 2 — Structures de données</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m5" href="#m5"><span class="nav-check" data-modcheck="m5"></span><span class="nav-num">05</span> Tableaux modernes</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m6" href="#m6"><span class="nav-check" data-modcheck="m6"></span><span class="nav-num">06</span> Objets et destructuring</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m7" href="#m7"><span class="nav-check" data-modcheck="m7"></span><span class="nav-num">07</span> Spread, rest et JSON</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 3 — Asynchrone</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m8" href="#m8"><span class="nav-check" data-modcheck="m8"></span><span class="nav-num">08</span> L'event loop</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m9" href="#m9"><span class="nav-check" data-modcheck="m9"></span><span class="nav-num">09</span> Les Promises</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m10" href="#m10"><span class="nav-check" data-modcheck="m10"></span><span class="nav-num">10</span> async / await</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 4 — Le DOM et le navigateur</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m11" href="#m11"><span class="nav-check" data-modcheck="m11"></span><span class="nav-num">11</span> Sélectionner et manipuler</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m12" href="#m12"><span class="nav-check" data-modcheck="m12"></span><span class="nav-num">12</span> Les événements</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m13" href="#m13"><span class="nav-check" data-modcheck="m13"></span><span class="nav-num">13</span> Formulaires et validation</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 5 — JS avancé et outillage</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m14" href="#m14"><span class="nav-check" data-modcheck="m14"></span><span class="nav-num">14</span> Classes et closures</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m15" href="#m15"><span class="nav-check" data-modcheck="m15"></span><span class="nav-num">15</span> Modules ES6</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m16" href="#m16"><span class="nav-check" data-modcheck="m16"></span><span class="nav-num">16</span> Introduction à TypeScript</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m17" href="#m17"><span class="nav-check" data-modcheck="m17"></span><span class="nav-num">17</span> Outillage moderne</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 6 — Projet final portfolio</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m18" href="#m18"><span class="nav-check" data-modcheck="m18"></span><span class="nav-num">18</span> Cahier des charges et structure</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m19" href="#m19"><span class="nav-check" data-modcheck="m19"></span><span class="nav-num">19</span> CRUD complet et persistance</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m20" href="#m20"><span class="nav-check" data-modcheck="m20"></span><span class="nav-num">20</span> Finitions, déploiement, portfolio</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <header class="doc-header">
+      <div class="eyebrow">Cours autoportant · Compagnon de tes cours QA, SQL, GitHub, ISTQB, Agile, API et Cloud</div>
+      <h1 class="doc-title">JavaScript Moderne — Cours Interactif</h1>
+      <p class="doc-lede">Un vrai bac à sable JavaScript directement dans la page : chaque exercice de code s'exécute pour de vrai, dans ton navigateur, sans rien installer. On part de zéro en JS (tu connais déjà Python, on s'appuie dessus pour aller plus vite), jusqu'à un <strong>projet complet et déployable</strong> — une application de suivi de candidatures que tu pourras mettre sur ton portfolio et présenter en entretien d'alternance.</p>
+      <div class="stat-row">
+        <span class="stat-chip"><b>20</b> modules</span>
+        <span class="stat-chip"><b>6</b> parties : bases → données → async → DOM → avancé → projet</span>
+        <span class="stat-chip">Bacs à sable <b>exécutables en direct</b></span>
+        <span class="stat-chip">1 projet portfolio complet</span>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">Comment fonctionnent les exercices de ce cours</div>
+        <p>Dès que tu vois un encadré avec un bouton <strong>▶ Exécuter</strong>, c'est du vrai code éditable — modifie-le, clique sur Exécuter, regarde le résultat apparaître juste en dessous. Rien n'est envoyé nulle part, tout s'exécute directement dans ton navigateur, exactement comme le ferait ta console de développeur. Pour les modules où l'exercice touche à une page web (le DOM, un formulaire), l'aperçu est une vraie mini-page qui réagit à ton code en direct.</p>
+      </div>
+    </header>
+
+    <!-- ============ PARTIE 1 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 1</span><h2 class="part-title">Les bases modernes</h2></div>
+    <p class="part-intro">Quatre modules pour poser une syntaxe JS propre et actuelle — pas celle des tutoriels de 2015 encore pleins de <code>var</code> et de fonctions callback partout.</p>
+
+    <section class="module" id="m1">
+      <div class="mod-eyebrow">Partie 1 · Module 01</div>
+      <h2 class="mod-title">Pourquoi JavaScript</h2>
+      <p>JavaScript a une particularité qu'aucun autre langage ne partage vraiment : c'est le <strong>seul langage qui tourne nativement dans tous les navigateurs</strong>, sans rien installer. Avec Node.js, il tourne aussi côté serveur — ce qui permet à une seule personne de tenir tout un projet web, front et back, avec un seul langage.</p>
+
+      <p>Tu connais déjà Python, ce qui te donne une vraie longueur d'avance : les deux sont des langages dynamiquement typés, avec une syntaxe lisible. Les différences qui comptent le plus au début :</p>
+      <div class="table-scroll"><table>
+        <tr><th>Python</th><th>JavaScript</th></tr>
+        <tr><td>Indentation obligatoire</td><td>Accolades <code>{ }</code>, l'indentation est une convention, pas une règle</td></tr>
+        <tr><td><code>print("Bonjour")</code></td><td><code>console.log("Bonjour")</code></td></tr>
+        <tr><td><code>def ma_fonction():</code></td><td><code>function maFonction() {}</code> ou <code>const maFonction = () => {}</code></td></tr>
+        <tr><td>Un seul type d'égalité (<code>==</code>)</td><td><code>===</code> (égalité stricte, à toujours préférer) vs <code>==</code> (avec conversion de type, à éviter)</td></tr>
+        <tr><td>Tourne où Python est installé</td><td>Tourne nativement dans n'importe quel navigateur</td></tr>
+      </table></div>
+
+      <p>Le point le plus important pour bien démarrer : utilise toujours <code>===</code> et jamais <code>==</code>. Ce dernier convertit silencieusement les types avant de comparer (<code>"5" == 5</code> vaut <code>true</code>), une source classique de bugs difficiles à repérer.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Bac à sable</div>
+        <p>Écris <code>console.log("Bonjour depuis JavaScript")</code>, puis clique sur Exécuter.</p>
+        <div class="playground">
+          <div class="pg-label">Bac à sable JavaScript</div>
+          <textarea class="pg-code" spellcheck="false">// Écris ton code ici, puis clique sur Exécuter
+</textarea>
+          <div class="pg-actions"><button class="pg-btn run">▶ Exécuter</button><button class="pg-btn reset">↺ Réinitialiser</button></div>
+          <pre class="pg-output">(pas encore exécuté)</pre>
+        </div>
+        <details>
+          <summary>Voir une solution possible</summary>
+          <div class="exercise-solution-body">
+            <pre>console.log("Bonjour depuis JavaScript");</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m1"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m2">
+      <div class="mod-eyebrow">Partie 1 · Module 02</div>
+      <h2 class="mod-title">Variables et types</h2>
+      <p>JavaScript a trois façons historiques de déclarer une variable — une seule règle à retenir en 2027 : <strong>n'utilise jamais <code>var</code></strong>. Cette ancienne syntaxe a un comportement de portée (scope) déroutant, source de bugs, entièrement remplacé par <code>let</code> et <code>const</code>.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Mot-clé</th><th>Usage</th></tr>
+        <tr><td><code>const</code></td><td>La valeur ne sera jamais réassignée — ton choix par défaut, dans 90 % des cas</td></tr>
+        <tr><td><code>let</code></td><td>La valeur changera au cours du programme (un compteur, par exemple)</td></tr>
+        <tr><td><code>var</code></td><td>À éviter — présent uniquement dans du code ancien que tu pourrais croiser</td></tr>
+      </table></div>
+
+      <p>Les types primitifs principaux : <code>string</code> (texte), <code>number</code> (tous les nombres, pas de distinction int/float comme en Python), <code>boolean</code>, <code>null</code> (absence volontaire de valeur) et <code>undefined</code> (valeur jamais définie).</p>
+
+      <p class="code-label">Les template literals (avec des backticks, pas des guillemets)</p>
+      <pre>const prenom = "Karim";
+const age = 29;
+console.log(`${prenom} a ${age} ans.`);   // interpolation directe, sans + partout</pre>
+      <p>Un vrai gain de lisibilité comparé à l'ancienne concaténation avec <code>+</code> — l'équivalent des f-strings de Python (<code>f"{prenom} a {age} ans"</code>).</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Bac à sable</div>
+        <p>Déclare une <code>const</code> nom valant ton prénom et une <code>const</code> objectif valant <code>"alternance QA"</code>, puis affiche une phrase les combinant avec un template literal.</p>
+        <div class="playground">
+          <div class="pg-label">Bac à sable JavaScript</div>
+          <textarea class="pg-code" spellcheck="false">// const nom = ...
+// const objectif = ...
+// console.log(`...`);
+</textarea>
+          <div class="pg-actions"><button class="pg-btn run">▶ Exécuter</button><button class="pg-btn reset">↺ Réinitialiser</button></div>
+          <pre class="pg-output">(pas encore exécuté)</pre>
+        </div>
+        <details>
+          <summary>Voir une solution possible</summary>
+          <div class="exercise-solution-body">
+            <pre>const nom = "Rmili";
+const objectif = "alternance QA";
+console.log(`${nom} vise une ${objectif} pour 2027.`);</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m2"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m3">
+      <div class="mod-eyebrow">Partie 1 · Module 03</div>
+      <h2 class="mod-title">Fonctions modernes</h2>
+      <p>Deux syntaxes principales cohabitent en JS moderne. La déclaration classique :</p>
+      <pre>function carre(n) {
+  return n * n;
+}</pre>
+      <p>Et la <strong>fonction fléchée</strong> (arrow function), plus concise, très utilisée en JS moderne :</p>
+      <pre>const carre = (n) => n * n;               // retour implicite si une seule expression
+const addition = (a, b) => { return a + b; };  // avec accolades, retour explicite requis</pre>
+
+      <p>Les fonctions peuvent avoir des <strong>paramètres par défaut</strong> — l'équivalent des valeurs par défaut Python :</p>
+      <pre>const saluer = (nom = "candidat") => `Bonjour ${nom} !`;
+console.log(saluer());          // "Bonjour candidat !"
+console.log(saluer("Rmili"));   // "Bonjour Rmili !"</pre>
+
+      <div class="callout">
+        <div class="callout-label">Une nuance pour plus tard, à retenir dès maintenant</div>
+        <p>Les fonctions fléchées ne redéfinissent jamais <code>this</code> — elles héritent du contexte qui les entoure. Ce détail semble abstrait maintenant, mais il évite un piège classique qu'on rencontrera concrètement au module 12, sur les événements.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Bac à sable</div>
+        <p>Écris une fonction fléchée <code>estMajeur</code> qui prend un âge et retourne <code>true</code> s'il est supérieur ou égal à 18, sinon <code>false</code>. Teste-la avec deux âges différents.</p>
+        <div class="playground">
+          <div class="pg-label">Bac à sable JavaScript</div>
+          <textarea class="pg-code" spellcheck="false">// const estMajeur = (age) => ...
+// console.log(estMajeur(16));
+// console.log(estMajeur(20));
+</textarea>
+          <div class="pg-actions"><button class="pg-btn run">▶ Exécuter</button><button class="pg-btn reset">↺ Réinitialiser</button></div>
+          <pre class="pg-output">(pas encore exécuté)</pre>
+        </div>
+        <details>
+          <summary>Voir une solution possible</summary>
+          <div class="exercise-solution-body">
+            <pre>const estMajeur = (age) => age >= 18;
+console.log(estMajeur(16));  // false
+console.log(estMajeur(20));  // true</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m3"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m4">
+      <div class="mod-eyebrow">Partie 1 · Module 04</div>
+      <h2 class="mod-title">Conditions et boucles</h2>
+      <p><code>if / else if / else</code> et l'opérateur ternaire fonctionnent comme en Python, à la syntaxe près :</p>
+      <pre>const statut = stock > 0 ? "en stock" : "épuisé";</pre>
+
+      <p>Pour les boucles, JavaScript moderne privilégie <code>for...of</code> pour parcourir un tableau — l'équivalent quasi direct du <code>for x in liste</code> de Python :</p>
+      <pre>const outils = ["Playwright", "Postman", "k6", "GitHub"];
+for (const outil of outils) {
+  console.log(outil);
+}</pre>
+
+      <div class="callout warn">
+        <div class="callout-label">Piège classique à éviter</div>
+        <p><code>for...in</code> parcourt les <strong>clés</strong> d'un objet, pas les valeurs d'un tableau — l'utiliser sur un tableau donne des résultats surprenants (les index sous forme de texte). Pour un tableau, c'est toujours <code>for...of</code> ; <code>for...in</code> est réservé aux objets.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Bac à sable</div>
+        <p>Avec le tableau <code>["Playwright", "Postman", "k6", "GitHub"]</code>, affiche chaque outil précédé de son numéro (1., 2., 3., 4.) avec une boucle <code>for...of</code> et un compteur.</p>
+        <div class="playground">
+          <div class="pg-label">Bac à sable JavaScript</div>
+          <textarea class="pg-code" spellcheck="false">const outils = ["Playwright", "Postman", "k6", "GitHub"];
+// à toi de jouer
+</textarea>
+          <div class="pg-actions"><button class="pg-btn run">▶ Exécuter</button><button class="pg-btn reset">↺ Réinitialiser</button></div>
+          <pre class="pg-output">(pas encore exécuté)</pre>
+        </div>
+        <details>
+          <summary>Voir une solution possible</summary>
+          <div class="exercise-solution-body">
+            <pre>const outils = ["Playwright", "Postman", "k6", "GitHub"];
+let numero = 1;
+for (const outil of outils) {
+  console.log(`${numero}. ${outil}`);
+  numero++;
+}</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m4"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 2 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 2</span><h2 class="part-title">Structures de données</h2></div>
+    <p class="part-intro">Trois modules autour des tableaux et objets modernes — le cœur de ce que tu manipuleras dans le projet final.</p>
+
+    <section class="module" id="m5">
+      <div class="mod-eyebrow">Partie 2 · Module 05</div>
+      <h2 class="mod-title">Tableaux modernes</h2>
+      <p>Trois méthodes remplacent la plupart des boucles manuelles sur les tableaux — l'équivalent presque direct des list comprehensions Python :</p>
+      <div class="table-scroll"><table>
+        <tr><th>Méthode</th><th>Fait</th><th>Équivalent Python</th></tr>
+        <tr><td><code>map()</code></td><td>Transforme chaque élément</td><td><code>[f(x) for x in liste]</code></td></tr>
+        <tr><td><code>filter()</code></td><td>Ne garde que certains éléments</td><td><code>[x for x in liste if cond]</code></td></tr>
+        <tr><td><code>reduce()</code></td><td>Réduit le tableau à une seule valeur</td><td><code>functools.reduce(...)</code></td></tr>
+      </table></div>
+
+      <pre>const candidatures = [
+  { entreprise: "NovaCart", statut: "entretien" },
+  { entreprise: "TechFlow", statut: "envoyée" },
+  { entreprise: "QAPlus", statut: "refus" },
+];
+
+const enEntretien = candidatures.filter(c => c.statut === "entretien");
+const noms = candidatures.map(c => c.entreprise);
+const total = candidatures.reduce((acc, c) => acc + 1, 0);</pre>
+
+      <p><code>forEach()</code> ressemble à <code>map()</code> mais ne retourne rien — à utiliser uniquement pour un effet de bord (comme un <code>console.log</code>), jamais pour construire un nouveau tableau.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Bac à sable</div>
+        <p>À partir du tableau <code>candidatures</code> ci-dessous, utilise <code>filter()</code> pour ne garder que celles au statut <code>"envoyée"</code>, puis <code>map()</code> pour n'en garder que le nom d'entreprise, et affiche le résultat.</p>
+        <div class="playground">
+          <div class="pg-label">Bac à sable JavaScript</div>
+          <textarea class="pg-code" spellcheck="false">const candidatures = [
+  { entreprise: "NovaCart", statut: "entretien" },
+  { entreprise: "TechFlow", statut: "envoyée" },
+  { entreprise: "QAPlus", statut: "refus" },
+  { entreprise: "DevCorp", statut: "envoyée" },
+];
+// à toi de jouer
+</textarea>
+          <div class="pg-actions"><button class="pg-btn run">▶ Exécuter</button><button class="pg-btn reset">↺ Réinitialiser</button></div>
+          <pre class="pg-output">(pas encore exécuté)</pre>
+        </div>
+        <details>
+          <summary>Voir une solution possible</summary>
+          <div class="exercise-solution-body">
+            <pre>const enAttente = candidatures
+  .filter(c => c.statut === "envoyée")
+  .map(c => c.entreprise);
+console.log(enAttente); // ["TechFlow", "DevCorp"]</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m5"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m6">
+      <div class="mod-eyebrow">Partie 2 · Module 06</div>
+      <h2 class="mod-title">Objets et destructuring</h2>
+      <p>Un objet JavaScript ressemble beaucoup à un dictionnaire Python — des paires clé/valeur :</p>
+      <pre>const candidature = {
+  entreprise: "NovaCart",
+  poste: "Testeur QA junior",
+  statut: "entretien",
+};
+console.log(candidature.entreprise);   // accès par point
+console.log(candidature["poste"]);     // accès par crochets, utile si la clé est dynamique</pre>
+
+      <p>Le <strong>destructuring</strong> extrait directement des valeurs dans des variables — très utilisé en JS moderne pour éviter les accès répétitifs :</p>
+      <pre>const { entreprise, statut } = candidature;
+console.log(entreprise, statut);   // "NovaCart" "entretien"
+
+const [premier, deuxieme] = ["Playwright", "Postman"];  // pareil pour les tableaux</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Bac à sable</div>
+        <p>Déstructure l'objet <code>candidature</code> ci-dessous pour extraire <code>entreprise</code> et <code>poste</code>, puis affiche <code>"Entretien chez NovaCart pour Testeur QA junior"</code> (adapté aux vraies valeurs) avec un template literal.</p>
+        <div class="playground">
+          <div class="pg-label">Bac à sable JavaScript</div>
+          <textarea class="pg-code" spellcheck="false">const candidature = {
+  entreprise: "NovaCart",
+  poste: "Testeur QA junior",
+  statut: "entretien",
+};
+// à toi de jouer
+</textarea>
+          <div class="pg-actions"><button class="pg-btn run">▶ Exécuter</button><button class="pg-btn reset">↺ Réinitialiser</button></div>
+          <pre class="pg-output">(pas encore exécuté)</pre>
+        </div>
+        <details>
+          <summary>Voir une solution possible</summary>
+          <div class="exercise-solution-body">
+            <pre>const { entreprise, poste, statut } = candidature;
+console.log(`${statut} chez ${entreprise} pour ${poste}`);</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m6"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m7">
+      <div class="mod-eyebrow">Partie 2 · Module 07</div>
+      <h2 class="mod-title">Spread, rest et JSON</h2>
+      <p>L'opérateur <strong>spread</strong> (<code>...</code>) copie le contenu d'un tableau ou d'un objet — indispensable pour modifier une donnée <strong>sans muter l'original</strong>, une bonne pratique en JS moderne :</p>
+      <pre>const candidature = { entreprise: "NovaCart", statut: "envoyée" };
+const miseAJour = { ...candidature, statut: "entretien" };
+// candidature reste inchangée, miseAJour est une nouvelle copie modifiée
+
+const outils = ["Playwright", "Postman"];
+const plusOutils = [...outils, "k6"];   // ["Playwright", "Postman", "k6"]</pre>
+
+      <p>Le même symbole, utilisé dans une déclaration de fonction, s'appelle <strong>rest</strong> et regroupe un nombre variable d'arguments :</p>
+      <pre>const additionner = (...nombres) => nombres.reduce((a, b) => a + b, 0);
+console.log(additionner(1, 2, 3, 4));   // 10</pre>
+
+      <h3>JSON : le format d'échange universel</h3>
+      <p>Déjà croisé dans le cours API — en JavaScript, la conversion est native, sans librairie :</p>
+      <pre>const texte = JSON.stringify(candidature);   // objet → texte
+const objet = JSON.parse(texte);             // texte → objet</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Bac à sable</div>
+        <p>Utilise le spread operator pour ajouter <code>"note: 8"</code> à l'objet <code>candidature</code> sans modifier l'original, puis affiche les deux objets avec <code>JSON.stringify</code> pour vérifier que l'original n'a pas changé.</p>
+        <div class="playground">
+          <div class="pg-label">Bac à sable JavaScript</div>
+          <textarea class="pg-code" spellcheck="false">const candidature = { entreprise: "NovaCart", statut: "entretien" };
+// à toi de jouer
+</textarea>
+          <div class="pg-actions"><button class="pg-btn run">▶ Exécuter</button><button class="pg-btn reset">↺ Réinitialiser</button></div>
+          <pre class="pg-output">(pas encore exécuté)</pre>
+        </div>
+        <details>
+          <summary>Voir une solution possible</summary>
+          <div class="exercise-solution-body">
+            <pre>const candidature = { entreprise: "NovaCart", statut: "entretien" };
+const avecNote = { ...candidature, note: 8 };
+console.log(JSON.stringify(candidature));
+console.log(JSON.stringify(avecNote));</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m7"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 3 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 3</span><h2 class="part-title">Asynchrone</h2></div>
+    <p class="part-intro">Trois modules sur ce qui distingue le plus JavaScript de Python : sa façon de gérer les opérations qui prennent du temps sans jamais bloquer le programme entier.</p>
+
+    <section class="module" id="m8">
+      <div class="mod-eyebrow">Partie 3 · Module 08</div>
+      <h2 class="mod-title">L'event loop</h2>
+      <p>JavaScript s'exécute sur un seul fil d'exécution (single-threaded) — contrairement à certains langages, il ne peut pas faire deux choses en même temps dans le même programme. Pourtant, il ne se bloque jamais en attendant qu'une page charge ou qu'une réponse réseau arrive. Le mécanisme qui rend ça possible s'appelle l'<strong>event loop</strong> (boucle d'événements).</p>
+
+      <p>Le principe simplifié : le code synchrone s'exécute immédiatement, dans l'ordre. Une opération asynchrone (comme <code>setTimeout</code>, ou un appel réseau) est "mise de côté" et ne s'exécute qu'une fois que <strong>tout</strong> le code synchrone est terminé — même avec un délai de zéro milliseconde.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Bac à sable — prédis le résultat avant d'exécuter</div>
+        <p>Avant de cliquer sur Exécuter, essaie de deviner dans quel ordre les trois messages vont s'afficher.</p>
+        <div class="playground">
+          <div class="pg-label">Bac à sable JavaScript</div>
+          <textarea class="pg-code" spellcheck="false">console.log("1. début");
+
+setTimeout(() => {
+  console.log("2. dans le setTimeout");
+}, 0);
+
+console.log("3. fin");
+</textarea>
+          <div class="pg-actions"><button class="pg-btn run">▶ Exécuter</button><button class="pg-btn reset">↺ Réinitialiser</button></div>
+          <pre class="pg-output">(pas encore exécuté)</pre>
+        </div>
+        <details>
+          <summary>Voir l'explication</summary>
+          <div class="exercise-solution-body">
+            <p>L'ordre réel est <strong>1, 3, 2</strong> — même avec un délai de 0 ms, <code>setTimeout</code> est mis de côté et ne s'exécute qu'une fois tout le code synchrone terminé. C'est exactement ce mécanisme qui permet à une page web de rester réactive (cliquable, scrollable) pendant qu'elle attend une réponse réseau en arrière-plan.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m8"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m9">
+      <div class="mod-eyebrow">Partie 3 · Module 09</div>
+      <h2 class="mod-title">Les Promises</h2>
+      <p>Une <strong>Promise</strong> représente une valeur qui n'est pas encore disponible, mais qui le sera — soit avec succès (<em>résolue</em>), soit avec une erreur (<em>rejetée</em>). C'est l'outil qui structure proprement le code asynchrone, plutôt que d'empiler des callbacks (l'ancienne approche, illisible au-delà de deux niveaux).</p>
+
+      <p class="code-label">Une fonction simulée, qui imite un appel réseau vers NovaCart</p>
+      <pre>function verifierStock(idArticle) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (idArticle === 42) {
+        resolve({ nom: "Casque audio", stock: 12 });
+      } else {
+        reject(new Error("Article introuvable"));
+      }
+    }, 600);
+  });
+}</pre>
+      <pre>verifierStock(42)
+  .then(article => console.log(`En stock : ${article.nom} (${article.stock})`))
+  .catch(erreur => console.log("Erreur :", erreur.message));</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Bac à sable</div>
+        <p>La fonction <code>verifierStock</code> est déjà prête ci-dessous. Appelle-la avec <code>.then()</code>/<code>.catch()</code> pour l'article 42 (qui existe), puis pour l'article 99 (qui n'existe pas), et observe les deux résultats.</p>
+        <div class="playground">
+          <div class="pg-label">Bac à sable JavaScript</div>
+          <textarea class="pg-code" spellcheck="false">function verifierStock(idArticle) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (idArticle === 42) {
+        resolve({ nom: "Casque audio", stock: 12 });
+      } else {
+        reject(new Error("Article introuvable"));
+      }
+    }, 300);
+  });
+}
+
+// à toi de jouer : appelle verifierStock(42) puis verifierStock(99)
+</textarea>
+          <div class="pg-actions"><button class="pg-btn run">▶ Exécuter</button><button class="pg-btn reset">↺ Réinitialiser</button></div>
+          <pre class="pg-output">(pas encore exécuté)</pre>
+        </div>
+        <details>
+          <summary>Voir une solution possible</summary>
+          <div class="exercise-solution-body">
+            <pre>verifierStock(42)
+  .then(article => console.log(`En stock : ${article.nom} (${article.stock})`))
+  .catch(erreur => console.log("Erreur :", erreur.message));
+
+verifierStock(99)
+  .then(article => console.log(`En stock : ${article.nom}`))
+  .catch(erreur => console.log("Erreur :", erreur.message));</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m9"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m10">
+      <div class="mod-eyebrow">Partie 3 · Module 10</div>
+      <h2 class="mod-title">async / await</h2>
+      <p><code>async</code>/<code>await</code> réécrit exactement la même logique que les Promises, mais avec une syntaxe qui se lit comme du code synchrone — beaucoup plus proche de ce que tu connais déjà en Python. C'est la syntaxe à privilégier en JS moderne dès que c'est possible.</p>
+
+      <pre>async function afficherStock(idArticle) {
+  try {
+    const article = await verifierStock(idArticle);
+    console.log(`En stock : ${article.nom} (${article.stock})`);
+  } catch (erreur) {
+    console.log("Erreur :", erreur.message);
+  }
+}
+
+afficherStock(42);</pre>
+
+      <p><code>await</code> ne peut être utilisé qu'à l'intérieur d'une fonction marquée <code>async</code> — c'est ce mot-clé qui indique à JavaScript "cette fonction peut mettre en pause son exécution ici, sans bloquer le reste du programme".</p>
+
+      <div class="callout warn">
+        <div class="callout-label">Erreur fréquente</div>
+        <p>Oublier <code>await</code> devant un appel qui retourne une Promise ne provoque pas d'erreur immédiate — la variable contient simplement l'objet Promise en attente, pas sa valeur résolue, ce qui provoque des bugs silencieux plus loin dans le code. Si une valeur ressemble à <code>Promise { &lt;pending&gt; }</code> dans tes logs, c'est le signe classique d'un <code>await</code> manquant.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Bac à sable</div>
+        <p>Réécris l'appel à <code>verifierStock(99)</code> (qui échoue) en utilisant une fonction <code>async</code> avec <code>try/catch</code>, plutôt que <code>.then()</code>/<code>.catch()</code>.</p>
+        <div class="playground">
+          <div class="pg-label">Bac à sable JavaScript</div>
+          <textarea class="pg-code" spellcheck="false">function verifierStock(idArticle) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (idArticle === 42) {
+        resolve({ nom: "Casque audio", stock: 12 });
+      } else {
+        reject(new Error("Article introuvable"));
+      }
+    }, 300);
+  });
+}
+
+// à toi de jouer : écris une fonction async qui appelle verifierStock(99)
+</textarea>
+          <div class="pg-actions"><button class="pg-btn run">▶ Exécuter</button><button class="pg-btn reset">↺ Réinitialiser</button></div>
+          <pre class="pg-output">(pas encore exécuté)</pre>
+        </div>
+        <details>
+          <summary>Voir une solution possible</summary>
+          <div class="exercise-solution-body">
+            <pre>async function verifier() {
+  try {
+    const article = await verifierStock(99);
+    console.log(`En stock : ${article.nom}`);
+  } catch (erreur) {
+    console.log("Erreur :", erreur.message);
+  }
+}
+verifier();</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m10"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 4 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 4</span><h2 class="part-title">Le DOM et le navigateur</h2></div>
+    <p class="part-intro">Trois modules avec un vrai aperçu de page web en direct — ce que Python ne peut pas t'offrir, puisque cette partie est propre au navigateur.</p>
+
+    <section class="module" id="m11">
+      <div class="mod-eyebrow">Partie 4 · Module 11</div>
+      <h2 class="mod-title">Sélectionner et manipuler</h2>
+      <p>Le <strong>DOM</strong> (Document Object Model) est la représentation d'une page web que JavaScript peut lire et modifier — chaque balise HTML devient un objet manipulable.</p>
+      <pre>const carte = document.querySelector("#carte");        // un seul élément
+const boutons = document.querySelectorAll(".btn");     // tous les éléments correspondants
+
+carte.textContent = "Nouveau texte";     // change le texte, sans risque
+carte.innerHTML = "&lt;strong&gt;Gras&lt;/strong&gt;"; // insère du HTML — dangereux avec du contenu non fiable (XSS, cours QA module 24)</pre>
+
+      <div class="callout warn">
+        <div class="callout-label">Réflexe sécurité</div>
+        <p><code>innerHTML</code> avec un contenu qui vient d'un utilisateur (un commentaire, un champ de formulaire) est une porte ouverte à une injection XSS — exactement le type de faille qu'OWASP ZAP recherche dans le cours QA (module 24). Par défaut, préfère toujours <code>textContent</code> sauf besoin explicite d'insérer du HTML de confiance.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Aperçu en direct — modifie le JS et exécute</div>
+        <p>Le bouton "Appliquer -20%" existe déjà dans l'aperçu. Sélectionne-le, écoute le clic, et fais en sorte qu'il réduise le prix affiché de 20% en modifiant le texte de <code>#prix</code>.</p>
+        <div class="dom-playground">
+          <div class="pg-label">Aperçu en direct</div>
+          <template class="pg-html"><div id="carte" style="border:1px solid #ccc;border-radius:8px;padding:12px;max-width:220px;"><h3 style="margin:0 0 6px;font-size:15px;">Casque audio</h3><p id="prix" style="margin:0;font-family:monospace;">Prix : 49,99 €</p></div><button id="promo" style="margin-top:10px;padding:6px 12px;border-radius:6px;border:1px solid #999;cursor:pointer;">Appliquer -20%</button></template>
+          <textarea class="pg-code" spellcheck="false">const bouton = document.querySelector("#promo");
+// à toi de jouer : ajoute un écouteur qui réduit le prix de 20%
+</textarea>
+          <div class="pg-actions"><button class="pg-btn run">▶ Exécuter</button><button class="pg-btn reset">↺ Réinitialiser</button></div>
+          <iframe class="pg-frame" sandbox="allow-scripts" title="Aperçu"></iframe>
+        </div>
+        <details>
+          <summary>Voir une solution possible</summary>
+          <div class="exercise-solution-body">
+            <pre>const bouton = document.querySelector("#promo");
+bouton.addEventListener("click", () => {
+  const prixEl = document.querySelector("#prix");
+  const nouveauPrix = (49.99 * 0.8).toFixed(2);
+  prixEl.textContent = `Prix : ${nouveauPrix} €`;
+});</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m11"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m12">
+      <div class="mod-eyebrow">Partie 4 · Module 12</div>
+      <h2 class="mod-title">Les événements</h2>
+      <p><code>addEventListener</code> écoute un événement (clic, saisie, soumission...) sur un élément et exécute une fonction en réponse. Une technique importante quand plusieurs éléments similaires doivent réagir pareil : la <strong>délégation d'événements</strong> — écouter sur le parent plutôt que sur chaque enfant individuellement, pratique quand des éléments sont ajoutés dynamiquement.</p>
+
+      <pre>document.querySelector("#liste").addEventListener("click", (evenement) => {
+  if (evenement.target.matches(".supprimer")) {
+    evenement.target.closest("li").remove();
+  }
+});</pre>
+      <p><code>evenement.target</code> est l'élément précis qui a réellement été cliqué — utile pour savoir exactement quoi faire quand l'écouteur est posé sur un parent commun plutôt que sur chaque bouton.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Aperçu en direct — modifie le JS et exécute</div>
+        <p>La liste ci-dessous a un bouton "✕" par ligne. Ajoute un seul écouteur, sur la liste entière (<code>#liste</code>), qui supprime la ligne correspondante quand on clique sur son "✕" — sans poser un écouteur par bouton.</p>
+        <div class="dom-playground">
+          <div class="pg-label">Aperçu en direct</div>
+          <template class="pg-html"><ul id="liste" style="list-style:none;padding:0;max-width:260px;font-family:sans-serif;">
+  <li style="display:flex;justify-content:space-between;padding:6px 8px;border:1px solid #ddd;border-radius:6px;margin-bottom:4px;">NovaCart <button class="supprimer" style="border:none;background:none;cursor:pointer;color:#B8433A;">✕</button></li>
+  <li style="display:flex;justify-content:space-between;padding:6px 8px;border:1px solid #ddd;border-radius:6px;margin-bottom:4px;">TechFlow <button class="supprimer" style="border:none;background:none;cursor:pointer;color:#B8433A;">✕</button></li>
+  <li style="display:flex;justify-content:space-between;padding:6px 8px;border:1px solid #ddd;border-radius:6px;margin-bottom:4px;">QAPlus <button class="supprimer" style="border:none;background:none;cursor:pointer;color:#B8433A;">✕</button></li>
+</ul></template>
+          <textarea class="pg-code" spellcheck="false">// à toi de jouer : un seul addEventListener sur #liste
+</textarea>
+          <div class="pg-actions"><button class="pg-btn run">▶ Exécuter</button><button class="pg-btn reset">↺ Réinitialiser</button></div>
+          <iframe class="pg-frame" sandbox="allow-scripts" title="Aperçu"></iframe>
+        </div>
+        <details>
+          <summary>Voir une solution possible</summary>
+          <div class="exercise-solution-body">
+            <pre>document.querySelector("#liste").addEventListener("click", (evenement) => {
+  if (evenement.target.matches(".supprimer")) {
+    evenement.target.closest("li").remove();
+  }
+});</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m12"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m13">
+      <div class="mod-eyebrow">Partie 4 · Module 13</div>
+      <h2 class="mod-title">Formulaires et validation</h2>
+      <p>Un formulaire déclenche l'événement <code>submit</code>, qu'on intercepte avec <code>preventDefault()</code> pour empêcher le rechargement complet de la page (le comportement par défaut du navigateur) et gérer la soumission en JavaScript.</p>
+      <pre>document.querySelector("#formulaire").addEventListener("submit", (evenement) => {
+  evenement.preventDefault();
+  const email = document.querySelector("#email").value;
+  if (!email.includes("@")) {
+    console.log("Email invalide");
+    return;
+  }
+  console.log("Formulaire valide :", email);
+});</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Aperçu en direct — modifie le JS et exécute</div>
+        <p>Le formulaire ci-dessous a un champ email et un bouton "Envoyer". Intercepte la soumission, vérifie que le champ contient <code>@</code>, et affiche un message de succès ou d'erreur dans <code>#message</code>.</p>
+        <div class="dom-playground">
+          <div class="pg-label">Aperçu en direct</div>
+          <template class="pg-html"><form id="formulaire" style="font-family:sans-serif;max-width:260px;">
+  <input id="email" type="text" placeholder="ton@email.fr" style="width:100%;padding:6px;border:1px solid #ccc;border-radius:6px;box-sizing:border-box;">
+  <button type="submit" style="margin-top:8px;padding:6px 12px;border-radius:6px;border:1px solid #999;cursor:pointer;">Envoyer</button>
+  <p id="message" style="font-size:13px;margin-top:8px;"></p>
+</form></template>
+          <textarea class="pg-code" spellcheck="false">// à toi de jouer
+</textarea>
+          <div class="pg-actions"><button class="pg-btn run">▶ Exécuter</button><button class="pg-btn reset">↺ Réinitialiser</button></div>
+          <iframe class="pg-frame" sandbox="allow-scripts" title="Aperçu"></iframe>
+        </div>
+        <details>
+          <summary>Voir une solution possible</summary>
+          <div class="exercise-solution-body">
+            <pre>document.querySelector("#formulaire").addEventListener("submit", (evenement) => {
+  evenement.preventDefault();
+  const email = document.querySelector("#email").value;
+  const message = document.querySelector("#message");
+  if (!email.includes("@")) {
+    message.textContent = "Email invalide";
+    message.style.color = "#B8433A";
+  } else {
+    message.textContent = "Formulaire valide !";
+    message.style.color = "#1A7F37";
+  }
+});</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m13"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 5 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 5</span><h2 class="part-title">JS avancé et outillage</h2></div>
+    <p class="part-intro">Quatre modules pour finir de moderniser ta pratique — classes, modules, TypeScript et les outils que tu verras dans n'importe quelle offre d'emploi front-end en 2027.</p>
+
+    <section class="module" id="m14">
+      <div class="mod-eyebrow">Partie 5 · Module 14</div>
+      <h2 class="mod-title">Classes et closures</h2>
+      <p>Les <strong>classes</strong> JavaScript ressemblent beaucoup aux classes Python — un constructeur, des méthodes :</p>
+      <pre>class Candidature {
+  constructor(entreprise, statut) {
+    this.entreprise = entreprise;
+    this.statut = statut;
+  }
+  resume() {
+    return `${this.entreprise} — ${this.statut}`;
+  }
+}
+
+const c = new Candidature("NovaCart", "entretien");
+console.log(c.resume());</pre>
+
+      <h3>Les closures</h3>
+      <p>Une <strong>closure</strong> est une fonction qui "se souvient" des variables de son contexte de création, même après que ce contexte a normalement terminé son exécution — un concept propre à JS (et quelques autres langages), sans équivalent direct aussi naturel en Python.</p>
+      <pre>function creerCompteur() {
+  let total = 0;
+  return function () {
+    total++;
+    return total;
+  };
+}
+
+const compter = creerCompteur();
+console.log(compter());  // 1
+console.log(compter());  // 2 — "total" a été mémorisé entre les deux appels</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Bac à sable</div>
+        <p>Crée une classe <code>Candidature</code> avec un constructeur (entreprise, statut) et une méthode <code>estActive()</code> qui retourne <code>true</code> si le statut n'est ni <code>"refus"</code> ni <code>"accepté"</code>. Teste-la sur deux instances.</p>
+        <div class="playground">
+          <div class="pg-label">Bac à sable JavaScript</div>
+          <textarea class="pg-code" spellcheck="false">// à toi de jouer
+</textarea>
+          <div class="pg-actions"><button class="pg-btn run">▶ Exécuter</button><button class="pg-btn reset">↺ Réinitialiser</button></div>
+          <pre class="pg-output">(pas encore exécuté)</pre>
+        </div>
+        <details>
+          <summary>Voir une solution possible</summary>
+          <div class="exercise-solution-body">
+            <pre>class Candidature {
+  constructor(entreprise, statut) {
+    this.entreprise = entreprise;
+    this.statut = statut;
+  }
+  estActive() {
+    return this.statut !== "refus" && this.statut !== "accepté";
+  }
+}
+
+const a = new Candidature("NovaCart", "entretien");
+const b = new Candidature("QAPlus", "refus");
+console.log(a.estActive());  // true
+console.log(b.estActive());  // false</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m14"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m15">
+      <div class="mod-eyebrow">Partie 5 · Module 15</div>
+      <h2 class="mod-title">Modules ES6</h2>
+      <p>Les <strong>modules</strong> permettent de séparer le code en plusieurs fichiers, chacun exportant ce qu'il veut rendre disponible ailleurs — indispensable dès qu'un projet dépasse un seul fichier. Ce mécanisme a besoin d'un vrai environnement de build ou d'un serveur pour fonctionner (pas dans un simple bac à sable comme ci-dessus), donc ce module reste volontairement en lecture : le comprendre suffit pour l'instant, tu le pratiqueras concrètement dans un projet réel avec l'outillage du module 17.</p>
+
+      <p class="code-label">candidatures.js</p>
+      <pre>export function creerCandidature(entreprise, statut) {
+  return { entreprise, statut };
+}
+
+export const STATUTS_POSSIBLES = ["envoyée", "entretien", "refus", "accepté"];</pre>
+      <p class="code-label">app.js</p>
+      <pre>import { creerCandidature, STATUTS_POSSIBLES } from "./candidatures.js";
+
+const c = creerCandidature("NovaCart", "entretien");
+console.log(c);</pre>
+
+      <p>Deux styles d'export existent : <code>export</code> nommé (comme ci-dessus, plusieurs par fichier) et <code>export default</code> (un seul par fichier, souvent pour la fonction ou classe principale du module).</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Question</div>
+        <p>Dans le fichier <code>candidatures.js</code> ci-dessus, comment importerais-tu uniquement <code>STATUTS_POSSIBLES</code> depuis <code>app.js</code>, sans importer <code>creerCandidature</code> ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>import { STATUTS_POSSIBLES } from "./candidatures.js";</pre>
+            <p>Les imports nommés se choisissent individuellement entre accolades — inutile d'importer tout le fichier si un seul élément est nécessaire.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m15"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m16">
+      <div class="mod-eyebrow">Partie 5 · Module 16</div>
+      <h2 class="mod-title">Introduction à TypeScript</h2>
+      <p><strong>TypeScript</strong> ajoute un système de types à JavaScript — le code doit être compilé (transformé) en JavaScript classique avant de s'exécuter, ce qui veut dire qu'il ne peut pas tourner directement dans un bac à sable navigateur comme les modules précédents. Ce module reste donc en lecture, pour comprendre la logique avant, si tu le souhaites, de l'installer plus tard dans un vrai projet.</p>
+
+      <p class="code-label">Le même code, en JavaScript puis en TypeScript</p>
+      <pre>// JavaScript — aucune garantie sur le type des paramètres
+function calculerTotal(prix, quantite) {
+  return prix * quantite;
+}
+
+// TypeScript — l'erreur ci-dessous est détectée AVANT l'exécution
+function calculerTotal(prix: number, quantite: number): number {
+  return prix * quantite;
+}
+calculerTotal(49.99, "deux");  // ❌ erreur de compilation : "deux" n'est pas un number</pre>
+
+      <p>L'intérêt concret : une erreur de type se révèle en JavaScript classique seulement à l'exécution — parfois en production, au pire moment. En TypeScript, elle est détectée immédiatement, avant même de lancer le code, directement dans l'éditeur.</p>
+
+      <div class="callout">
+        <div class="callout-label">Faut-il l'apprendre maintenant ?</div>
+        <p>Pas dans l'urgence : tout le JavaScript de ce cours reste valide et utile tel quel. Mais sache que beaucoup d'offres d'emploi front-end en 2026-2027 mentionnent TypeScript aux côtés de JavaScript — une fois les bases JS solides (ce cours), passer à TypeScript demande surtout d'apprendre à annoter les types, pas de tout réapprendre.</p>
+        </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Question</div>
+        <p>Pourquoi <code>calculerTotal(49.99, "deux")</code> est-il détecté comme une erreur par TypeScript, mais s'exécuterait silencieusement (avec un résultat incorrect, <code>NaN</code>) en JavaScript classique ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>TypeScript vérifie les types <strong>avant</strong> l'exécution (à la compilation) — <code>quantite: number</code> interdit explicitement de passer une chaîne de caractères, et l'erreur apparaît immédiatement dans l'éditeur. En JavaScript classique, sans cette vérification, <code>49.99 * "deux"</code> s'exécute et retourne <code>NaN</code> (Not a Number) — un bug qui ne se révèle souvent qu'au moment où le résultat est utilisé plus loin.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m16"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m17">
+      <div class="mod-eyebrow">Partie 5 · Module 17</div>
+      <h2 class="mod-title">Outillage moderne</h2>
+      <p>Un aperçu des outils que tu rencontreras dans presque tout projet JavaScript professionnel en 2027 — à reconnaître, pas nécessairement à maîtriser en profondeur dès maintenant.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Outil</th><th>Rôle</th></tr>
+        <tr><td><strong>npm</strong></td><td>Le gestionnaire de paquets JavaScript — l'équivalent de <code>pip</code> en Python</td></tr>
+        <tr><td><strong>Vite</strong></td><td>L'outil de build recommandé en 2026-2027 pour démarrer un nouveau projet — rapide, peu de configuration, a remplacé les anciens outils comme create-react-app</td></tr>
+        <tr><td><strong>ESLint</strong></td><td>Analyse statique qui détecte des erreurs et incohérences de style avant l'exécution</td></tr>
+        <tr><td><strong>Prettier</strong></td><td>Formate automatiquement le code de façon cohérente</td></tr>
+        <tr><td><strong>Playwright (JS)</strong></td><td>Le même outil que tu utilises déjà en Python (cours QA), avec une API très proche en JavaScript</td></tr>
+      </table></div>
+
+      <p class="code-label">Démarrer un nouveau projet avec Vite</p>
+      <pre>npm create vite@latest mon-projet
+cd mon-projet
+npm install
+npm run dev</pre>
+
+      <p class="code-label">Playwright, en JavaScript — pour comparer avec ce que tu connais déjà en Python</p>
+      <pre>// Python (cours QA)
+def test_titre_page(page):
+    page.goto("https://novacart.fr")
+    expect(page).to_have_title("NovaCart")
+
+// JavaScript — la même logique, une syntaxe différente
+test('titre de la page', async ({ page }) => {
+  await page.goto('https://novacart.fr');
+  await expect(page).toHaveTitle('NovaCart');
+});</pre>
+      <p>Remarque à quel point la logique reste identique — <code>page.goto</code>, <code>expect</code> — seule la syntaxe autour change. C'est exactement ce que tu pourras dire en entretien si on te demande si tu maîtrises Playwright en JavaScript : la logique de test, oui ; la syntaxe précise, tu la retrouves vite en t'appuyant sur ta pratique Python.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris la commande npm pour créer un nouveau projet Vite nommé <code>suivi-candidatures</code>, puis les deux commandes suivantes pour l'installer et le lancer en développement.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>npm create vite@latest suivi-candidatures
+cd suivi-candidatures
+npm install
+npm run dev</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m17"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 6 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 6</span><h2 class="part-title">Projet final portfolio</h2></div>
+    <p class="part-intro">Trois modules pour construire, du cahier des charges au déploiement, une application complète et réellement utile : un suivi de tes candidatures d'alternance — le genre de projet qui a un vrai propos, pas un énième clone de to-do list.</p>
+
+    <section class="module" id="m18">
+      <div class="mod-eyebrow">Partie 6 · Module 18</div>
+      <h2 class="mod-title">Cahier des charges et structure</h2>
+      <p>Avant de coder, on définit le besoin avec des user stories — exactement la méthode du cours Agile & Scrum (module 6), appliquée cette fois à ton propre projet plutôt qu'à NovaCart.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>User story</th><th>Critère d'acceptation</th></tr>
+        <tr><td>En tant qu'utilisateur, je veux ajouter une candidature</td><td>Un formulaire (entreprise, poste, statut, date) ajoute une ligne à la liste</td></tr>
+        <tr><td>En tant qu'utilisateur, je veux voir toutes mes candidatures</td><td>La liste s'affiche, même après avoir rechargé la page</td></tr>
+        <tr><td>En tant qu'utilisateur, je veux filtrer par statut</td><td>Un menu déroulant ne montre que les candidatures du statut choisi</td></tr>
+        <tr><td>En tant qu'utilisateur, je veux supprimer une candidature</td><td>Un clic sur "Supprimer" retire la ligne, avec confirmation</td></tr>
+      </table></div>
+
+      <p>La structure de base : un tableau JavaScript de candidatures, et une fonction <code>afficherCandidatures()</code> qui reconstruit la liste HTML à partir de ce tableau à chaque changement — le principe central de presque toute interface web moderne : <strong>l'affichage reflète toujours les données</strong>, jamais l'inverse.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Aperçu en direct — construis l'affichage de base</div>
+        <p>À partir du tableau <code>candidatures</code>, écris une fonction <code>afficherCandidatures()</code> qui remplit <code>#liste</code> avec une ligne par candidature (<code>entreprise — statut</code>), et affiche <code>"Aucune candidature pour l'instant"</code> si le tableau est vide.</p>
+        <div class="dom-playground">
+          <div class="pg-label">Aperçu en direct</div>
+          <template class="pg-html"><div style="font-family:sans-serif;max-width:280px;"><h3 style="font-size:14px;margin:0 0 8px;">Mes candidatures</h3><ul id="liste" style="list-style:none;padding:0;margin:0;"></ul></div></template>
+          <textarea class="pg-code" spellcheck="false">const candidatures = [
+  { entreprise: "NovaCart", statut: "entretien" },
+  { entreprise: "TechFlow", statut: "envoyée" },
+];
+
+function afficherCandidatures() {
+  // à toi de jouer
+}
+
+afficherCandidatures();
+</textarea>
+          <div class="pg-actions"><button class="pg-btn run">▶ Exécuter</button><button class="pg-btn reset">↺ Réinitialiser</button></div>
+          <iframe class="pg-frame" sandbox="allow-scripts" title="Aperçu"></iframe>
+        </div>
+        <details>
+          <summary>Voir une solution possible</summary>
+          <div class="exercise-solution-body">
+            <pre>function afficherCandidatures() {
+  const liste = document.querySelector("#liste");
+  liste.innerHTML = "";
+  if (candidatures.length === 0) {
+    liste.innerHTML = "&lt;li&gt;Aucune candidature pour l'instant&lt;/li&gt;";
+    return;
+  }
+  for (const c of candidatures) {
+    const li = document.createElement("li");
+    li.textContent = `${c.entreprise} — ${c.statut}`;
+    liste.appendChild(li);
+  }
+}
+afficherCandidatures();</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m18"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m19">
+      <div class="mod-eyebrow">Partie 6 · Module 19</div>
+      <h2 class="mod-title">CRUD complet et persistance</h2>
+      <p>On assemble maintenant les quatre opérations CRUD (Create, Read, Update, Delete) et la <strong>persistance</strong> — sans elle, toute candidature ajoutée disparaîtrait au rechargement de la page. <code>localStorage</code> stocke des données directement dans le navigateur, au format texte — donc toujours via <code>JSON.stringify</code>/<code>JSON.parse</code> (module 7).</p>
+
+      <pre>function sauvegarder() {
+  localStorage.setItem("candidatures", JSON.stringify(candidatures));
+}
+
+function charger() {
+  const donnees = localStorage.getItem("candidatures");
+  return donnees ? JSON.parse(donnees) : [];
+}
+
+function ajouterCandidature(entreprise, poste, statut) {
+  candidatures.push({ id: Date.now(), entreprise, poste, statut, date: new Date().toISOString() });
+  sauvegarder();
+  afficherCandidatures();
+}
+
+function supprimerCandidature(id) {
+  candidatures = candidatures.filter(c => c.id !== id);
+  sauvegarder();
+  afficherCandidatures();
+}</pre>
+
+      <p><code>Date.now()</code> comme identifiant est une astuce simple et fiable pour un projet de cette taille : deux candidatures ne peuvent quasiment jamais être créées à la même milliseconde exacte, ce qui suffit à garantir un identifiant unique sans avoir besoin d'un vrai système de base de données.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Aperçu en direct</div>
+        <p>Complète le mini gestionnaire ci-dessous : le bouton "Ajouter TestCorp" doit ajouter une candidature à la liste et rafraîchir l'affichage, sans recharger la page.</p>
+        <div class="dom-playground">
+          <div class="pg-label">Aperçu en direct</div>
+          <template class="pg-html"><div style="font-family:sans-serif;max-width:280px;"><h3 style="font-size:14px;margin:0 0 8px;">Mes candidatures</h3><ul id="liste" style="list-style:none;padding:0;margin:0 0 10px;"></ul><button id="ajouter" style="padding:6px 12px;border-radius:6px;border:1px solid #999;cursor:pointer;">Ajouter TestCorp</button></div></template>
+          <textarea class="pg-code" spellcheck="false">let candidatures = [
+  { id: 1, entreprise: "NovaCart", statut: "entretien" },
+];
+
+function afficherCandidatures() {
+  const liste = document.querySelector("#liste");
+  liste.innerHTML = "";
+  for (const c of candidatures) {
+    const li = document.createElement("li");
+    li.textContent = `${c.entreprise} — ${c.statut}`;
+    liste.appendChild(li);
+  }
+}
+
+// à toi de jouer : écoute le clic sur #ajouter et ajoute une candidature "TestCorp" / "envoyée"
+
+afficherCandidatures();
+</textarea>
+          <div class="pg-actions"><button class="pg-btn run">▶ Exécuter</button><button class="pg-btn reset">↺ Réinitialiser</button></div>
+          <iframe class="pg-frame" sandbox="allow-scripts" title="Aperçu"></iframe>
+        </div>
+        <details>
+          <summary>Voir une solution possible</summary>
+          <div class="exercise-solution-body">
+            <pre>document.querySelector("#ajouter").addEventListener("click", () => {
+  candidatures.push({ id: Date.now(), entreprise: "TestCorp", statut: "envoyée" });
+  afficherCandidatures();
+});</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m19"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m20">
+      <div class="mod-eyebrow">Partie 6 · Module 20</div>
+      <h2 class="mod-title">Finitions, déploiement, portfolio</h2>
+      <p>Voici l'application complète — un seul fichier HTML, exactement comme tous les cours que tu as déjà. Copie ce code dans un fichier <code>index.html</code>, et tu as un projet fonctionnel, prêt à personnaliser.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Aperçu en direct de l'application finale</div>
+        <p>Voici une version fonctionnelle simplifiée, directement dans la page — ajoute une candidature, filtre par statut, supprime-en une.</p>
+        <div class="dom-playground">
+          <div class="pg-label">Aperçu en direct</div>
+          <template class="pg-html"><div style="font-family:sans-serif;max-width:320px;">
+  <h3 style="font-size:14px;margin:0 0 10px;">Suivi de candidatures</h3>
+  <div style="display:flex;gap:6px;margin-bottom:8px;">
+    <input id="entreprise" placeholder="Entreprise" style="flex:1;padding:5px;border:1px solid #ccc;border-radius:5px;font-size:12px;">
+    <button id="ajouter" style="padding:5px 10px;border-radius:5px;border:1px solid #999;cursor:pointer;font-size:12px;">+</button>
+  </div>
+  <select id="filtre" style="width:100%;padding:5px;margin-bottom:8px;border-radius:5px;border:1px solid #ccc;font-size:12px;">
+    <option value="toutes">Toutes</option>
+    <option value="envoyée">Envoyée</option>
+    <option value="entretien">Entretien</option>
+    <option value="refus">Refus</option>
+  </select>
+  <ul id="liste" style="list-style:none;padding:0;margin:0;"></ul>
+</div></template>
+          <textarea class="pg-code" spellcheck="false">let candidatures = [
+  { id: 1, entreprise: "NovaCart", statut: "entretien" },
+  { id: 2, entreprise: "TechFlow", statut: "envoyée" },
+  { id: 3, entreprise: "QAPlus", statut: "refus" },
+];
+
+function afficherCandidatures() {
+  const filtreVal = document.querySelector("#filtre").value;
+  const aAfficher = filtreVal === "toutes"
+    ? candidatures
+    : candidatures.filter(c => c.statut === filtreVal);
+
+  const liste = document.querySelector("#liste");
+  liste.innerHTML = "";
+  if (aAfficher.length === 0) {
+    liste.innerHTML = "&lt;li style='font-size:12px;color:#888;'&gt;Aucune candidature&lt;/li&gt;";
+    return;
+  }
+  for (const c of aAfficher) {
+    const li = document.createElement("li");
+    li.style.cssText = "display:flex;justify-content:space-between;padding:5px 6px;border:1px solid #eee;border-radius:5px;margin-bottom:3px;font-size:12px;";
+    li.innerHTML = `&lt;span&gt;${c.entreprise} — ${c.statut}&lt;/span&gt;`;
+    const btn = document.createElement("button");
+    btn.textContent = "✕";
+    btn.style.cssText = "border:none;background:none;cursor:pointer;color:#B8433A;";
+    btn.addEventListener("click", () => {
+      candidatures = candidatures.filter(x => x.id !== c.id);
+      afficherCandidatures();
+    });
+    li.appendChild(btn);
+    liste.appendChild(li);
+  }
+}
+
+document.querySelector("#ajouter").addEventListener("click", () => {
+  const val = document.querySelector("#entreprise").value.trim();
+  if (!val) return;
+  candidatures.push({ id: Date.now(), entreprise: val, statut: "envoyée" });
+  document.querySelector("#entreprise").value = "";
+  afficherCandidatures();
+});
+document.querySelector("#filtre").addEventListener("change", afficherCandidatures);
+
+afficherCandidatures();
+</textarea>
+          <div class="pg-actions"><button class="pg-btn run">▶ Exécuter</button><button class="pg-btn reset">↺ Réinitialiser</button></div>
+          <iframe class="pg-frame tall" sandbox="allow-scripts" title="Aperçu"></iframe>
+        </div>
+      </div>
+
+      <h3>Ce qu'il te reste à faire, en dehors de ce cours</h3>
+      <ol>
+        <li>Copie le code ci-dessus (adapté avec la persistance <code>localStorage</code> du module 19) dans un fichier <code>index.html</code> sur ta machine.</li>
+        <li>Crée un dépôt <code>suivi-candidatures</code> sur GitHub et pousse ce fichier (cours GitHub, modules 6 et 7).</li>
+        <li>Active <strong>GitHub Pages</strong> (cours GitHub, module 12) pour obtenir une vraie URL publique, consultable par n'importe qui — y compris un recruteur.</li>
+        <li>Écris un bon README (cours GitHub, module 12) : ce que fait le projet, pourquoi tu l'as construit, comment le lancer.</li>
+      </ol>
+
+      <div class="callout">
+        <div class="callout-label">Pourquoi ce projet plutôt qu'un autre</div>
+        <p>Un recruteur voit énormément de clones de to-do list générés en suivant un tutoriel — ce projet-ci a un vrai propos personnel (tu l'utilises réellement pour suivre tes propres candidatures), ce qui se remarque immédiatement en entretien. Le présenter en disant "je l'ai construit pour suivre mes candidatures d'alternance, et voici comment il fonctionne" est un argument concret, vérifiable, et qui montre exactement le type d'initiative qu'un recruteur recherche chez un profil en reconversion.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice final</div>
+        <p>Choisis une amélioration à ajouter toi-même au projet une fois le code copié dans ton propre fichier — par exemple : un champ "date de candidature" triable, un compteur par statut, ou une confirmation avant suppression. Implémente-la avec ce que tu as appris dans ce cours.</p>
+        <details>
+          <summary>Quelques pistes</summary>
+          <div class="exercise-solution-body">
+            <p>Un compteur par statut s'appuie sur <code>reduce()</code> (module 5) ; une confirmation avant suppression peut utiliser <code>confirm("Supprimer cette candidature ?")</code>, une fonction native du navigateur ; un tri par date utilise <code>Array.prototype.sort()</code> sur le champ <code>date</code> stocké au format ISO. Aucune de ces pistes ne demande de notion non vue dans ce cours — c'est exactement l'objectif.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m20"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <div class="footer-note">
+      <p>Cours rédigé comme compagnon des cours "Qualité Logicielle Automatisée", "SQL pour la Qualité Logicielle", "GitHub pour la Qualité Logicielle", "ISTQB Foundation Level", "Agile & Scrum pour la Qualité Logicielle", "API Avancé pour la Qualité Logicielle" et "Cloud pour Testeurs" — même méthode, même fil rouge NovaCart, plus un projet personnel dédié pour le portfolio. Les bacs à sable s'exécutent entièrement dans ton navigateur ; aucun code n'est envoyé où que ce soit. Le suivi de progression (cases à cocher) est enregistré uniquement dans ce navigateur.</p>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'js-course-progress-v1';
+  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','m15','m16','m17','m18','m19','m20'];
+
+  function loadDone(){
+    try{ var raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : {}; }catch(e){ return {}; }
+  }
+  function saveDone(done){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(done)); }catch(e){} }
+  var done = loadDone();
+
+  function render(){
+    var count = 0;
+    ids.forEach(function(id){
+      var isDone = !!done[id];
+      if(isDone) count++;
+      var navCheck = document.querySelector('[data-modcheck="'+id+'"]');
+      if(navCheck) navCheck.setAttribute('data-done', isDone ? 'true' : 'false');
+      var toggle = document.querySelector('[data-toggle="'+id+'"]');
+      if(toggle) toggle.setAttribute('data-done', isDone ? 'true' : 'false');
+    });
+    var countEl = document.getElementById('progress-count');
+    var fillEl = document.getElementById('progress-fill');
+    if(countEl) countEl.textContent = String(count);
+    if(fillEl) fillEl.style.width = (count / ids.length * 100) + '%';
+  }
+  function toggleDone(id){ done[id] = !done[id]; saveDone(done); render(); }
+
+  ids.forEach(function(id){
+    var navCheck = document.querySelector('[data-modcheck="'+id+'"]');
+    if(navCheck){ navCheck.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); toggleDone(id); }); }
+    var btn = document.querySelector('[data-toggle="'+id+'"]');
+    if(btn){ btn.addEventListener('click', function(){ toggleDone(id); }); }
+  });
+  render();
+
+  var sections = ids.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+  var navLinks = {};
+  ids.forEach(function(id){ var l = document.querySelector('.nav-link[data-id="'+id+'"]'); if(l) navLinks[id] = l; });
+
+  if('IntersectionObserver' in window){
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var id = entry.target.id;
+        var link = navLinks[id];
+        if(!link) return;
+        if(entry.isIntersecting){
+          Object.keys(navLinks).forEach(function(k){ navLinks[k].classList.remove('active'); });
+          link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+    sections.forEach(function(s){ observer.observe(s); });
+  }
+
+  // --- Bacs à sable "console" ---
+  function initConsolePlaygrounds(){
+    var pgs = document.querySelectorAll('.playground');
+    pgs.forEach(function(pg){
+      var codeEl = pg.querySelector('.pg-code');
+      var outEl = pg.querySelector('.pg-output');
+      var runBtn = pg.querySelector('.pg-btn.run');
+      var resetBtn = pg.querySelector('.pg-btn.reset');
+      var original = codeEl.value;
+
+      function run(){
+        var logs = [];
+        function fmt(args){
+          return Array.prototype.slice.call(args).map(function(a){
+            try{ return (typeof a === 'object' && a !== null) ? JSON.stringify(a) : String(a); }
+            catch(e){ return String(a); }
+          }).join(' ');
+        }
+        var sandboxConsole = {
+          log: function(){ logs.push(fmt(arguments)); },
+          error: function(){ logs.push('Erreur : ' + fmt(arguments)); },
+          warn: function(){ logs.push('Attention : ' + fmt(arguments)); }
+        };
+        outEl.classList.remove('err');
+        try{
+          var fn = new Function('console', codeEl.value);
+          fn(sandboxConsole);
+          outEl.textContent = logs.length ? logs.join('\n') : '(aucune sortie console.log)';
+        }catch(e){
+          outEl.classList.add('err');
+          outEl.textContent = (logs.length ? logs.join('\n') + '\n' : '') + 'Erreur : ' + e.message;
+        }
+      }
+      if(runBtn) runBtn.addEventListener('click', run);
+      if(resetBtn) resetBtn.addEventListener('click', function(){
+        codeEl.value = original;
+        outEl.textContent = '(pas encore exécuté)';
+        outEl.classList.remove('err');
+      });
+    });
+  }
+
+  // --- Bacs à sable "DOM en direct" (iframe sandboxée) ---
+  function initDomPlaygrounds(){
+    var pgs = document.querySelectorAll('.dom-playground');
+    pgs.forEach(function(pg){
+      var codeEl = pg.querySelector('.pg-code');
+      var htmlTpl = pg.querySelector('.pg-html');
+      var frame = pg.querySelector('.pg-frame');
+      var runBtn = pg.querySelector('.pg-btn.run');
+      var resetBtn = pg.querySelector('.pg-btn.reset');
+      var original = codeEl.value;
+      var baseHtml = htmlTpl ? htmlTpl.innerHTML : '';
+
+      function render(code){
+        var closeScript = '<' + '/script>';
+        var doc = '<!doctype html><html><head><meta charset="utf-8">' +
+          '<style>body{font-family:-apple-system,"IBM Plex Sans",sans-serif;padding:14px;color:#16202B;background:#fff;margin:0;} button{font-family:inherit;}</style>' +
+          '</head><body>' + baseHtml +
+          '<script>\ntry{\n' + code + '\n}catch(e){document.body.insertAdjacentHTML("beforeend","<p style=\\"color:#B8433A;font-family:monospace;font-size:12px;\\">Erreur : "+e.message+"</p>");}\n' + closeScript +
+          '</body></html>';
+        frame.srcdoc = doc;
+      }
+      if(runBtn) runBtn.addEventListener('click', function(){ render(codeEl.value); });
+      if(resetBtn) resetBtn.addEventListener('click', function(){ codeEl.value = original; render(original); });
+      render(original);
+    });
+  }
+
+  initConsolePlaygrounds();
+  initDomPlaygrounds();
+})();
+</script>

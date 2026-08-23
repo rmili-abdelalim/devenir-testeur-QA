@@ -1,0 +1,1301 @@
+<title>SQL pour la Qualité Logicielle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F7FA;
+    --surface:#FFFFFF;
+    --surface-2:#EBF0F5;
+    --border:#D9E1E9;
+    --border-strong:#B9C6D3;
+    --text:#16202B;
+    --text-dim:#4C5A68;
+    --text-faint:#7C8B99;
+    --accent:#1E5A96;
+    --accent-strong:#164A7D;
+    --accent-tint:#E4EEF7;
+    --fail:#B8433A;
+    --fail-tint:#FBEAE7;
+    --warn:#93650F;
+    --warn-tint:#FBF0DC;
+    --code-bg:#101A24;
+    --code-text:#DCE7EE;
+    --code-border:#223247;
+    --shadow: 0 1px 2px rgba(16,24,32,0.04), 0 8px 24px -12px rgba(16,24,32,0.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0E1520;
+      --surface:#151F2B;
+      --surface-2:#1A2635;
+      --border:#293A4D;
+      --border-strong:#3C5066;
+      --text:#E9EEF3;
+      --text-dim:#A6B4C2;
+      --text-faint:#7C8B99;
+      --accent:#4C9CE0;
+      --accent-strong:#6FB2EB;
+      --accent-tint:#1A2E42;
+      --fail:#E3766B;
+      --fail-tint:#33201D;
+      --warn:#E3B564;
+      --warn-tint:#332813;
+      --code-bg:#0A1017;
+      --code-text:#D8E5EE;
+      --code-border:#1F2E3E;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0E1520;
+    --surface:#151F2B;
+    --surface-2:#1A2635;
+    --border:#293A4D;
+    --border-strong:#3C5066;
+    --text:#E9EEF3;
+    --text-dim:#A6B4C2;
+    --text-faint:#7C8B99;
+    --accent:#4C9CE0;
+    --accent-strong:#6FB2EB;
+    --accent-tint:#1A2E42;
+    --fail:#E3766B;
+    --fail-tint:#33201D;
+    --warn:#E3B564;
+    --warn-tint:#332813;
+    --code-bg:#0A1017;
+    --code-text:#D8E5EE;
+    --code-border:#1F2E3E;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size:16.5px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;}
+  a{color:var(--accent-strong);}
+  ::selection{background:var(--accent-tint); color:var(--text);}
+
+  .shell{display:grid; grid-template-columns: 280px minmax(0,1fr); max-width:1180px; margin:0 auto;}
+  @media (max-width: 900px){ .shell{grid-template-columns: 1fr;} }
+
+  .sidebar{position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; padding:28px 20px 40px; border-right:1px solid var(--border);}
+  @media (max-width: 900px){ .sidebar{position:static; height:auto; border-right:none; border-bottom:1px solid var(--border);} }
+  .brand{display:flex; align-items:baseline; gap:9px; margin-bottom:4px;}
+  .brand-mark{font-family:"IBM Plex Mono"; font-weight:700; font-size:13px; color:var(--accent-strong); background:var(--accent-tint); border:1px solid var(--border-strong); border-radius:4px; padding:2px 6px; letter-spacing:0.02em;}
+  .brand-name{font-family:"IBM Plex Mono"; font-weight:600; font-size:14.5px; letter-spacing:-0.01em;}
+  .tagline{color:var(--text-faint); font-size:12.5px; margin:2px 0 20px;}
+
+  .progress-wrap{margin-bottom:22px;}
+  .progress-label{display:flex; justify-content:space-between; align-items:baseline; font-family:"IBM Plex Mono"; font-size:11.5px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;}
+  #progress-count{color:var(--accent-strong); font-weight:600;}
+  .progress-track{height:6px; border-radius:3px; background:var(--surface-2); border:1px solid var(--border); overflow:hidden;}
+  .progress-fill{height:100%; width:0%; background:var(--accent); transition:width 0.35s ease;}
+
+  .nav-part-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-faint); margin:18px 0 8px;}
+  .nav-list{list-style:none; margin:0; padding:0;}
+  .nav-item{margin-bottom:1px;}
+  .nav-link{display:flex; align-items:center; gap:9px; padding:6px 8px; border-radius:6px; color:var(--text-dim); text-decoration:none; font-size:13.5px; line-height:1.35; border:1px solid transparent;}
+  .nav-link:hover{background:var(--surface-2); color:var(--text);}
+  .nav-link.active{background:var(--accent-tint); color:var(--accent-strong); border-color:var(--border-strong);}
+  .nav-check{flex:0 0 auto; width:15px; height:15px; border-radius:4px; border:1.5px solid var(--border-strong); background:var(--surface); display:inline-flex; align-items:center; justify-content:center; cursor:pointer;}
+  .nav-check[data-done="true"]{background:var(--accent); border-color:var(--accent);}
+  .nav-check[data-done="true"]::after{content:"✓"; color:#fff; font-size:10px; font-weight:700;}
+  .nav-num{color:var(--text-faint); font-family:"IBM Plex Mono"; font-size:11.5px; min-width:16px;}
+
+  main{padding:44px 48px 100px; min-width:0;}
+  @media (max-width: 900px){ main{padding:32px 20px 80px;} }
+  @media (max-width: 560px){ main{padding:24px 16px 64px;} }
+
+  .doc-header{max-width:660px; margin-bottom:56px;}
+  .eyebrow{font-family:"IBM Plex Mono"; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent-strong); margin-bottom:12px;}
+  h1.doc-title{font-family:"IBM Plex Mono"; font-weight:600; font-size:clamp(28px, 4vw, 38px); line-height:1.15; letter-spacing:-0.01em; margin:0 0 16px; text-wrap:balance;}
+  .doc-lede{color:var(--text-dim); font-size:17px; line-height:1.6; margin:0 0 22px;}
+  .stat-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .stat-chip{font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-dim); border:1px solid var(--border); background:var(--surface); border-radius:20px; padding:5px 12px;}
+  .stat-chip b{color:var(--text); font-weight:600;}
+
+  .schema-box{max-width:680px; margin:0 0 24px; padding:16px 18px; border:1px solid var(--border-strong); border-radius:8px; background:var(--surface); box-shadow:var(--shadow);}
+  .schema-box-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--accent-strong); margin-bottom:10px;}
+  .schema-table{font-family:"IBM Plex Mono"; font-size:12.5px; margin-bottom:12px;}
+  .schema-table:last-child{margin-bottom:0;}
+  .schema-table .tname{font-weight:700; color:var(--accent-strong);}
+  .schema-table .tcols{color:var(--text-dim);}
+  .schema-table .tkey{color:var(--warn);}
+
+  section.module{max-width:680px; padding-top:52px; margin-top:-8px; border-top:1px solid var(--border);}
+  section.module:first-of-type{border-top:none;}
+  .part-divider{max-width:680px; margin:64px 0 8px; display:flex; align-items:center; gap:14px;}
+  .part-divider .part-tag{font-family:"IBM Plex Mono"; font-size:12px; font-weight:700; color:var(--accent-strong); background:var(--accent-tint); border:1px solid var(--border-strong); border-radius:5px; padding:4px 9px; letter-spacing:0.04em; white-space:nowrap;}
+  .part-divider h2.part-title{font-family:"IBM Plex Mono"; font-size:14px; font-weight:600; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; margin:0;}
+  .part-divider::after{content:""; flex:1; height:1px; background:var(--border);}
+  .part-intro{max-width:680px; color:var(--text-dim); margin:10px 0 0; font-size:15px;}
+
+  .mod-eyebrow{font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-faint); letter-spacing:0.04em; margin-bottom:8px;}
+  h2.mod-title{font-family:"IBM Plex Mono"; font-weight:600; font-size:24px; letter-spacing:-0.01em; margin:0 0 18px; text-wrap:balance;}
+  h3{font-family:"IBM Plex Mono"; font-weight:600; font-size:15.5px; margin:30px 0 10px; color:var(--text);}
+  p{margin:0 0 16px; max-width:66ch;}
+  ul, ol{margin:0 0 16px; padding-left:22px;}
+  li{margin-bottom:6px; max-width:62ch;}
+  strong{font-weight:600;}
+
+  .callout{border:1px solid var(--border-strong); background:var(--surface); border-radius:8px; padding:16px 18px; margin:20px 0; box-shadow:var(--shadow);}
+  .callout-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--accent-strong); margin-bottom:6px;}
+  .callout p:last-child{margin-bottom:0;}
+  .callout.warn{border-color:var(--warn); background:var(--warn-tint);}
+  .callout.warn .callout-label{color:var(--warn);}
+
+  .exercise{border:1px solid var(--border-strong); background:var(--surface-2); border-radius:8px; padding:16px 18px; margin:26px 0 8px; max-width:680px;}
+  .exercise-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-faint); margin-bottom:8px;}
+  .exercise p{margin:0 0 10px; max-width:none;}
+  .exercise p:last-of-type{margin-bottom:0;}
+  .exercise details{margin-top:4px;}
+  .exercise summary{cursor:pointer; font-family:"IBM Plex Mono"; font-size:12.5px; font-weight:600; color:var(--accent-strong); list-style:none; display:inline-flex; align-items:center; gap:6px;}
+  .exercise summary::-webkit-details-marker{display:none;}
+  .exercise summary::before{content:"▸"; font-size:10px; display:inline-block; transition:transform 0.15s ease;}
+  .exercise details[open] summary::before{transform:rotate(90deg);}
+  .exercise .exercise-solution-body{margin-top:10px; padding-top:10px; border-top:1px dashed var(--border-strong);}
+  .exercise .exercise-solution-body p:last-child{margin-bottom:0;}
+  .exercise .exercise-solution-body pre{margin:10px 0 0; max-width:none;}
+
+  table{width:100%; border-collapse:collapse; margin:18px 0 22px; font-size:13.5px; background:var(--surface); border:1px solid var(--border); border-radius:8px; overflow:hidden;}
+  .table-scroll{overflow-x:auto; max-width:680px; margin:18px 0 22px;}
+  .table-scroll table{margin:0;}
+  th, td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--border); vertical-align:top;}
+  th{font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-faint); background:var(--surface-2);}
+  tr:last-child td{border-bottom:none;}
+  td.mono, th.mono{font-family:"IBM Plex Mono"; font-size:12.5px;}
+  .tag{display:inline-block; font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; padding:2px 7px; border-radius:4px;}
+  .tag.pass{background:var(--accent-tint); color:var(--accent-strong);}
+  .tag.fail{background:var(--fail-tint); color:var(--fail);}
+  .tag.warn{background:var(--warn-tint); color:var(--warn);}
+
+  pre{background:var(--code-bg); color:var(--code-text); border:1px solid var(--code-border); border-radius:8px; padding:16px 18px; overflow-x:auto; margin:16px 0 22px; font-size:13px; line-height:1.6; max-width:680px;}
+  code{font-family:"IBM Plex Mono";}
+  p code, li code, td code{background:var(--surface-2); border:1px solid var(--border); border-radius:4px; padding:1px 5px; font-size:0.88em;}
+  .code-label{font-family:"IBM Plex Mono"; font-size:11px; color:var(--text-faint); margin:0 0 6px; letter-spacing:0.02em;}
+
+  .done-toggle{display:inline-flex; align-items:center; gap:8px; font-family:"IBM Plex Mono"; font-size:12.5px; color:var(--text-dim); border:1px solid var(--border-strong); background:var(--surface); border-radius:20px; padding:6px 14px 6px 10px; cursor:pointer; margin-top:28px; user-select:none;}
+  .done-toggle:hover{border-color:var(--accent);}
+  .done-toggle .box{width:15px; height:15px; border-radius:4px; border:1.5px solid var(--border-strong); display:inline-flex; align-items:center; justify-content:center; background:var(--surface);}
+  .done-toggle[data-done="true"] .box{background:var(--accent); border-color:var(--accent);}
+  .done-toggle[data-done="true"] .box::after{content:"✓"; color:#fff; font-size:10px; font-weight:700;}
+  .done-toggle[data-done="true"]{color:var(--accent-strong); border-color:var(--accent);}
+
+  .footer-note{max-width:680px; margin-top:70px; padding-top:24px; border-top:1px solid var(--border); color:var(--text-faint); font-size:12.5px;}
+  .footer-note a{color:var(--text-dim);}
+
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} .progress-fill{transition:none;} }
+</style>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Sommaire du cours">
+    <div class="brand">
+      <span class="brand-mark">SQL</span>
+      <span class="brand-name">SQL pour la<br>Qualité Logicielle</span>
+    </div>
+    <p class="tagline">Des fondamentaux à l'usage réel en QA — édition 2026</p>
+
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/22</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+
+    <div class="nav-part-label">Partie 1 — Interroger une base</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m1" href="#m1"><span class="nav-check" data-modcheck="m1"></span><span class="nav-num">01</span> Ce qu'est une base relationnelle</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m2" href="#m2"><span class="nav-check" data-modcheck="m2"></span><span class="nav-num">02</span> SELECT, WHERE, ORDER BY</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m3" href="#m3"><span class="nav-check" data-modcheck="m3"></span><span class="nav-num">03</span> Filtrer et gérer les NULL</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m4" href="#m4"><span class="nav-check" data-modcheck="m4"></span><span class="nav-num">04</span> Trier, dédupliquer, limiter</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m5" href="#m5"><span class="nav-check" data-modcheck="m5"></span><span class="nav-num">05</span> Agréger avec GROUP BY</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m6" href="#m6"><span class="nav-check" data-modcheck="m6"></span><span class="nav-num">06</span> Les jointures</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m7" href="#m7"><span class="nav-check" data-modcheck="m7"></span><span class="nav-num">07</span> Sous-requêtes et CTE</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 2 — Modéliser et modifier</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m8" href="#m8"><span class="nav-check" data-modcheck="m8"></span><span class="nav-num">08</span> Modéliser : clés et normalisation</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m9" href="#m9"><span class="nav-check" data-modcheck="m9"></span><span class="nav-num">09</span> Contraintes d'intégrité</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m10" href="#m10"><span class="nav-check" data-modcheck="m10"></span><span class="nav-num">10</span> INSERT, UPDATE, DELETE</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m11" href="#m11"><span class="nav-check" data-modcheck="m11"></span><span class="nav-num">11</span> Transactions et ACID</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 3 — SQL avancé</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m12" href="#m12"><span class="nav-check" data-modcheck="m12"></span><span class="nav-num">12</span> Fonctions fenêtrées</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m13" href="#m13"><span class="nav-check" data-modcheck="m13"></span><span class="nav-num">13</span> UNION, INTERSECT, EXCEPT</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m14" href="#m14"><span class="nav-check" data-modcheck="m14"></span><span class="nav-num">14</span> Index et performance</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m15" href="#m15"><span class="nav-check" data-modcheck="m15"></span><span class="nav-num">15</span> Vues et procédures stockées</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m16" href="#m16"><span class="nav-check" data-modcheck="m16"></span><span class="nav-num">16</span> Dates, texte et JSON</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m17" href="#m17"><span class="nav-check" data-modcheck="m17"></span><span class="nav-num">17</span> Les dialectes du marché</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 4 — SQL pour la QA</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m18" href="#m18"><span class="nav-check" data-modcheck="m18"></span><span class="nav-num">18</span> Vérifier l'intégrité des données</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m19" href="#m19"><span class="nav-check" data-modcheck="m19"></span><span class="nav-num">19</span> Générer et nettoyer des données de test</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m20" href="#m20"><span class="nav-check" data-modcheck="m20"></span><span class="nav-num">20</span> SQL dans une suite pytest</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m21" href="#m21"><span class="nav-check" data-modcheck="m21"></span><span class="nav-num">21</span> Stratégies de bases de test</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 5 — Se positionner</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m22" href="#m22"><span class="nav-check" data-modcheck="m22"></span><span class="nav-num">22</span> Le marché du SQL en 2026</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <header class="doc-header">
+      <div class="eyebrow">Cours autoportant · Compagnon du cours QA</div>
+      <h1 class="doc-title">SQL pour la Qualité Logicielle</h1>
+      <p class="doc-lede">Même méthode que ton cours de test logiciel : un seul fil conducteur, la base de données de <strong>NovaCart</strong>, qu'on interroge du début — les toutes premières bases — jusqu'à l'usage réel qu'un testeur QA en fait au quotidien. Chaque notion a son exemple exécutable, et chaque module se termine par un exercice corrigé.</p>
+      <div class="stat-row">
+        <span class="stat-chip"><b>22</b> modules</span>
+        <span class="stat-chip"><b>5</b> parties : bases → modélisation → avancé → QA → marché</span>
+        <span class="stat-chip">Dialecte principal : <b>PostgreSQL</b></span>
+        <span class="stat-chip"><b>22</b> exercices corrigés</span>
+      </div>
+
+      <div class="schema-box">
+        <div class="schema-box-label">Le schéma NovaCart, utilisé dans tout le cours</div>
+        <div class="schema-table"><span class="tname">utilisateurs</span> <span class="tcols">(<span class="tkey">id</span>, email, mot_de_passe_hash, cree_le)</span></div>
+        <div class="schema-table"><span class="tname">articles</span> <span class="tcols">(<span class="tkey">id</span>, nom, prix, stock)</span></div>
+        <div class="schema-table"><span class="tname">commandes</span> <span class="tcols">(<span class="tkey">id</span>, utilisateur_id → utilisateurs, statut, cree_le)</span></div>
+        <div class="schema-table"><span class="tname">lignes_commande</span> <span class="tcols">(<span class="tkey">id</span>, commande_id → commandes, article_id → articles, quantite, prix_unitaire)</span></div>
+        <div class="schema-table"><span class="tname">panier</span> <span class="tcols">(utilisateur_id → utilisateurs, article_id → articles, quantite)</span></div>
+      </div>
+    </header>
+
+    <!-- ============ PARTIE 1 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 1</span><h2 class="part-title">Interroger une base</h2></div>
+    <p class="part-intro">Sept modules pour lire une base de données couramment — poser une question et obtenir la bonne réponse, sans détour.</p>
+
+    <section class="module" id="m1">
+      <div class="mod-eyebrow">Partie 1 · Module 01</div>
+      <h2 class="mod-title">Ce qu'est une base relationnelle</h2>
+      <p>Une base de données relationnelle range l'information dans des <strong>tables</strong> — comme des feuilles de tableur, mais reliées entre elles plutôt qu'isolées. Chaque table a des <strong>colonnes</strong> (les champs : email, prix, date...) et des <strong>lignes</strong> (les enregistrements : un utilisateur, un article, une commande).</p>
+
+      <p>Ce qui distingue une vraie base de données d'un simple tableur, c'est la capacité à relier les tables entre elles sans dupliquer l'information. Sur NovaCart, une commande n'a pas besoin de recopier l'e-mail du client : elle stocke juste son <code>id</code> dans la colonne <code>utilisateur_id</code>, et on va chercher le reste dans la table <code>utilisateurs</code> au moment de la requête (module 6, les jointures).</p>
+
+      <h3>Le vocabulaire de base</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Terme</th><th>Ce que c'est</th><th>Exemple NovaCart</th></tr>
+        <tr><td><strong>Table</strong></td><td>Une collection d'enregistrements de même structure</td><td><code>articles</code></td></tr>
+        <tr><td><strong>Colonne</strong></td><td>Un champ, avec un type de donnée fixe</td><td><code>prix</code> (nombre)</td></tr>
+        <tr><td><strong>Ligne</strong></td><td>Un enregistrement précis</td><td>L'article "Casque audio"</td></tr>
+        <tr><td><strong>Clé primaire</strong></td><td>La colonne qui identifie chaque ligne de façon unique</td><td><code>articles.id</code></td></tr>
+        <tr><td><strong>Clé étrangère</strong></td><td>Une colonne qui pointe vers la clé primaire d'une autre table</td><td><code>commandes.utilisateur_id</code></td></tr>
+      </table></div>
+
+      <p>Le langage qu'on utilise pour parler à ce type de base s'appelle <strong>SQL</strong> (Structured Query Language) — le même vocabulaire, à quelques détails près, fonctionne sur PostgreSQL, MySQL, SQL Server ou SQLite. C'est justement ce qui rend le SQL rentable à apprendre une fois : le module 17 reviendra sur ces différences, mais elles sont mineures comparées à ce qui est commun partout.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Dans le schéma NovaCart en haut de page, quelle table utiliserais-tu pour savoir combien d'unités d'un article donné sont encore disponibles à la vente ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>La table <strong>articles</strong>, colonne <code>stock</code> — c'est elle qui porte cette information, pas <code>lignes_commande</code> qui ne fait que retracer ce qui a déjà été vendu.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m1"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m2">
+      <div class="mod-eyebrow">Partie 1 · Module 02</div>
+      <h2 class="mod-title">SELECT, WHERE, ORDER BY</h2>
+      <p>Trois mots-clés suffisent à répondre à la majorité des questions qu'on se pose sur une base. <code>SELECT</code> choisit les colonnes à afficher, <code>FROM</code> la table à interroger, <code>WHERE</code> filtre les lignes.</p>
+
+      <p class="code-label">Tous les articles à moins de 30 €</p>
+      <pre>SELECT nom, prix
+FROM articles
+WHERE prix &lt; 30;</pre>
+
+      <p><code>SELECT *</code> renvoie toutes les colonnes — pratique pour explorer, à éviter en production une fois qu'on sait précisément ce qu'on cherche, pour ne pas ramener des colonnes inutiles.</p>
+
+      <p class="code-label">Les commandes d'un utilisateur précis, triées de la plus récente à la plus ancienne</p>
+      <pre>SELECT id, statut, cree_le
+FROM commandes
+WHERE utilisateur_id = 4471
+ORDER BY cree_le DESC;</pre>
+
+      <p><code>ORDER BY</code> trie le résultat — <code>ASC</code> (croissant, par défaut) ou <code>DESC</code> (décroissant). Sans lui, l'ordre des lignes renvoyées n'est <strong>pas garanti</strong>, même si la base semble toujours répondre dans le même ordre par habitude.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris la requête qui affiche le nom et le stock de tous les articles dont le stock est inférieur à 5, triés du plus faible stock au plus élevé.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>SELECT nom, stock
+FROM articles
+WHERE stock &lt; 5
+ORDER BY stock ASC;</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m2"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m3">
+      <div class="mod-eyebrow">Partie 1 · Module 03</div>
+      <h2 class="mod-title">Filtrer et gérer les NULL</h2>
+      <p><code>WHERE</code> accepte bien plus que le simple <code>=</code>. Voici les opérateurs qu'on utilise vraiment au quotidien :</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Opérateur</th><th>Usage</th><th>Exemple</th></tr>
+        <tr><td class="mono">=, &lt;&gt;, &lt;, &gt;, &lt;=, &gt;=</td><td>Comparaison classique</td><td class="mono">prix &gt;= 20</td></tr>
+        <tr><td class="mono">IN (...)</td><td>Appartient à une liste</td><td class="mono">statut IN ('payee', 'expediee')</td></tr>
+        <tr><td class="mono">BETWEEN ... AND ...</td><td>Dans un intervalle (bornes incluses)</td><td class="mono">prix BETWEEN 10 AND 50</td></tr>
+        <tr><td class="mono">LIKE</td><td>Motif texte — <code>%</code> = n'importe quelle suite de caractères</td><td class="mono">email LIKE '%@novacart.fr'</td></tr>
+        <tr><td class="mono">AND / OR / NOT</td><td>Combiner plusieurs conditions</td><td class="mono">prix &gt; 20 AND stock &gt; 0</td></tr>
+      </table></div>
+
+      <h3>Le piège des valeurs NULL</h3>
+      <p><code>NULL</code> représente une valeur absente — pas zéro, pas une chaîne vide, littéralement "on ne sait pas". C'est la source de bugs la plus fréquente pour qui découvre le SQL : <code>WHERE colonne = NULL</code> ne renvoie <strong>jamais rien</strong>, même sur une ligne où la colonne est vide, parce que <code>NULL</code> n'est égal à rien, pas même à lui-même.</p>
+
+      <p class="code-label">Trouver les commandes sans statut renseigné</p>
+      <pre>SELECT id
+FROM commandes
+WHERE statut IS NULL;   -- pas "= NULL"</pre>
+
+      <div class="callout warn">
+        <div class="callout-label">Pour un testeur, ce piège compte double</div>
+        <p>Une requête de vérification qui utilise <code>= NULL</code> par erreur ne plante pas — elle renvoie juste zéro résultat, silencieusement, et fait croire qu'un problème n'existe pas. Toujours vérifier <code>IS NULL</code> / <code>IS NOT NULL</code> quand une colonne peut être vide.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris la requête qui trouve tous les utilisateurs dont l'e-mail se termine par "@novacart.fr" ET qui n'ont jamais passé de commande avec le statut "annulee".</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Sans jointure, on ne peut pas encore exclure "jamais annulé" proprement (ça viendra au module 7 avec les sous-requêtes) — mais la partie filtre sur l'e-mail s'écrit :</p>
+            <pre>SELECT *
+FROM utilisateurs
+WHERE email LIKE '%@novacart.fr';</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m3"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m4">
+      <div class="mod-eyebrow">Partie 1 · Module 04</div>
+      <h2 class="mod-title">Trier, dédupliquer, limiter</h2>
+      <p><code>DISTINCT</code> retire les doublons du résultat, <code>LIMIT</code> plafonne le nombre de lignes renvoyées, <code>OFFSET</code> saute les N premières — utile pour paginer.</p>
+
+      <p class="code-label">Tous les statuts de commande différents qui existent réellement en base</p>
+      <pre>SELECT DISTINCT statut
+FROM commandes;</pre>
+
+      <p class="code-label">Les 5 articles les plus chers</p>
+      <pre>SELECT nom, prix
+FROM articles
+ORDER BY prix DESC
+LIMIT 5;</pre>
+
+      <p class="code-label">La page 2 d'une liste de 20 commandes par page</p>
+      <pre>SELECT id, statut, cree_le
+FROM commandes
+ORDER BY cree_le DESC
+LIMIT 20 OFFSET 20;</pre>
+
+      <div class="callout">
+        <div class="callout-label">Utile pour un testeur</div>
+        <p><code>SELECT DISTINCT statut FROM commandes</code> est souvent la première requête à lancer sur une table inconnue : elle révèle en une ligne toutes les valeurs réellement utilisées — parfois plus nombreuses que ce que la documentation officielle prévoyait, ce qui est déjà en soi une découverte utile.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris la requête qui affiche les 3 articles avec le stock le plus faible, sans doublon de nom.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>SELECT DISTINCT nom, stock
+FROM articles
+ORDER BY stock ASC
+LIMIT 3;</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m4"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m5">
+      <div class="mod-eyebrow">Partie 1 · Module 05</div>
+      <h2 class="mod-title">Agréger avec GROUP BY</h2>
+      <p>Les fonctions d'agrégation résument plusieurs lignes en une seule valeur : <code>COUNT</code> compte, <code>SUM</code> additionne, <code>AVG</code> fait la moyenne, <code>MIN</code>/<code>MAX</code> trouvent les extrêmes. <code>GROUP BY</code> les applique par groupe plutôt que sur toute la table.</p>
+
+      <p class="code-label">Nombre de commandes par statut</p>
+      <pre>SELECT statut, COUNT(*) AS nombre
+FROM commandes
+GROUP BY statut;</pre>
+
+      <p class="code-label">Chiffre d'affaires total par utilisateur, du plus gros au plus petit</p>
+      <pre>SELECT utilisateur_id, SUM(quantite * prix_unitaire) AS total_depense
+FROM lignes_commande lc
+JOIN commandes c ON c.id = lc.commande_id
+GROUP BY utilisateur_id
+ORDER BY total_depense DESC;</pre>
+
+      <p>Une règle stricte à retenir : dans une requête avec <code>GROUP BY</code>, toute colonne du <code>SELECT</code> qui n'est pas dans une fonction d'agrégation doit apparaître dans le <code>GROUP BY</code> — sinon la base ne sait pas quelle valeur choisir parmi les lignes du groupe.</p>
+
+      <h3>Filtrer après agrégation : HAVING</h3>
+      <p><code>WHERE</code> filtre les lignes <em>avant</em> le regroupement ; <code>HAVING</code> filtre les groupes <em>après</em>. On ne peut pas écrire <code>WHERE COUNT(*) &gt; 5</code> — <code>COUNT(*)</code> n'existe pas encore au moment où <code>WHERE</code> s'applique.</p>
+
+      <p class="code-label">Les utilisateurs ayant passé plus de 3 commandes</p>
+      <pre>SELECT utilisateur_id, COUNT(*) AS nb_commandes
+FROM commandes
+GROUP BY utilisateur_id
+HAVING COUNT(*) &gt; 3;</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris la requête qui affiche, pour chaque article, le nombre total d'unités vendues (toutes commandes confondues) — uniquement pour les articles vendus plus de 10 fois au total.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>SELECT article_id, SUM(quantite) AS total_vendu
+FROM lignes_commande
+GROUP BY article_id
+HAVING SUM(quantite) &gt; 10;</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m5"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m6">
+      <div class="mod-eyebrow">Partie 1 · Module 06</div>
+      <h2 class="mod-title">Les jointures</h2>
+      <p>Une jointure combine des lignes de plusieurs tables selon une condition — typiquement une clé étrangère qui pointe vers une clé primaire. C'est la notion qui rend une base relationnelle réellement utile : sans elle, on serait coincé à interroger une table à la fois.</p>
+
+      <h3>INNER JOIN — seulement ce qui correspond des deux côtés</h3>
+      <p class="code-label">Le nom de l'article pour chaque ligne de commande</p>
+      <pre>SELECT lc.quantite, a.nom, a.prix
+FROM lignes_commande lc
+INNER JOIN articles a ON a.id = lc.article_id;</pre>
+
+      <h3>LEFT JOIN — tout de la table de gauche, même sans correspondance</h3>
+      <p class="code-label">Tous les utilisateurs, avec leur nombre de commandes (0 pour ceux qui n'en ont jamais passé)</p>
+      <pre>SELECT u.email, COUNT(c.id) AS nb_commandes
+FROM utilisateurs u
+LEFT JOIN commandes c ON c.utilisateur_id = u.id
+GROUP BY u.email;</pre>
+
+      <p>Avec un <code>INNER JOIN</code> ici, les utilisateurs sans commande auraient <strong>disparu</strong> du résultat — c'est l'erreur la plus fréquente en QA : une requête de vérification qui utilise le mauvais type de jointure et masque silencieusement une catégorie entière de cas.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Type</th><th>Renvoie</th></tr>
+        <tr><td class="mono">INNER JOIN</td><td>Seulement les lignes qui correspondent des deux côtés</td></tr>
+        <tr><td class="mono">LEFT JOIN</td><td>Toutes les lignes de gauche, complétées par NULL si rien ne correspond à droite</td></tr>
+        <tr><td class="mono">RIGHT JOIN</td><td>L'inverse du LEFT JOIN — rarement utilisé, on préfère inverser l'ordre des tables et faire un LEFT</td></tr>
+        <tr><td class="mono">FULL JOIN</td><td>Toutes les lignes des deux côtés, correspondance ou non</td></tr>
+      </table></div>
+
+      <h3>Self-join — une table jointe à elle-même</h3>
+      <p>Utile par exemple pour comparer deux commandes du même utilisateur : on joint la table <code>commandes</code> à elle-même via <code>utilisateur_id</code>, en donnant un alias différent à chaque copie (<code>c1</code>, <code>c2</code>) pour que la base sache laquelle est laquelle.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris la requête qui liste tous les articles qui n'ont <strong>jamais</strong> été commandés — leur nom doit apparaître même s'ils n'ont aucune ligne dans <code>lignes_commande</code>.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>SELECT a.nom
+FROM articles a
+LEFT JOIN lignes_commande lc ON lc.article_id = a.id
+WHERE lc.id IS NULL;</pre>
+            <p>Le <code>LEFT JOIN</code> garde tous les articles, et le <code>WHERE lc.id IS NULL</code> ne garde que ceux pour qui la jointure n'a rien trouvé à droite.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m6"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m7">
+      <div class="mod-eyebrow">Partie 1 · Module 07</div>
+      <h2 class="mod-title">Sous-requêtes et CTE</h2>
+      <p>Une <strong>sous-requête</strong> est une requête imbriquée dans une autre — utile quand on a besoin d'un résultat intermédiaire avant de pouvoir poser la vraie question.</p>
+
+      <p class="code-label">Les articles plus chers que la moyenne</p>
+      <pre>SELECT nom, prix
+FROM articles
+WHERE prix &gt; (SELECT AVG(prix) FROM articles);</pre>
+
+      <p class="code-label">Les utilisateurs qui ont au moins une commande annulée</p>
+      <pre>SELECT email
+FROM utilisateurs
+WHERE id IN (
+    SELECT utilisateur_id FROM commandes WHERE statut = 'annulee'
+);</pre>
+
+      <h3>CTE — nommer une étape pour la rendre lisible</h3>
+      <p>Une <strong>CTE</strong> (Common Table Expression, introduite par <code>WITH</code>) donne un nom à une sous-requête, comme une variable temporaire. Le résultat est identique à une sous-requête imbriquée, mais la requête se lit de haut en bas plutôt que de l'intérieur vers l'extérieur — c'est ce que l'article cité au module 22 appelle "l'organisation des requêtes", une compétence à part entière une fois qu'on dépasse les cas simples.</p>
+
+      <p class="code-label">La même question sur les gros dépensiers, réécrite avec une CTE</p>
+      <pre>WITH depenses_par_utilisateur AS (
+    SELECT c.utilisateur_id, SUM(lc.quantite * lc.prix_unitaire) AS total
+    FROM lignes_commande lc
+    JOIN commandes c ON c.id = lc.commande_id
+    GROUP BY c.utilisateur_id
+)
+SELECT u.email, d.total
+FROM depenses_par_utilisateur d
+JOIN utilisateurs u ON u.id = d.utilisateur_id
+WHERE d.total &gt; 500
+ORDER BY d.total DESC;</pre>
+
+      <p>Une CTE peut aussi référencer plusieurs blocs <code>WITH</code> chaînés — pratique pour découper une requête complexe en étapes qu'on peut relire et tester une par une.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Réécris avec une CTE : trouve les articles dont le stock est inférieur à la quantité moyenne commandée par ligne de commande (colonne <code>quantite</code> de <code>lignes_commande</code>).</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>WITH quantite_moyenne AS (
+    SELECT AVG(quantite) AS moyenne
+    FROM lignes_commande
+)
+SELECT a.nom, a.stock
+FROM articles a, quantite_moyenne q
+WHERE a.stock &lt; q.moyenne;</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m7"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 2 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 2</span><h2 class="part-title">Modéliser et modifier</h2></div>
+    <p class="part-intro">Quatre modules pour comprendre comment une base est construite, et comment la modifier sans la casser.</p>
+
+    <section class="module" id="m8">
+      <div class="mod-eyebrow">Partie 2 · Module 08</div>
+      <h2 class="mod-title">Modéliser : clés et normalisation</h2>
+      <p>Pourquoi NovaCart a-t-elle cinq tables séparées plutôt qu'une seule grande table "tout" avec toutes les colonnes ? Réponse : la <strong>normalisation</strong> — organiser les données pour qu'une même information ne soit jamais stockée à deux endroits différents.</p>
+
+      <p>Si le nom et le prix de chaque article étaient recopiés dans chaque ligne de commande, changer le prix d'un article obligerait à mettre à jour des milliers de lignes historiques — et en oublier une seule créerait une incohérence invisible. En stockant seulement <code>article_id</code> dans <code>lignes_commande</code>, le prix vit à un seul endroit : la table <code>articles</code>.</p>
+
+      <div class="callout">
+        <div class="callout-label">Nuance importante</div>
+        <p>En réalité, <code>lignes_commande</code> stocke bien <code>prix_unitaire</code> en plus de <code>article_id</code> — volontairement dénormalisé, pour garder une trace du prix payé au moment de l'achat, même si l'article change de prix plus tard. Une bonne modélisation n'est pas "toujours normaliser à fond", c'est choisir en connaissance de cause où la duplication est un bug et où elle est une fonctionnalité.</p>
+      </div>
+
+      <h3>Les formes normales, en une phrase chacune</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Forme</th><th>Règle</th></tr>
+        <tr><td class="mono">1NF</td><td>Chaque cellule contient une seule valeur — jamais une liste dans une colonne</td></tr>
+        <tr><td class="mono">2NF</td><td>Chaque colonne dépend de la clé primaire entière, pas d'une partie seulement</td></tr>
+        <tr><td class="mono">3NF</td><td>Aucune colonne ne dépend d'une autre colonne non-clé — pas de dépendance transitive</td></tr>
+      </table></div>
+
+      <p>En pratique, un testeur n'a pas besoin de réciter ces règles — mais reconnaître qu'une table est mal modélisée (des colonnes répétées, des listes cachées dans un champ texte) aide à comprendre pourquoi certains bugs de cohérence de données apparaissent régulièrement dans une application.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Une table <code>commandes_v2</code> imaginaire stocke une colonne <code>articles_achetes</code> contenant la chaîne de texte "3,7,12" (des identifiants d'articles séparés par des virgules). Quelle règle de normalisation viole-t-elle, et quel problème concret ça pose pour écrire une requête ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Ça viole la <strong>1NF</strong> : une cellule contient plusieurs valeurs. Concrètement, impossible d'écrire un <code>WHERE</code> simple pour "trouver toutes les commandes contenant l'article 7" — il faudrait du traitement de texte fragile au lieu d'une jointure propre comme sur <code>lignes_commande</code>.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m8"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m9">
+      <div class="mod-eyebrow">Partie 2 · Module 09</div>
+      <h2 class="mod-title">Contraintes d'intégrité</h2>
+      <p>Une contrainte empêche la base d'accepter une donnée incohérente — la première ligne de défense, bien avant qu'un test ne la découvre.</p>
+
+      <p class="code-label">La table articles, avec ses contraintes</p>
+      <pre>CREATE TABLE articles (
+    id SERIAL PRIMARY KEY,
+    nom TEXT NOT NULL,
+    prix NUMERIC(10,2) NOT NULL CHECK (prix &gt;= 0),
+    stock INTEGER NOT NULL DEFAULT 0 CHECK (stock &gt;= 0)
+);</pre>
+
+      <div class="table-scroll"><table>
+        <tr><th>Contrainte</th><th>Ce qu'elle empêche</th></tr>
+        <tr><td class="mono">NOT NULL</td><td>Une valeur manquante sur cette colonne</td></tr>
+        <tr><td class="mono">UNIQUE</td><td>Deux lignes avec la même valeur (ex. deux comptes avec le même e-mail)</td></tr>
+        <tr><td class="mono">CHECK</td><td>Une valeur qui ne respecte pas une règle métier (ex. un prix négatif)</td></tr>
+        <tr><td class="mono">DEFAULT</td><td>Une colonne vide à l'insertion — lui donne une valeur par défaut</td></tr>
+        <tr><td class="mono">FOREIGN KEY</td><td>Une clé étrangère qui pointe vers une ligne qui n'existe pas</td></tr>
+      </table></div>
+
+      <p class="code-label">La clé étrangère entre commandes et utilisateurs</p>
+      <pre>ALTER TABLE commandes
+ADD CONSTRAINT fk_utilisateur
+FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id);</pre>
+
+      <div class="callout">
+        <div class="callout-label">Pourquoi ça intéresse un testeur</div>
+        <p>Une contrainte violée en base renvoie une <strong>erreur</strong> immédiate et bloquante — c'est souvent la première ligne de défense contre un bug qu'un test applicatif n'a pas pensé à couvrir. Un bon réflexe en investigation de bug : vérifier si la contrainte qui aurait dû empêcher une donnée absurde existe réellement en base, ou si elle n'est appliquée que côté interface (et donc contournable).</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris la contrainte qui empêche deux utilisateurs d'avoir la même adresse e-mail dans la table <code>utilisateurs</code>.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>ALTER TABLE utilisateurs
+ADD CONSTRAINT email_unique UNIQUE (email);</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m9"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m10">
+      <div class="mod-eyebrow">Partie 2 · Module 10</div>
+      <h2 class="mod-title">INSERT, UPDATE, DELETE</h2>
+      <p>Trois commandes modifient les données — et contrairement à <code>SELECT</code>, une erreur ici change vraiment la base. La règle d'or : toujours écrire et vérifier le <code>WHERE</code> d'un <code>UPDATE</code> ou d'un <code>DELETE</code> avant d'exécuter, jamais après.</p>
+
+      <p class="code-label">Ajouter un nouvel article</p>
+      <pre>INSERT INTO articles (nom, prix, stock)
+VALUES ('Clavier mécanique', 79.90, 25);</pre>
+
+      <p class="code-label">Mettre à jour le stock après une vente</p>
+      <pre>UPDATE articles
+SET stock = stock - 1
+WHERE id = 12;</pre>
+
+      <p class="code-label">Supprimer une commande annulée depuis plus d'un an</p>
+      <pre>DELETE FROM commandes
+WHERE statut = 'annulee'
+AND cree_le &lt; NOW() - INTERVAL '1 year';</pre>
+
+      <div class="callout warn">
+        <div class="callout-label">Le piège le plus dangereux du SQL</div>
+        <p>Un <code>UPDATE</code> ou un <code>DELETE</code> <strong>sans <code>WHERE</code></strong> s'applique à toutes les lignes de la table, sans confirmation. Sur un environnement de test comme sur un environnement de production, c'est l'erreur qui a le plus détruit de données dans l'histoire du SQL. Réflexe à prendre : écrire d'abord la requête en <code>SELECT</code> avec le même <code>WHERE</code>, vérifier qu'elle ne renvoie que les lignes voulues, puis seulement transformer en <code>UPDATE</code>/<code>DELETE</code>.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris la requête <code>SELECT</code> de vérification qu'il faudrait lancer <em>avant</em> d'exécuter ce <code>DELETE</code>, pour être sûr de ne pas supprimer trop de lignes : <code>DELETE FROM panier WHERE utilisateur_id = 4471;</code></p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>SELECT * FROM panier WHERE utilisateur_id = 4471;</pre>
+            <p>Si le nombre de lignes renvoyées correspond à ce qu'on attend (le panier d'un seul utilisateur), le <code>DELETE</code> avec le même <code>WHERE</code> est sûr à exécuter.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m10"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m11">
+      <div class="mod-eyebrow">Partie 2 · Module 11</div>
+      <h2 class="mod-title">Transactions et ACID</h2>
+      <p>Une <strong>transaction</strong> regroupe plusieurs modifications en un seul bloc qui réussit ou échoue entièrement — jamais à moitié. Sur NovaCart, valider une commande implique au moins deux opérations : créer la ligne dans <code>commandes</code>, et décrémenter le <code>stock</code> dans <code>articles</code>. Si la seconde échoue après que la première ait réussi, on se retrouve avec une commande fantôme sans stock décrémenté — exactement le genre de bug de cohérence qu'une transaction empêche.</p>
+
+      <p class="code-label">Une transaction qui garantit la cohérence</p>
+      <pre>BEGIN;
+
+INSERT INTO commandes (utilisateur_id, statut) VALUES (4471, 'payee');
+UPDATE articles SET stock = stock - 1 WHERE id = 12;
+
+COMMIT;  -- ou ROLLBACK; en cas d'erreur, pour tout annuler</pre>
+
+      <h3>ACID, en une phrase chacune</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Propriété</th><th>Ce qu'elle garantit</th></tr>
+        <tr><td class="mono">Atomicité</td><td>Tout ou rien — pas d'état intermédiaire visible</td></tr>
+        <tr><td class="mono">Cohérence</td><td>La base respecte toujours ses contraintes (module 9), avant et après</td></tr>
+        <tr><td class="mono">Isolation</td><td>Deux transactions simultanées ne se marchent pas dessus</td></tr>
+        <tr><td class="mono">Durabilité</td><td>Une fois validée (<code>COMMIT</code>), la modification survit même à une panne</td></tr>
+      </table></div>
+
+      <p>Le module 21 (bases de test) réutilise directement l'atomicité : ouvrir une transaction avant un test et faire un <code>ROLLBACK</code> à la fin est l'une des façons les plus propres de garder une base de test toujours dans le même état de départ.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Deux utilisateurs achètent en même temps le dernier exemplaire en stock (stock = 1) d'un même article, sans transaction ni verrou. Quel problème concret l'isolation est censée empêcher ici ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Sans isolation correcte, les deux requêtes peuvent lire <code>stock = 1</code> en même temps, chacune décrémenter à 0 puis valider — résultat : deux commandes payées pour un seul article en stock. C'est une <strong>condition de course</strong> (race condition), et c'est exactement ce que des transactions bien isolées empêchent.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m11"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 3 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 3</span><h2 class="part-title">SQL avancé</h2></div>
+    <p class="part-intro">Six modules qui font la différence entre "je sais écrire une requête" et "je sais écrire la requête qu'un senior écrirait" — exactement ce que le module 22 identifie comme la vraie césure du marché en 2026.</p>
+
+    <section class="module" id="m12">
+      <div class="mod-eyebrow">Partie 3 · Module 12</div>
+      <h2 class="mod-title">Fonctions fenêtrées</h2>
+      <p>Une fonction fenêtrée calcule une valeur sur un groupe de lignes <strong>sans les fusionner en une seule</strong>, contrairement à <code>GROUP BY</code> — chaque ligne garde son identité, avec une colonne calculée en plus.</p>
+
+      <p class="code-label">Classer les articles du plus cher au moins cher, sans fusionner de lignes</p>
+      <pre>SELECT nom, prix,
+    ROW_NUMBER() OVER (ORDER BY prix DESC) AS rang
+FROM articles;</pre>
+
+      <p class="code-label">Le classement des dépenses par utilisateur, catégorie par catégorie</p>
+      <pre>SELECT utilisateur_id, categorie, total_depense,
+    RANK() OVER (PARTITION BY categorie ORDER BY total_depense DESC) AS rang_categorie
+FROM depenses_par_categorie;</pre>
+
+      <p><code>PARTITION BY</code> recrée des groupes, comme <code>GROUP BY</code>, mais le calcul reste attaché à chaque ligne individuelle plutôt que de les fusionner — <code>rang_categorie</code> repart à 1 pour chaque nouvelle catégorie.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Fonction</th><th>Ce qu'elle fait</th></tr>
+        <tr><td class="mono">ROW_NUMBER()</td><td>Numérote les lignes, sans égalité possible</td></tr>
+        <tr><td class="mono">RANK()</td><td>Classe, avec des ex-æquo qui sautent des rangs (1, 2, 2, 4)</td></tr>
+        <tr><td class="mono">LAG() / LEAD()</td><td>Regarde la ligne précédente / suivante — utile pour comparer une commande à la précédente du même utilisateur</td></tr>
+      </table></div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris la requête qui affiche, pour chaque commande d'un utilisateur, le montant de sa commande précédente (chronologiquement) — <code>NULL</code> si c'est sa première.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>SELECT utilisateur_id, id, cree_le,
+    LAG(id) OVER (PARTITION BY utilisateur_id ORDER BY cree_le) AS commande_precedente
+FROM commandes;</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m12"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m13">
+      <div class="mod-eyebrow">Partie 3 · Module 13</div>
+      <h2 class="mod-title">UNION, INTERSECT, EXCEPT</h2>
+      <p>Ces opérateurs combinent le résultat de deux requêtes <em>ayant le même nombre de colonnes, dans le même ordre de type</em> — utile pour comparer deux ensembles plutôt que joindre deux tables.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Opérateur</th><th>Renvoie</th></tr>
+        <tr><td class="mono">UNION</td><td>Toutes les lignes des deux requêtes, doublons retirés</td></tr>
+        <tr><td class="mono">UNION ALL</td><td>Pareil, mais garde les doublons — plus rapide si on sait qu'il n'y en a pas</td></tr>
+        <tr><td class="mono">INTERSECT</td><td>Seulement les lignes présentes dans les deux résultats</td></tr>
+        <tr><td class="mono">EXCEPT</td><td>Les lignes du premier résultat absentes du second</td></tr>
+      </table></div>
+
+      <p class="code-label">Les utilisateurs qui ont un panier actif mais aucune commande "payee" — un bon indicateur d'abandon de panier</p>
+      <pre>SELECT DISTINCT utilisateur_id FROM panier
+EXCEPT
+SELECT utilisateur_id FROM commandes WHERE statut = 'payee';</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris la requête qui trouve les utilisateurs ayant à la fois une commande "payee" ET une commande "annulee" — deux comportements qui coexistent.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>SELECT utilisateur_id FROM commandes WHERE statut = 'payee'
+INTERSECT
+SELECT utilisateur_id FROM commandes WHERE statut = 'annulee';</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m13"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m14">
+      <div class="mod-eyebrow">Partie 3 · Module 14</div>
+      <h2 class="mod-title">Index et performance</h2>
+      <p>Sans index, chercher une ligne dans une table revient à lire toutes les lignes une par une — un "scan complet". Un <strong>index</strong> est une structure annexe qui permet de sauter directement aux bonnes lignes, comme l'index d'un livre plutôt que de le lire page par page.</p>
+
+      <p class="code-label">Accélérer les recherches par e-mail (déjà rapide si UNIQUE, mais explicite ici)</p>
+      <pre>CREATE INDEX idx_utilisateurs_email ON utilisateurs(email);</pre>
+
+      <h3>EXPLAIN — voir ce que la base fait vraiment</h3>
+      <p><code>EXPLAIN</code> affiche le plan d'exécution choisi par la base pour une requête — sans l'exécuter (<code>EXPLAIN ANALYZE</code> l'exécute et donne les temps réels).</p>
+
+      <pre>EXPLAIN ANALYZE
+SELECT * FROM commandes WHERE utilisateur_id = 4471;</pre>
+
+      <p>Un plan qui affiche <code>Seq Scan</code> (balayage complet) sur une grande table alors qu'un index existe sur la colonne filtrée est un signal à investiguer — soit l'index n'est pas utilisé pour une bonne raison technique, soit il manque.</p>
+
+      <div class="callout warn">
+        <div class="callout-label">Un index n'est pas gratuit</div>
+        <p>Chaque index accélère les lectures mais ralentit les écritures (<code>INSERT</code>/<code>UPDATE</code>/<code>DELETE</code>), puisque l'index doit lui aussi être mis à jour. Empiler des index "au cas où" sur une table très écrite peut dégrader les performances plutôt que les améliorer — la modélisation (module 8) et l'usage réel de la table guident la décision, pas une règle automatique.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Une requête <code>WHERE statut = 'payee'</code> sur la table <code>commandes</code> (des millions de lignes) est lente. La colonne <code>statut</code> ne prend que 4 valeurs possibles. Un index dessus est-il forcément une bonne idée ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Pas nécessairement — avec seulement 4 valeurs possibles réparties sur des millions de lignes, chaque valeur représente une part énorme de la table, et un index apporte peu par rapport à un scan complet (la base doit de toute façon lire une grande partie des pages). Un index composite incluant <code>statut</code> avec une autre colonne plus sélective, ou une réflexion sur le partitionnement de la table, serait souvent plus efficace.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m14"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m15">
+      <div class="mod-eyebrow">Partie 3 · Module 15</div>
+      <h2 class="mod-title">Vues et procédures stockées</h2>
+      <p>Une <strong>vue</strong> est une requête sauvegardée sous un nom, qu'on interroge ensuite comme une table normale — pratique pour ne pas réécrire dix fois la même jointure complexe.</p>
+
+      <p class="code-label">Une vue qui simplifie l'accès au chiffre d'affaires par utilisateur</p>
+      <pre>CREATE VIEW ca_par_utilisateur AS
+SELECT c.utilisateur_id, SUM(lc.quantite * lc.prix_unitaire) AS total
+FROM lignes_commande lc
+JOIN commandes c ON c.id = lc.commande_id
+WHERE c.statut = 'payee'
+GROUP BY c.utilisateur_id;
+
+-- s'utilise ensuite comme une table :
+SELECT * FROM ca_par_utilisateur WHERE total &gt; 1000;</pre>
+
+      <p>Une vue ne stocke pas de données elle-même — elle réexécute sa requête à chaque interrogation. Une <strong>vue matérialisée</strong> (<code>MATERIALIZED VIEW</code>) fait l'inverse : elle stocke un résultat figé, à rafraîchir explicitement, utile quand la requête sous-jacente est coûteuse et n'a pas besoin d'être à la seconde près.</p>
+
+      <h3>Procédures stockées et triggers, en bref</h3>
+      <p>Une <strong>procédure stockée</strong> encapsule de la logique directement dans la base (calculs, boucles, conditions), appelable par son nom. Un <strong>trigger</strong> déclenche automatiquement une action quand un événement survient (avant/après un <code>INSERT</code>, par exemple, pour maintenir un historique). Les deux sont puissants mais rendent la logique métier plus difficile à tester et à versionner qu'un simple code applicatif — à connaître de nom pour ne pas être surpris en les rencontrant, sans forcément en écrire au quotidien.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Pourquoi une vue matérialisée peut-elle induire un testeur en erreur s'il ne sait pas qu'elle existe ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Parce qu'elle peut afficher des données <strong>obsolètes</strong> — un testeur qui modifie une donnée source puis interroge la vue matérialisée sans rafraîchissement peut croire à un bug alors que la donnée source est correcte, seule la vue n'a pas encore été mise à jour.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m15"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m16">
+      <div class="mod-eyebrow">Partie 3 · Module 16</div>
+      <h2 class="mod-title">Dates, texte et JSON</h2>
+      <p>Trois familles de fonctions reviennent sans cesse dans les requêtes du quotidien.</p>
+
+      <h3>Dates et heures</h3>
+      <pre>-- Commandes des 30 derniers jours
+SELECT * FROM commandes WHERE cree_le &gt; NOW() - INTERVAL '30 days';
+
+-- Nombre de commandes par mois
+SELECT DATE_TRUNC('month', cree_le) AS mois, COUNT(*)
+FROM commandes
+GROUP BY mois
+ORDER BY mois;</pre>
+
+      <h3>Texte</h3>
+      <pre>-- Normaliser la casse avant de comparer
+SELECT * FROM utilisateurs WHERE LOWER(email) = LOWER('Test@NovaCart.fr');
+
+-- Concaténer prénom et nom
+SELECT CONCAT(prenom, ' ', nom) AS nom_complet FROM utilisateurs;</pre>
+
+      <h3>JSON — de plus en plus courant en 2026</h3>
+      <p>PostgreSQL stocke nativement des données JSON dans une colonne (type <code>JSONB</code>), pratique pour des attributs variables sans créer une colonne par cas (par exemple, les caractéristiques techniques différentes d'une catégorie d'article à l'autre).</p>
+
+      <pre>-- Une colonne 'caracteristiques' au format JSONB sur articles
+SELECT nom, caracteristiques-&gt;&gt;'couleur' AS couleur
+FROM articles
+WHERE caracteristiques-&gt;&gt;'garantie_mois' = '24';</pre>
+
+      <div class="callout">
+        <div class="callout-label">Pourquoi le JSON compte pour un testeur en 2026</div>
+        <p>De plus en plus d'applications mélangent tables relationnelles classiques et colonnes JSON pour les données peu structurées. Savoir interroger une colonne JSONB directement en SQL évite de devoir tout extraire côté application juste pour vérifier une valeur — un gain de temps réel en investigation de bug.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris la requête qui compte le nombre de commandes créées chaque jour de la semaine (lundi, mardi...) sur toute l'historique de NovaCart.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>SELECT TO_CHAR(cree_le, 'Day') AS jour, COUNT(*)
+FROM commandes
+GROUP BY jour;</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m16"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m17">
+      <div class="mod-eyebrow">Partie 3 · Module 17</div>
+      <h2 class="mod-title">Les dialectes du marché</h2>
+      <p>Le SQL de base (<code>SELECT</code>, <code>JOIN</code>, <code>GROUP BY</code>...) est quasi identique partout. Les différences apparaissent sur les détails avancés — assez pour mériter un repère clair.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Système</th><th>Où on le trouve</th><th>Particularité à connaître</th></tr>
+        <tr><td><strong>PostgreSQL</strong></td><td>Le plus "admiré et désiré" des développeurs depuis plusieurs années, choix par défaut pour un nouveau projet en 2026</td><td>JSONB natif, extensions riches, la référence de ce cours</td></tr>
+        <tr><td><strong>MySQL</strong></td><td>Toujours la base la plus installée dans le monde en volume, très répandue sur des systèmes existants</td><td>Vient de connaître une bascule majeure en 2026 (fin de vie de la 8.0, nouvelle version LTS 9.7)</td></tr>
+        <tr><td><strong>SQL Server</strong></td><td>Écosystème Microsoft, entreprises</td><td>Syntaxe <code>TOP</code> au lieu de <code>LIMIT</code>, quelques fonctions renommées</td></tr>
+        <tr><td><strong>BigQuery / Snowflake</strong></td><td>Entrepôts de données cloud, contextes data/analytics</td><td>Pensés pour interroger des volumes énormes, pas pour le transactionnel au quotidien</td></tr>
+        <tr><td><strong>SQLite</strong></td><td>Applications mobiles, tests locaux légers</td><td>Une base entière dans un seul fichier, sans serveur</td></tr>
+      </table></div>
+
+      <p>Le conseil du secteur pour 2026 est net : apprendre sur PostgreSQL en priorité — c'est ce que fait ce cours — puis s'adapter aux particularités d'un autre système en quelques heures le jour où un projet l'impose. La logique (jointures, agrégation, index) ne change pas d'un système à l'autre ; seuls certains mots-clés et fonctions varient.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Une équipe utilise encore MySQL sur un système vieux de dix ans. Faut-il refuser le poste ou l'apprentissage de MySQL parce que ce cours enseigne PostgreSQL ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Non — la logique SQL apprise ici (jointures, agrégation, transactions, index) transfère directement. Seule la syntaxe de quelques fonctions changera, un ajustement de quelques heures, pas un nouvel apprentissage complet — exactement le même raisonnement que pour TypeScript au module 28 du cours QA.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m17"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 4 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 4</span><h2 class="part-title">SQL pour la QA</h2></div>
+    <p class="part-intro">Le lien direct avec ton métier : comment un testeur utilise vraiment le SQL, au-delà de la requête isolée.</p>
+
+    <section class="module" id="m18">
+      <div class="mod-eyebrow">Partie 4 · Module 18</div>
+      <h2 class="mod-title">Vérifier l'intégrité des données derrière l'interface</h2>
+      <p>Le module 20 du cours QA a déjà montré le principe : l'interface peut afficher un succès alors que la base ne reflète pas ce succès. Ici, on va plus loin — comment structurer ces vérifications pour qu'elles couvrent vraiment ce qui compte.</p>
+
+      <h3>Trois familles de vérifications à automatiser</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Famille</th><th>Exemple</th></tr>
+        <tr><td><strong>Existence</strong></td><td>La ligne attendue existe-t-elle après l'action ? (module 20 du cours QA)</td></tr>
+        <tr><td><strong>Cohérence</strong></td><td>Le total affiché correspond-il à la somme réelle des lignes en base ?</td></tr>
+        <tr><td><strong>Absence</strong></td><td>Une ligne supprimée a-t-elle vraiment disparu partout — y compris dans les tables liées ?</td></tr>
+      </table></div>
+
+      <p class="code-label">Vérifier la cohérence : le total affiché doit égaler la somme réelle</p>
+      <pre>SELECT c.id,
+    (SELECT SUM(quantite * prix_unitaire) FROM lignes_commande WHERE commande_id = c.id) AS total_calcule
+FROM commandes c
+WHERE c.id = 8842;</pre>
+
+      <p class="code-label">Vérifier l'absence après suppression d'un compte : aucune trace ne doit rester</p>
+      <pre>SELECT
+    (SELECT COUNT(*) FROM panier WHERE utilisateur_id = 4471) AS panier_restant,
+    (SELECT COUNT(*) FROM commandes WHERE utilisateur_id = 4471) AS commandes_restantes;
+-- les deux doivent valoir 0, ou suivre la politique de conservation définie (RGPD, module 22 du cours QA)</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris la requête qui vérifie que le stock d'un article (id 12) correspond bien à : stock initial connu (100) moins la somme de toutes les quantités vendues pour cet article.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>SELECT a.stock AS stock_actuel,
+    100 - COALESCE(SUM(lc.quantite), 0) AS stock_attendu
+FROM articles a
+LEFT JOIN lignes_commande lc ON lc.article_id = a.id
+WHERE a.id = 12
+GROUP BY a.stock;</pre>
+            <p><code>COALESCE</code> remplace un <code>NULL</code> (aucune vente) par 0, pour que le calcul reste correct même sans aucune ligne de commande.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m18"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m19">
+      <div class="mod-eyebrow">Partie 4 · Module 19</div>
+      <h2 class="mod-title">Générer et nettoyer des données de test</h2>
+      <p>Le module 22 du cours QA a introduit Faker pour générer des comptes fictifs réalistes. Ici, on regarde comment insérer ces jeux de données en masse, et surtout comment les nettoyer proprement après usage.</p>
+
+      <p class="code-label">Insérer 500 comptes de test générés avec Faker (Python), en une seule requête</p>
+      <pre>INSERT INTO utilisateurs (email, mot_de_passe_hash, cree_le)
+VALUES
+    ('test001@novacart.fr', '...', NOW()),
+    ('test002@novacart.fr', '...', NOW()),
+    -- ... générées par le script Faker du module 22 du cours QA
+    ('test500@novacart.fr', '...', NOW());</pre>
+
+      <h3>Nettoyer sans casser les autres données</h3>
+      <p>Un jeu de données de test qui s'accumule sans être nettoyé finit par fausser des statistiques, ralentir des requêtes, ou pire, se mélanger avec de vraies données lors d'un export. La convention la plus simple : préfixer systématiquement les données de test (<code>test%@novacart.fr</code>) pour pouvoir les cibler sans ambiguïté.</p>
+
+      <pre>-- Nettoyage ciblé, jamais un DELETE FROM utilisateurs; sans WHERE
+DELETE FROM utilisateurs
+WHERE email LIKE 'test%@novacart.fr'
+AND cree_le &lt; NOW() - INTERVAL '7 days';</pre>
+
+      <div class="callout warn">
+        <div class="callout-label">Attention à l'ordre de suppression</div>
+        <p>Supprimer un utilisateur avant ses commandes viole la contrainte de clé étrangère du module 9 (ou pire, la contourne silencieusement si elle n'est pas configurée). L'ordre correct : supprimer d'abord les lignes des tables dépendantes (<code>lignes_commande</code>, puis <code>commandes</code>, puis <code>panier</code>), et remonter jusqu'à <code>utilisateurs</code> en dernier — ou utiliser <code>ON DELETE CASCADE</code> sur la contrainte, en toute connaissance de cause.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris, dans le bon ordre, les requêtes <code>DELETE</code> nécessaires pour supprimer proprement toutes les traces d'un utilisateur de test (id 9001) dans <code>lignes_commande</code>, <code>commandes</code>, <code>panier</code>, puis <code>utilisateurs</code>.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>DELETE FROM lignes_commande WHERE commande_id IN (SELECT id FROM commandes WHERE utilisateur_id = 9001);
+DELETE FROM commandes WHERE utilisateur_id = 9001;
+DELETE FROM panier WHERE utilisateur_id = 9001;
+DELETE FROM utilisateurs WHERE id = 9001;</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m19"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m20">
+      <div class="mod-eyebrow">Partie 4 · Module 20</div>
+      <h2 class="mod-title">SQL dans une suite pytest</h2>
+      <p>On relie maintenant tout ce module au cours QA : comment appeler du SQL proprement depuis une suite de tests Playwright/pytest, sans dupliquer la logique de connexion dans chaque fichier de test.</p>
+
+      <p class="code-label">Une fixture pytest réutilisable pour la connexion à la base de test</p>
+      <pre>import os
+import psycopg2
+import pytest
+
+
+@pytest.fixture
+def db_connexion():
+    connexion = psycopg2.connect(os.environ["DATABASE_URL_TEST"])
+    yield connexion
+    connexion.close()</pre>
+
+      <p class="code-label">tests/test_panier.py — réutilise la fixture</p>
+      <pre>def test_ajouter_article_cree_bien_une_ligne_en_base(page, db_connexion):
+    # ... actions dans l'interface (module 11 du cours QA) ...
+
+    curseur = db_connexion.cursor()
+    curseur.execute(
+        "SELECT quantite FROM panier WHERE utilisateur_id = %s",
+        (4471,)
+    )
+    resultat = curseur.fetchone()
+    assert resultat[0] == 1</pre>
+
+      <p>La fixture centralise la connexion et sa fermeture — chaque test qui en a besoin la déclare simplement en paramètre, comme la fixture <code>page</code> de Playwright. C'est la même philosophie qu'au module 18 (Page Object) du cours QA : ne pas répéter une logique technique dans chaque fichier de test.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris un test pytest qui utilise la fixture <code>db_connexion</code> pour vérifier que le stock de l'article 12 a bien diminué de 1 après un achat effectué via l'interface.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>def test_achat_decremente_le_stock(page, db_connexion):
+    curseur = db_connexion.cursor()
+    curseur.execute("SELECT stock FROM articles WHERE id = 12")
+    stock_avant = curseur.fetchone()[0]
+
+    # ... actions d'achat dans l'interface (module 11 du cours QA) ...
+
+    curseur.execute("SELECT stock FROM articles WHERE id = 12")
+    stock_apres = curseur.fetchone()[0]
+
+    assert stock_apres == stock_avant - 1</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m20"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m21">
+      <div class="mod-eyebrow">Partie 4 · Module 21</div>
+      <h2 class="mod-title">Stratégies de bases de test</h2>
+      <p>Trois approches courantes pour garder une base de test dans un état prévisible entre deux exécutions — chacune avec un compromis différent.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Stratégie</th><th>Principe</th><th>Avantage</th><th>Limite</th></tr>
+        <tr><td><strong>Base dédiée par environnement</strong></td><td>Une base de test isolée, jamais touchée par la production</td><td>Simple à mettre en place</td><td>Peut dériver de la structure réelle de prod si mal maintenue</td></tr>
+        <tr><td><strong>Transaction annulée (rollback)</strong></td><td>Chaque test ouvre une transaction (module 11) et l'annule à la fin, quel que soit le résultat</td><td>Base toujours propre, rapide</td><td>Ne fonctionne pas pour les tests qui vérifient un vrai <code>COMMIT</code> (ex. envoi d'e-mail déclenché après validation)</td></tr>
+        <tr><td><strong>Snapshot / seed</strong></td><td>Un script réinitialise la base à un état connu avant chaque campagne</td><td>Reproductible, proche d'un vrai jeu de données</td><td>Plus lent, à réserver aux tests système (module 4 du cours QA), pas à chaque test unitaire</td></tr>
+      </table></div>
+
+      <p class="code-label">Le pattern rollback, appliqué en pytest</p>
+      <pre>@pytest.fixture
+def db_connexion_transaction():
+    connexion = psycopg2.connect(os.environ["DATABASE_URL_TEST"])
+    connexion.autocommit = False
+    yield connexion
+    connexion.rollback()   # annule tout ce que le test a modifié
+    connexion.close()</pre>
+
+      <div class="callout">
+        <div class="callout-label">Comment choisir</div>
+        <p>Pour la majorité des tests d'intégration (module 4 du cours QA), le rollback est le meilleur rapport rapidité/fiabilité. Réserve les snapshots aux scénarios de bout en bout où l'état exact de départ fait partie du test lui-même — pas par défaut, seulement quand c'est justifié.</p>
+        </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Un test vérifie qu'un e-mail de confirmation part bien après le paiement d'une commande — le service d'envoi d'e-mail se déclenche uniquement après un <code>COMMIT</code> réel en base. La stratégie rollback convient-elle ici ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Non — un rollback annule la transaction avant qu'elle ne devienne visible, donc le déclencheur d'e-mail (qui réagit à un <code>COMMIT</code> réel) ne se déclenchera jamais dans ce scénario. Une base dédiée ou un snapshot, avec un vrai nettoyage après coup, est plus adapté ici.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m21"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 5 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 5</span><h2 class="part-title">Se positionner</h2></div>
+    <p class="part-intro">Un dernier module pour ancrer tout ce cours dans la réalité du marché 2026.</p>
+
+    <section class="module" id="m22">
+      <div class="mod-eyebrow">Partie 5 · Module 22</div>
+      <h2 class="mod-title">Le marché du SQL en 2026</h2>
+      <p>Trois faits sourcés, pour remplacer les impressions par des chiffres.</p>
+
+      <h3>SQL n'est pas en déclin</h3>
+      <p>Le SQL reste demandé dans <strong>70 à 80% des offres d'emploi</strong> techniques qui touchent aux données, malgré "l'explosion des outils IA" — ce qui confirme ce qu'on avait déjà trouvé pour le module 27 du cours QA, où SQL figurait dans le palier des compétences présentes dans 60%+ des offres de test automation.</p>
+
+      <h3>Ce qui distingue un profil junior d'un profil senior</h3>
+      <p>Un junior répond à "cette requête fonctionne-t-elle ?" — les modules 1 à 7 de ce cours. Un senior répond à "ce schéma de données permet-il aux équipes de répondre elles-mêmes à leurs questions ?" — les réflexes de modélisation, d'index et de performance des modules 8, 9 et 14. Viser ce second niveau de raisonnement, même en début de carrière, te distingue immédiatement.</p>
+
+      <h3>Les huit compétences citées comme prioritaires en 2026</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Compétence</th><th>Couverte dans ce cours</th></tr>
+        <tr><td>Fondamentaux (SELECT, WHERE, GROUP BY)</td><td>Modules 2, 3, 5</td></tr>
+        <tr><td>Jointures multi-tables</td><td>Module 6</td></tr>
+        <tr><td>Sous-requêtes, CTE, lisibilité</td><td>Module 7</td></tr>
+        <tr><td>Fonctions fenêtrées</td><td>Module 12</td></tr>
+        <tr><td>Optimisation de performance</td><td>Module 14</td></tr>
+        <tr><td>Modélisation de données</td><td>Module 8</td></tr>
+        <tr><td>Dialectes modernes</td><td>Module 17</td></tr>
+        <tr><td>Intégration avec Python et d'autres outils</td><td>Module 20</td></tr>
+      </table></div>
+
+      <h3>Et l'IA qui écrit du SQL à ma place ?</h3>
+      <p>Les outils de génération de SQL par IA (text-to-SQL) se sont multipliés en 2026 — mais ils ne remplacent pas la compréhension du résultat qu'ils produisent. Une IA qui génère une requête avec une mauvaise jointure (module 6) produira un résultat plausible mais faux, silencieusement — exactement le même garde-fou que celui du module 15 du cours QA sur les cas de test générés par IA : utile comme point de départ, jamais comme validation finale sans relecture humaine qui comprend ce qu'elle lit.</p>
+
+      <div class="callout">
+        <div class="callout-label">Pour aller encore plus loin</div>
+        <p>Une fois ce cours terminé, deux directions naturelles : <strong>dbt</strong> (transformation de données versionnée en SQL, très demandé côté data), et une pratique régulière sur un vrai jeu de données public (par exemple via PostgreSQL installé en local) pour automatiser tes propres vérifications, au-delà des exercices de ce cours.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Reprends une des vérifications du module 18 (par exemple la cohérence du total d'une commande) et transforme-la en test automatisé pytest, en t'appuyant sur la fixture du module 20. Fais-la volontairement échouer une fois pour vérifier qu'elle détecte vraiment une incohérence.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Pas de correction unique ici — c'est l'exercice de synthèse du cours. Le signal que c'est réussi : le test passe sur une commande cohérente, et échoue clairement (avec un message lisible) si tu modifies volontairement une <code>quantite</code> en base pour créer une incohérence.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m22"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <div class="footer-note">
+      <p>Cours rédigé comme compagnon du cours "Qualité Logicielle Automatisée" — même schéma NovaCart, mêmes conventions. Données de marché 2026 sourcées : popularité PostgreSQL/MySQL, compétences SQL les plus demandées, présence du SQL dans les offres de test automation. Le suivi de progression (cases à cocher) est enregistré uniquement dans ce navigateur.</p>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'sql-course-progress-v1';
+  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','m15','m16','m17','m18','m19','m20','m21','m22'];
+
+  function loadDone(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    }catch(e){ return {}; }
+  }
+  function saveDone(done){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(done)); }catch(e){}
+  }
+
+  var done = loadDone();
+
+  function render(){
+    var count = 0;
+    ids.forEach(function(id){
+      var isDone = !!done[id];
+      if(isDone) count++;
+      var navCheck = document.querySelector('[data-modcheck="'+id+'"]');
+      if(navCheck) navCheck.setAttribute('data-done', isDone ? 'true' : 'false');
+      var toggle = document.querySelector('[data-toggle="'+id+'"]');
+      if(toggle) toggle.setAttribute('data-done', isDone ? 'true' : 'false');
+    });
+    var countEl = document.getElementById('progress-count');
+    var fillEl = document.getElementById('progress-fill');
+    if(countEl) countEl.textContent = String(count);
+    if(fillEl) fillEl.style.width = (count / ids.length * 100) + '%';
+  }
+
+  function toggle(id){
+    done[id] = !done[id];
+    saveDone(done);
+    render();
+  }
+
+  ids.forEach(function(id){
+    var navCheck = document.querySelector('[data-modcheck="'+id+'"]');
+    if(navCheck){
+      navCheck.addEventListener('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        toggle(id);
+      });
+    }
+    var btn = document.querySelector('[data-toggle="'+id+'"]');
+    if(btn){
+      btn.addEventListener('click', function(){ toggle(id); });
+    }
+  });
+
+  render();
+
+  var sections = ids.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+  var navLinks = {};
+  ids.forEach(function(id){
+    var l = document.querySelector('.nav-link[data-id="'+id+'"]');
+    if(l) navLinks[id] = l;
+  });
+
+  if('IntersectionObserver' in window){
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var id = entry.target.id;
+        var link = navLinks[id];
+        if(!link) return;
+        if(entry.isIntersecting){
+          Object.keys(navLinks).forEach(function(k){ navLinks[k].classList.remove('active'); });
+          link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+    sections.forEach(function(s){ observer.observe(s); });
+  }
+})();
+</script>

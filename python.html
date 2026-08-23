@@ -1,0 +1,1619 @@
+<title>Python pour la Qualité Logicielle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F7FA;
+    --surface:#FFFFFF;
+    --surface-2:#EBF0F5;
+    --border:#D9E1E9;
+    --border-strong:#B9C6D3;
+    --text:#16202B;
+    --text-dim:#4C5A68;
+    --text-faint:#7C8B99;
+    --accent:#3572A5;
+    --accent-strong:#2A5A82;
+    --accent-tint:#E4EDF5;
+    --fail:#B8433A;
+    --fail-tint:#FBEAE7;
+    --warn:#93650F;
+    --warn-tint:#FBF0DC;
+    --code-bg:#101A24;
+    --code-text:#DCE7EE;
+    --code-border:#223247;
+    --shadow: 0 1px 2px rgba(16,24,32,0.04), 0 8px 24px -12px rgba(16,24,32,0.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0E1520;
+      --surface:#151F2B;
+      --surface-2:#1A2635;
+      --border:#293A4D;
+      --border-strong:#3C5066;
+      --text:#E9EEF3;
+      --text-dim:#A6B4C2;
+      --text-faint:#7C8B99;
+      --accent:#6FA8D6;
+      --accent-strong:#8FBEE3;
+      --accent-tint:#1A2C3D;
+      --fail:#E3766B;
+      --fail-tint:#33201D;
+      --warn:#E3B564;
+      --warn-tint:#332813;
+      --code-bg:#0A1017;
+      --code-text:#D8E5EE;
+      --code-border:#1F2E3E;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0E1520;
+    --surface:#151F2B;
+    --surface-2:#1A2635;
+    --border:#293A4D;
+    --border-strong:#3C5066;
+    --text:#E9EEF3;
+    --text-dim:#A6B4C2;
+    --text-faint:#7C8B99;
+    --accent:#6FA8D6;
+    --accent-strong:#8FBEE3;
+    --accent-tint:#1A2C3D;
+    --fail:#E3766B;
+    --fail-tint:#33201D;
+    --warn:#E3B564;
+    --warn-tint:#332813;
+    --code-bg:#0A1017;
+    --code-text:#D8E5EE;
+    --code-border:#1F2E3E;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size:16.5px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;}
+  a{color:var(--accent-strong);}
+  ::selection{background:var(--accent-tint); color:var(--text);}
+
+  .shell{display:grid; grid-template-columns: 280px minmax(0,1fr); max-width:1180px; margin:0 auto;}
+  @media (max-width: 900px){ .shell{grid-template-columns: 1fr;} }
+
+  .sidebar{position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; padding:28px 20px 40px; border-right:1px solid var(--border);}
+  @media (max-width: 900px){ .sidebar{position:static; height:auto; border-right:none; border-bottom:1px solid var(--border);} }
+  .brand{display:flex; align-items:baseline; gap:9px; margin-bottom:4px;}
+  .brand-mark{font-family:"IBM Plex Mono"; font-weight:700; font-size:13px; color:var(--accent-strong); background:var(--accent-tint); border:1px solid var(--border-strong); border-radius:4px; padding:2px 6px; letter-spacing:0.02em;}
+  .brand-name{font-family:"IBM Plex Mono"; font-weight:600; font-size:14.5px; letter-spacing:-0.01em;}
+  .tagline{color:var(--text-faint); font-size:12.5px; margin:2px 0 20px;}
+
+  .progress-wrap{margin-bottom:22px;}
+  .progress-label{display:flex; justify-content:space-between; align-items:baseline; font-family:"IBM Plex Mono"; font-size:11.5px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;}
+  #progress-count{color:var(--accent-strong); font-weight:600;}
+  .progress-track{height:6px; border-radius:3px; background:var(--surface-2); border:1px solid var(--border); overflow:hidden;}
+  .progress-fill{height:100%; width:0%; background:var(--accent); transition:width 0.35s ease;}
+
+  .nav-part-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-faint); margin:18px 0 8px;}
+  .nav-list{list-style:none; margin:0; padding:0;}
+  .nav-item{margin-bottom:1px;}
+  .nav-link{display:flex; align-items:center; gap:9px; padding:6px 8px; border-radius:6px; color:var(--text-dim); text-decoration:none; font-size:13.5px; line-height:1.35; border:1px solid transparent;}
+  .nav-link:hover{background:var(--surface-2); color:var(--text);}
+  .nav-link.active{background:var(--accent-tint); color:var(--accent-strong); border-color:var(--border-strong);}
+  .nav-check{flex:0 0 auto; width:15px; height:15px; border-radius:4px; border:1.5px solid var(--border-strong); background:var(--surface); display:inline-flex; align-items:center; justify-content:center; cursor:pointer;}
+  .nav-check[data-done="true"]{background:var(--accent); border-color:var(--accent);}
+  .nav-check[data-done="true"]::after{content:"✓"; color:#fff; font-size:10px; font-weight:700;}
+  .nav-num{color:var(--text-faint); font-family:"IBM Plex Mono"; font-size:11.5px; min-width:16px;}
+
+  main{padding:44px 48px 100px; min-width:0;}
+  @media (max-width: 900px){ main{padding:32px 20px 80px;} }
+  @media (max-width: 560px){ main{padding:24px 16px 64px;} }
+
+  .doc-header{max-width:660px; margin-bottom:56px;}
+  .eyebrow{font-family:"IBM Plex Mono"; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent-strong); margin-bottom:12px;}
+  h1.doc-title{font-family:"IBM Plex Mono"; font-weight:600; font-size:clamp(28px, 4vw, 38px); line-height:1.15; letter-spacing:-0.01em; margin:0 0 16px; text-wrap:balance;}
+  .doc-lede{color:var(--text-dim); font-size:17px; line-height:1.6; margin:0 0 22px;}
+  .stat-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .stat-chip{font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-dim); border:1px solid var(--border); background:var(--surface); border-radius:20px; padding:5px 12px;}
+  .stat-chip b{color:var(--text); font-weight:600;}
+
+  .schema-box{max-width:680px; margin:0 0 24px; padding:16px 18px; border:1px solid var(--border-strong); border-radius:8px; background:var(--surface); box-shadow:var(--shadow);}
+  .schema-box-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--accent-strong); margin-bottom:10px;}
+  .schema-table{font-family:"IBM Plex Mono"; font-size:12.5px; margin-bottom:12px;}
+  .schema-table:last-child{margin-bottom:0;}
+  .schema-table .tname{font-weight:700; color:var(--accent-strong);}
+  .schema-table .tcols{color:var(--text-dim);}
+  .schema-table .tkey{color:var(--warn);}
+
+  section.module{max-width:680px; padding-top:52px; margin-top:-8px; border-top:1px solid var(--border);}
+  section.module:first-of-type{border-top:none;}
+  .part-divider{max-width:680px; margin:64px 0 8px; display:flex; align-items:center; gap:14px;}
+  .part-divider .part-tag{font-family:"IBM Plex Mono"; font-size:12px; font-weight:700; color:var(--accent-strong); background:var(--accent-tint); border:1px solid var(--border-strong); border-radius:5px; padding:4px 9px; letter-spacing:0.04em; white-space:nowrap;}
+  .part-divider h2.part-title{font-family:"IBM Plex Mono"; font-size:14px; font-weight:600; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; margin:0;}
+  .part-divider::after{content:""; flex:1; height:1px; background:var(--border);}
+  .part-intro{max-width:680px; color:var(--text-dim); margin:10px 0 0; font-size:15px;}
+
+  .mod-eyebrow{font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-faint); letter-spacing:0.04em; margin-bottom:8px;}
+  h2.mod-title{font-family:"IBM Plex Mono"; font-weight:600; font-size:24px; letter-spacing:-0.01em; margin:0 0 18px; text-wrap:balance;}
+  h3{font-family:"IBM Plex Mono"; font-weight:600; font-size:15.5px; margin:30px 0 10px; color:var(--text);}
+  p{margin:0 0 16px; max-width:66ch;}
+  ul, ol{margin:0 0 16px; padding-left:22px;}
+  li{margin-bottom:6px; max-width:62ch;}
+  strong{font-weight:600;}
+
+  .callout{border:1px solid var(--border-strong); background:var(--surface); border-radius:8px; padding:16px 18px; margin:20px 0; box-shadow:var(--shadow);}
+  .callout-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--accent-strong); margin-bottom:6px;}
+  .callout p:last-child{margin-bottom:0;}
+  .callout.warn{border-color:var(--warn); background:var(--warn-tint);}
+  .callout.warn .callout-label{color:var(--warn);}
+
+  .exercise{border:1px solid var(--border-strong); background:var(--surface-2); border-radius:8px; padding:16px 18px; margin:26px 0 8px; max-width:680px;}
+  .exercise-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-faint); margin-bottom:8px;}
+  .exercise p{margin:0 0 10px; max-width:none;}
+  .exercise p:last-of-type{margin-bottom:0;}
+  .exercise details{margin-top:4px;}
+  .exercise summary{cursor:pointer; font-family:"IBM Plex Mono"; font-size:12.5px; font-weight:600; color:var(--accent-strong); list-style:none; display:inline-flex; align-items:center; gap:6px;}
+  .exercise summary::-webkit-details-marker{display:none;}
+  .exercise summary::before{content:"▸"; font-size:10px; display:inline-block; transition:transform 0.15s ease;}
+  .exercise details[open] summary::before{transform:rotate(90deg);}
+  .exercise .exercise-solution-body{margin-top:10px; padding-top:10px; border-top:1px dashed var(--border-strong);}
+  .exercise .exercise-solution-body p:last-child{margin-bottom:0;}
+  .exercise .exercise-solution-body pre{margin:10px 0 0; max-width:none;}
+
+  table{width:100%; border-collapse:collapse; margin:18px 0 22px; font-size:13.5px; background:var(--surface); border:1px solid var(--border); border-radius:8px; overflow:hidden;}
+  .table-scroll{overflow-x:auto; max-width:680px; margin:18px 0 22px;}
+  .table-scroll table{margin:0;}
+  th, td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--border); vertical-align:top;}
+  th{font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-faint); background:var(--surface-2);}
+  tr:last-child td{border-bottom:none;}
+  td.mono, th.mono{font-family:"IBM Plex Mono"; font-size:12.5px;}
+
+  .tag{display:inline-block; font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; padding:2px 7px; border-radius:4px;}
+  .tag.pass{background:var(--accent-tint); color:var(--accent-strong);}
+  .tag.fail{background:var(--fail-tint); color:var(--fail);}
+  .tag.warn{background:var(--warn-tint); color:var(--warn);}
+
+  pre{background:var(--code-bg); color:var(--code-text); border:1px solid var(--code-border); border-radius:8px; padding:16px 18px; overflow-x:auto; margin:16px 0 22px; font-size:13px; line-height:1.6; max-width:680px;}
+  code{font-family:"IBM Plex Mono";}
+  p code, li code, td code{background:var(--surface-2); border:1px solid var(--border); border-radius:4px; padding:1px 5px; font-size:0.88em;}
+  .code-label{font-family:"IBM Plex Mono"; font-size:11px; color:var(--text-faint); margin:0 0 6px; letter-spacing:0.02em;}
+
+  .done-toggle{display:inline-flex; align-items:center; gap:8px; font-family:"IBM Plex Mono"; font-size:12.5px; color:var(--text-dim); border:1px solid var(--border-strong); background:var(--surface); border-radius:20px; padding:6px 14px 6px 10px; cursor:pointer; margin-top:28px; user-select:none;}
+  .done-toggle:hover{border-color:var(--accent);}
+  .done-toggle .box{width:15px; height:15px; border-radius:4px; border:1.5px solid var(--border-strong); display:inline-flex; align-items:center; justify-content:center; background:var(--surface);}
+  .done-toggle[data-done="true"] .box{background:var(--accent); border-color:var(--accent);}
+  .done-toggle[data-done="true"] .box::after{content:"✓"; color:#fff; font-size:10px; font-weight:700;}
+  .done-toggle[data-done="true"]{color:var(--accent-strong); border-color:var(--accent);}
+
+  .footer-note{max-width:680px; margin-top:70px; padding-top:24px; border-top:1px solid var(--border); color:var(--text-faint); font-size:12.5px;}
+  .footer-note a{color:var(--text-dim);}
+
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} .progress-fill{transition:none;} }
+</style>
+<div class="shell">
+  <nav class="sidebar" aria-label="Sommaire du cours">
+    <div class="brand">
+      <span class="brand-mark">PY</span>
+      <span class="brand-name">Python pour la<br>Qualité Logicielle</span>
+    </div>
+    <p class="tagline">Les bases du langage, pour aborder Playwright et l'automatisation avec les idées claires</p>
+
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/14</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+
+    <div class="nav-part-label">Partie 1 — Les bases du langage</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m1" href="#m1"><span class="nav-check" data-modcheck="m1"></span><span class="nav-num">01</span> Pourquoi Python, et comment l'installer</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m2" href="#m2"><span class="nav-check" data-modcheck="m2"></span><span class="nav-num">02</span> Variables, types et affichage</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m3" href="#m3"><span class="nav-check" data-modcheck="m3"></span><span class="nav-num">03</span> Chaînes de caractères</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m4" href="#m4"><span class="nav-check" data-modcheck="m4"></span><span class="nav-num">04</span> Listes et tuples</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m5" href="#m5"><span class="nav-check" data-modcheck="m5"></span><span class="nav-num">05</span> Dictionnaires et ensembles</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m6" href="#m6"><span class="nav-check" data-modcheck="m6"></span><span class="nav-num">06</span> Structures de contrôle</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 2 — Code réutilisable</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m7" href="#m7"><span class="nav-check" data-modcheck="m7"></span><span class="nav-num">07</span> Fonctions</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m8" href="#m8"><span class="nav-check" data-modcheck="m8"></span><span class="nav-num">08</span> Compréhensions de liste et de dict</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m9" href="#m9"><span class="nav-check" data-modcheck="m9"></span><span class="nav-num">09</span> Modules et organisation du code</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m10" href="#m10"><span class="nav-check" data-modcheck="m10"></span><span class="nav-num">10</span> Environnements virtuels et pip</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 3 — Code robuste</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m11" href="#m11"><span class="nav-check" data-modcheck="m11"></span><span class="nav-num">11</span> Gestion des erreurs</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m12" href="#m12"><span class="nav-check" data-modcheck="m12"></span><span class="nav-num">12</span> Fichiers, JSON et CSV</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 4 — Vers l'automatisation</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m13" href="#m13"><span class="nav-check" data-modcheck="m13"></span><span class="nav-num">13</span> Programmation orientée objet</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m14" href="#m14"><span class="nav-check" data-modcheck="m14"></span><span class="nav-num">14</span> Le pont vers pytest et Playwright</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <header class="doc-header">
+      <div class="eyebrow">Cours autoportant · Compagnon du cours QA</div>
+      <h1 class="doc-title">Python pour la Qualité Logicielle</h1>
+      <p class="doc-lede">Les bases du langage utilisées dans tout le reste du parcours : la syntaxe, les structures de données, les fonctions, jusqu'aux notions dont tu auras besoin pour écrire tes premiers tests Playwright. Chaque notion a son exemple exécutable, et chaque module se termine par un exercice corrigé.</p>
+      <div class="stat-row">
+        <span class="stat-chip"><b>14</b> modules</span>
+        <span class="stat-chip"><b>4</b> parties : bases → réutilisable → robuste → automatisation</span>
+        <span class="stat-chip">Version : <b>Python 3.11+</b></span>
+        <span class="stat-chip"><b>14</b> exercices corrigés</span>
+      </div>
+    </header>
+
+    <!-- ============ PARTIE 1 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 1</span><h2 class="part-title">Les bases du langage</h2></div>
+    <p class="part-intro">Le strict nécessaire pour lire et écrire du Python correctement, sans détour.</p>
+
+    <section class="module" id="m1">
+      <div class="mod-eyebrow">Partie 1 · Module 01</div>
+      <h2 class="mod-title">Pourquoi Python, et comment l'installer</h2>
+      <p>Python est un langage de programmation généraliste, lisible, et extrêmement répandu dans le test logiciel : c'est le langage principal derrière <strong>Playwright</strong>, <strong>pytest</strong>, <strong>Selenium</strong> et la quasi-totalité des outils d'automatisation de tests actuels. Sa syntaxe proche du langage naturel le rend rapide à apprendre — mais "rapide à apprendre" ne veut pas dire "sans rigueur" : ce cours pose les fondations correctement, parce que c'est ce qui te permettra ensuite d'écrire des tests fiables plutôt que du code qui marche "par chance".</p>
+
+      <p>Contrairement à un langage compilé comme Java ou C, Python est <strong>interprété</strong> : il n'y a pas d'étape de compilation séparée, un programme <code>.py</code> s'exécute directement via l'interpréteur <code>python3</code>. C'est ce qui rend les allers-retours rapides — utile en test, où on modifie et relance du code en continu.</p>
+
+      <h3>Vérifier l'installation</h3>
+      <p>Sur macOS et sur la plupart des distributions Linux, Python 3 est généralement déjà présent. Sur Windows, il s'installe depuis <a href="https://python.org" target="_blank" rel="noopener">python.org</a> (cocher "Add python.exe to PATH" pendant l'installation). Dans tous les cas, on vérifie la version installée depuis un terminal :</p>
+
+      <p class="code-label">Terminal — vérifier la version</p>
+      <pre>$ python3 --version
+Python 3.12.3</pre>
+
+      <p>Selon le système, la commande peut s'appeler <code>python3</code> ou simplement <code>python</code> — ce cours utilise <code>python3</code> par convention pour lever toute ambiguïté avec d'anciennes installations Python 2, aujourd'hui obsolètes et à éviter.</p>
+
+      <h3>Le REPL : un bac à sable interactif</h3>
+      <p>Taper <code>python3</code> sans rien après ouvre le <strong>REPL</strong> (Read-Eval-Print Loop) : une console interactive qui évalue chaque ligne tapée et affiche immédiatement le résultat. C'est l'endroit idéal pour tester une idée en deux secondes, sans créer de fichier.</p>
+
+      <p class="code-label">Terminal — session REPL</p>
+      <pre>$ python3
+&gt;&gt;&gt; 3 + 4
+7
+&gt;&gt;&gt; print("Bonjour NovaCart")
+Bonjour NovaCart
+&gt;&gt;&gt; exit()</pre>
+
+      <h3>Écrire et lancer un vrai script</h3>
+      <p>Pour du code destiné à être conservé et réexécuté, on l'écrit dans un fichier avec l'extension <code>.py</code>, puis on le lance avec <code>python3</code>.</p>
+
+      <p class="code-label">bonjour.py</p>
+      <pre># Ceci est un commentaire : Python l'ignore à l'exécution
+print("Bonjour NovaCart")
+print("Ce script tourne avec Python", 3)</pre>
+
+      <p class="code-label">Terminal — exécuter le fichier</p>
+      <pre>$ python3 bonjour.py
+Bonjour NovaCart
+Ce script tourne avec Python 3</pre>
+
+      <p>La fonction <code>print()</code> affiche du texte dans le terminal — c'est l'outil de base pour observer ce que fait un programme, et plus tard pour lire les messages d'erreur d'un test qui échoue. Un commentaire commence par <code>#</code> et s'étend jusqu'à la fin de la ligne ; il sert à expliquer une intention, pas à répéter ce que le code dit déjà.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Crée un fichier <code>premier_script.py</code> qui affiche, sur trois lignes distinctes : un message de bienvenue, le résultat du calcul <code>12 * 8</code>, et une ligne de commentaire (donc invisible à l'exécution) expliquant ce que fait le script.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p class="code-label">premier_script.py</p>
+            <pre># Ce script affiche un message et le résultat d'un calcul simple
+print("Bienvenue dans le cours Python pour la QA")
+print(12 * 8)</pre>
+            <p>À l'exécution (<code>python3 premier_script.py</code>), seules les deux lignes issues des <code>print()</code> s'affichent : <code>Bienvenue dans le cours Python pour la QA</code> puis <code>96</code>. Le commentaire n'apparaît jamais dans la sortie — il existe uniquement dans le fichier source, pour qui le lit.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m1"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m2">
+      <div class="mod-eyebrow">Partie 1 · Module 02</div>
+      <h2 class="mod-title">Variables, types et affichage</h2>
+      <p>Une variable associe un nom à une valeur. En Python, on ne déclare pas de type explicitement : l'affectation avec <code>=</code> suffit, et le type se déduit de la valeur donnée. On parle de <strong>typage dynamique</strong>.</p>
+
+      <p class="code-label">Affectation de variables</p>
+      <pre>nom_produit = "Sac à dos randonnée"
+prix = 59.90
+quantite_stock = 12
+en_promotion = True
+
+print(nom_produit)
+print(prix)</pre>
+
+      <p>La convention de nommage en Python s'appelle <strong>snake_case</strong> : des mots en minuscules séparés par des underscores (<code>prix_unitaire</code>, pas <code>prixUnitaire</code> ni <code>PrixUnitaire</code>). C'est une convention forte, respectée par la quasi-totalité du code Python — s'y tenir dès le départ évite de devoir "désapprendre" une habitude plus tard.</p>
+
+      <h3>Les types de base</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Type</th><th>Représente</th><th>Exemple</th></tr>
+        <tr><td class="mono">str</td><td>Une chaîne de caractères (texte)</td><td class="mono">"NovaCart"</td></tr>
+        <tr><td class="mono">int</td><td>Un nombre entier</td><td class="mono">12</td></tr>
+        <tr><td class="mono">float</td><td>Un nombre à virgule flottante (décimal)</td><td class="mono">59.90</td></tr>
+        <tr><td class="mono">bool</td><td>Une valeur booléenne, seulement <code>True</code> ou <code>False</code></td><td class="mono">True</td></tr>
+        <tr><td class="mono">NoneType</td><td>L'absence de valeur, représentée par <code>None</code></td><td class="mono">None</td></tr>
+      </table></div>
+
+      <p>La fonction <code>type()</code> révèle le type réel d'une valeur — précieux pour déboguer quand un comportement surprend :</p>
+
+      <p class="code-label">Inspecter un type</p>
+      <pre>&gt;&gt;&gt; type(prix)
+&lt;class 'float'&gt;
+&gt;&gt;&gt; type(quantite_stock)
+&lt;class 'int'&gt;
+&gt;&gt;&gt; type(None)
+&lt;class 'NoneType'&gt;</pre>
+
+      <p><code>None</code> mérite une attention particulière : ce n'est ni <code>0</code>, ni <code>""</code>, ni <code>False</code> — c'est l'absence explicite de valeur. On l'utilise, par exemple, pour représenter un champ optionnel qui n'a pas encore été renseigné : un article NovaCart sans date de promotion aurait <code>date_promo = None</code>, pas une chaîne vide.</p>
+
+      <h3>Convertir entre types</h3>
+      <p>Les fonctions <code>int()</code>, <code>float()</code>, <code>str()</code> et <code>bool()</code> convertissent une valeur d'un type vers un autre, quand c'est possible.</p>
+
+      <p class="code-label">Conversions</p>
+      <pre>&gt;&gt;&gt; int("42")
+42
+&gt;&gt;&gt; float("3.14")
+3.14
+&gt;&gt;&gt; str(99)
+'99'
+&gt;&gt;&gt; int("abc")
+Traceback (most recent call last):
+ValueError: invalid literal for int() with base 10: 'abc'</pre>
+
+      <p>Cette dernière ligne montre une <strong>exception</strong> : Python interrompt l'exécution quand une conversion est impossible. Le module 11 revient en détail sur la gestion de ces erreurs — pour l'instant, retiens juste que convertir une chaîne qui n'est pas un nombre valide fait planter le programme.</p>
+
+      <h3>Afficher proprement avec print()</h3>
+      <p><code>print()</code> accepte plusieurs valeurs séparées par des virgules, et les affiche séparées par un espace par défaut.</p>
+
+      <p class="code-label">print() avec plusieurs arguments</p>
+      <pre>&gt;&gt;&gt; print(nom_produit, "coûte", prix, "euros")
+Sac à dos randonnée coûte 59.9 euros
+&gt;&gt;&gt; print("a", "b", "c", sep=" - ")
+a - b - c</pre>
+
+      <p>Le module 3 introduit les <strong>f-strings</strong>, un moyen bien plus lisible de construire des messages combinant texte et variables — c'est la méthode que tu utiliseras en pratique, dans ce cours comme dans du code réel.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Crée les variables suivantes pour un article NovaCart : <code>nom = "Casque audio"</code>, <code>prix_ht = 45.0</code> (hors taxes), <code>taux_tva = 0.20</code>. Calcule le prix TTC (<code>prix_ht + prix_ht * taux_tva</code>) dans une variable <code>prix_ttc</code>, puis affiche-le avec <code>print()</code>. Vérifie enfin le type de <code>prix_ttc</code> avec <code>type()</code>.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>nom = "Casque audio"
+prix_ht = 45.0
+taux_tva = 0.20
+
+prix_ttc = prix_ht + prix_ht * taux_tva
+
+print(nom, prix_ttc)
+print(type(prix_ttc))</pre>
+            <p>Sortie : <code>Casque audio 54.0</code> puis <code>&lt;class 'float'&gt;</code>. Le résultat est un <code>float</code> parce qu'au moins un des opérandes (<code>taux_tva</code>) en est un — une opération arithmétique entre un <code>int</code> et un <code>float</code> produit toujours un <code>float</code>.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m2"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m3">
+      <div class="mod-eyebrow">Partie 1 · Module 03</div>
+      <h2 class="mod-title">Chaînes de caractères</h2>
+      <p>Les chaînes (<code>str</code>) sont le type le plus manipulé en test logiciel : messages d'erreur, noms de sélecteurs, contenus de pages, données de test. Python offre des outils riches pour les construire et les découper.</p>
+
+      <h3>Les f-strings : la méthode à privilégier</h3>
+      <p>Une f-string (chaîne préfixée par <code>f</code>) permet d'insérer directement des expressions Python entre accolades <code>{}</code> à l'intérieur du texte. C'est la façon moderne et lisible de construire des messages.</p>
+
+      <p class="code-label">f-strings</p>
+      <pre>nom = "Casque audio"
+prix = 54.0
+
+message = f"Article : {nom} — {prix} €"
+print(message)
+
+# On peut aussi mettre une expression directement dans les accolades
+print(f"Prix arrondi : {round(prix)} €")
+print(f"Prix formaté : {prix:.2f} €")</pre>
+
+      <p class="code-label">Sortie</p>
+      <pre>Article : Casque audio — 54.0 €
+Prix arrondi : 54 €
+Prix formaté : 54.00 €</pre>
+
+      <p>Le format <code>{prix:.2f}</code> impose deux décimales — utile pour afficher un montant en euros de façon cohérente, plutôt que de dépendre du nombre de décimales déjà présentes dans la valeur.</p>
+
+      <h3>Indexation et slicing</h3>
+      <p>Une chaîne se comporte comme une séquence de caractères indexée à partir de <code>0</code>. Le slicing (<code>debut:fin</code>) extrait une sous-partie, la borne de fin étant exclue.</p>
+
+      <p class="code-label">Indexation et slicing</p>
+      <pre>reference = "NC-1042"
+
+print(reference[0])      # 'N'
+print(reference[-1])     # '2' (dernier caractère)
+print(reference[3:])     # '1042' (à partir de l'index 3)
+print(reference[:2])     # 'NC' (jusqu'à l'index 2 exclu)
+print(reference[3:5])    # '10'</pre>
+
+      <h3>Méthodes courantes</h3>
+      <p>Les chaînes sont <strong>immuables</strong> : aucune méthode ne modifie la chaîne d'origine, chacune en renvoie une nouvelle.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Méthode</th><th>Effet</th><th>Exemple</th></tr>
+        <tr><td class="mono">.strip()</td><td>Retire les espaces (ou autres caractères) en début/fin</td><td class="mono">"  ok  ".strip() → "ok"</td></tr>
+        <tr><td class="mono">.lower() / .upper()</td><td>Convertit en minuscules / majuscules</td><td class="mono">"NC".lower() → "nc"</td></tr>
+        <tr><td class="mono">.split(sep)</td><td>Découpe en liste selon un séparateur</td><td class="mono">"a,b,c".split(",") → ['a','b','c']</td></tr>
+        <tr><td class="mono">"sep".join(liste)</td><td>Assemble une liste de chaînes avec un séparateur</td><td class="mono">"-".join(['a','b']) → "a-b"</td></tr>
+        <tr><td class="mono">.replace(a, b)</td><td>Remplace toutes les occurrences de <code>a</code> par <code>b</code></td><td class="mono">"abc".replace("b","X") → "aXc"</td></tr>
+        <tr><td class="mono">.startswith() / .endswith()</td><td>Teste le début / la fin de la chaîne</td><td class="mono">"NC-1042".startswith("NC")</td></tr>
+        <tr><td class="mono">.find(sous_chaine)</td><td>Renvoie l'index de la première occurrence, ou <code>-1</code></td><td class="mono">"abc".find("b") → 1</td></tr>
+      </table></div>
+
+      <p class="code-label">Nettoyer et découper une ligne de données brute</p>
+      <pre>ligne_brute = "  Sac à dos randonnée ; NC-2210 ; 59.90  "
+
+ligne_propre = ligne_brute.strip()
+parties = ligne_propre.split(";")
+parties = [p.strip() for p in parties]   # on nettoie chaque morceau (module 8)
+
+print(parties)
+# ['Sac à dos randonnée', 'NC-2210', '59.90']</pre>
+
+      <p>Ce type de nettoyage (espaces superflus, séparateurs, casse incohérente) est extrêmement fréquent quand on travaille avec des données réelles — fichiers exportés, réponses d'API, saisies utilisateur — et donc quand on écrit des tests qui vérifient ces données.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Étant donné <code>brut = "  Réf: NC-1042 — Sac à dos randonnée  "</code>, écris du code qui : (1) retire les espaces superflus en début/fin, (2) extrait la référence <code>"NC-1042"</code> seule (indice : cherche la position de <code>": "</code> et celle de <code>" — "</code>, ou utilise <code>.split()</code>), (3) affiche le résultat avec une f-string du type <code>"Référence extraite : NC-1042"</code>.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>brut = "  Réf: NC-1042 — Sac à dos randonnée  "
+
+propre = brut.strip()
+# "Réf: NC-1042 — Sac à dos randonnée"
+
+apres_deux_points = propre.split(": ")[1]
+# "NC-1042 — Sac à dos randonnée"
+
+reference = apres_deux_points.split(" — ")[0]
+# "NC-1042"
+
+print(f"Référence extraite : {reference}")</pre>
+            <p>Sortie : <code>Référence extraite : NC-1042</code>. La stratégie consiste à découper la chaîne étape par étape avec <code>.split()</code>, en repérant à chaque fois un séparateur stable dans le format — c'est exactement le réflexe utile pour parser un texte de log ou une réponse d'API mal structurée.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m3"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m4">
+      <div class="mod-eyebrow">Partie 1 · Module 04</div>
+      <h2 class="mod-title">Listes et tuples</h2>
+      <p>Une <strong>liste</strong> (<code>list</code>) est une collection ordonnée et modifiable de valeurs, potentiellement de types différents. C'est la structure de données la plus utilisée en Python.</p>
+
+      <p class="code-label">Créer et indexer une liste</p>
+      <pre>noms_produits = ["Casque audio", "Sac à dos", "Gourde inox"]
+
+print(noms_produits[0])      # 'Casque audio'
+print(noms_produits[-1])     # 'Gourde inox' (dernier élément)
+print(len(noms_produits))    # 3
+print("Sac à dos" in noms_produits)   # True</pre>
+
+      <h3>Slicing et modification</h3>
+      <p>Le slicing fonctionne comme pour les chaînes. Contrairement aux chaînes, une liste est <strong>mutable</strong> : on peut modifier ses éléments en place.</p>
+
+      <p class="code-label">Modifier une liste</p>
+      <pre>prix = [45.0, 59.9, 12.5]
+
+prix[0] = 42.0            # remplace le premier élément
+prix.append(19.99)        # ajoute à la fin
+prix.insert(1, 30.0)      # insère à l'index 1
+prix.remove(59.9)         # retire la première occurrence de cette valeur
+dernier = prix.pop()      # retire et renvoie le dernier élément
+
+print(prix)</pre>
+
+      <h3>Trier, parcourir, combiner</h3>
+      <p><code>sorted()</code> renvoie une nouvelle liste triée sans toucher l'originale ; <code>.sort()</code> trie la liste en place et ne renvoie rien.</p>
+
+      <p class="code-label">Tri</p>
+      <pre>stocks = [12, 3, 45, 0, 8]
+
+stocks_tries = sorted(stocks)          # nouvelle liste : [0, 3, 8, 12, 45]
+print(stocks)                          # inchangée : [12, 3, 45, 0, 8]
+
+stocks.sort()                          # trie stocks en place
+print(stocks)                          # [0, 3, 8, 12, 45]
+
+stocks.sort(reverse=True)              # décroissant
+print(stocks)                          # [45, 12, 8, 3, 0]</pre>
+
+      <p>Fonctions utiles sur une liste de nombres : <code>sum()</code>, <code>min()</code>, <code>max()</code>, <code>len()</code>.</p>
+
+      <p class="code-label">Agréger une liste</p>
+      <pre>prix = [45.0, 59.9, 12.5, 19.99]
+
+print(sum(prix))    # 137.39
+print(max(prix))    # 59.9
+print(min(prix))    # 12.5</pre>
+
+      <h3>Les tuples : des séquences figées</h3>
+      <p>Un tuple (<code>tuple</code>) ressemble à une liste, mais il est <strong>immuable</strong> — une fois créé, il ne peut plus être modifié. On l'utilise pour des données qui forment un tout cohérent et ne doivent pas changer, comme une coordonnée ou un enregistrement fixe.</p>
+
+      <p class="code-label">Tuples et déballage (unpacking)</p>
+      <pre>article = (1042, "Casque audio", 45.0)   # (id, nom, prix)
+
+# article[0] = 999   # lèverait TypeError : un tuple ne se modifie pas
+
+# Déballage : affecter chaque élément à une variable en une ligne
+id_article, nom, prix = article
+print(f"{nom} coûte {prix} € (id {id_article})")</pre>
+
+      <div class="callout">
+        <div class="callout-label">Liste ou tuple ?</div>
+        <p>Utilise une liste quand la collection peut évoluer (ajouter, retirer, réordonner) — comme un panier NovaCart. Utilise un tuple pour une donnée fixe dont la structure ne change pas, comme un enregistrement retourné par une fonction ou une paire de coordonnées.</p>
+      </div>
+
+      <h3>Le piège de l'aliasing</h3>
+      <p>Affecter une liste à une autre variable ne la copie pas — les deux noms pointent vers la <strong>même</strong> liste en mémoire. Modifier l'une modifie l'autre.</p>
+
+      <p class="code-label">Aliasing vs copie</p>
+      <pre>panier_a = ["Casque audio", "Gourde inox"]
+panier_b = panier_a          # panier_b pointe vers la même liste
+
+panier_b.append("Sac à dos")
+print(panier_a)              # ['Casque audio', 'Gourde inox', 'Sac à dos'] !
+
+panier_c = panier_a.copy()   # copie indépendante
+panier_c.append("Casquette")
+print(panier_a)              # inchangée</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Étant donné <code>prix_articles = [45.0, 12.5, 89.9, 6.0, 23.5]</code>, écris du code qui : (1) construit une nouvelle liste des prix supérieurs à 15 (sans modifier <code>prix_articles</code>), (2) trie cette nouvelle liste par ordre décroissant, (3) affiche le total de la liste triée.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>prix_articles = [45.0, 12.5, 89.9, 6.0, 23.5]
+
+prix_filtres = [p for p in prix_articles if p &gt; 15]
+# [45.0, 89.9, 23.5]  (compréhension de liste, détaillée au module 8 —
+# on peut aussi l'écrire avec une boucle for classique)
+
+prix_filtres.sort(reverse=True)
+# [89.9, 45.0, 23.5]
+
+print(prix_filtres)
+print(sum(prix_filtres))   # 158.4</pre>
+            <p>Le point important : <code>prix_articles</code> n'a jamais été modifiée — on a construit une nouvelle liste (<code>prix_filtres</code>) via une compréhension, puis trié cette nouvelle liste. C'est le réflexe à garder pour ne pas altérer une donnée source par accident.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m4"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m5">
+      <div class="mod-eyebrow">Partie 1 · Module 05</div>
+      <h2 class="mod-title">Dictionnaires et ensembles</h2>
+      <p>Un <strong>dictionnaire</strong> (<code>dict</code>) associe des clés à des valeurs — c'est la structure idéale pour représenter un enregistrement (un article, un utilisateur, une réponse d'API JSON) avec des champs nommés.</p>
+
+      <p class="code-label">Créer et accéder à un dictionnaire</p>
+      <pre>article = {
+    "id": 1042,
+    "nom": "Casque audio",
+    "prix": 45.0,
+    "stock": 12,
+}
+
+print(article["nom"])          # accès direct — lève KeyError si absente
+print(article.get("nom"))      # accès sûr — équivalent ici
+print(article.get("couleur"))  # None : la clé n'existe pas, pas d'erreur
+print(article.get("couleur", "non renseignée"))  # valeur par défaut</pre>
+
+      <p><code>[]</code> lève une exception <code>KeyError</code> si la clé n'existe pas ; <code>.get()</code> renvoie <code>None</code> (ou une valeur par défaut fournie) sans jamais planter. En pratique, <code>.get()</code> est souvent le choix le plus sûr quand on n'est pas certain qu'une clé existe — par exemple en lisant une réponse d'API dont le format peut varier.</p>
+
+      <h3>Modifier et itérer</h3>
+      <p class="code-label">Modification et parcours</p>
+      <pre>article["stock"] = 10           # modifie une valeur existante
+article["categorie"] = "audio"  # ajoute une nouvelle clé
+del article["categorie"]        # supprime une clé
+
+for cle in article:
+    print(cle, "→", article[cle])
+
+# Plus explicite : .items() donne les paires clé/valeur directement
+for cle, valeur in article.items():
+    print(f"{cle} = {valeur}")
+
+print(list(article.keys()))     # ['id', 'nom', 'prix', 'stock']
+print(list(article.values()))   # [1042, 'Casque audio', 45.0, 10]</pre>
+
+      <h3>Représenter une collection d'enregistrements</h3>
+      <p>Une liste de dictionnaires modélise naturellement un jeu de données — c'est exactement la forme que prennent, par exemple, les résultats JSON d'une API ou les lignes d'un fichier CSV chargé en mémoire (module 12).</p>
+
+      <p class="code-label">Liste de dictionnaires</p>
+      <pre>catalogue = [
+    {"id": 1, "nom": "Casque audio", "prix": 45.0, "stock": 12},
+    {"id": 2, "nom": "Sac à dos", "prix": 59.9, "stock": 0},
+    {"id": 3, "nom": "Gourde inox", "prix": 12.5, "stock": 8},
+]
+
+for article in catalogue:
+    print(f"{article['nom']} — {article['prix']} € (stock : {article['stock']})")</pre>
+
+      <h3>Les ensembles (set) : valeurs uniques</h3>
+      <p>Un <strong>ensemble</strong> (<code>set</code>) est une collection non ordonnée de valeurs <strong>uniques</strong> — idéal pour dédupliquer, ou pour tester rapidement l'appartenance à un groupe.</p>
+
+      <p class="code-label">Ensembles</p>
+      <pre>categories = {"audio", "sport", "audio", "cuisine"}
+print(categories)          # {'audio', 'sport', 'cuisine'} — le doublon disparaît
+
+categories.add("bureau")
+categories.discard("sport")
+
+print("audio" in categories)   # True — test d'appartenance très rapide
+
+a = {"audio", "sport"}
+b = {"sport", "cuisine"}
+print(a | b)   # union : {'audio', 'sport', 'cuisine'}
+print(a & b)   # intersection : {'sport'}
+print(a - b)   # différence : {'audio'}</pre>
+
+      <p class="code-label">Extraire les catégories uniques d'un catalogue</p>
+      <pre>catalogue = [
+    {"nom": "Casque audio", "categorie": "audio"},
+    {"nom": "Sac à dos", "categorie": "sport"},
+    {"nom": "Écouteurs", "categorie": "audio"},
+]
+
+categories_uniques = {article["categorie"] for article in catalogue}  # set comprehension
+print(categories_uniques)   # {'audio', 'sport'}</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Étant donné cette liste de dictionnaires représentant des articles NovaCart :</p>
+        <pre>catalogue = [
+    {"nom": "Casque audio", "prix": 45.0, "stock": 12, "categorie": "audio"},
+    {"nom": "Sac à dos", "prix": 59.9, "stock": 0, "categorie": "sport"},
+    {"nom": "Écouteurs", "prix": 25.0, "stock": 5, "categorie": "audio"},
+    {"nom": "Gourde inox", "prix": 12.5, "stock": 8, "categorie": "cuisine"},
+]</pre>
+        <p>Calcule (1) la valeur totale du stock (somme de <code>prix * stock</code> pour chaque article) et (2) l'ensemble des catégories représentées.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>valeur_totale = 0
+for article in catalogue:
+    valeur_totale += article["prix"] * article["stock"]
+
+categories = {article["categorie"] for article in catalogue}
+
+print(f"Valeur totale du stock : {valeur_totale} €")
+print(f"Catégories : {categories}")</pre>
+            <p>Sortie : <code>Valeur totale du stock : 765.0 €</code> puis <code>Catégories : {'audio', 'sport', 'cuisine'}</code> (l'ordre d'affichage d'un <code>set</code> n'est pas garanti). Le calcul : 45.0×12 + 59.9×0 + 25.0×5 + 12.5×8 = 540 + 0 + 125 + 100 = 765.0.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m5"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m6">
+      <div class="mod-eyebrow">Partie 1 · Module 06</div>
+      <h2 class="mod-title">Structures de contrôle</h2>
+      <p>Les structures de contrôle décident quelle partie du code s'exécute, et combien de fois. Ce sont elles qui donnent au code sa logique — indispensables pour écrire des assertions de test conditionnelles ou parcourir des jeux de données.</p>
+
+      <h3>if / elif / else</h3>
+      <p class="code-label">Condition simple</p>
+      <pre>stock = 3
+
+if stock == 0:
+    print("Rupture de stock")
+elif stock &lt; 5:
+    print("Stock faible")
+else:
+    print("Stock disponible")</pre>
+
+      <p>L'indentation (4 espaces, par convention) délimite les blocs en Python — il n'y a pas d'accolades. C'est une contrainte du langage, pas juste une question de style : un bloc mal indenté est une erreur de syntaxe.</p>
+
+      <h3>Opérateurs de comparaison et logiques</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Opérateur</th><th>Sens</th></tr>
+        <tr><td class="mono">==  /  !=</td><td>Égal à / différent de</td></tr>
+        <tr><td class="mono">&lt;  &gt;  &lt;=  &gt;=</td><td>Comparaison numérique ou alphabétique</td></tr>
+        <tr><td class="mono">and</td><td>Vrai si les deux conditions sont vraies</td></tr>
+        <tr><td class="mono">or</td><td>Vrai si au moins une condition est vraie</td></tr>
+        <tr><td class="mono">not</td><td>Inverse une condition booléenne</td></tr>
+        <tr><td class="mono">in</td><td>Test d'appartenance (liste, dict, set, chaîne)</td></tr>
+      </table></div>
+
+      <p class="code-label">Combiner des conditions</p>
+      <pre>prix = 45.0
+stock = 3
+categorie = "audio"
+
+if prix &lt; 50 and stock &gt; 0:
+    print("Éligible à la promotion flash")
+
+if categorie in ("audio", "video") or prix &gt; 100:
+    print("Article premium")</pre>
+
+      <div class="callout">
+        <div class="callout-label">Valeurs "truthy" et "falsy"</div>
+        <p>Dans un <code>if</code>, Python évalue n'importe quelle valeur comme vraie ou fausse. Sont "falsy" : <code>False</code>, <code>None</code>, <code>0</code>, <code>0.0</code>, une chaîne vide <code>""</code>, une liste vide <code>[]</code>, un dict vide <code>{}</code>. Tout le reste est "truthy". Ainsi <code>if ma_liste:</code> est une façon idiomatique de tester "la liste n'est pas vide", équivalente à <code>if len(ma_liste) &gt; 0:</code> mais plus lisible.</p>
+      </div>
+
+      <h3>La boucle for</h3>
+      <p><code>for</code> parcourt les éléments d'une séquence (liste, chaîne, dict, résultat de <code>range()</code>...).</p>
+
+      <p class="code-label">Boucle for</p>
+      <pre>noms = ["Casque audio", "Sac à dos", "Gourde inox"]
+
+for nom in noms:
+    print(nom)
+
+for i in range(5):          # 0, 1, 2, 3, 4
+    print(i)
+
+for i in range(1, 11, 2):   # début, fin (exclue), pas → 1, 3, 5, 7, 9
+    print(i)</pre>
+
+      <h3>La boucle while</h3>
+      <p><code>while</code> répète un bloc tant qu'une condition reste vraie — utile quand on ne connaît pas à l'avance le nombre d'itérations.</p>
+
+      <p class="code-label">Boucle while</p>
+      <pre>stock = 5
+commandes_traitees = 0
+
+while stock &gt; 0:
+    stock -= 1
+    commandes_traitees += 1
+
+print(f"{commandes_traitees} commandes traitées, stock épuisé")</pre>
+
+      <h3>break et continue</h3>
+      <p><code>break</code> sort immédiatement de la boucle ; <code>continue</code> passe directement à l'itération suivante sans exécuter le reste du bloc.</p>
+
+      <p class="code-label">break et continue</p>
+      <pre>catalogue = [
+    {"nom": "Casque audio", "stock": 12},
+    {"nom": "Sac à dos", "stock": 0},
+    {"nom": "Gourde inox", "stock": 8},
+]
+
+for article in catalogue:
+    if article["stock"] == 0:
+        continue   # on saute cet article, sans exécuter le print ci-dessous
+    print(f"Disponible : {article['nom']}")
+
+for article in catalogue:
+    if article["nom"] == "Sac à dos":
+        print("Trouvé, arrêt de la recherche")
+        break</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Étant donné <code>catalogue = [{"nom": "Casque audio", "stock": 12}, {"nom": "Sac à dos", "stock": 0}, {"nom": "Écouteurs", "stock": 3}, {"nom": "Gourde inox", "stock": 8}]</code>, parcours la liste et affiche pour chaque article son nom suivi de <code>"rupture"</code> si le stock est à 0, <code>"stock faible"</code> si le stock est strictement inférieur à 5, ou <code>"ok"</code> sinon.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>catalogue = [
+    {"nom": "Casque audio", "stock": 12},
+    {"nom": "Sac à dos", "stock": 0},
+    {"nom": "Écouteurs", "stock": 3},
+    {"nom": "Gourde inox", "stock": 8},
+]
+
+for article in catalogue:
+    stock = article["stock"]
+    if stock == 0:
+        statut = "rupture"
+    elif stock &lt; 5:
+        statut = "stock faible"
+    else:
+        statut = "ok"
+    print(f"{article['nom']} : {statut}")</pre>
+            <p>Sortie : <code>Casque audio : ok</code>, <code>Sac à dos : rupture</code>, <code>Écouteurs : stock faible</code>, <code>Gourde inox : ok</code>. L'ordre des branches importe : on teste <code>== 0</code> avant <code>&lt; 5</code>, sinon un stock à 0 tomberait aussi dans "stock faible" et ne serait jamais identifié comme rupture.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m6"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 2 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 2</span><h2 class="part-title">Écrire du code réutilisable</h2></div>
+    <p class="part-intro">Passer d'un script qu'on relit de haut en bas à un code organisé, qu'on peut appeler, réutiliser et faire évoluer.</p>
+
+    <section class="module" id="m7">
+      <div class="mod-eyebrow">Partie 2 · Module 07</div>
+      <h2 class="mod-title">Fonctions</h2>
+      <p>Une fonction regroupe un bloc de code sous un nom, avec des entrées (paramètres) et une sortie (valeur de retour). C'est l'outil numéro un pour éviter de répéter du code, et pour découper un problème en morceaux compréhensibles.</p>
+
+      <p class="code-label">Définir et appeler une fonction</p>
+      <pre>def calculer_prix_ttc(prix_ht, taux_tva):
+    """Calcule le prix TTC à partir d'un prix HT et d'un taux de TVA."""
+    return prix_ht * (1 + taux_tva)
+
+resultat = calculer_prix_ttc(45.0, 0.20)
+print(resultat)   # 54.0</pre>
+
+      <p>Le texte entre triples guillemets juste après <code>def</code> est une <strong>docstring</strong> : elle documente ce que fait la fonction. Ce n'est pas obligatoire, mais c'est une bonne habitude dès qu'une fonction n'est pas totalement évidente à la lecture de son nom.</p>
+
+      <h3>Valeurs par défaut et arguments nommés</h3>
+      <p>Un paramètre peut avoir une valeur par défaut, utilisée si l'appelant ne la fournit pas. On peut aussi appeler une fonction en nommant explicitement les arguments, dans n'importe quel ordre.</p>
+
+      <p class="code-label">Paramètres par défaut</p>
+      <pre>def calculer_prix_ttc(prix_ht, taux_tva=0.20):
+    return prix_ht * (1 + taux_tva)
+
+print(calculer_prix_ttc(45.0))               # 54.0 — taux_tva par défaut
+print(calculer_prix_ttc(45.0, 0.055))        # 47.475 — TVA réduite
+print(calculer_prix_ttc(prix_ht=45.0, taux_tva=0.10))  # arguments nommés</pre>
+
+      <div class="callout warn">
+        <div class="callout-label">Piège classique : valeur par défaut mutable</div>
+        <p>Ne jamais utiliser une liste ou un dict comme valeur par défaut d'un paramètre (<code>def f(items=[]):</code>) — cet objet par défaut est créé <strong>une seule fois</strong>, partagé entre tous les appels, ce qui produit des bugs très difficiles à repérer. La convention correcte utilise <code>None</code> comme défaut, puis crée la liste à l'intérieur de la fonction si besoin.</p>
+      </div>
+
+      <h3>return et valeurs multiples</h3>
+      <p><code>return</code> renvoie une valeur et termine immédiatement la fonction. Sans <code>return</code> explicite, une fonction renvoie <code>None</code>. On peut renvoyer plusieurs valeurs à la fois — Python les regroupe automatiquement dans un tuple.</p>
+
+      <p class="code-label">Retourner plusieurs valeurs</p>
+      <pre>def analyser_stock(quantite):
+    disponible = quantite &gt; 0
+    niveau = "faible" if 0 &lt; quantite &lt; 5 else "normal"
+    return disponible, niveau
+
+est_dispo, niveau = analyser_stock(3)
+print(est_dispo, niveau)   # True faible</pre>
+
+      <h3>Portée des variables</h3>
+      <p>Une variable créée à l'intérieur d'une fonction (variable <strong>locale</strong>) n'existe que pendant son exécution et n'est pas visible à l'extérieur. Une fonction peut lire une variable <strong>globale</strong>, mais ne peut pas la modifier sans le mot-clé <code>global</code> (à éviter en général — préférer passer la valeur en paramètre et la recevoir en retour).</p>
+
+      <p class="code-label">Portée locale vs globale</p>
+      <pre>taux_tva_global = 0.20
+
+def calculer_ttc(prix_ht):
+    marge_locale = 0.05   # n'existe que dans cette fonction
+    return prix_ht * (1 + taux_tva_global)
+
+print(calculer_ttc(100))
+# print(marge_locale)  # NameError : marge_locale n'existe pas ici</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris une fonction <code>est_disponible(article, quantite_demandee)</code> qui reçoit un dictionnaire article (avec une clé <code>"stock"</code>) et une quantité demandée, et renvoie un tuple <code>(bool, str)</code> : <code>True</code> avec le message <code>"OK"</code> si le stock est suffisant, <code>False</code> avec un message précisant le stock restant sinon. Teste-la sur <code>{"nom": "Casque audio", "stock": 3}</code> avec une demande de 5.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>def est_disponible(article, quantite_demandee):
+    stock = article["stock"]
+    if quantite_demandee &lt;= stock:
+        return True, "OK"
+    return False, f"Stock insuffisant : {stock} disponible(s)"
+
+article = {"nom": "Casque audio", "stock": 3}
+disponible, message = est_disponible(article, 5)
+print(disponible, message)</pre>
+            <p>Sortie : <code>False Stock insuffisant : 3 disponible(s)</code>. Renvoyer un tuple <code>(bool, str)</code> plutôt que seulement un booléen permet à l'appelant d'afficher un message précis sans devoir recalculer la raison de l'échec — un pattern qu'on retrouvera plus tard dans les assertions de test.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m7"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m8">
+      <div class="mod-eyebrow">Partie 2 · Module 08</div>
+      <h2 class="mod-title">Compréhensions de liste et de dictionnaire</h2>
+      <p>Une <strong>compréhension</strong> construit une nouvelle liste (ou dict, ou set) en une seule expression, à partir d'une séquence existante. C'est souvent plus court et plus lisible qu'une boucle <code>for</code> classique avec <code>.append()</code> — à condition de ne pas en abuser.</p>
+
+      <h3>Compréhension de liste</h3>
+      <p class="code-label">Boucle classique vs compréhension</p>
+      <pre>catalogue = [
+    {"nom": "Casque audio", "prix": 45.0, "stock": 12},
+    {"nom": "Sac à dos", "prix": 59.9, "stock": 0},
+    {"nom": "Gourde inox", "prix": 12.5, "stock": 8},
+]
+
+# Version boucle for classique
+noms_disponibles = []
+for article in catalogue:
+    if article["stock"] &gt; 0:
+        noms_disponibles.append(article["nom"])
+
+# Version compréhension — même résultat, une seule ligne
+noms_disponibles = [article["nom"] for article in catalogue if article["stock"] &gt; 0]
+
+print(noms_disponibles)   # ['Casque audio', 'Gourde inox']</pre>
+
+      <p>La syntaxe générale est <code>[expression for element in sequence if condition]</code> — la partie <code>if</code> est optionnelle. On peut aussi transformer chaque élément :</p>
+
+      <p class="code-label">Transformer les éléments</p>
+      <pre>prix = [45.0, 59.9, 12.5]
+prix_avec_tva = [p * 1.20 for p in prix]
+print(prix_avec_tva)   # [54.0, 71.88..., 15.0]</pre>
+
+      <h3>Compréhension de dictionnaire</h3>
+      <p>Même principe, avec la syntaxe <code>{cle: valeur for element in sequence}</code>.</p>
+
+      <p class="code-label">Compréhension de dict</p>
+      <pre>catalogue = [
+    {"id": 1, "nom": "Casque audio", "prix": 45.0},
+    {"id": 2, "nom": "Sac à dos", "prix": 59.9},
+    {"id": 3, "nom": "Gourde inox", "prix": 12.5},
+]
+
+prix_par_id = {article["id"]: article["prix"] for article in catalogue}
+print(prix_par_id)   # {1: 45.0, 2: 59.9, 3: 12.5}
+
+# accès direct au prix d'un article par son id
+print(prix_par_id[2])   # 59.9</pre>
+
+      <div class="callout">
+        <div class="callout-label">Quand ne pas utiliser une compréhension</div>
+        <p>Dès qu'une compréhension a besoin de plusieurs conditions imbriquées ou de plusieurs boucles, elle devient plus difficile à lire qu'une boucle <code>for</code> classique. La lisibilité prime toujours sur la concision : si tu dois relire trois fois ta propre ligne pour comprendre ce qu'elle fait, reviens à une boucle explicite.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Étant donné <code>catalogue = [{"id": 1, "nom": "Casque audio", "prix": 45.0}, {"id": 2, "nom": "Sac à dos", "prix": 59.9}, {"id": 3, "nom": "Écouteurs", "prix": 8.0}, {"id": 4, "nom": "Gourde inox", "prix": 12.5}]</code>, construis en une compréhension de dictionnaire un mapping <code>id → nom</code> ne gardant que les articles dont le prix dépasse 10 €.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>catalogue = [
+    {"id": 1, "nom": "Casque audio", "prix": 45.0},
+    {"id": 2, "nom": "Sac à dos", "prix": 59.9},
+    {"id": 3, "nom": "Écouteurs", "prix": 8.0},
+    {"id": 4, "nom": "Gourde inox", "prix": 12.5},
+]
+
+noms_par_id = {a["id"]: a["nom"] for a in catalogue if a["prix"] &gt; 10}
+print(noms_par_id)</pre>
+            <p>Sortie : <code>{1: 'Casque audio', 2: 'Sac à dos', 4: 'Gourde inox'}</code> — l'article "Écouteurs" (8.0 €) est exclu par la condition <code>a["prix"] &gt; 10</code>.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m8"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m9">
+      <div class="mod-eyebrow">Partie 2 · Module 09</div>
+      <h2 class="mod-title">Modules, imports et organisation du code</h2>
+      <p>Un <strong>module</strong> est simplement un fichier <code>.py</code>. Découper un projet en plusieurs modules, chacun avec une responsabilité claire, rend le code plus facile à lire, à tester et à faire évoluer — c'est exactement la structure qu'adoptera plus tard une suite de tests Playwright (un fichier par page, un fichier par suite de tests).</p>
+
+      <h3>Importer la bibliothèque standard</h3>
+      <p>Python fournit une riche bibliothèque standard, déjà installée avec l'interpréteur. On y accède avec <code>import</code>.</p>
+
+      <p class="code-label">Imports de la bibliothèque standard</p>
+      <pre>import math
+import random
+from datetime import date
+
+print(math.sqrt(16))          # 4.0
+print(random.choice(["A", "B", "C"]))   # un élément au hasard
+print(date.today())           # la date du jour, ex. 2026-08-23</pre>
+
+      <p><code>import module</code> importe le module entier, accessible via <code>module.fonction()</code>. <code>from module import element</code> importe directement un élément précis, utilisable sans préfixe. Les deux styles sont valides — le second est pratique quand on n'utilise qu'un ou deux éléments d'un module.</p>
+
+      <h3>Créer et importer son propre module</h3>
+      <p>Un fichier Python peut importer les fonctions définies dans un autre fichier du même projet, à condition qu'ils soient dans le même dossier (ou un dossier accessible).</p>
+
+      <p class="code-label">novacart_utils.py</p>
+      <pre>def calculer_prix_ttc(prix_ht, taux_tva=0.20):
+    return prix_ht * (1 + taux_tva)
+
+def formater_prix(montant):
+    return f"{montant:.2f} €"</pre>
+
+      <p class="code-label">main.py — importe le module ci-dessus</p>
+      <pre>from novacart_utils import calculer_prix_ttc, formater_prix
+
+prix_ttc = calculer_prix_ttc(45.0)
+print(formater_prix(prix_ttc))   # 54.00 €</pre>
+
+      <p>Pour que cet import fonctionne, <code>main.py</code> et <code>novacart_utils.py</code> doivent se trouver dans le même dossier (ou <code>novacart_utils</code> doit être installé comme un package accessible).</p>
+
+      <h3>if __name__ == "__main__"</h3>
+      <p>Cette construction très répandue permet à un fichier de se comporter différemment selon qu'il est exécuté directement ou importé depuis un autre fichier.</p>
+
+      <p class="code-label">novacart_utils.py — avec bloc main</p>
+      <pre>def calculer_prix_ttc(prix_ht, taux_tva=0.20):
+    return prix_ht * (1 + taux_tva)
+
+if __name__ == "__main__":
+    # Ce bloc ne s'exécute que si on lance "python3 novacart_utils.py"
+    # directement — pas quand ce fichier est importé ailleurs.
+    print(calculer_prix_ttc(100))</pre>
+
+      <p>Quand Python importe un module, la variable spéciale <code>__name__</code> vaut le nom du module ; quand un fichier est exécuté directement, <code>__name__</code> vaut <code>"__main__"</code>. Ce motif permet d'ajouter du code de démonstration ou de test rapide dans un fichier utilitaire, sans qu'il s'exécute involontairement chaque fois que le fichier est importé ailleurs.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris le contenu de deux fichiers : <code>stock_utils.py</code> contenant une fonction <code>niveau_stock(quantite)</code> qui renvoie <code>"rupture"</code>, <code>"faible"</code> ou <code>"ok"</code> selon les règles du module 6, puis <code>rapport.py</code> qui importe cette fonction et l'utilise sur une liste de quantités <code>[0, 3, 12, 1]</code> pour afficher le statut de chacune.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p class="code-label">stock_utils.py</p>
+            <pre>def niveau_stock(quantite):
+    if quantite == 0:
+        return "rupture"
+    elif quantite &lt; 5:
+        return "faible"
+    else:
+        return "ok"</pre>
+            <p class="code-label">rapport.py</p>
+            <pre>from stock_utils import niveau_stock
+
+quantites = [0, 3, 12, 1]
+
+for q in quantites:
+    print(f"Quantité {q} → {niveau_stock(q)}")</pre>
+            <p>Sortie de <code>rapport.py</code> : <code>Quantité 0 → rupture</code>, <code>Quantité 3 → faible</code>, <code>Quantité 12 → ok</code>, <code>Quantité 1 → faible</code>.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m9"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m10">
+      <div class="mod-eyebrow">Partie 2 · Module 10</div>
+      <h2 class="mod-title">Environnements virtuels et pip</h2>
+      <p><code>pip</code> est le gestionnaire de paquets de Python : il installe des bibliothèques tierces (comme <code>pytest</code> ou <code>playwright</code>) qui ne font pas partie de la bibliothèque standard. Le problème : installer un paquet globalement sur sa machine mélange les dépendances de tous ses projets, ce qui finit tôt ou tard par provoquer des conflits de versions.</p>
+
+      <h3>Pourquoi isoler ses dépendances</h3>
+      <p>Un <strong>environnement virtuel</strong> (venv) crée un dossier isolé contenant sa propre copie de l'interpréteur Python et ses propres paquets installés, indépendants du reste du système. Chaque projet a le sien, ce qui évite qu'un projet A ayant besoin de <code>playwright==1.40</code> n'entre en conflit avec un projet B qui a besoin d'une version différente.</p>
+
+      <p class="code-label">Terminal — créer et activer un venv</p>
+      <pre># Depuis le dossier du projet
+$ python3 -m venv venv
+
+# Activation — macOS / Linux
+$ source venv/bin/activate
+
+# Activation — Windows (PowerShell)
+$ venv\Scripts\Activate.ps1
+
+# Une fois activé, le prompt affiche généralement (venv)
+(venv) $ python3 --version
+Python 3.12.3</pre>
+
+      <p>Une fois le venv activé, toute commande <code>python3</code> ou <code>pip</code> utilise cette installation isolée, pas celle du système. On désactive avec la commande <code>deactivate</code>.</p>
+
+      <h3>Installer des paquets avec pip</h3>
+      <p class="code-label">Terminal — installer des paquets</p>
+      <pre>(venv) $ pip install pytest
+(venv) $ pip install playwright
+
+(venv) $ pip list
+Package      Version
+------------ -------
+pytest       8.2.0
+playwright   1.44.0</pre>
+
+      <h3>requirements.txt : figer les dépendances du projet</h3>
+      <p>Pour que n'importe qui (ou toi-même sur une autre machine) puisse recréer exactement le même environnement, on liste les dépendances dans un fichier <code>requirements.txt</code>, qu'on installe en une commande.</p>
+
+      <p class="code-label">requirements.txt</p>
+      <pre>pytest==8.2.0
+playwright==1.44.0</pre>
+
+      <p class="code-label">Terminal — générer et réutiliser requirements.txt</p>
+      <pre># Génère le fichier à partir des paquets installés dans le venv actif
+(venv) $ pip freeze &gt; requirements.txt
+
+# Sur une autre machine (ou un venv fraîchement créé) :
+(venv) $ pip install -r requirements.txt</pre>
+
+      <div class="callout">
+        <div class="callout-label">Ce que tu utiliseras réellement</div>
+        <p>C'est très exactement cette suite de commandes — <code>python3 -m venv venv</code>, activation, <code>pip install pytest playwright</code>, <code>requirements.txt</code> — qui sert de base à toute installation d'un projet de tests Playwright en Python. Rien de nouveau à apprendre à ce moment-là : juste appliquer ce que tu viens de voir.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris, dans l'ordre, la suite complète de commandes terminal pour : créer un venv nommé <code>venv</code> dans un projet, l'activer (version macOS/Linux), y installer <code>pytest</code> et <code>requests</code>, puis générer un fichier <code>requirements.txt</code> à partir de cet environnement.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>python3 -m venv venv
+source venv/bin/activate
+pip install pytest requests
+pip freeze &gt; requirements.txt</pre>
+            <p>Après ces quatre commandes, <code>requirements.txt</code> contient au minimum <code>pytest==...</code> et <code>requests==...</code> (avec leurs numéros de version exacts, et potentiellement leurs propres dépendances indirectes). Ce fichier peut ensuite être commité dans le dépôt du projet, pour que toute personne qui le clone puisse reproduire le même environnement avec <code>pip install -r requirements.txt</code>.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m10"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 3 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 3</span><h2 class="part-title">Écrire du code robuste</h2></div>
+    <p class="part-intro">Ce qui distingue un script qui marche "quand tout va bien" d'un code qui tient face à des données réelles, incomplètes ou inattendues.</p>
+
+    <section class="module" id="m11">
+      <div class="mod-eyebrow">Partie 3 · Module 11</div>
+      <h2 class="mod-title">Gestion des erreurs</h2>
+      <p>Quand Python rencontre une situation qu'il ne peut pas gérer, il lève une <strong>exception</strong> qui interrompt le programme (sauf si elle est interceptée). Savoir gérer les exceptions correctement est ce qui distingue un script fragile d'un code qui échoue proprement, avec un message clair.</p>
+
+      <h3>try / except</h3>
+      <p class="code-label">Intercepter une exception</p>
+      <pre>saisie = "abc"
+
+try:
+    quantite = int(saisie)
+    print(f"Quantité valide : {quantite}")
+except ValueError:
+    print(f"'{saisie}' n'est pas un nombre valide")</pre>
+
+      <p>Le bloc <code>except</code> ne s'exécute que si une exception du type précisé (ici <code>ValueError</code>) survient dans le bloc <code>try</code>. Préciser le type d'exception attendu est important : intercepter <code>Exception</code> sans distinction masque aussi de vraies erreurs de programmation, ce qui rend le débogage bien plus difficile.</p>
+
+      <h3>Exceptions courantes</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Exception</th><th>Se produit quand</th></tr>
+        <tr><td class="mono">ValueError</td><td>Une valeur a le bon type mais une valeur invalide (ex. <code>int("abc")</code>)</td></tr>
+        <tr><td class="mono">TypeError</td><td>Une opération est appliquée à un type incompatible (ex. <code>"3" + 3</code>)</td></tr>
+        <tr><td class="mono">KeyError</td><td>Une clé de dictionnaire n'existe pas</td></tr>
+        <tr><td class="mono">IndexError</td><td>Un index de liste/chaîne est hors limites</td></tr>
+        <tr><td class="mono">ZeroDivisionError</td><td>Une division par zéro</td></tr>
+        <tr><td class="mono">FileNotFoundError</td><td>Un fichier qu'on tente d'ouvrir n'existe pas</td></tr>
+      </table></div>
+
+      <h3>else, finally, et intercepter plusieurs types</h3>
+      <p class="code-label">try complet</p>
+      <pre>def diviser_stock_par_commande(stock, nb_commandes):
+    try:
+        resultat = stock / nb_commandes
+    except ZeroDivisionError:
+        print("Aucune commande à traiter")
+        return None
+    except TypeError:
+        print("Les valeurs fournies ne sont pas des nombres")
+        return None
+    else:
+        # Exécuté seulement si le bloc try n'a levé aucune exception
+        print("Calcul réussi")
+        return resultat
+    finally:
+        # Toujours exécuté, qu'il y ait eu une exception ou non
+        print("Fin du traitement")
+
+print(diviser_stock_par_commande(20, 4))   # 5.0
+print(diviser_stock_par_commande(20, 0))   # None, message d'erreur</pre>
+
+      <h3>Lever ses propres exceptions</h3>
+      <p><code>raise</code> déclenche volontairement une exception — utile pour signaler qu'une fonction reçoit des données invalides, plutôt que de laisser le programme continuer avec un état incohérent.</p>
+
+      <p class="code-label">raise</p>
+      <pre>def calculer_prix_ttc(prix_ht, taux_tva):
+    if prix_ht &lt; 0:
+        raise ValueError(f"prix_ht ne peut pas être négatif : {prix_ht}")
+    return prix_ht * (1 + taux_tva)
+
+try:
+    calculer_prix_ttc(-10, 0.20)
+except ValueError as erreur:
+    print(f"Erreur : {erreur}")</pre>
+
+      <div class="callout warn">
+        <div class="callout-label">Attraper ou laisser remonter ?</div>
+        <p>Dans du code applicatif, on attrape une exception quand on peut réagir intelligemment (proposer une valeur par défaut, réessayer, afficher un message clair). Dans du <strong>code de test</strong>, c'est souvent l'inverse : on laisse une exception inattendue remonter et faire échouer le test, plutôt que de l'attraper silencieusement — un test qui masque ses erreurs avec un <code>try/except</code> trop large donne une fausse impression de succès.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris une fonction <code>calculer_prix_unitaire(total, quantite)</code> qui renvoie <code>total / quantite</code>, mais gère proprement le cas <code>quantite == 0</code> en renvoyant <code>None</code> et en affichant un message explicite, ainsi que le cas où <code>total</code> ou <code>quantite</code> n'est pas un nombre (en renvoyant aussi <code>None</code> avec un message adapté).</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>def calculer_prix_unitaire(total, quantite):
+    try:
+        return total / quantite
+    except ZeroDivisionError:
+        print("Impossible de diviser par une quantité de 0")
+        return None
+    except TypeError:
+        print(f"Valeurs invalides : total={total!r}, quantite={quantite!r}")
+        return None
+
+print(calculer_prix_unitaire(100, 4))     # 25.0
+print(calculer_prix_unitaire(100, 0))     # None + message
+print(calculer_prix_unitaire(100, "x"))   # None + message</pre>
+            <p><code>{quantite!r}</code> dans la f-string affiche la représentation "brute" de la valeur (avec ses guillemets si c'est une chaîne) — pratique dans un message d'erreur pour voir immédiatement le type reçu, sans ambiguïté entre <code>"0"</code> (texte) et <code>0</code> (nombre).</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m11"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m12">
+      <div class="mod-eyebrow">Partie 3 · Module 12</div>
+      <h2 class="mod-title">Fichiers, JSON et CSV</h2>
+      <p>La plupart des jeux de données de test — jeux de données d'entrée, fixtures, réponses d'API enregistrées — vivent dans des fichiers texte, souvent au format JSON ou CSV. Savoir les lire (et les écrire) en Python est une compétence directement réutilisable pour préparer des données de test.</p>
+
+      <h3>Ouvrir un fichier avec un gestionnaire de contexte</h3>
+      <p>La forme <code>with open(...) as f:</code> est la façon correcte d'ouvrir un fichier : elle garantit sa fermeture automatique, même si une erreur survient pendant la lecture.</p>
+
+      <p class="code-label">Lire et écrire un fichier texte</p>
+      <pre># Écriture (mode "w" = write, écrase le contenu existant)
+with open("notes.txt", "w") as f:
+    f.write("Casque audio\n")
+    f.write("Sac à dos\n")
+
+# Lecture complète
+with open("notes.txt", "r") as f:
+    contenu = f.read()
+print(contenu)
+
+# Lecture ligne par ligne (mémoire-efficace pour de gros fichiers)
+with open("notes.txt", "r") as f:
+    for ligne in f:
+        print(ligne.strip())   # .strip() retire le \n final</pre>
+
+      <p>Le mode <code>"a"</code> (append) ajoute à la fin du fichier sans écraser le contenu existant. Sans gestionnaire de contexte (<code>f = open(...)</code> suivi de <code>f.close()</code> manuel), oublier <code>.close()</code> — notamment quand une exception survient entre les deux — laisse le fichier ouvert, ce qui peut corrompre des écritures ou épuiser les ressources système.</p>
+
+      <h3>JSON : lire et écrire des données structurées</h3>
+      <p>Le module <code>json</code> de la bibliothèque standard convertit entre du JSON (texte) et des structures Python natives (dict, list) — exactement le format que renvoie la plupart des API web.</p>
+
+      <p class="code-label">articles.json</p>
+      <pre>[
+    {"id": 1, "nom": "Casque audio", "prix": 45.0, "stock": 12},
+    {"id": 2, "nom": "Sac à dos", "prix": 59.9, "stock": 0}
+]</pre>
+
+      <p class="code-label">Lire et écrire du JSON</p>
+      <pre>import json
+
+# Lire un fichier JSON vers une structure Python
+with open("articles.json", "r") as f:
+    catalogue = json.load(f)
+
+print(catalogue[0]["nom"])   # 'Casque audio'
+
+# Convertir une structure Python en texte JSON (sans fichier)
+texte_json = json.dumps(catalogue[0], indent=2)
+print(texte_json)
+
+# Écrire une structure Python vers un fichier JSON
+with open("export.json", "w") as f:
+    json.dump(catalogue, f, indent=2)</pre>
+
+      <p><code>json.load()</code> / <code>json.dump()</code> travaillent directement avec un fichier ouvert ; <code>json.loads()</code> / <code>json.dumps()</code> (avec un "s") travaillent avec une chaîne de caractères déjà en mémoire — utile par exemple pour parser directement le corps texte d'une réponse d'API.</p>
+
+      <h3>CSV : lire des données tabulaires</h3>
+      <p>Le module <code>csv</code> lit et écrit des fichiers CSV. <code>csv.DictReader</code> est en général le plus pratique : chaque ligne devient un dictionnaire dont les clés sont les en-têtes de colonnes.</p>
+
+      <p class="code-label">commandes.csv</p>
+      <pre>id,client,montant,statut
+1,NC-CLIENT-04,89.90,payee
+2,NC-CLIENT-11,45.00,payee
+3,NC-CLIENT-04,12.50,annulee</pre>
+
+      <p class="code-label">Lire un CSV avec DictReader</p>
+      <pre>import csv
+
+with open("commandes.csv", "r", newline="") as f:
+    lecteur = csv.DictReader(f)
+    for ligne in lecteur:
+        print(ligne)
+        # {'id': '1', 'client': 'NC-CLIENT-04', 'montant': '89.90', 'statut': 'payee'}</pre>
+
+      <div class="callout warn">
+        <div class="callout-label">Toutes les valeurs CSV sont du texte</div>
+        <p><code>DictReader</code> renvoie systématiquement des chaînes de caractères, même pour des colonnes numériques — <code>ligne["montant"]</code> vaut la chaîne <code>"89.90"</code>, pas le nombre <code>89.90</code>. Il faut convertir explicitement avec <code>float()</code> avant tout calcul, sous peine de concaténer des textes au lieu d'additionner des nombres.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>En partant du fichier <code>commandes.csv</code> ci-dessus, écris une fonction <code>calculer_revenu_total(chemin_fichier)</code> qui lit le fichier, ne garde que les commandes dont le statut est <code>"payee"</code>, et renvoie la somme de leurs montants (en <code>float</code>).</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>import csv
+
+def calculer_revenu_total(chemin_fichier):
+    total = 0.0
+    with open(chemin_fichier, "r", newline="") as f:
+        lecteur = csv.DictReader(f)
+        for ligne in lecteur:
+            if ligne["statut"] == "payee":
+                total += float(ligne["montant"])
+    return total
+
+print(calculer_revenu_total("commandes.csv"))   # 134.9</pre>
+            <p>Le calcul : 89.90 (payée) + 45.00 (payée) = 134.9 — la commande à 12.50 est exclue car son statut est <code>"annulee"</code>. Notez la conversion <code>float(ligne["montant"])</code>, indispensable puisque <code>DictReader</code> ne renvoie que des chaînes.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m12"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 4 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 4</span><h2 class="part-title">Vers l'automatisation et les tests</h2></div>
+    <p class="part-intro">Les deux dernières notions qui font le lien direct avec l'écriture de tests automatisés en Python.</p>
+
+    <section class="module" id="m13">
+      <div class="mod-eyebrow">Partie 4 · Module 13</div>
+      <h2 class="mod-title">Programmation orientée objet</h2>
+      <p>Une <strong>classe</strong> décrit un modèle d'objet : quelles données il porte (ses attributs) et quelles actions il sait faire (ses méthodes). Un <strong>objet</strong> (ou instance) est une réalisation concrète de ce modèle. C'est un changement de perspective important — et c'est la base directe du <strong>Page Object Model</strong>, le pattern que tu utiliseras systématiquement en Playwright.</p>
+
+      <h3>Définir une classe</h3>
+      <p class="code-label">Une classe Produit</p>
+      <pre>class Produit:
+    def __init__(self, nom, prix, stock):
+        self.nom = nom
+        self.prix = prix
+        self.stock = stock
+
+    def est_disponible(self):
+        return self.stock &gt; 0
+
+    def prix_ttc(self, taux_tva=0.20):
+        return self.prix * (1 + taux_tva)
+
+    def __repr__(self):
+        return f"Produit(nom={self.nom!r}, prix={self.prix}, stock={self.stock})"
+
+casque = Produit("Casque audio", 45.0, 12)
+sac = Produit("Sac à dos", 59.9, 0)
+
+print(casque.est_disponible())   # True
+print(sac.est_disponible())      # False
+print(casque.prix_ttc())         # 54.0
+print(casque)                    # Produit(nom='Casque audio', prix=45.0, stock=12)</pre>
+
+      <p><code>__init__</code> est le <strong>constructeur</strong> : il s'exécute automatiquement à la création d'un objet (<code>Produit(...)</code>) et initialise ses attributs. <code>self</code> représente l'instance elle-même — c'est toujours le premier paramètre d'une méthode, et Python le fournit automatiquement à l'appel (on n'écrit jamais <code>casque.est_disponible(casque)</code>, juste <code>casque.est_disponible()</code>). <code>__repr__</code> définit ce qui s'affiche quand on imprime l'objet ; c'est optionnel mais très utile pour déboguer.</p>
+
+      <h3>Pourquoi ça compte pour Playwright : le Page Object Model</h3>
+      <p>En automatisation de tests avec Playwright, on modélise généralement chaque page (ou composant) de l'application sous forme de classe : ses attributs représentent les éléments de la page (un bouton, un champ), ses méthodes représentent les actions qu'on peut y faire (cliquer, remplir un champ). C'est exactement le même principe que la classe <code>Produit</code> ci-dessus — seul le contenu change.</p>
+
+      <p class="code-label">Illustration du principe (sans vraie logique Playwright)</p>
+      <pre>class PageProduitNovaCart:
+    """Représente la page produit sur NovaCart.
+    En Playwright, self.page serait un objet Page fourni par le framework,
+    et chaque méthode utiliserait ses sélecteurs pour interagir avec le DOM.
+    Ici, on illustre uniquement la structure de la classe."""
+
+    def __init__(self, page):
+        self.page = page   # en Playwright : l'objet Page de la session navigateur
+
+    def obtenir_titre(self):
+        # équivalent conceptuel de : self.page.locator("h1").text_content()
+        return "Casque audio"
+
+    def ajouter_au_panier(self):
+        # équivalent conceptuel de : self.page.locator("#btn-panier").click()
+        print("Article ajouté au panier")
+
+page_produit = PageProduitNovaCart(page=None)
+print(page_produit.obtenir_titre())
+page_produit.ajouter_au_panier()</pre>
+
+      <p>Retiens la structure, pas les détails Playwright (ils seront couverts dans le cours dédié) : une classe par page, un constructeur qui reçoit l'objet de session, des méthodes nommées par intention (<code>ajouter_au_panier</code>, pas <code>clic_bouton_3</code>) plutôt que par implémentation. C'est ce qui rend une suite de tests lisible et maintenable sur la durée.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris une classe <code>CompteUtilisateurNovaCart</code> avec un constructeur prenant <code>email</code> et <code>solde_points_fidelite</code> (par défaut 0), une méthode <code>ajouter_points(montant)</code> qui incrémente le solde, et une méthode <code>peut_echanger(cout_en_points)</code> qui renvoie <code>True</code> si le solde est suffisant. Crée une instance et vérifie son comportement.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>class CompteUtilisateurNovaCart:
+    def __init__(self, email, solde_points_fidelite=0):
+        self.email = email
+        self.solde_points_fidelite = solde_points_fidelite
+
+    def ajouter_points(self, montant):
+        self.solde_points_fidelite += montant
+
+    def peut_echanger(self, cout_en_points):
+        return self.solde_points_fidelite &gt;= cout_en_points
+
+compte = CompteUtilisateurNovaCart("client@example.com")
+compte.ajouter_points(150)
+
+print(compte.solde_points_fidelite)      # 150
+print(compte.peut_echanger(100))         # True
+print(compte.peut_echanger(200))         # False</pre>
+            <p>Chaque instance de <code>CompteUtilisateurNovaCart</code> porte son propre <code>solde_points_fidelite</code>, indépendant des autres instances — c'est tout l'intérêt d'encapsuler l'état dans l'objet plutôt que dans des variables globales éparpillées.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m13"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m14">
+      <div class="mod-eyebrow">Partie 4 · Module 14</div>
+      <h2 class="mod-title">Le pont vers pytest et Playwright</h2>
+      <p>Ce dernier module ne t'apprend rien de nouveau — il relie ce que tu viens d'apprendre à ce que tu vas lire dans le cours "Qualité Logicielle Automatisée". L'objectif : que la première fonction de test Playwright que tu ouvres ne te surprenne pas syntaxiquement, même si son contenu Playwright reste à découvrir là-bas.</p>
+
+      <h3>Une fonction de test pytest, décryptée</h3>
+      <p><code>pytest</code> est un framework de test : il découvre automatiquement toute fonction dont le nom commence par <code>test_</code> dans un fichier dont le nom commence par <code>test_</code>, et l'exécute. Regarde cette fonction avec ce que tu sais déjà :</p>
+
+      <p class="code-label">test_prix.py</p>
+      <pre>def calculer_prix_ttc(prix_ht, taux_tva=0.20):
+    return prix_ht * (1 + taux_tva)
+
+
+def test_prix_ttc_avec_tva_standard():
+    resultat = calculer_prix_ttc(45.0)
+    assert resultat == 54.0
+
+
+def test_prix_ttc_avec_tva_personnalisee():
+    resultat = calculer_prix_ttc(100, taux_tva=0.10)
+    assert resultat == 110.0</pre>
+
+      <p>Rien d'inconnu ici : <code>def</code> pour définir une fonction (module 7), un appel de fonction avec arguments nommés (module 7), et le mot-clé <code>assert</code> — nouveau, mais simple : il vérifie qu'une expression est vraie, et si ce n'est pas le cas, il lève une <code>AssertionError</code> qui fait échouer le test, en affichant les valeurs comparées pour comprendre immédiatement ce qui a divergé.</p>
+
+      <p class="code-label">Terminal — lancer pytest</p>
+      <pre>(venv) $ pytest test_prix.py -v
+
+test_prix.py::test_prix_ttc_avec_tva_standard PASSED
+test_prix.py::test_prix_ttc_avec_tva_personnalisee PASSED
+
+2 passed in 0.02s</pre>
+
+      <h3>assert sur des structures de données</h3>
+      <p><code>assert</code> fonctionne avec n'importe quelle expression booléenne — y compris des comparaisons sur des listes, dicts, ou le résultat d'une classe entière, exactement les structures vues dans ce cours.</p>
+
+      <p class="code-label">Assertions sur des structures</p>
+      <pre>def test_catalogue_contient_casque():
+    catalogue = ["Casque audio", "Sac à dos", "Gourde inox"]
+    assert "Casque audio" in catalogue
+
+def test_article_est_disponible():
+    article = {"nom": "Casque audio", "stock": 12}
+    assert article["stock"] &gt; 0</pre>
+
+      <h3>Un mot sur les fixtures (aperçu, pas le détail)</h3>
+      <p>Une <strong>fixture</strong> pytest est une fonction qui prépare quelque chose dont un test a besoin (par exemple, un navigateur Playwright déjà ouvert, ou un jeu de données déjà chargé), et pytest l'injecte automatiquement dans le test en la nommant simplement comme paramètre :</p>
+
+      <p class="code-label">Aperçu d'une fixture (le détail complet vient dans le cours QA)</p>
+      <pre>import pytest
+
+@pytest.fixture
+def catalogue_test():
+    return [{"nom": "Casque audio", "stock": 12}]
+
+def test_premier_article_disponible(catalogue_test):
+    assert catalogue_test[0]["stock"] &gt; 0</pre>
+
+      <p><code>@pytest.fixture</code> est un <strong>décorateur</strong> — une syntaxe qui modifie le comportement de la fonction juste en dessous ; ce cours ne creuse pas les décorateurs plus loin, retiens seulement le motif visuel : <code>@quelque_chose</code> juste au-dessus d'un <code>def</code>. Le cours QA détaille les fixtures, <code>conftest.py</code>, et l'intégration avec Playwright en profondeur.</p>
+
+      <div class="callout">
+        <div class="callout-label">Ce qui te reste à apprendre, et où</div>
+        <p>Tu sais maintenant lire et écrire des fonctions, des classes, gérer des erreurs, manipuler des fichiers de données. Ce qui suit — piloter un vrai navigateur, localiser des éléments sur une page, structurer une suite de tests Playwright avec le Page Object Model — c'est le cours "Qualité Logicielle Automatisée" qui s'en charge, en s'appuyant directement sur les bases posées ici.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Reprends la fonction <code>est_disponible(article, quantite_demandee)</code> écrite au module 7. Écris deux fonctions de test pytest : <code>test_stock_suffisant()</code> qui vérifie qu'une demande de 2 sur un stock de 5 renvoie <code>True</code>, et <code>test_stock_insuffisant()</code> qui vérifie qu'une demande de 10 sur un stock de 3 renvoie <code>False</code>.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>def est_disponible(article, quantite_demandee):
+    stock = article["stock"]
+    if quantite_demandee &lt;= stock:
+        return True, "OK"
+    return False, f"Stock insuffisant : {stock} disponible(s)"
+
+
+def test_stock_suffisant():
+    article = {"nom": "Casque audio", "stock": 5}
+    disponible, _ = est_disponible(article, 2)
+    assert disponible is True
+
+
+def test_stock_insuffisant():
+    article = {"nom": "Casque audio", "stock": 3}
+    disponible, _ = est_disponible(article, 10)
+    assert disponible is False</pre>
+            <p>Le <code>_</code> utilisé lors du déballage (<code>disponible, _ = ...</code>) est une convention courante pour indiquer "je récupère cette valeur mais je ne m'en sers pas" — ici, on ignore volontairement le message texte pour ne tester que le booléen. <code>is True</code> / <code>is False</code> plutôt que <code>== True</code> est la forme idiomatique recommandée par pytest pour comparer à un booléen littéral.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m14"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <div class="footer-note">
+      <p>Cours rédigé comme fondation du cours "Qualité Logicielle Automatisée" — même méthode, même esprit pratique. Le suivi de progression (cases à cocher) est enregistré uniquement dans ce navigateur.</p>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'python-course-progress-v1';
+  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14'];
+
+  function loadDone(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    }catch(e){ return {}; }
+  }
+  function saveDone(done){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(done)); }catch(e){}
+  }
+
+  var done = loadDone();
+
+  function render(){
+    var count = 0;
+    ids.forEach(function(id){
+      var isDone = !!done[id];
+      if(isDone) count++;
+      var navCheck = document.querySelector('[data-modcheck="'+id+'"]');
+      if(navCheck) navCheck.setAttribute('data-done', isDone ? 'true' : 'false');
+      var toggle = document.querySelector('[data-toggle="'+id+'"]');
+      if(toggle) toggle.setAttribute('data-done', isDone ? 'true' : 'false');
+    });
+    var countEl = document.getElementById('progress-count');
+    var fillEl = document.getElementById('progress-fill');
+    if(countEl) countEl.textContent = String(count);
+    if(fillEl) fillEl.style.width = (count / ids.length * 100) + '%';
+  }
+
+  function toggle(id){
+    done[id] = !done[id];
+    saveDone(done);
+    render();
+  }
+
+  ids.forEach(function(id){
+    var navCheck = document.querySelector('[data-modcheck="'+id+'"]');
+    if(navCheck){
+      navCheck.addEventListener('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        toggle(id);
+      });
+    }
+    var btn = document.querySelector('[data-toggle="'+id+'"]');
+    if(btn){
+      btn.addEventListener('click', function(){ toggle(id); });
+    }
+  });
+
+  render();
+
+  var sections = ids.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+  var navLinks = {};
+  ids.forEach(function(id){
+    var l = document.querySelector('.nav-link[data-id="'+id+'"]');
+    if(l) navLinks[id] = l;
+  });
+
+  if('IntersectionObserver' in window){
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var id = entry.target.id;
+        var link = navLinks[id];
+        if(!link) return;
+        if(entry.isIntersecting){
+          Object.keys(navLinks).forEach(function(k){ navLinks[k].classList.remove('active'); });
+          link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+    sections.forEach(function(s){ observer.observe(s); });
+  }
+})();
+</script>

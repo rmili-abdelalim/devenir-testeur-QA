@@ -1,0 +1,626 @@
+<title>Cloud pour Testeurs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F7FA; --surface:#FFFFFF; --surface-2:#EBF0F5; --border:#D9E1E9; --border-strong:#B9C6D3;
+    --text:#16202B; --text-dim:#4C5A68; --text-faint:#7C8B99;
+    --accent:#0E7490; --accent-strong:#155E75; --accent-tint:#E1F1F5;
+    --fail:#B8433A; --fail-tint:#FBEAE7; --warn:#93650F; --warn-tint:#FBF0DC; --ok:#1A7F37; --ok-tint:#E4F5E9;
+    --code-bg:#101A24; --code-text:#DCE7EE; --code-border:#223247;
+    --shadow: 0 1px 2px rgba(16,24,32,0.04), 0 8px 24px -12px rgba(16,24,32,0.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0E1520; --surface:#151F2B; --surface-2:#1A2635; --border:#293A4D; --border-strong:#3C5066;
+      --text:#E9EEF3; --text-dim:#A6B4C2; --text-faint:#7C8B99;
+      --accent:#22D3EE; --accent-strong:#67E3F5; --accent-tint:#0E2C33;
+      --fail:#E3766B; --fail-tint:#33201D; --warn:#E3B564; --warn-tint:#332813; --ok:#57C778; --ok-tint:#152A1D;
+      --code-bg:#0A1017; --code-text:#D8E5EE; --code-border:#1F2E3E;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0E1520; --surface:#151F2B; --surface-2:#1A2635; --border:#293A4D; --border-strong:#3C5066;
+    --text:#E9EEF3; --text-dim:#A6B4C2; --text-faint:#7C8B99;
+    --accent:#22D3EE; --accent-strong:#67E3F5; --accent-tint:#0E2C33;
+    --fail:#E3766B; --fail-tint:#33201D; --warn:#E3B564; --warn-tint:#332813; --ok:#57C778; --ok-tint:#152A1D;
+    --code-bg:#0A1017; --code-text:#D8E5EE; --code-border:#1F2E3E;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--text); font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; font-size:16.5px; line-height:1.65; -webkit-font-smoothing:antialiased;}
+  .mono{font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;}
+  a{color:var(--accent-strong);}
+  ::selection{background:var(--accent-tint); color:var(--text);}
+  .shell{display:grid; grid-template-columns: 280px minmax(0,1fr); max-width:1180px; margin:0 auto;}
+  @media (max-width: 900px){ .shell{grid-template-columns: 1fr;} }
+  .sidebar{position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; padding:28px 20px 40px; border-right:1px solid var(--border);}
+  @media (max-width: 900px){ .sidebar{position:static; height:auto; border-right:none; border-bottom:1px solid var(--border);} }
+  .brand{display:flex; align-items:baseline; gap:9px; margin-bottom:4px;}
+  .brand-mark{font-family:"IBM Plex Mono"; font-weight:700; font-size:13px; color:var(--accent-strong); background:var(--accent-tint); border:1px solid var(--border-strong); border-radius:4px; padding:2px 6px; letter-spacing:0.02em;}
+  .brand-name{font-family:"IBM Plex Mono"; font-weight:600; font-size:14.5px; letter-spacing:-0.01em;}
+  .tagline{color:var(--text-faint); font-size:12.5px; margin:2px 0 20px;}
+  .progress-wrap{margin-bottom:22px;}
+  .progress-label{display:flex; justify-content:space-between; align-items:baseline; font-family:"IBM Plex Mono"; font-size:11.5px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;}
+  #progress-count{color:var(--accent-strong); font-weight:600;}
+  .progress-track{height:6px; border-radius:3px; background:var(--surface-2); border:1px solid var(--border); overflow:hidden;}
+  .progress-fill{height:100%; width:0%; background:var(--accent); transition:width 0.35s ease;}
+  .nav-part-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-faint); margin:18px 0 8px;}
+  .nav-list{list-style:none; margin:0; padding:0;}
+  .nav-item{margin-bottom:1px;}
+  .nav-link{display:flex; align-items:center; gap:9px; padding:6px 8px; border-radius:6px; color:var(--text-dim); text-decoration:none; font-size:13.5px; line-height:1.35; border:1px solid transparent;}
+  .nav-link:hover{background:var(--surface-2); color:var(--text);}
+  .nav-link.active{background:var(--accent-tint); color:var(--accent-strong); border-color:var(--border-strong);}
+  .nav-check{flex:0 0 auto; width:15px; height:15px; border-radius:4px; border:1.5px solid var(--border-strong); background:var(--surface); display:inline-flex; align-items:center; justify-content:center; cursor:pointer;}
+  .nav-check[data-done="true"]{background:var(--accent); border-color:var(--accent);}
+  .nav-check[data-done="true"]::after{content:"✓"; color:#fff; font-size:10px; font-weight:700;}
+  .nav-num{color:var(--text-faint); font-family:"IBM Plex Mono"; font-size:11.5px; min-width:16px;}
+  main{padding:44px 48px 100px; min-width:0;}
+  @media (max-width: 900px){ main{padding:32px 20px 80px;} }
+  @media (max-width: 560px){ main{padding:24px 16px 64px;} }
+  .doc-header{max-width:660px; margin-bottom:56px;}
+  .eyebrow{font-family:"IBM Plex Mono"; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent-strong); margin-bottom:12px;}
+  h1.doc-title{font-family:"IBM Plex Mono"; font-weight:600; font-size:clamp(28px, 4vw, 38px); line-height:1.15; letter-spacing:-0.01em; margin:0 0 16px; text-wrap:balance;}
+  .doc-lede{color:var(--text-dim); font-size:17px; line-height:1.6; margin:0 0 22px;}
+  .stat-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .stat-chip{font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-dim); border:1px solid var(--border); background:var(--surface); border-radius:20px; padding:5px 12px;}
+  .stat-chip b{color:var(--text); font-weight:600;}
+  section.module{max-width:680px; padding-top:52px; margin-top:-8px; border-top:1px solid var(--border);}
+  section.module:first-of-type{border-top:none;}
+  .part-divider{max-width:680px; margin:64px 0 8px; display:flex; align-items:center; gap:14px;}
+  .part-divider .part-tag{font-family:"IBM Plex Mono"; font-size:12px; font-weight:700; color:var(--accent-strong); background:var(--accent-tint); border:1px solid var(--border-strong); border-radius:5px; padding:4px 9px; letter-spacing:0.04em; white-space:nowrap;}
+  .part-divider h2.part-title{font-family:"IBM Plex Mono"; font-size:14px; font-weight:600; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; margin:0;}
+  .part-divider::after{content:""; flex:1; height:1px; background:var(--border);}
+  .part-intro{max-width:680px; color:var(--text-dim); margin:10px 0 0; font-size:15px;}
+  .mod-eyebrow{font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-faint); letter-spacing:0.04em; margin-bottom:8px;}
+  h2.mod-title{font-family:"IBM Plex Mono"; font-weight:600; font-size:24px; letter-spacing:-0.01em; margin:0 0 18px; text-wrap:balance;}
+  h3{font-family:"IBM Plex Mono"; font-weight:600; font-size:15.5px; margin:30px 0 10px; color:var(--text);}
+  p{margin:0 0 16px; max-width:66ch;}
+  ul, ol{margin:0 0 16px; padding-left:22px;}
+  li{margin-bottom:6px; max-width:62ch;}
+  strong{font-weight:600;}
+  .callout{border:1px solid var(--border-strong); background:var(--surface); border-radius:8px; padding:16px 18px; margin:20px 0; box-shadow:var(--shadow); max-width:680px;}
+  .callout-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--accent-strong); margin-bottom:6px;}
+  .callout p:last-child{margin-bottom:0;}
+  .callout.warn{border-color:var(--warn); background:var(--warn-tint);}
+  .callout.warn .callout-label{color:var(--warn);}
+  .exercise{border:1px solid var(--border-strong); background:var(--surface-2); border-radius:8px; padding:16px 18px; margin:26px 0 8px; max-width:680px;}
+  .exercise-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-faint); margin-bottom:8px;}
+  .exercise p{margin:0 0 10px; max-width:none;}
+  .exercise p:last-of-type{margin-bottom:0;}
+  .exercise details{margin-top:4px;}
+  .exercise summary{cursor:pointer; font-family:"IBM Plex Mono"; font-size:12.5px; font-weight:600; color:var(--accent-strong); list-style:none; display:inline-flex; align-items:center; gap:6px;}
+  .exercise summary::-webkit-details-marker{display:none;}
+  .exercise summary::before{content:"▸"; font-size:10px; display:inline-block; transition:transform 0.15s ease;}
+  .exercise details[open] summary::before{transform:rotate(90deg);}
+  .exercise .exercise-solution-body{margin-top:10px; padding-top:10px; border-top:1px dashed var(--border-strong);}
+  .exercise .exercise-solution-body p:last-child{margin-bottom:0;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 22px; font-size:13.5px; background:var(--surface); border:1px solid var(--border); border-radius:8px; overflow:hidden;}
+  .table-scroll{overflow-x:auto; max-width:680px; margin:18px 0 22px;}
+  .table-scroll table{margin:0;}
+  th, td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--border); vertical-align:top;}
+  th{font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-faint); background:var(--surface-2);}
+  tr:last-child td{border-bottom:none;}
+  td.mono, th.mono{font-family:"IBM Plex Mono"; font-size:12.5px;}
+  .tag{display:inline-block; font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; padding:2px 7px; border-radius:4px;}
+  .tag.pass{background:var(--ok-tint); color:var(--ok);}
+  .tag.fail{background:var(--fail-tint); color:var(--fail);}
+  .tag.warn{background:var(--warn-tint); color:var(--warn);}
+  pre{background:var(--code-bg); color:var(--code-text); border:1px solid var(--code-border); border-radius:8px; padding:16px 18px; overflow-x:auto; margin:16px 0 22px; font-size:13px; line-height:1.6; max-width:680px;}
+  code{font-family:"IBM Plex Mono";}
+  p code, li code, td code{background:var(--surface-2); border:1px solid var(--border); border-radius:4px; padding:1px 5px; font-size:0.88em;}
+  .code-label{font-family:"IBM Plex Mono"; font-size:11px; color:var(--text-faint); margin:0 0 6px; letter-spacing:0.02em;}
+  .done-toggle{display:inline-flex; align-items:center; gap:8px; font-family:"IBM Plex Mono"; font-size:12.5px; color:var(--text-dim); border:1px solid var(--border-strong); background:var(--surface); border-radius:20px; padding:6px 14px 6px 10px; cursor:pointer; margin-top:28px; user-select:none;}
+  .done-toggle:hover{border-color:var(--accent);}
+  .done-toggle .box{width:15px; height:15px; border-radius:4px; border:1.5px solid var(--border-strong); display:inline-flex; align-items:center; justify-content:center; background:var(--surface);}
+  .done-toggle[data-done="true"] .box{background:var(--accent); border-color:var(--accent);}
+  .done-toggle[data-done="true"] .box::after{content:"✓"; color:#fff; font-size:10px; font-weight:700;}
+  .done-toggle[data-done="true"]{color:var(--accent-strong); border-color:var(--accent);}
+  .footer-note{max-width:680px; margin-top:70px; padding-top:24px; border-top:1px solid var(--border); color:var(--text-faint); font-size:12.5px;}
+  .footer-note a{color:var(--text-dim);}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} .progress-fill{transition:none;} }
+</style>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Sommaire du cours">
+    <div class="brand">
+      <span class="brand-mark">CLD</span>
+      <span class="brand-name">Cloud pour<br>Testeurs</span>
+    </div>
+    <p class="tagline">Les bases AWS/Azure utiles à un testeur QA — édition 2026</p>
+
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/12</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+
+    <div class="nav-part-label">Partie 1 — Les bases du cloud</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m1" href="#m1"><span class="nav-check" data-modcheck="m1"></span><span class="nav-num">01</span> Pourquoi un testeur a besoin du cloud</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m2" href="#m2"><span class="nav-check" data-modcheck="m2"></span><span class="nav-num">02</span> IaaS, PaaS, SaaS</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m3" href="#m3"><span class="nav-check" data-modcheck="m3"></span><span class="nav-num">03</span> Régions, disponibilité, environnements</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 2 — AWS essentiels</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m4" href="#m4"><span class="nav-check" data-modcheck="m4"></span><span class="nav-num">04</span> Panorama AWS pour la QA</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m5" href="#m5"><span class="nav-check" data-modcheck="m5"></span><span class="nav-num">05</span> Un environnement de test sur AWS</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m6" href="#m6"><span class="nav-check" data-modcheck="m6"></span><span class="nav-num">06</span> Logs et monitoring avec CloudWatch</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 3 — Azure et comparaison</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m7" href="#m7"><span class="nav-check" data-modcheck="m7"></span><span class="nav-num">07</span> Panorama Azure</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m8" href="#m8"><span class="nav-check" data-modcheck="m8"></span><span class="nav-num">08</span> AWS vs Azure : table de correspondance</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 4 — Tester dans le cloud</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m9" href="#m9"><span class="nav-check" data-modcheck="m9"></span><span class="nav-num">09</span> Où tournent réellement tes tests CI</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m10" href="#m10"><span class="nav-check" data-modcheck="m10"></span><span class="nav-num">10</span> BrowserStack, Sauce Labs, Device Farm</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m11" href="#m11"><span class="nav-check" data-modcheck="m11"></span><span class="nav-num">11</span> Docker et conteneurs dans le cloud</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 5 — Se positionner</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m12" href="#m12"><span class="nav-check" data-modcheck="m12"></span><span class="nav-num">12</span> Le cloud sur le marché en 2026</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <header class="doc-header">
+      <div class="eyebrow">Cours autoportant · Compagnon des cours QA, SQL, GitHub, ISTQB, Agile et API</div>
+      <h1 class="doc-title">Cloud pour Testeurs</h1>
+      <p class="doc-lede">Ce cours ne fait pas de toi un ingénieur cloud — ce n'est pas ton métier. L'objectif est plus modeste et plus ciblé : comprendre où vit réellement l'application que tu testes, savoir lire des logs cloud pour diagnostiquer un échec de test, et parler intelligemment d'AWS ou d'Azure en entretien, sans bluffer ni paniquer face au sujet.</p>
+      <div class="stat-row">
+        <span class="stat-chip"><b>12</b> modules</span>
+        <span class="stat-chip"><b>5</b> parties : bases → AWS → Azure → tests cloud → marché</span>
+        <span class="stat-chip"><b>12</b> exercices corrigés</span>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">Le lien avec tes autres cours</div>
+        <p>Tu as déjà touché au cloud sans le savoir : chaque fois qu'un workflow GitHub Actions (cours GitHub) exécute tes tests Playwright, c'est une machine virtuelle louée dans le cloud de GitHub/Microsoft Azure qui tourne quelques minutes puis disparaît. Ce cours te donne le vocabulaire et les repères pour comprendre ce qui se passe vraiment derrière ce mot "cloud" que tu croises déjà partout.</p>
+      </div>
+    </header>
+
+    <!-- ============ PARTIE 1 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 1</span><h2 class="part-title">Les bases du cloud</h2></div>
+    <p class="part-intro">Trois modules pour poser le vocabulaire, sans jargon inutile.</p>
+
+    <section class="module" id="m1">
+      <div class="mod-eyebrow">Partie 1 · Module 01</div>
+      <h2 class="mod-title">Pourquoi un testeur a besoin du cloud</h2>
+      <p>En 2026, la quasi-totalité des applications professionnelles — y compris NovaCart, dans notre scénario fil rouge — ne tournent plus sur un serveur physique dans les locaux de l'entreprise, mais sur des machines louées chez un fournisseur cloud : <strong>AWS</strong> (Amazon), <strong>Azure</strong> (Microsoft), ou <strong>Google Cloud Platform</strong>, les trois plus utilisés.</p>
+
+      <p>Pour un testeur, ça change concrètement plusieurs choses : l'environnement de test sur lequel tu travailles est probablement une copie cloud de la production, pas ta machine locale ; quand un test échoue en CI (cours GitHub, module 19), le "pourquoi" se trouve parfois dans des logs cloud plutôt que dans le code lui-même ; et de plus en plus d'offres d'emploi QA mentionnent AWS ou Azure, même pour des postes qui ne demandent pas de les administrer.</p>
+
+      <div class="callout warn">
+        <div class="callout-label">Ce que ce cours n'est pas</div>
+        <p>Tu ne vas pas apprendre à administrer une infrastructure cloud — ce n'est pas ton métier, et ce n'est attendu d'aucun poste de testeur QA junior. L'objectif est de comprendre suffisamment le vocabulaire et les mécanismes pour ne jamais être bloqué par le mot "cloud" en entretien ou face à un environnement de test réel.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Un test Playwright échoue uniquement en environnement de staging (hébergé sur AWS), jamais en local. Cite deux raisons possibles, liées spécifiquement au fait que staging tourne dans le cloud.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Par exemple : une différence de configuration réseau (règles de sécurité, latence) entre local et cloud ; des données de test différentes en staging (base partagée, pas remise à zéro comme en local) ; ou une variable d'environnement/un secret mal configuré spécifiquement sur l'environnement cloud.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m1"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m2">
+      <div class="mod-eyebrow">Partie 1 · Module 02</div>
+      <h2 class="mod-title">IaaS, PaaS, SaaS</h2>
+      <p>Trois niveaux de service cloud, qui déterminent ce que le fournisseur gère pour toi et ce qui reste à la charge de l'équipe — une distinction citée dans presque toutes les questions d'entretien "bases cloud".</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Modèle</th><th>Ce que le fournisseur gère</th><th>Ce que l'équipe gère encore</th><th>Exemple</th></tr>
+        <tr><td><strong>IaaS</strong> (Infrastructure)</td><td>Serveurs physiques, réseau, virtualisation</td><td>Système d'exploitation, applications, données</td><td>AWS EC2, Azure Virtual Machines</td></tr>
+        <tr><td><strong>PaaS</strong> (Plateforme)</td><td>+ système d'exploitation, environnement d'exécution</td><td>Uniquement le code applicatif et les données</td><td>AWS Elastic Beanstalk, Azure App Service</td></tr>
+        <tr><td><strong>SaaS</strong> (Logiciel)</td><td>Tout, y compris l'application elle-même</td><td>Uniquement l'usage et la configuration</td><td>Gmail, Salesforce, GitHub lui-même</td></tr>
+      </table></div>
+
+      <p>Plus on descend dans ce tableau (IaaS → PaaS → SaaS), moins il y a de contrôle technique, mais moins il y a aussi de charge de maintenance. NovaCart, en tant qu'application développée en interne, tournerait typiquement en IaaS ou PaaS — jamais en SaaS, réservé aux logiciels qu'on consomme tout faits.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>L'équipe NovaCart utilise Jira (déjà vu dans le cours QA) pour son suivi de projet. De quel modèle de service s'agit-il pour l'équipe NovaCart, et pourquoi ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>SaaS.</strong> L'équipe NovaCart ne gère ni serveur, ni système d'exploitation, ni même le code de Jira — elle consomme directement le logiciel fini via un abonnement, sans aucune responsabilité d'infrastructure.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m2"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m3">
+      <div class="mod-eyebrow">Partie 1 · Module 03</div>
+      <h2 class="mod-title">Régions, disponibilité, environnements</h2>
+      <p>Quelques concepts transverses, valables chez tous les fournisseurs cloud, qu'un testeur croise régulièrement sans forcément les nommer.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Concept</th><th>Ce que ça veut dire</th><th>Pourquoi ça concerne un testeur</th></tr>
+        <tr><td><strong>Région</strong></td><td>Une zone géographique où sont hébergés les serveurs (ex. Europe/Paris, US-East)</td><td>La latence et parfois le comportement (conformité RGPD) diffèrent selon la région testée</td></tr>
+        <tr><td><strong>Scalabilité</strong></td><td>La capacité à ajouter automatiquement des ressources selon la charge</td><td>Directement liée au test de performance (k6, cours QA module 21) — vérifier que ça scale vraiment</td></tr>
+        <tr><td><strong>Haute disponibilité</strong></td><td>Le système reste accessible même si une machine ou une région tombe en panne</td><td>Un test de résilience (couper volontairement un service) vérifie que ce n'est pas juste théorique</td></tr>
+      </table></div>
+
+      <h3>Les environnements, du développement à la production</h3>
+      <p>Presque toutes les équipes cloud répliquent plusieurs copies de leur application, avec des noms proches d'un projet à l'autre : <strong>dev</strong> (instable, changements fréquents), <strong>staging</strong> (le plus proche de la production, où l'on teste avant de livrer réellement), <strong>production</strong> (l'environnement réel, utilisé par les vrais clients). Le test avant mise en production se fait presque toujours sur staging, jamais directement en production — sauf pour des vérifications spécifiques et prudentes après déploiement.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Un bug n'apparaît qu'en production, jamais en staging, alors que les deux environnements sont censés être identiques. Cite une cause plausible liée à la scalabilité ou à la région.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Par exemple : la production reçoit un volume de trafic réel bien plus élevé, ce qui déclenche un problème de scalabilité invisible sous la faible charge de staging (un cas typique de bug de performance ou de concurrence). Autre piste : staging tourne dans une seule région alors que la production est répartie sur plusieurs, exposant un problème de synchronisation entre régions.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m3"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 2 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 2</span><h2 class="part-title">AWS essentiels</h2></div>
+    <p class="part-intro">AWS est le fournisseur cloud le plus utilisé au monde — le plus probable à rencontrer en entreprise, donc celui sur lequel on s'attarde le plus dans ce cours.</p>
+
+    <section class="module" id="m4">
+      <div class="mod-eyebrow">Partie 2 · Module 04</div>
+      <h2 class="mod-title">Panorama AWS pour la QA</h2>
+      <p>AWS propose plusieurs centaines de services — un testeur n'a besoin d'en reconnaître qu'une poignée, ceux qui reviennent le plus souvent dans une architecture applicative classique.</p>
+      <div class="table-scroll"><table>
+        <tr><th>Service</th><th>À quoi il sert</th><th>Pourquoi un testeur le croise</th></tr>
+        <tr><td><strong>EC2</strong></td><td>Des machines virtuelles louées (IaaS)</td><td>C'est souvent là que tourne l'environnement de staging</td></tr>
+        <tr><td><strong>S3</strong></td><td>Stockage de fichiers (objets) — images, PDF, sauvegardes</td><td>NovaCart y stockerait les PDF de factures, par exemple</td></tr>
+        <tr><td><strong>RDS</strong></td><td>Base de données relationnelle managée (PostgreSQL, MySQL...)</td><td>Directement lié au cours SQL — c'est souvent là que vit la base NovaCart en production</td></tr>
+        <tr><td><strong>Lambda</strong></td><td>Exécuter du code à la demande, sans gérer de serveur (serverless)</td><td>Utile pour comprendre des architectures event-driven modernes</td></tr>
+        <tr><td><strong>IAM</strong></td><td>Gestion des identités et des droits d'accès</td><td>Comprendre pourquoi un accès est refusé ou autorisé lors d'un test</td></tr>
+      </table></div>
+
+      <p>Le point commun à retenir : la <strong>console AWS</strong> (interface web) permet de consulter l'état de ces services sans avoir à les administrer soi-même — utile pour un testeur qui veut, par exemple, vérifier qu'un fichier a bien été déposé sur S3 après un test, sans avoir besoin des droits pour créer ou supprimer des ressources.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Un test vérifie qu'après la génération d'une facture PDF sur NovaCart, le fichier est bien accessible en téléchargement. En te basant sur le tableau, quel service AWS est probablement concerné, et que pourrais-tu vérifier directement dans la console pour diagnostiquer un échec ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>S3</strong>, le service de stockage de fichiers. En cas d'échec, on peut vérifier directement dans la console AWS si le fichier PDF a bien été déposé dans le bon compartiment (bucket) — ce qui permet de distinguer un problème de génération du PDF (côté application) d'un problème de dépôt ou de permission sur S3.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m4"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m5">
+      <div class="mod-eyebrow">Partie 2 · Module 05</div>
+      <h2 class="mod-title">Un environnement de test sur AWS</h2>
+      <p>Comment un environnement de staging existe-t-il concrètement sur AWS ? De plus en plus rarement créé "à la main" dans la console — la pratique moderne s'appuie sur l'<strong>Infrastructure as Code (IaC)</strong> : décrire l'infrastructure voulue dans un fichier texte, versionné comme du code (donc dans Git, cours GitHub), plutôt que de cliquer manuellement dans une interface.</p>
+
+      <p class="code-label">Extrait simplifié d'une définition Terraform (l'outil IaC le plus répandu)</p>
+      <pre class="mono">resource "aws_instance" "staging_novacart" {
+  ami           = "ami-0abcdef1234567890"
+  instance_type = "t3.micro"
+  tags = {
+    Name        = "novacart-staging"
+    Environment = "staging"
+  }
+}</pre>
+      <p>Ce fichier, une fois appliqué, crée automatiquement une machine identique à chaque fois — ce qui élimine le fameux "ça marche sur mon poste, pas sur l'environnement de test" causé par une configuration créée manuellement et jamais reproduite à l'identique.</p>
+
+      <h3>IAM, en une phrase</h3>
+      <p>Un testeur n'a généralement besoin que de droits <strong>en lecture</strong> sur les ressources qu'il doit vérifier (logs, fichiers, état d'une base) — jamais de droits de création ou de suppression sur l'infrastructure elle-même, sauf rôle spécifique. Un accès refusé pendant un test (erreur "Access Denied") est souvent un signal légitime de sécurité bien configurée, pas un bug à corriger en élargissant les droits sans réflexion.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Pourquoi préfère-t-on, en 2026, décrire une infrastructure de test en Infrastructure as Code plutôt que de la créer manuellement dans la console AWS ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Parce que ça garantit une infrastructure <strong>reproductible</strong> et <strong>versionnée</strong> : la même définition recrée toujours exactement le même environnement, on peut suivre son historique de modification comme du code, et on élimine les divergences accumulées par des changements manuels non documentés au fil du temps.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m5"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m6">
+      <div class="mod-eyebrow">Partie 2 · Module 06</div>
+      <h2 class="mod-title">Logs et monitoring avec CloudWatch</h2>
+      <p><strong>CloudWatch</strong> est le service AWS qui centralise logs et métriques de tous les autres services — le premier endroit où chercher quand une application se comporte anormalement en environnement cloud et que le message d'erreur côté test ne suffit pas à comprendre pourquoi.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Ce que tu y trouves</th><th>Utile pour</th></tr>
+        <tr><td>Logs applicatifs (erreurs, requêtes)</td><td>Comprendre pourquoi une requête API a échoué côté serveur</td></tr>
+        <tr><td>Métriques (CPU, mémoire, latence)</td><td>Corréler un test de performance qui échoue avec une vraie saturation de ressources</td></tr>
+        <tr><td>Alarmes</td><td>Être notifié automatiquement si un seuil est dépassé — pas directement ton rôle, mais utile à savoir lire</td></tr>
+      </table></div>
+
+      <p>Un réflexe précieux pour un testeur : quand un test échoue avec une erreur 500 (erreur serveur générique) sans détail exploitable côté client, aller consulter les logs CloudWatch du service concerné donne souvent la vraie cause — une exception non gérée, une dépendance externe indisponible, une base de données saturée — avant même de solliciter un développeur.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Un test Playwright échoue avec "Erreur 500" sur la page de paiement NovaCart, sans plus de détail. Décris, étape par étape, comment tu utiliserais CloudWatch pour avancer dans le diagnostic avant de solliciter un développeur.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>1) Noter l'heure exacte de l'échec du test. 2) Ouvrir CloudWatch, filtrer les logs du service de paiement autour de cet horodatage précis. 3) Chercher une exception ou une erreur explicite dans les logs à ce moment-là. 4) Vérifier aussi les métriques (CPU/mémoire) au même instant, pour écarter une saturation de ressources. Ce diagnostic préliminaire, présenté au développeur, accélère énormément la résolution comparée à "ça a planté, je ne sais pas pourquoi".</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m6"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 3 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 3</span><h2 class="part-title">Azure et comparaison</h2></div>
+    <p class="part-intro">Deux modules pour ne pas être perdu si ton prochain employeur utilise Azure plutôt qu'AWS — un choix aussi fréquent, surtout dans les entreprises déjà équipées en outils Microsoft.</p>
+
+    <section class="module" id="m7">
+      <div class="mod-eyebrow">Partie 3 · Module 07</div>
+      <h2 class="mod-title">Panorama Azure</h2>
+      <p><strong>Azure</strong>, le cloud de Microsoft, est particulièrement répandu dans les grandes entreprises déjà équipées en outils Microsoft (Office 365, Active Directory) — le passage vers Azure y est souvent plus naturel qu'un changement complet d'écosystème vers AWS. Tu l'as d'ailleurs déjà frôlé : les runners GitHub Actions (cours GitHub) tournent en réalité sur l'infrastructure Azure de Microsoft, propriétaire de GitHub depuis 2018.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Service Azure</th><th>Équivalent du rôle</th></tr>
+        <tr><td><strong>Virtual Machines</strong></td><td>Machines virtuelles (IaaS)</td></tr>
+        <tr><td><strong>App Service</strong></td><td>Héberger une application web sans gérer le serveur (PaaS)</td></tr>
+        <tr><td><strong>Blob Storage</strong></td><td>Stockage de fichiers</td></tr>
+        <tr><td><strong>Azure SQL Database</strong></td><td>Base de données relationnelle managée</td></tr>
+        <tr><td><strong>Azure DevOps</strong></td><td>Suite intégrée : dépôt Git, pipelines CI/CD, gestion de projet — une alternative à GitHub + GitHub Actions</td></tr>
+        <tr><td><strong>Azure Monitor</strong></td><td>Logs et métriques — l'équivalent d'Azure à CloudWatch</td></tr>
+      </table></div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Une entreprise déjà équipée en Office 365 et Active Directory envisage de migrer une application interne vers le cloud. Pourquoi Azure serait-il un choix naturel dans ce contexte ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Azure s'intègre nativement avec l'écosystème Microsoft déjà en place (authentification via Active Directory, outils Office) — ce qui réduit le travail d'intégration et la formation nécessaire, comparé à l'adoption d'un cloud entièrement séparé de l'existant.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m7"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m8">
+      <div class="mod-eyebrow">Partie 3 · Module 08</div>
+      <h2 class="mod-title">AWS vs Azure : table de correspondance</h2>
+      <p>Ce tableau est probablement le plus utile de tout ce cours pour un entretien : si tu maîtrises un cloud, tu peux transposer rapidement vers l'autre en t'appuyant sur ces correspondances — un réflexe qui rassure immédiatement un recruteur, même si l'entreprise utilise le cloud que tu connais le moins.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Besoin</th><th>AWS</th><th>Azure</th></tr>
+        <tr><td>Machine virtuelle</td><td>EC2</td><td>Virtual Machines</td></tr>
+        <tr><td>Hébergement web managé</td><td>Elastic Beanstalk</td><td>App Service</td></tr>
+        <tr><td>Stockage de fichiers</td><td>S3</td><td>Blob Storage</td></tr>
+        <tr><td>Base de données relationnelle</td><td>RDS</td><td>Azure SQL Database</td></tr>
+        <tr><td>Fonctions serverless</td><td>Lambda</td><td>Azure Functions</td></tr>
+        <tr><td>Logs et métriques</td><td>CloudWatch</td><td>Azure Monitor</td></tr>
+        <tr><td>Gestion des identités</td><td>IAM</td><td>Azure Active Directory</td></tr>
+        <tr><td>CI/CD intégré</td><td>CodePipeline</td><td>Azure DevOps Pipelines</td></tr>
+      </table></div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Une offre d'emploi mentionne "expérience Azure App Service souhaitée", mais tu ne connais qu'AWS. Que réponds-tu si on t'interroge dessus en entretien ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Une réponse honnête et solide : "Je n'ai pas encore pratiqué Azure App Service directement, mais c'est l'équivalent Azure d'Elastic Beanstalk sur AWS, que je connais — un service PaaS pour héberger une application web sans gérer le serveur sous-jacent. Les concepts se transposent bien, je serais rapidement opérationnel." Exactement l'esprit du module 27 du cours QA : montrer la compréhension du concept, sans prétendre une expérience qui n'existe pas.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m8"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 4 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 4</span><h2 class="part-title">Tester dans le cloud</h2></div>
+    <p class="part-intro">Trois modules qui relient directement ce cours à ta pratique déjà réelle : Playwright, Docker, GitHub Actions.</p>
+
+    <section class="module" id="m9">
+      <div class="mod-eyebrow">Partie 4 · Module 09</div>
+      <h2 class="mod-title">Où tournent réellement tes tests CI</h2>
+      <p>Quand un workflow GitHub Actions (cours GitHub, module 19) exécute <code>runs-on: ubuntu-latest</code>, GitHub loue en réalité, pour la durée du job, une machine virtuelle éphémère hébergée sur Azure — créée à la demande, utilisée quelques minutes, puis totalement détruite. C'est un exemple concret et déjà pratiqué de ce que "cloud" veut dire pour un testeur : de la puissance de calcul à la demande, jamais une machine physique dédiée qui t'appartient.</p>
+
+      <p>Cette nature éphémère explique certains comportements qu'on observe parfois en CI sans les comprendre : un test qui dépend d'un état laissé par une exécution précédente échoue en CI (machine neuve à chaque fois) alors qu'il passait en local (même machine réutilisée) — un bug d'isolation de test que le cloud révèle plutôt qu'il ne cause.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Un test passe systématiquement en local mais échoue systématiquement en CI GitHub Actions, avec une erreur "fichier introuvable" sur un fichier créé par un test précédent. Explique ce phénomène à la lumière de ce module.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>En local, la même machine persiste entre les exécutions — un fichier créé une fois reste disponible. En CI, chaque run démarre sur une machine virtuelle cloud neuve et éphémère : rien de précédent ne subsiste. Le test a probablement une dépendance cachée à un état local qui n'existe jamais en environnement cloud propre — un bug d'isolation à corriger en rendant le test autonome (le fichier doit être créé par le test lui-même, pas hérité d'un run antérieur).</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m9"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m10">
+      <div class="mod-eyebrow">Partie 4 · Module 10</div>
+      <h2 class="mod-title">BrowserStack, Sauce Labs, Device Farm</h2>
+      <p>Tester sur tous les navigateurs et appareils mobiles réels du marché est impossible à maintenir en interne — d'où l'existence de plateformes cloud spécialisées qui louent l'accès à des milliers de combinaisons réelles, à la demande.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Plateforme</th><th>Points forts</th></tr>
+        <tr><td><strong>BrowserStack</strong></td><td>Très large parc d'appareils réels, test manuel rapide via "Live", test visuel avec Percy</td></tr>
+        <tr><td><strong>Sauce Labs</strong></td><td>Reporting et débogage détaillés (logs réseau, commandes Selenium/Appium complètes)</td></tr>
+        <tr><td><strong>AWS Device Farm</strong></td><td>Spécialisé mobile, fortement intégré aux autres services AWS (CodePipeline, CloudWatch)</td></tr>
+      </table></div>
+
+      <p>Le principe technique est le même partout : ton framework d'automatisation (Playwright, Appium — déjà pratiqués dans le cours QA) se connecte à distance à un appareil réel hébergé sur leur infrastructure, plutôt qu'à un navigateur ou émulateur local.</p>
+
+      <p class="code-label">Pointer Playwright vers une exécution distante (principe général)</p>
+      <pre class="mono">browser = playwright.chromium.connect(
+    "wss://cdp.plateforme-cloud.com/?os=Windows&browser=chrome"
+)</pre>
+
+      <div class="callout warn">
+        <div class="callout-label">Le vrai piège : les coûts</div>
+        <p>Ces plateformes facturent le plus souvent à la minute d'utilisation. Une suite de tests mal maîtrisée (boucle infinie, timeout mal configuré, exécution en continu sans nécessité) peut générer une facture disproportionnée en quelques heures — un réflexe de base est de toujours vérifier qu'un test a une limite de temps claire (timeout) avant de le lancer sur une plateforme cloud payante.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Pourquoi une équipe choisirait-elle de payer pour BrowserStack ou Sauce Labs plutôt que de maintenir elle-même un parc de vrais appareils mobiles en interne ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Maintenir soi-même des centaines de combinaisons d'appareils/navigateurs réels (achat, mises à jour, câblage, maintenance physique) coûte bien plus cher et demande une expertise dédiée, comparé à louer l'accès à la demande sur une plateforme déjà équipée et maintenue par quelqu'un d'autre — le même raisonnement économique qui justifie le cloud en général.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m10"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m11">
+      <div class="mod-eyebrow">Partie 4 · Module 11</div>
+      <h2 class="mod-title">Docker et conteneurs dans le cloud</h2>
+      <p>Le cours QA (module 25) t'a déjà fait manipuler Docker en local. En entreprise, ces conteneurs sont presque toujours déployés et orchestrés dans le cloud, via des services spécialisés — le passage naturel de "ça marche sur ma machine, en conteneur" à "ça tourne en production, à grande échelle".</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Service</th><th>Fournisseur</th><th>Rôle</th></tr>
+        <tr><td><strong>ECS</strong> (Elastic Container Service)</td><td>AWS</td><td>Orchestrer des conteneurs Docker à grande échelle</td></tr>
+        <tr><td><strong>AKS</strong> (Azure Kubernetes Service)</td><td>Azure</td><td>Kubernetes managé — l'orchestrateur de conteneurs le plus répandu, opéré par Azure</td></tr>
+        <tr><td><strong>Kubernetes</strong></td><td>Open source, multi-cloud</td><td>Le standard de facto pour orchestrer des conteneurs — gère automatiquement le redémarrage, la répartition de charge, la mise à l'échelle</td></tr>
+      </table></div>
+
+      <p>Pour un testeur, l'essentiel à retenir : ces services répondent à la question "comment fait-on tourner, de façon fiable, des dizaines ou centaines de conteneurs en même temps, en remplaçant automatiquement ceux qui tombent en panne ?" — un problème que le simple <code>docker run</code> du cours QA ne résout pas à cette échelle. Tu n'as pas besoin de savoir configurer Kubernetes, seulement de reconnaître le terme et son rôle si un développeur ou un DevOps le mentionne.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Un développeur explique qu'un pod Kubernetes a "crashé et a été automatiquement redémarré". En une phrase, que signifie ce comportement au niveau conceptuel ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Kubernetes surveille en permanence l'état de ses conteneurs (pods) et redémarre automatiquement ceux qui tombent en panne, sans intervention humaine — c'est exactement le rôle d'un orchestrateur : maintenir un état désiré (par exemple "toujours 3 instances actives") malgré les pannes individuelles.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m11"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 5 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 5</span><h2 class="part-title">Se positionner</h2></div>
+    <p class="part-intro">Un dernier module pour situer ce que tu viens d'apprendre par rapport au marché réel.</p>
+
+    <section class="module" id="m12">
+      <div class="mod-eyebrow">Partie 5 · Module 12</div>
+      <h2 class="mod-title">Le cloud sur le marché en 2026</h2>
+      <p>Contrairement à Git ou à l'agilité, la connaissance du cloud reste, pour un testeur junior, un vrai <strong>plus différenciant</strong> plutôt qu'un prérequis implicite — la majorité des candidats juniors n'ont aucune notion cloud, ce qui rend même ce niveau de base remarqué.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Niveau attendu d'un junior</th><th>Ce qui te distingue</th></tr>
+        <tr><td>Aucune connaissance cloud</td><td>Savoir expliquer IaaS/PaaS/SaaS avec des exemples concrets</td></tr>
+        <tr><td>Confondre AWS et Azure</td><td>Transposer un service AWS vers son équivalent Azure sans hésiter</td></tr>
+        <tr><td>Ne jamais avoir lu un log cloud</td><td>Savoir utiliser CloudWatch (ou équivalent) pour diagnostiquer un échec de test</td></tr>
+        <tr><td>Ignorer le coût des plateformes cloud de test</td><td>Avoir le réflexe de vérifier les timeouts avant de lancer une suite sur une plateforme facturée à la minute</td></tr>
+      </table></div>
+
+      <h3>Une certification à envisager, plus tard</h3>
+      <p>La certification <strong>AWS Cloud Practitioner</strong> est le premier niveau AWS, généraliste et accessible sans prérequis technique poussé — une bonne suite logique après ce cours et après l'ISTQB, si tu veux continuer à enrichir ton profil. Ce n'est pas une priorité immédiate pour ton alternance de février/mars 2027, mais un objectif réaliste pour la suite, une fois en poste.</p>
+
+      <div class="callout">
+        <div class="callout-label">Pour l'entretien</div>
+        <p>Tu n'as pas besoin d'expérience professionnelle cloud pour en parler avec crédibilité : explique que tu comprends où vit une application moderne, que tu sais lire des logs pour diagnostiquer un échec de test, et que tu connais les bases AWS et leur équivalence Azure — largement suffisant pour un poste junior, et nettement au-dessus de la moyenne des candidats à ce niveau.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>En entretien, on te demande : "Avez-vous une expérience du cloud ?" Prépare une réponse honnête et valorisante de 30 secondes.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Un exemple de structure : "Pas d'expérience professionnelle directe, mais je me suis formé aux bases AWS et Azure spécifiquement utiles à un testeur — comprendre où tourne l'application que je teste, savoir lire des logs CloudWatch pour diagnostiquer un échec, et faire le lien entre les deux plateformes si besoin. Je sais aussi que mes tests CI, via GitHub Actions, tournent déjà sur une infrastructure cloud Azure à chaque exécution." Cette réponse montre une compréhension réelle et connectée à une pratique déjà existante, sans survendre une expertise qui n'existe pas encore.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m12"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <div class="footer-note">
+      <p>Cours rédigé comme compagnon des cours "Qualité Logicielle Automatisée", "SQL pour la Qualité Logicielle", "GitHub pour la Qualité Logicielle", "ISTQB Foundation Level", "Agile & Scrum pour la Qualité Logicielle" et "API Avancé pour la Qualité Logicielle" — même méthode, même fil rouge NovaCart. Sources 2026 : comparatif des plateformes de test cloud (BrowserStack, Sauce Labs, AWS Device Farm). Le suivi de progression (cases à cocher) est enregistré uniquement dans ce navigateur.</p>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'cloud-course-progress-v1';
+  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12'];
+
+  function loadDone(){
+    try{ var raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : {}; }catch(e){ return {}; }
+  }
+  function saveDone(done){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(done)); }catch(e){} }
+  var done = loadDone();
+
+  function render(){
+    var count = 0;
+    ids.forEach(function(id){
+      var isDone = !!done[id];
+      if(isDone) count++;
+      var navCheck = document.querySelector('[data-modcheck="'+id+'"]');
+      if(navCheck) navCheck.setAttribute('data-done', isDone ? 'true' : 'false');
+      var toggle = document.querySelector('[data-toggle="'+id+'"]');
+      if(toggle) toggle.setAttribute('data-done', isDone ? 'true' : 'false');
+    });
+    var countEl = document.getElementById('progress-count');
+    var fillEl = document.getElementById('progress-fill');
+    if(countEl) countEl.textContent = String(count);
+    if(fillEl) fillEl.style.width = (count / ids.length * 100) + '%';
+  }
+  function toggle(id){ done[id] = !done[id]; saveDone(done); render(); }
+
+  ids.forEach(function(id){
+    var navCheck = document.querySelector('[data-modcheck="'+id+'"]');
+    if(navCheck){ navCheck.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); toggle(id); }); }
+    var btn = document.querySelector('[data-toggle="'+id+'"]');
+    if(btn){ btn.addEventListener('click', function(){ toggle(id); }); }
+  });
+  render();
+
+  var sections = ids.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+  var navLinks = {};
+  ids.forEach(function(id){ var l = document.querySelector('.nav-link[data-id="'+id+'"]'); if(l) navLinks[id] = l; });
+
+  if('IntersectionObserver' in window){
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var id = entry.target.id;
+        var link = navLinks[id];
+        if(!link) return;
+        if(entry.isIntersecting){
+          Object.keys(navLinks).forEach(function(k){ navLinks[k].classList.remove('active'); });
+          link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+    sections.forEach(function(s){ observer.observe(s); });
+  }
+})();
+</script>

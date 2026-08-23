@@ -1,0 +1,1820 @@
+<title>Qualité Logicielle Automatisée</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6F8F6;
+    --surface:#FFFFFF;
+    --surface-2:#EDF2EE;
+    --border:#D8E2DB;
+    --border-strong:#B9C8BE;
+    --text:#16211D;
+    --text-dim:#4E5C55;
+    --text-faint:#7C8B82;
+    --accent:#0F8A5F;
+    --accent-strong:#0B6B49;
+    --accent-tint:#E1F1E7;
+    --fail:#B8433A;
+    --fail-tint:#FBEAE7;
+    --warn:#93650F;
+    --warn-tint:#FBF0DC;
+    --code-bg:#122019;
+    --code-text:#DCEEE3;
+    --code-border:#26392E;
+    --shadow: 0 1px 2px rgba(20,30,25,0.04), 0 8px 24px -12px rgba(20,30,25,0.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0F1613;
+      --surface:#161F1B;
+      --surface-2:#1C2822;
+      --border:#2A3A31;
+      --border-strong:#3C4F43;
+      --text:#EAF1EC;
+      --text-dim:#A9B9AF;
+      --text-faint:#7E9089;
+      --accent:#39C98F;
+      --accent-strong:#5DDCA6;
+      --accent-tint:#17301F;
+      --fail:#E3766B;
+      --fail-tint:#33201D;
+      --warn:#E3B564;
+      --warn-tint:#332813;
+      --code-bg:#0A120E;
+      --code-text:#D7ECDF;
+      --code-border:#23342A;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0F1613;
+    --surface:#161F1B;
+    --surface-2:#1C2822;
+    --border:#2A3A31;
+    --border-strong:#3C4F43;
+    --text:#EAF1EC;
+    --text-dim:#A9B9AF;
+    --text-faint:#7E9089;
+    --accent:#39C98F;
+    --accent-strong:#5DDCA6;
+    --accent-tint:#17301F;
+    --fail:#E3766B;
+    --fail-tint:#33201D;
+    --warn:#E3B564;
+    --warn-tint:#332813;
+    --code-bg:#0A120E;
+    --code-text:#D7ECDF;
+    --code-border:#23342A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size:16.5px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;}
+
+  a{color:var(--accent-strong);}
+  :root[data-theme="dark"] a, :root:not([data-theme="light"]) a{color:var(--accent-strong);}
+
+  ::selection{background:var(--accent-tint); color:var(--text);}
+
+  /* ---------- layout shell ---------- */
+  .shell{
+    display:grid;
+    grid-template-columns: 280px minmax(0,1fr);
+    max-width:1180px;
+    margin:0 auto;
+  }
+  @media (max-width: 900px){
+    .shell{grid-template-columns: 1fr;}
+  }
+
+  /* ---------- sidebar ---------- */
+  .sidebar{
+    position:sticky;
+    top:0;
+    align-self:start;
+    height:100vh;
+    overflow-y:auto;
+    padding:28px 20px 40px;
+    border-right:1px solid var(--border);
+  }
+  @media (max-width: 900px){
+    .sidebar{position:static; height:auto; border-right:none; border-bottom:1px solid var(--border);}
+  }
+  .brand{
+    display:flex; align-items:baseline; gap:9px;
+    margin-bottom:4px;
+  }
+  .brand-mark{
+    font-family:"IBM Plex Mono";
+    font-weight:700;
+    font-size:13px;
+    color:var(--accent-strong);
+    background:var(--accent-tint);
+    border:1px solid var(--border-strong);
+    border-radius:4px;
+    padding:2px 6px;
+    letter-spacing:0.02em;
+  }
+  .brand-name{
+    font-family:"IBM Plex Mono";
+    font-weight:600;
+    font-size:14.5px;
+    letter-spacing:-0.01em;
+  }
+  .tagline{
+    color:var(--text-faint);
+    font-size:12.5px;
+    margin:2px 0 20px;
+  }
+
+  .progress-wrap{margin-bottom:22px;}
+  .progress-label{
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-family:"IBM Plex Mono"; font-size:11.5px; color:var(--text-faint);
+    text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;
+  }
+  #progress-count{color:var(--accent-strong); font-weight:600;}
+  .progress-track{
+    height:6px; border-radius:3px; background:var(--surface-2);
+    border:1px solid var(--border); overflow:hidden;
+  }
+  .progress-fill{
+    height:100%; width:0%; background:var(--accent);
+    transition:width 0.35s ease;
+  }
+
+  .nav-part-label{
+    font-family:"IBM Plex Mono"; font-size:11px; font-weight:600;
+    text-transform:uppercase; letter-spacing:0.08em; color:var(--text-faint);
+    margin:18px 0 8px;
+  }
+  .nav-list{list-style:none; margin:0; padding:0;}
+  .nav-item{margin-bottom:1px;}
+  .nav-link{
+    display:flex; align-items:center; gap:9px;
+    padding:6px 8px; border-radius:6px;
+    color:var(--text-dim); text-decoration:none;
+    font-size:13.5px; line-height:1.35;
+    border:1px solid transparent;
+  }
+  .nav-link:hover{background:var(--surface-2); color:var(--text);}
+  .nav-link.active{background:var(--accent-tint); color:var(--accent-strong); border-color:var(--border-strong);}
+  .nav-check{
+    flex:0 0 auto; width:15px; height:15px; border-radius:4px;
+    border:1.5px solid var(--border-strong); background:var(--surface);
+    display:inline-flex; align-items:center; justify-content:center; cursor:pointer;
+  }
+  .nav-check[data-done="true"]{background:var(--accent); border-color:var(--accent);}
+  .nav-check[data-done="true"]::after{content:"✓"; color:#fff; font-size:10px; font-weight:700;}
+  .nav-num{color:var(--text-faint); font-family:"IBM Plex Mono"; font-size:11.5px; min-width:16px;}
+
+  /* ---------- main content ---------- */
+  main{padding:44px 48px 100px; min-width:0;}
+  @media (max-width: 900px){ main{padding:32px 20px 80px;} }
+  @media (max-width: 560px){ main{padding:24px 16px 64px;} }
+
+  .doc-header{max-width:640px; margin-bottom:56px;}
+  .eyebrow{
+    font-family:"IBM Plex Mono"; font-size:12px; font-weight:600;
+    text-transform:uppercase; letter-spacing:0.1em; color:var(--accent-strong);
+    margin-bottom:12px;
+  }
+  h1.doc-title{
+    font-family:"IBM Plex Mono"; font-weight:600;
+    font-size:clamp(28px, 4vw, 38px);
+    line-height:1.15; letter-spacing:-0.01em;
+    margin:0 0 16px; text-wrap:balance;
+  }
+  .doc-lede{color:var(--text-dim); font-size:17px; line-height:1.6; margin:0 0 22px;}
+  .stat-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .stat-chip{
+    font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-dim);
+    border:1px solid var(--border); background:var(--surface);
+    border-radius:20px; padding:5px 12px;
+  }
+  .stat-chip b{color:var(--text); font-weight:600;}
+
+  section.module{
+    max-width:680px;
+    padding-top:52px;
+    margin-top:-8px;
+    border-top:1px solid var(--border);
+  }
+  section.module:first-of-type{border-top:none;}
+  .part-divider{
+    max-width:680px; margin:64px 0 8px;
+    display:flex; align-items:center; gap:14px;
+  }
+  .part-divider .part-tag{
+    font-family:"IBM Plex Mono"; font-size:12px; font-weight:700;
+    color:var(--accent-strong); background:var(--accent-tint);
+    border:1px solid var(--border-strong); border-radius:5px;
+    padding:4px 9px; letter-spacing:0.04em; white-space:nowrap;
+  }
+  .part-divider h2.part-title{
+    font-family:"IBM Plex Mono"; font-size:14px; font-weight:600;
+    color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em;
+    margin:0;
+  }
+  .part-divider::after{content:""; flex:1; height:1px; background:var(--border);}
+  .part-intro{max-width:680px; color:var(--text-dim); margin:10px 0 0; font-size:15px;}
+
+  .mod-eyebrow{
+    font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-faint);
+    letter-spacing:0.04em; margin-bottom:8px;
+  }
+  h2.mod-title{
+    font-family:"IBM Plex Mono"; font-weight:600; font-size:24px;
+    letter-spacing:-0.01em; margin:0 0 18px; text-wrap:balance;
+  }
+  h3{
+    font-family:"IBM Plex Mono"; font-weight:600; font-size:15.5px;
+    margin:30px 0 10px; color:var(--text);
+  }
+  p{margin:0 0 16px; max-width:66ch;}
+  ul, ol{margin:0 0 16px; padding-left:22px;}
+  li{margin-bottom:6px; max-width:62ch;}
+  strong{font-weight:600;}
+
+  .callout{
+    border:1px solid var(--border-strong); background:var(--surface);
+    border-radius:8px; padding:16px 18px; margin:20px 0;
+    box-shadow:var(--shadow);
+  }
+  .callout-label{
+    font-family:"IBM Plex Mono"; font-size:11px; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.06em; color:var(--accent-strong);
+    margin-bottom:6px;
+  }
+  .callout p:last-child{margin-bottom:0;}
+  .callout.warn{border-color:var(--warn); background:var(--warn-tint);}
+  .callout.warn .callout-label{color:var(--warn);}
+
+  .exercise{
+    border:1px solid var(--border-strong); background:var(--surface-2);
+    border-radius:8px; padding:16px 18px; margin:26px 0 8px; max-width:680px;
+  }
+  .exercise-label{
+    font-family:"IBM Plex Mono"; font-size:11px; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.06em; color:var(--text-faint);
+    margin-bottom:8px;
+  }
+  .exercise p{margin:0 0 10px; max-width:none;}
+  .exercise p:last-of-type{margin-bottom:0;}
+  .exercise details{margin-top:4px;}
+  .exercise summary{
+    cursor:pointer; font-family:"IBM Plex Mono"; font-size:12.5px; font-weight:600;
+    color:var(--accent-strong); list-style:none; display:inline-flex; align-items:center; gap:6px;
+  }
+  .exercise summary::-webkit-details-marker{display:none;}
+  .exercise summary::before{content:"▸"; font-size:10px; display:inline-block; transition:transform 0.15s ease;}
+  .exercise details[open] summary::before{transform:rotate(90deg);}
+  .exercise .exercise-solution-body{
+    margin-top:10px; padding-top:10px; border-top:1px dashed var(--border-strong);
+  }
+  .exercise .exercise-solution-body p:last-child{margin-bottom:0;}
+  .exercise .exercise-solution-body pre{margin:10px 0 0; max-width:none;}
+
+  table{
+    width:100%; border-collapse:collapse; margin:18px 0 22px;
+    font-size:13.5px; background:var(--surface);
+    border:1px solid var(--border); border-radius:8px; overflow:hidden;
+  }
+  .table-scroll{overflow-x:auto; max-width:680px; margin:18px 0 22px;}
+  .table-scroll table{margin:0;}
+  th, td{
+    text-align:left; padding:9px 12px; border-bottom:1px solid var(--border);
+    vertical-align:top;
+  }
+  th{
+    font-family:"IBM Plex Mono"; font-size:11px; font-weight:600;
+    text-transform:uppercase; letter-spacing:0.04em; color:var(--text-faint);
+    background:var(--surface-2);
+  }
+  tr:last-child td{border-bottom:none;}
+  td.mono, th.mono{font-family:"IBM Plex Mono"; font-size:12.5px;}
+  .tag{
+    display:inline-block; font-family:"IBM Plex Mono"; font-size:11px; font-weight:600;
+    padding:2px 7px; border-radius:4px;
+  }
+  .tag.pass{background:var(--accent-tint); color:var(--accent-strong);}
+  .tag.fail{background:var(--fail-tint); color:var(--fail);}
+  .tag.warn{background:var(--warn-tint); color:var(--warn);}
+
+  pre{
+    background:var(--code-bg); color:var(--code-text);
+    border:1px solid var(--code-border); border-radius:8px;
+    padding:16px 18px; overflow-x:auto; margin:16px 0 22px;
+    font-size:13px; line-height:1.6; max-width:680px;
+  }
+  code{font-family:"IBM Plex Mono";}
+  p code, li code, td code{
+    background:var(--surface-2); border:1px solid var(--border);
+    border-radius:4px; padding:1px 5px; font-size:0.88em;
+  }
+  .code-label{
+    font-family:"IBM Plex Mono"; font-size:11px; color:var(--text-faint);
+    margin:0 0 6px; letter-spacing:0.02em;
+  }
+
+  .done-toggle{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:"IBM Plex Mono"; font-size:12.5px; color:var(--text-dim);
+    border:1px solid var(--border-strong); background:var(--surface);
+    border-radius:20px; padding:6px 14px 6px 10px; cursor:pointer;
+    margin-top:28px; user-select:none;
+  }
+  .done-toggle:hover{border-color:var(--accent);}
+  .done-toggle .box{
+    width:15px; height:15px; border-radius:4px; border:1.5px solid var(--border-strong);
+    display:inline-flex; align-items:center; justify-content:center; background:var(--surface);
+  }
+  .done-toggle[data-done="true"] .box{background:var(--accent); border-color:var(--accent);}
+  .done-toggle[data-done="true"] .box::after{content:"✓"; color:#fff; font-size:10px; font-weight:700;}
+  .done-toggle[data-done="true"]{color:var(--accent-strong); border-color:var(--accent);}
+
+  .footer-note{
+    max-width:680px; margin-top:70px; padding-top:24px;
+    border-top:1px solid var(--border);
+    color:var(--text-faint); font-size:12.5px;
+  }
+  .footer-note a{color:var(--text-dim);}
+
+  .kbd{
+    font-family:"IBM Plex Mono"; font-size:12px; background:var(--surface-2);
+    border:1px solid var(--border-strong); border-bottom-width:2px;
+    border-radius:4px; padding:1px 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .progress-fill{transition:none;}
+  }
+</style>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Sommaire du cours">
+    <div class="brand">
+      <span class="brand-mark">QA</span>
+      <span class="brand-name">Qualité Logicielle<br>Automatisée</span>
+    </div>
+    <p class="tagline">Parcours 2026 — des bases au premier pipeline de tests automatisés</p>
+
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/28</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+
+    <div class="nav-part-label">Partie 1 — Les fondamentaux</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m1" href="#m1"><span class="nav-check" data-modcheck="m1"></span><span class="nav-num">01</span> Tester, qu'est-ce que ça veut dire</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m2" href="#m2"><span class="nav-check" data-modcheck="m2"></span><span class="nav-num">02</span> Où le test se glisse dans le cycle de dev</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m3" href="#m3"><span class="nav-check" data-modcheck="m3"></span><span class="nav-num">03</span> Les familles de tests</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m4" href="#m4"><span class="nav-check" data-modcheck="m4"></span><span class="nav-num">04</span> Les niveaux de test</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m5" href="#m5"><span class="nav-check" data-modcheck="m5"></span><span class="nav-num">05</span> Concevoir des cas de test</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m6" href="#m6"><span class="nav-check" data-modcheck="m6"></span><span class="nav-num">06</span> Écrire un cas de test et un bug</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m7" href="#m7"><span class="nav-check" data-modcheck="m7"></span><span class="nav-num">07</span> Stratégie et plan de test</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 2 — L'outillage 2026</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m8" href="#m8"><span class="nav-check" data-modcheck="m8"></span><span class="nav-num">08</span> Pourquoi (et quoi) automatiser</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m9" href="#m9"><span class="nav-check" data-modcheck="m9"></span><span class="nav-num">09</span> Choisir son langage</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m10" href="#m10"><span class="nav-check" data-modcheck="m10"></span><span class="nav-num">10</span> Playwright, Cypress, Selenium</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m11" href="#m11"><span class="nav-check" data-modcheck="m11"></span><span class="nav-num">11</span> Playwright en pratique</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m12" href="#m12"><span class="nav-check" data-modcheck="m12"></span><span class="nav-num">12</span> Tester une API</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m13" href="#m13"><span class="nav-check" data-modcheck="m13"></span><span class="nav-num">13</span> Tests de charge avec k6</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m14" href="#m14"><span class="nav-check" data-modcheck="m14"></span><span class="nav-num">14</span> Brancher les tests en CI/CD</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m15" href="#m15"><span class="nav-check" data-modcheck="m15"></span><span class="nav-num">15</span> L'IA dans la QA en 2026</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m16" href="#m16"><span class="nav-check" data-modcheck="m16"></span><span class="nav-num">16</span> Projet : ta première suite</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 3 — Compléments pratiques</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m17" href="#m17"><span class="nav-check" data-modcheck="m17"></span><span class="nav-num">17</span> Git pour testeurs</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m18" href="#m18"><span class="nav-check" data-modcheck="m18"></span><span class="nav-num">18</span> Le Page Object Model</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m19" href="#m19"><span class="nav-check" data-modcheck="m19"></span><span class="nav-num">19</span> BDD avec pytest-bdd</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m20" href="#m20"><span class="nav-check" data-modcheck="m20"></span><span class="nav-num">20</span> SQL : vérifier la base</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m21" href="#m21"><span class="nav-check" data-modcheck="m21"></span><span class="nav-num">21</span> Suivre un bug avec Jira</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m22" href="#m22"><span class="nav-check" data-modcheck="m22"></span><span class="nav-num">22</span> RGPD et données de test</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m23" href="#m23"><span class="nav-check" data-modcheck="m23"></span><span class="nav-num">23</span> Automatiser le mobile (Appium)</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m24" href="#m24"><span class="nav-check" data-modcheck="m24"></span><span class="nav-num">24</span> Sécurité avec OWASP ZAP</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m25" href="#m25"><span class="nav-check" data-modcheck="m25"></span><span class="nav-num">25</span> Environnements avec Docker</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m26" href="#m26"><span class="nav-check" data-modcheck="m26"></span><span class="nav-num">26</span> Pour aller plus loin</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m27" href="#m27"><span class="nav-check" data-modcheck="m27"></span><span class="nav-num">27</span> ISTQB et mots-clés du marché</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 4 — Pour plus tard</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m28" href="#m28"><span class="nav-check" data-modcheck="m28"></span><span class="nav-num">28</span> Passerelle Python → JS/TS</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <header class="doc-header">
+      <div class="eyebrow">Cours autoportant · Rédigé pour toi</div>
+      <h1 class="doc-title">Qualité Logicielle Automatisée</h1>
+      <p class="doc-lede">Ce cours a un fil conducteur : une seule application fictive, <strong>NovaCart</strong> (un site e-commerce simple), qu'on va tester du début à la fin — d'abord à la main, sur papier, puis avec du vrai code. Chaque notion arrive avec un cas de test concret, pas seulement une définition. Et chaque module se termine par un exercice corrigé, pour vérifier que ça reste vraiment acquis.</p>
+      <div class="stat-row">
+        <span class="stat-chip"><b>28</b> modules</span>
+        <span class="stat-chip"><b>4</b> parties : théorie → outillage → marché → JS/TS</span>
+        <span class="stat-chip">Outil principal : <b>Playwright</b></span>
+        <span class="stat-chip">Langage utilisé : <b>Python</b></span>
+        <span class="stat-chip"><b>28</b> exercices corrigés</span>
+      </div>
+    </header>
+
+    <!-- ============ PARTIE 1 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 1</span><h2 class="part-title">Les fondamentaux</h2></div>
+    <p class="part-intro">Sept modules pour poser un vocabulaire précis et une méthode. Rien de ça n'est daté par 2026 : les techniques de conception de tests d'ISTQB ont 30 ans et fonctionnent toujours, elles sont juste rarement expliquées avec un exemple qu'on peut suivre du regard.</p>
+
+    <section class="module" id="m1">
+      <div class="mod-eyebrow">Partie 1 · Module 01</div>
+      <h2 class="mod-title">Tester, qu'est-ce que ça veut dire</h2>
+
+      <p>Tester un logiciel, c'est l'exécuter volontairement pour trouver les endroits où il se comporte mal — avant que quelqu'un d'autre ne le découvre en production. Ce n'est pas prouver qu'un programme fonctionne (on ne peut jamais le prouver complètement), c'est réduire le risque de surprise.</p>
+
+      <p>Trois mots qu'on confond souvent :</p>
+      <div class="table-scroll"><table>
+        <tr><th>Terme</th><th>Ce que c'est</th></tr>
+        <tr><td><strong>Test</strong></td><td>L'activité concrète : exécuter le logiciel, comparer le résultat obtenu au résultat attendu.</td></tr>
+        <tr><td><strong>QC — Contrôle qualité</strong></td><td>L'ensemble des activités qui vérifient que le <em>produit</em> est conforme (dont le test fait partie).</td></tr>
+        <tr><td><strong>QA — Assurance qualité</strong></td><td>L'ensemble des activités qui améliorent le <em>processus</em> de fabrication, pour que les défauts apparaissent moins souvent en amont.</td></tr>
+      </table></div>
+
+      <p>En clair : un testeur QC clique sur le bouton "payer" de NovaCart avec une carte invalide pour voir ce qui se passe. Une démarche QA se demande pourquoi ce cas n'était pas prévu dans les specs, et change le process d'écriture des tickets pour que ça n'arrive plus. Dans la vraie vie, un même poste fait souvent les deux.</p>
+
+      <h3>Pourquoi ça coûte de ne pas tester</h3>
+      <p>Un bug coûte à peu près 10 fois plus cher à corriger à chaque étape où il n'est pas attrapé : trouvé pendant que le développeur écrit le code, c'est quasi gratuit ; trouvé en recette, ça mobilise un testeur et un aller-retour ; trouvé en production, ça mobilise le support, parfois les clients, parfois la réputation. Ce n'est pas un chiffre magique à retenir par cœur, c'est l'idée à retenir : <strong>plus un défaut est détecté tôt, moins il coûte</strong>. Toute la partie 2 de ce cours (l'automatisation) n'est qu'une façon de détecter plus tôt et plus souvent.</p>
+
+      <div class="callout">
+        <div class="callout-label">À retenir</div>
+        <p>Un test qui ne trouve jamais rien n'est pas forcément un mauvais test — mais un testeur qui ne trouve jamais rien, sur un logiciel qui a des bugs en production, cherche probablement au mauvais endroit. On verra comment mieux choisir où chercher dans le module 5.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>NovaCart remarque que la moitié des bugs remontés en production concernent des cas jamais prévus dans les tickets, et décide de changer sa façon d'écrire les spécifications pour que ces cas soient pensés en amont. Est-ce une activité de QC ou de QA ? Justifie en une phrase.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>C'est de la <strong>QA</strong> : on ne corrige pas un défaut sur le produit lui-même (ça, ce serait du QC), on change le <em>processus</em> de fabrication pour que ce type de défaut apparaisse moins souvent — exactement la distinction du tableau plus haut.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m1"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m2">
+      <div class="mod-eyebrow">Partie 1 · Module 02</div>
+      <h2 class="mod-title">Où le test se glisse dans le cycle de dev</h2>
+
+      <p>Historiquement (modèle en V), on testait à la toute fin : les devs livrent, les testeurs testent, ça arrive une fois. Le problème, c'est que le module 1 vient de le dire — plus on teste tard, plus c'est cher. Le monde a bougé vers deux idées complémentaires :</p>
+
+      <h3>Shift-left : tester plus tôt</h3>
+      <p>Faire remonter le test vers l'amont : un développeur écrit un test unitaire en même temps que sa fonction, une revue de code cherche les cas oubliés, un analyste écrit les critères d'acceptation avant même que le code existe. Sur NovaCart, ça veut dire : le critère "le champ carte bancaire refuse un numéro de moins de 13 chiffres" est écrit <em>avant</em> que le développeur code le formulaire de paiement, pas après.</p>
+
+      <h3>Shift-right : apprendre aussi en production</h3>
+      <p>Certains problèmes (charge réelle, comportements d'utilisateurs imprévus, pannes d'infrastructure) ne se voient qu'en conditions réelles. Le monitoring, les tests A/B, les déploiements progressifs (canary releases) sont une forme de test — plus tardive, mais qui complète le reste sans le remplacer.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Contexte</th><th>Rythme du test</th><th>Ce qui change concrètement</th></tr>
+        <tr><td class="mono">Cycle en V</td><td>Une phase de test, en fin de projet</td><td>Long feedback loop, bugs chers à corriger</td></tr>
+        <tr><td class="mono">Agile / Scrum</td><td>À chaque sprint (1–2 semaines)</td><td>Tests écrits avec les user stories, pas après</td></tr>
+        <tr><td class="mono">DevOps / CI-CD</td><td>À chaque commit</td><td>Tests automatisés obligatoires, exécutés en minutes</td></tr>
+      </table></div>
+
+      <p>C'est cette dernière ligne qui motive toute la partie 2 : si les tests s'exécutent à la main, "à chaque commit" est physiquement impossible. L'automatisation n'est pas un luxe, c'est ce qui rend le shift-left tenable.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Classe ces trois pratiques dans le bon camp — shift-left ou shift-right : (1) un Product Owner écrit les critères d'acceptation avant que le développement commence, (2) un déploiement progressif limité à 5% des utilisateurs pour observer le comportement réel, (3) une revue de code qui cherche les cas oubliés avant la mise en recette.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>(1) et (3) sont du <strong>shift-left</strong> — le test remonte avant l'écriture ou juste après le code. (2) est du <strong>shift-right</strong> — on apprend depuis la production réelle, pas avant.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m2"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m3">
+      <div class="mod-eyebrow">Partie 1 · Module 03</div>
+      <h2 class="mod-title">Les familles de tests</h2>
+
+      <p>Deux découpages se superposent tout le temps dans le métier — il faut les garder séparés.</p>
+
+      <h3>Fonctionnel vs non-fonctionnel</h3>
+      <p>Le test <strong>fonctionnel</strong> vérifie <em>ce que</em> le logiciel fait : "quand j'ajoute un article au panier, le total se met à jour". Le test <strong>non-fonctionnel</strong> vérifie <em>comment</em> il le fait :</p>
+      <ul>
+        <li><strong>Performance</strong> — la page panier de NovaCart s'affiche en moins de 2 secondes avec 500 utilisateurs simultanés (module 13)</li>
+        <li><strong>Sécurité</strong> — un utilisateur ne peut pas voir le panier d'un autre en modifiant l'URL</li>
+        <li><strong>Utilisabilité</strong> — un nouvel utilisateur trouve le bouton "payer" sans aide</li>
+        <li><strong>Compatibilité</strong> — le site fonctionne sur Safari mobile comme sur Chrome desktop</li>
+        <li><strong>Accessibilité</strong> — le formulaire de paiement est utilisable au clavier et par un lecteur d'écran</li>
+      </ul>
+
+      <h3>Boîte noire, boîte blanche, boîte grise</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Approche</th><th>Ce que le testeur voit</th><th>Exemple sur NovaCart</th></tr>
+        <tr><td><strong>Boîte noire</strong></td><td>Seulement les entrées et les sorties, pas le code</td><td>Saisir un code promo et vérifier la réduction affichée</td></tr>
+        <tr><td><strong>Boîte blanche</strong></td><td>Le code source</td><td>Vérifier que chaque branche <code>if</code> de la fonction de calcul de réduction est exécutée par au moins un test</td></tr>
+        <tr><td><strong>Boîte grise</strong></td><td>Un peu des deux</td><td>Savoir que la réduction est plafonnée à 50 € en base de données, et tester spécifiquement cette limite depuis l'interface</td></tr>
+      </table></div>
+
+      <p>Dans ce cours, le module 5 (conception de cas de test) est très majoritairement de la boîte noire — c'est ce dont un testeur QA a besoin en premier. Le module 11 (Playwright) reste aussi en boîte noire : on pilote l'interface comme le ferait un utilisateur, sans lire le code de l'application testée.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Un testeur vérifie que chaque branche <code>if</code> de la fonction de calcul de réduction de NovaCart est exécutée par au moins un test : boîte noire, blanche ou grise ? Et s'il sait, sans lire le code, que la réduction est plafonnée à 50&nbsp;€ en base de données, et teste spécifiquement cette limite depuis l'interface ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>La première situation est de la <strong>boîte blanche</strong> — il regarde le code pour décider quoi tester. La seconde est de la <strong>boîte grise</strong> : il connaît un détail interne (le plafond en base) mais teste depuis l'interface, sans lire le code.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m3"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m4">
+      <div class="mod-eyebrow">Partie 1 · Module 04</div>
+      <h2 class="mod-title">Les niveaux de test</h2>
+      <p>Un même bug peut être attrapé à plusieurs étages. Sur NovaCart, prenons la fonctionnalité "connexion utilisateur" et suivons-la à travers les quatre niveaux classiques.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Niveau</th><th>Ce qu'on isole</th><th>Sur NovaCart, concrètement</th><th>Qui l'écrit, en général</th></tr>
+        <tr><td class="mono">Unitaire</td><td>Une seule fonction, isolée du reste</td><td>La fonction <code>validerMotDePasse(mdp)</code> renvoie <code>false</code> pour un mot de passe de 5 caractères</td><td>Le développeur</td></tr>
+        <tr><td class="mono">Intégration</td><td>Deux composants qui communiquent</td><td>Le service d'authentification appelle bien le service e-mail pour envoyer un code à deux facteurs</td><td>Développeur ou testeur automaticien</td></tr>
+        <tr><td class="mono">Système</td><td>L'application entière, de bout en bout</td><td>Un utilisateur peut se connecter, ajouter un article, payer et recevoir un e-mail de confirmation</td><td>Équipe QA</td></tr>
+        <tr><td class="mono">Acceptation</td><td>Le besoin métier réel, du point de vue client</td><td>Le Product Owner valide que le parcours correspond à ce qui a été commandé</td><td>Product Owner / client</td></tr>
+      </table></div>
+
+      <p>Un exemple de critère d'acceptation, écrit en Gherkin (le format lisible utilisé par Cucumber, très répandu pour ce niveau) :</p>
+      <pre class="mono"><span class="code-label"></span>Scénario : Connexion avec identifiants valides
+  Étant donné que je suis sur la page de connexion de NovaCart
+  Quand je saisis un e-mail et un mot de passe valides
+  Et que je clique sur "Se connecter"
+  Alors je suis redirigé vers mon tableau de bord
+  Et je vois mon prénom en haut de la page</pre>
+
+      <div class="callout">
+        <div class="callout-label">Pourquoi ça compte</div>
+        <p>Plus on descend vers "unitaire", plus un test est rapide à exécuter et facile à isoler quand il échoue — mais moins il prouve que l'expérience utilisateur réelle fonctionne. C'est tout l'objet de la <strong>pyramide de tests</strong>, module 8.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Le service d'authentification de NovaCart plante quand il tente d'appeler le service e-mail pour envoyer un code à deux facteurs — alors que les deux services, testés séparément, fonctionnent très bien. Quel niveau de test aurait dû attraper ce bug avant la mise en production ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Le niveau <strong>intégration</strong> : chaque composant est correct isolément, c'est leur communication qui casse — exactement ce que le test unitaire ne peut pas voir, et que le test système aurait vu bien trop tard.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m4"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m5">
+      <div class="mod-eyebrow">Partie 1 · Module 05</div>
+      <h2 class="mod-title">Concevoir des cas de test</h2>
+      <p>C'est le module que la plupart des cours bâclent — normalement celui qui devrait être le plus concret. Voici quatre techniques, chacune avec un cas de test réel dessus, pas juste la théorie.</p>
+
+      <h3>1. Partitionnement en classes d'équivalence</h3>
+      <p>Idée : si le programme traite un groupe de valeurs de la même façon, teste une seule valeur du groupe, pas toutes. Sur NovaCart, le champ mot de passe exige entre 8 et 20 caractères.</p>
+      <div class="table-scroll"><table>
+        <tr><th>Classe</th><th>Exemple de valeur</th><th>Résultat attendu</th></tr>
+        <tr><td>Invalide — trop court</td><td class="mono">"abc123"</td><td><span class="tag fail">Rejeté</span></td></tr>
+        <tr><td>Valide</td><td class="mono">"MotDePasse2026"</td><td><span class="tag pass">Accepté</span></td></tr>
+        <tr><td>Invalide — trop long</td><td class="mono">"a" × 25</td><td><span class="tag fail">Rejeté</span></td></tr>
+      </table></div>
+      <p>Trois cas suffisent à couvrir la règle entière, au lieu de tester 20 mots de passe différents pour rien.</p>
+
+      <h3>2. Analyse aux valeurs limites</h3>
+      <p>Les bugs adorent se cacher pile sur les frontières des classes ci-dessus — les erreurs de type <code>&lt;</code> au lieu de <code>&lt;=</code> sont le pain quotidien du développeur. On teste donc juste avant, sur, et juste après chaque limite (8 et 20 caractères) :</p>
+      <div class="table-scroll"><table>
+        <tr><th>Longueur</th><th>Position</th><th>Résultat attendu</th></tr>
+        <tr><td class="mono">7</td><td>Juste sous la limite basse</td><td><span class="tag fail">Rejeté</span></td></tr>
+        <tr><td class="mono">8</td><td>Limite basse</td><td><span class="tag pass">Accepté</span></td></tr>
+        <tr><td class="mono">9</td><td>Juste au-dessus</td><td><span class="tag pass">Accepté</span></td></tr>
+        <tr><td class="mono">19</td><td>Juste sous la limite haute</td><td><span class="tag pass">Accepté</span></td></tr>
+        <tr><td class="mono">20</td><td>Limite haute</td><td><span class="tag pass">Accepté</span></td></tr>
+        <tr><td class="mono">21</td><td>Juste au-dessus</td><td><span class="tag fail">Rejeté</span></td></tr>
+      </table></div>
+      <p>Ces six cas, combinés aux trois du partitionnement, forment un jeu de tests solide pour une seule règle de validation — et ce sont exactement les cas qu'on automatisera au module 11.</p>
+
+      <h3>3. Table de décision</h3>
+      <p>Utile quand le résultat dépend de <em>plusieurs</em> conditions combinées. Sur NovaCart : que se passe-t-il à la connexion selon que l'e-mail est valide, le mot de passe correct, et le compte verrouillé (après 5 échecs) ?</p>
+      <div class="table-scroll"><table>
+        <tr><th>E-mail valide ?</th><th>Mot de passe correct ?</th><th>Compte verrouillé ?</th><th>Résultat</th></tr>
+        <tr><td class="mono">Oui</td><td class="mono">Oui</td><td class="mono">Non</td><td><span class="tag pass">Connexion réussie</span></td></tr>
+        <tr><td class="mono">Oui</td><td class="mono">Non</td><td class="mono">Non</td><td><span class="tag fail">"Mot de passe incorrect"</span></td></tr>
+        <tr><td class="mono">Oui</td><td class="mono">—</td><td class="mono">Oui</td><td><span class="tag fail">"Compte verrouillé, réessayez dans 15 min"</span></td></tr>
+        <tr><td class="mono">Non</td><td class="mono">—</td><td class="mono">—</td><td><span class="tag fail">"Aucun compte associé à cet e-mail"</span></td></tr>
+      </table></div>
+      <p>Chaque ligne de cette table devient un cas de test. C'est aussi le meilleur outil pour repérer les combinaisons que personne n'avait pensé à spécifier (ici : que dit-on si le mot de passe est faux <em>et</em> que le compte est déjà verrouillé ? La table force la question.)</p>
+
+      <h3>4. Test de transition d'état</h3>
+      <p>Utile quand un objet passe par des états distincts. Le compte NovaCart : <span class="tag warn">Actif</span> → (5 échecs) → <span class="tag fail">Verrouillé</span> → (15 min ou réinitialisation) → <span class="tag pass">Actif</span>. On teste les transitions valides, mais surtout les <strong>transitions invalides</strong> qui ne devraient pas être possibles : peut-on se connecter alors que le compte est verrouillé ? Le système doit refuser, quel que soit le mot de passe saisi.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Le champ "code promo" de NovaCart doit accepter entre 4 et 8 caractères. En reprenant les deux premières techniques de ce module, liste les cas de test à écrire.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Classes d'équivalence</strong> : une valeur invalide trop courte (ex. 3 caractères), une valeur valide (ex. 6 caractères), une valeur invalide trop longue (ex. 10 caractères). <strong>Valeurs limites</strong> : 3, 4, 5 autour de la borne basse, et 7, 8, 9 autour de la borne haute — six cas au total, sur le même principe que le mot de passe.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m5"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m6">
+      <div class="mod-eyebrow">Partie 1 · Module 06</div>
+      <h2 class="mod-title">Écrire un cas de test et un bug</h2>
+      <p>Un cas de test mal écrit est inutilisable par quelqu'un d'autre que celui qui l'a écrit. Voici un gabarit complet, rempli avec un vrai exemple tiré du module 5.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Champ</th><th>Contenu</th></tr>
+        <tr><td class="mono">ID</td><td>TC-CONN-014</td></tr>
+        <tr><td class="mono">Titre</td><td>Connexion refusée si le mot de passe fait exactement 7 caractères</td></tr>
+        <tr><td class="mono">Préconditions</td><td>Un compte existe avec l'e-mail test@novacart.fr, non verrouillé</td></tr>
+        <tr><td class="mono">Étapes</td><td>1. Aller sur /connexion&nbsp;·&nbsp;2. Saisir l'e-mail&nbsp;·&nbsp;3. Saisir un mot de passe de 7 caractères&nbsp;·&nbsp;4. Cliquer sur "Se connecter"</td></tr>
+        <tr><td class="mono">Résultat attendu</td><td>Message "Le mot de passe doit contenir au moins 8 caractères", pas de redirection</td></tr>
+        <tr><td class="mono">Résultat obtenu</td><td>(rempli pendant l'exécution)</td></tr>
+        <tr><td class="mono">Statut</td><td><span class="tag pass">Réussi</span> / <span class="tag fail">Échoué</span> / <span class="tag warn">Bloqué</span></td></tr>
+      </table></div>
+
+      <p>Remarque : le titre décrit <em>un comportement observable</em>, pas juste "tester le mot de passe". Un testeur qui lit "TC-CONN-014" doit savoir ce qui est vérifié sans ouvrir le reste.</p>
+
+      <h3>Sévérité ≠ priorité</h3>
+      <p>Deux axes qu'on confond souvent en début de carrière :</p>
+      <ul>
+        <li><strong>Sévérité</strong> — l'impact technique du bug (mineur, majeur, critique, bloquant). Objectif, indépendant du contexte business.</li>
+        <li><strong>Priorité</strong> — l'urgence de le corriger, décidée par l'équipe produit (peut dépendre d'une date de lancement, d'un client important, etc.).</li>
+      </ul>
+      <p>Exemple : une faute d'orthographe sur la page d'accueil est <em>sévérité mineure</em> mais peut être <em>priorité haute</em> se déroule un lancement presse le lendemain. À l'inverse, un bug qui plante une fonctionnalité rarement utilisée peut être <em>sévérité critique</em> mais <em>priorité basse</em> si le correctif est complexe et l'usage marginal.</p>
+
+      <h3>Gabarit de rapport de bug</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Champ</th><th>Exemple rempli</th></tr>
+        <tr><td class="mono">Titre</td><td>Le total du panier ne se met pas à jour après suppression d'un article</td></tr>
+        <tr><td class="mono">Sévérité / Priorité</td><td>Majeure / Haute</td></tr>
+        <tr><td class="mono">Environnement</td><td>Chrome 128, staging, compte test #4471</td></tr>
+        <tr><td class="mono">Étapes de reproduction</td><td>1. Ajouter 2 articles au panier&nbsp;·&nbsp;2. Supprimer 1 article&nbsp;·&nbsp;3. Observer le total affiché</td></tr>
+        <tr><td class="mono">Résultat attendu</td><td>Le total passe de 45,98&nbsp;€ à 22,99&nbsp;€</td></tr>
+        <tr><td class="mono">Résultat obtenu</td><td>Le total reste affiché à 45,98&nbsp;€ jusqu'au rechargement de la page</td></tr>
+        <tr><td class="mono">Pièce jointe</td><td>Capture d'écran + vidéo de 8 secondes</td></tr>
+      </table></div>
+
+      <div class="callout warn">
+        <div class="callout-label">Erreur fréquente</div>
+        <p>Un rapport de bug qui dit "le panier ne marche pas" oblige le développeur à reproduire ton enquête depuis zéro. Les étapes de reproduction ne sont pas optionnelles — c'est la partie la plus utile du rapport.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Un ticket de bug dit simplement : "Le paiement ne marche pas." Réécris-le avec le gabarit de ce module — invente des étapes de reproduction plausibles pour le tunnel d'achat de NovaCart.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Une version possible : <strong>Titre</strong> — Le paiement par carte échoue silencieusement, sans message d'erreur. <strong>Sévérité/Priorité</strong> — Bloquante / Haute. <strong>Environnement</strong> — Chrome 128, staging. <strong>Étapes</strong> — 1. Ajouter un article au panier · 2. Aller au paiement · 3. Saisir une carte valide · 4. Cliquer sur "Payer". <strong>Résultat attendu</strong> — confirmation de commande. <strong>Résultat obtenu</strong> — la page reste bloquée sur "Traitement en cours…" indéfiniment, sans erreur ni log visible.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m6"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m7">
+      <div class="mod-eyebrow">Partie 1 · Module 07</div>
+      <h2 class="mod-title">Stratégie et plan de test</h2>
+      <p>Avant d'écrire le premier cas de test, une équipe QA sérieuse répond à quelques questions par écrit — ça évite de tester deux fois la même chose et d'oublier un pan entier de l'application.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Section du plan</th><th>Question à laquelle elle répond</th><th>Exemple NovaCart</th></tr>
+        <tr><td class="mono">Périmètre</td><td>Qu'est-ce qui est testé, et surtout qu'est-ce qui ne l'est pas ?</td><td>Le tunnel d'achat complet. Hors périmètre : le back-office de gestion des stocks</td></tr>
+        <tr><td class="mono">Approche</td><td>Manuel, automatisé, ou les deux ? À quels niveaux ?</td><td>Automatisé pour la régression, manuel/exploratoire pour les nouvelles fonctionnalités</td></tr>
+        <tr><td class="mono">Critères d'entrée</td><td>Quand peut-on commencer à tester ?</td><td>L'environnement de staging est déployé et stable</td></tr>
+        <tr><td class="mono">Critères de sortie</td><td>Quand peut-on dire "c'est testé" ?</td><td>100% des cas critiques passent, 0 bug bloquant ouvert</td></tr>
+        <tr><td class="mono">Risques</td><td>Où sont les zones fragiles ?</td><td>Le module de paiement, réécrit récemment</td></tr>
+      </table></div>
+
+      <h3>Tester en fonction du risque</h3>
+      <p>On n'a jamais le temps de tout tester exhaustivement — le <strong>test basé sur les risques</strong> consiste à croiser deux facteurs pour décider où investir l'effort : la <em>probabilité</em> qu'un défaut existe (code récent, complexe, souvent modifié) et l'<em>impact</em> s'il survient (le paiement, pas la page "À propos"). Le module de paiement de NovaCart, récemment réécrit, cumule les deux — c'est là que va l'essentiel du budget de test, pas également réparti sur toute l'application.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>NovaCart a deux zones à tester avant une mise en production, mais pas le temps de tout couvrir : le module de paiement, récemment réécrit, et la page "À propos", inchangée depuis deux ans. Où concentrer l'effort, et pourquoi en termes de probabilité et d'impact ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Le <strong>module de paiement</strong> : probabilité de défaut élevée (code récent, donc moins éprouvé) et impact élevé (bloque toute vente) — les deux facteurs du test basé sur les risques pointent dans la même direction. La page "À propos" cumule au contraire faible probabilité et faible impact.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m7"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 2 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 2</span><h2 class="part-title">L'outillage 2026</h2></div>
+    <p class="part-intro">Ici on quitte le papier. Les chiffres cités dans cette partie (téléchargements, taux d'adoption) viennent de sources publiques récentes — références en bas de page — précisément pour éviter de recommander un outil qui n'est plus d'actualité.</p>
+
+    <section class="module" id="m8">
+      <div class="mod-eyebrow">Partie 2 · Module 08</div>
+      <h2 class="mod-title">Pourquoi (et quoi) automatiser</h2>
+      <p>Un test manuel coûte le même temps humain à chaque exécution. Un test automatisé coûte du temps une fois (pour l'écrire), puis quasiment rien à chaque exécution suivante. La bascule vaut le coup pour tout ce qui est <strong>répétitif, stable, et important</strong> — pas pour tout.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Bon candidat à l'automatisation</th><th>Mauvais candidat</th></tr>
+        <tr><td>Test de régression exécuté à chaque commit</td><td>Test exploratoire d'une fonctionnalité tout juste livrée</td></tr>
+        <tr><td>Parcours critique (connexion, paiement)</td><td>Détail visuel subjectif ("est-ce que ça a l'air pro ?")</td></tr>
+        <tr><td>Interface stable depuis plusieurs sprints</td><td>Écran en pleine refonte, qui va encore changer</td></tr>
+        <tr><td>Calculs avec beaucoup de combinaisons (module 5)</td><td>Test d'accessibilité fin nécessitant un jugement humain</td></tr>
+      </table></div>
+
+      <h3>La pyramide de tests</h3>
+      <p>Le principe : beaucoup de tests unitaires (rapides, bon marché, faciles à isoler), moins de tests d'intégration, encore moins de tests de bout en bout (E2E — lents, plus fragiles, mais qui vérifient le vrai comportement utilisateur). Une variante plus récente et très citée en 2026, la <strong>testing trophy</strong> de Kent C. Dodds, met l'accent sur les tests d'intégration plutôt que sur les tests unitaires : l'idée est que tester "à peu près comme un utilisateur le ferait" donne plus confiance par test écrit. Dans ce cours, le module 11 (Playwright) se situe justement au niveau intégration/E2E — c'est là que la confiance utilisateur est la plus directe, et c'est pour ça qu'on commence par là niveau outillage.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Classe ces quatre tests en bon ou mauvais candidat à l'automatisation : (1) la régression du tunnel d'achat à chaque commit, (2) un détail visuel subjectif sur un écran tout juste redessiné, (3) le calcul de réduction avec de nombreuses combinaisons, (4) un test exploratoire d'une fonctionnalité livrée hier.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Bons candidats : (1) et (3) — répétitifs, stables ou avec beaucoup de combinaisons. Mauvais candidats : (2) et (4) — un écran encore instable et un jugement subjectif ne se prêtent pas à l'automatisation, exactement le tableau de ce module.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m8"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m9">
+      <div class="mod-eyebrow">Partie 2 · Module 09</div>
+      <h2 class="mod-title">Choisir son langage</h2>
+      <p>Le langage n'a pas besoin d'être ton préféré — il doit surtout coller à celui de l'équipe que tu testes, pour pouvoir lire leur code et parler le même vocabulaire.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Langage</th><th>Écosystème de test</th><th>Courbe d'apprentissage</th><th>Terrain naturel</th></tr>
+        <tr><td class="mono">TypeScript / JavaScript</td><td>Playwright, Cypress, Jest</td><td>Douce si tu connais déjà le web</td><td>Équipes front-end, startups, la majorité des nouveaux projets E2E en 2026</td></tr>
+        <tr><td class="mono">Python</td><td>Playwright, pytest, Robot Framework</td><td>Très douce, syntaxe lisible</td><td>Data/IA, scripts, équipes qui débutent en automatisation</td></tr>
+        <tr><td class="mono">Java</td><td>Selenium, REST Assured, JUnit/TestNG</td><td>Plus verbeuse</td><td>Grandes entreprises, banques, systèmes legacy déjà en Java</td></tr>
+      </table></div>
+
+      <p>Ce cours utilise <strong>Python</strong> pour la partie pratique — un choix assumé, pas un choix par défaut. TypeScript reste légèrement plus demandé dans les offres "QA automation" pures (détail au module 27), mais Python a deux avantages qui comptent davantage ici : pas besoin de mener deux apprentissages de front en parallèle (Python d'un côté, JavaScript/TypeScript de l'autre), et une compétence Python solide ouvre aussi vers la data, les scripts et l'IA. Playwright supporte Python nativement, à parité de fonctionnalités avec sa version TypeScript — ce n'est pas un choix de repli, c'est un vrai choix professionnel.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Un testeur rejoint une équipe déjà 100% Java, avec Selenium et REST Assured en place depuis des années. Quel langage a le plus de sens pour lui, même si Python lui semble plus simple à apprendre ? Pourquoi ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Java</strong> — le principe de ce module est de coller au langage de l'équipe qu'on rejoint pour pouvoir lire son code et parler le même vocabulaire, pas de choisir le langage le plus confortable pour soi.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m9"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m10">
+      <div class="mod-eyebrow">Partie 2 · Module 10</div>
+      <h2 class="mod-title">Playwright, Cypress, Selenium</h2>
+      <p>C'est précisément le point que tu soulevais : beaucoup de cours enseignent encore Selenium comme s'il était toujours le choix par défaut. Voici l'état des lieux réel, mi-2026, avec des chiffres sourcés (voir les références en bas de page).</p>
+
+      <div class="table-scroll"><table>
+        <tr><th></th><th class="mono">Playwright</th><th class="mono">Cypress</th><th class="mono">Selenium</th></tr>
+        <tr><td>Téléchargements npm / semaine</td><td class="mono">~33 M</td><td class="mono">~6,7 M</td><td class="mono">~2,1 M</td></tr>
+        <tr><td>Évolution sur un an</td><td class="mono">+235%</td><td class="mono">+15%</td><td class="mono">−8%</td></tr>
+        <tr><td>Taux de fidélité (State of JS)</td><td class="mono">94%</td><td class="mono">—</td><td class="mono">—</td></tr>
+        <tr><td>Multi-navigateur réel</td><td>Chromium, Firefox, WebKit</td><td>Chromium, Firefox (WebKit limité)</td><td>Tous, via drivers séparés</td></tr>
+        <tr><td>Multi-langage</td><td>JS/TS, Python, Java, C#</td><td>JS/TS uniquement</td><td>Quasiment tous</td></tr>
+        <tr><td>Parallélisation</td><td>Intégrée, gratuite</td><td>Payante au-delà d'un certain volume (Cypress Cloud)</td><td>À configurer soi-même</td></tr>
+      </table></div>
+
+      <p>Pourquoi Selenium a-t-il vieilli ? Techniquement il fonctionne toujours, mais il pilote le navigateur via un protocole plus lent et plus sujet aux "tests fragiles" (flaky tests) qui échouent aléatoirement sans changement du logiciel testé — la cause n°1 de démotivation chez les testeurs, exactement ce que tu décrivais. Playwright a été conçu dix ans plus tard avec l'attente automatique des éléments et des sélecteurs plus robustes, ce qui réduit fortement ce problème.</p>
+
+      <div class="callout">
+        <div class="callout-label">Recommandation de ce cours</div>
+        <p><strong>Playwright</strong> par défaut pour tout nouveau projet en 2026 — c'est ce qu'on installe au module suivant. <strong>Cypress</strong> reste un bon choix si une équipe JS/TS valorise surtout son expérience développeur au quotidien. <strong>Selenium</strong> garde un intérêt réel pour le test mobile natif via Appium, ou sur des systèmes legacy déjà bâtis dessus — ce n'est pas mort, c'est juste rarement le bon point de départ aujourd'hui.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Une entreprise fait tourner depuis cinq ans une suite de tests mobiles natifs avec Selenium/WebDriver via Appium, stable et fiable. Faut-il migrer immédiatement vers Playwright parce que c'est l'outil recommandé par ce cours ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Non — ce module recommande Playwright <em>par défaut pour les nouveaux projets</em>, mais note explicitement que Selenium garde un intérêt réel pour le test mobile natif via Appium. Migrer une suite stable sans problème identifié serait du temps perdu, pas un progrès.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m10"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m11">
+      <div class="mod-eyebrow">Partie 2 · Module 11</div>
+      <h2 class="mod-title">Playwright en pratique</h2>
+      <p>On automatise maintenant exactement les cas de test écrits au module 5 (connexion NovaCart), avec Playwright piloté en Python via pytest — l'intégration officielle et la plus utilisée côté Python. Installation d'abord :</p>
+
+      <p class="code-label">Terminal</p>
+      <pre>python -m venv venv
+source venv/bin/activate        # sous Windows : venv\Scripts\activate
+pip install pytest-playwright
+playwright install</pre>
+
+      <p>Pas de fichier de config généré automatiquement comme en TypeScript — on crée simplement un dossier <code>tests/</code> avec des fichiers <code>test_*.py</code>, que pytest détecte tout seul. Voici le premier vrai fichier de test, qui automatise trois cas du module 5 (mot de passe valide, trop court, compte verrouillé) :</p>
+
+      <p class="code-label">tests/test_connexion.py</p>
+      <pre>import re
+from playwright.sync_api import Page, expect
+
+
+def test_tc_conn_003_identifiants_valides_redirigent(page: Page):
+    """TC-CONN-003 — identifiants valides redirigent vers le tableau de bord"""
+    page.goto("https://novacart.exemple/connexion")
+    page.get_by_label("E-mail").fill("test@novacart.fr")
+    page.get_by_label("Mot de passe").fill("MotDePasse2026")
+    page.get_by_role("button", name="Se connecter").click()
+
+    expect(page).to_have_url(re.compile(r".*tableau-de-bord"))
+    expect(page.get_by_text("Bonjour")).to_be_visible()
+
+
+def test_tc_conn_014_mot_de_passe_de_7_caracteres_est_rejete(page: Page):
+    """TC-CONN-014 — mot de passe de 7 caractères est rejeté"""
+    page.goto("https://novacart.exemple/connexion")
+    page.get_by_label("E-mail").fill("test@novacart.fr")
+    page.get_by_label("Mot de passe").fill("abc1234")  # 7 caractères
+    page.get_by_role("button", name="Se connecter").click()
+
+    expect(page.get_by_text("au moins 8 caractères")).to_be_visible()
+    expect(page).to_have_url(re.compile(r".*connexion"))  # pas redirigé
+
+
+def test_tc_conn_021_compte_verrouille_refuse_meme_bon_mot_de_passe(page: Page):
+    """TC-CONN-021 — compte verrouillé refuse même un bon mot de passe"""
+    page.goto("https://novacart.exemple/connexion")
+    page.get_by_label("E-mail").fill("verrouille@novacart.fr")
+    page.get_by_label("Mot de passe").fill("BonMotDePasse1")
+    page.get_by_role("button", name="Se connecter").click()
+
+    expect(page.get_by_text("Compte verrouillé")).to_be_visible()</pre>
+
+      <p class="code-label">Terminal — exécuter les tests</p>
+      <pre>pytest --browser chromium -v
+pytest --browser chromium --tracing on   # garde une trace rejouable de chaque test</pre>
+
+      <p>La commande <code>--tracing on</code> enregistre le déroulé complet (captures d'écran, réseau, DOM) de chaque test dans un fichier <code>.zip</code>, rejouable avec <code>playwright show-trace trace.zip</code> — l'équivalent Python du rapport HTML intégré côté TypeScript.</p>
+
+      <h3>Trois choix qui évitent les tests fragiles</h3>
+      <ul>
+        <li><strong>Sélectionner par rôle et par label</strong> (<code>get_by_role</code>, <code>get_by_label</code>) plutôt que par classe CSS — un changement de style ne casse pas le test, contrairement à un sélecteur du type <code>.btn-primary-v2</code>.</li>
+        <li><strong>Ne jamais ajouter de <code>time.sleep()</code> fixe.</strong> Playwright attend automatiquement qu'un élément soit visible et stable avant d'agir — c'est la principale raison pour laquelle il est plus fiable que Selenium par défaut.</li>
+        <li><strong>Un test, un comportement.</strong> Le nom de la fonction (<code>test_tc_conn_014_...</code>) reprend l'ID du cas de test écrit au module 6 — quand ça échoue en CI, on sait immédiatement quel cas métier est cassé, pas juste "un test sur 14 a échoué".</li>
+      </ul>
+
+      <div class="callout">
+        <div class="callout-label">Et si l'équipe travaille en TypeScript ?</div>
+        <p>La logique de ce module — sélecteurs par rôle, pas de <code>sleep</code>, un ID de cas de test par nom de test — est strictement identique en TypeScript, seule la syntaxe change. Si un projet l'impose, tu sauras déjà quoi faire : il ne restera qu'à changer de dialecte.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris un nouveau test Playwright, <code>TC-CONN-030</code>, qui vérifie qu'un e-mail sans "@" (par exemple <code>test-novacart.fr</code>) affiche le message "Adresse e-mail invalide" sans rediriger l'utilisateur.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>def test_tc_conn_030_email_sans_arobase_est_rejete(page: Page):
+    """TC-CONN-030 — e-mail invalide (sans @) est rejeté"""
+    page.goto("https://novacart.exemple/connexion")
+    page.get_by_label("E-mail").fill("test-novacart.fr")
+    page.get_by_label("Mot de passe").fill("MotDePasse2026")
+    page.get_by_role("button", name="Se connecter").click()
+
+    expect(page.get_by_text("Adresse e-mail invalide")).to_be_visible()
+    expect(page).to_have_url(re.compile(r".*connexion"))</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m11"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m12">
+      <div class="mod-eyebrow">Partie 2 · Module 12</div>
+      <h2 class="mod-title">Tester une API</h2>
+      <p>Tout ne se teste pas par l'interface. Tester directement l'API de NovaCart est plus rapide et plus stable — pas de navigateur à démarrer, pas de CSS à charger.</p>
+
+      <h3>Pour débuter : Postman</h3>
+      <p>Interface graphique, aucune ligne de code nécessaire. On envoie une requête, on écrit une assertion dans l'onglet "Tests" — à noter, ces scripts sont toujours en JavaScript, quel que soit ton langage principal : c'est une particularité de l'outil, pas un choix à faire :</p>
+      <p class="code-label">Postman — onglet Tests, sur POST /api/connexion</p>
+      <pre>pm.test("Statut 200 pour identifiants valides", () =&gt; {
+    pm.response.to.have.status(200);
+});
+
+pm.test("La réponse contient un token", () =&gt; {
+    const body = pm.response.json();
+    pm.expect(body).to.have.property('token');
+});</pre>
+      <p>Postman est le chemin le plus rapide pour vérifier une API à la main ou la documenter en équipe — mais dès qu'il faut faire tourner ça automatiquement en CI, on bascule vers du code.</p>
+
+      <h3>En projet réel : Playwright (API testing)</h3>
+      <p>Playwright ne teste pas que des pages web — son objet <code>page.request</code> teste aussi des API directement, dans le même fichier que les tests E2E du module 11, avec les mêmes fixtures pytest :</p>
+      <p class="code-label">tests/test_api_connexion.py</p>
+      <pre>from playwright.sync_api import Page
+
+
+def test_connexion_renvoie_un_token_pour_un_compte_valide(page: Page):
+    reponse = page.request.post("https://novacart.exemple/api/connexion", data={
+        "email": "test@novacart.fr",
+        "motDePasse": "MotDePasse2026",
+    })
+
+    assert reponse.status == 200
+    corps = reponse.json()
+    assert "token" in corps
+
+
+def test_connexion_renvoie_401_pour_un_mauvais_mot_de_passe(page: Page):
+    reponse = page.request.post("https://novacart.exemple/api/connexion", data={
+        "email": "test@novacart.fr",
+        "motDePasse": "mauvais",
+    })
+
+    assert reponse.status == 401</pre>
+      <p>Pour une équipe déjà en Java, l'équivalent professionnel s'appelle <strong>REST Assured</strong>, intégré nativement avec JUnit/TestNG et Maven — même logique, autre syntaxe.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris un test Playwright qui vérifie qu'un <code>GET /api/panier</code> renvoie un statut 200 et un tableau vide pour un utilisateur qui vient de créer son compte (donc sans article dans son panier).</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>def test_panier_vide_pour_nouveau_compte(page: Page):
+    reponse = page.request.get("https://novacart.exemple/api/panier", headers={
+        "Authorization": "Bearer TOKEN_NOUVEAU_COMPTE",
+    })
+
+    assert reponse.status == 200
+    corps = reponse.json()
+    assert corps == []</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m12"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m13">
+      <div class="mod-eyebrow">Partie 2 · Module 13</div>
+      <h2 class="mod-title">Tests de charge avec k6</h2>
+      <p>Un test fonctionnel vérifie qu'une requête réussit. Un test de charge vérifie que ça tient quand des <em>milliers</em> de requêtes arrivent en même temps — <strong>k6</strong> est aujourd'hui l'outil de référence pour ça, construit spécifiquement pour ce cas d'usage (contrairement à JMeter, plus ancien et plus lourd à configurer, encore utilisé mais de moins en moins recommandé pour un nouveau projet). Précision utile : les scripts k6 s'écrivent toujours en JavaScript, même si le reste de ta suite est en Python comme dans ce cours — c'est propre à l'outil, pas une incohérence.</p>
+
+      <p class="code-label">charge-connexion.js</p>
+      <pre>import http from 'k6/http';
+import { check, sleep } from 'k6';
+
+export const options = {
+  vus: 50,           // 50 utilisateurs virtuels simultanés
+  duration: '30s',
+};
+
+export default function () {
+  const reponse = http.post('https://novacart.exemple/api/connexion', JSON.stringify({
+    email: 'test@novacart.fr',
+    motDePasse: 'MotDePasse2026',
+  }), { headers: { 'Content-Type': 'application/json' } });
+
+  check(reponse, {
+    'statut est 200': (r) =&gt; r.status === 200,
+    'répond en moins de 500ms': (r) =&gt; r.timings.duration &lt; 500,
+  });
+
+  sleep(1);
+}</pre>
+      <p class="code-label">Terminal</p>
+      <pre>k6 run charge-connexion.js</pre>
+      <p>k6 sort un rapport avec les métriques qui comptent vraiment sous charge : le <strong>p95</strong> (95% des requêtes répondent plus vite que ce chiffre — plus parlant qu'une moyenne, que quelques requêtes très lentes peuvent fausser), et le taux d'erreur. C'est la combinaison "Playwright pour le fonctionnel/E2E, k6 pour la charge" qui domine chez les équipes JS/TS en 2026.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Modifie le script k6 de ce module pour simuler 200 utilisateurs virtuels pendant 1 minute, au lieu de 50 pendant 30 secondes.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>export const options = {
+  vus: 200,
+  duration: '1m',
+};</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m13"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m14">
+      <div class="mod-eyebrow">Partie 2 · Module 14</div>
+      <h2 class="mod-title">Brancher les tests en CI/CD</h2>
+      <p>Un test qui ne s'exécute que quand quelqu'un pense à le lancer à la main finit par ne plus s'exécuter du tout. L'objectif du module 2 (shift-left) se concrétise ici : les tests tournent tout seuls à chaque <code>push</code>, et bloquent la mise en production si l'un d'eux échoue.</p>
+
+      <p class="code-label">.github/workflows/tests.yml</p>
+      <pre>name: Tests NovaCart
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: playwright install --with-deps
+      - run: pytest --browser chromium --tracing retain-on-failure
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: traces-playwright
+          path: test-results/</pre>
+
+      <p>Trois détails qui changent tout au quotidien : le job échoue (donc bloque la pull request) si un seul test échoue ; <code>--tracing retain-on-failure</code> (module 11) ne garde une trace rejouable que pour les tests qui ont raté, pas besoin de fouiller dans des centaines de traces inutiles ; et ça tourne sur chaque <em>pull request</em>, pas seulement sur <code>main</code> — donc le bug est visible avant la fusion, pas après.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>L'équipe veut aussi que le pipeline tourne automatiquement chaque nuit à 2h du matin, même sans commit, pour détecter une régression liée à une API externe. Quelle ligne ajouter au fichier YAML de ce module ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>on:
+  push:
+    branches: [main, develop]
+  pull_request:
+  schedule:
+    - cron: '0 2 * * *'</pre>
+            <p>Le déclencheur <code>schedule</code> avec une expression cron fait tourner le job à heure fixe, indépendamment de toute activité sur le dépôt.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m14"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m15">
+      <div class="mod-eyebrow">Partie 2 · Module 15</div>
+      <h2 class="mod-title">L'IA dans la QA en 2026</h2>
+      <p>À traiter avec le même recul que le reste de ce cours : ce que l'IA fait réellement bien aujourd'hui, sans survente.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Usage réel en 2026</th><th>Ce que ça change concrètement</th></tr>
+        <tr><td><strong>Génération de cas de test initiaux</strong></td><td>À partir d'une user story, un outil IA propose une première liste de cas — un point de départ à revoir avec les techniques du module 5, pas un livrable final</td></tr>
+        <tr><td><strong>Sélecteurs auto-réparants</strong></td><td>Si un bouton change de position ou de classe CSS, certains frameworks ajustent le sélecteur automatiquement plutôt que de faire échouer le test — réduit les faux positifs, source n°1 de fatigue chez les équipes QA</td></tr>
+        <tr><td><strong>Priorisation par le risque</strong></td><td>Analyse des zones du code les plus modifiées récemment pour suggérer où concentrer les tests — une version outillée du module 7</td></tr>
+        <tr><td><strong>Analyse des changements de code</strong></td><td>Repère automatiquement quels tests existants sont concernés par un commit, pour ne relancer que ceux-là plutôt que la suite entière</td></tr>
+      </table></div>
+
+      <div class="callout warn">
+        <div class="callout-label">Le garde-fou à garder</div>
+        <p>Un test généré par IA reste un test que <em>tu</em> dois comprendre et pouvoir justifier — s'il échoue en CI, c'est toi qui le débogueras, pas l'IA qui l'a écrit. La tendance qui se confirme en 2026 n'est pas "l'IA remplace le testeur", c'est une collaboration où l'humain garde les cas complexes, l'UX et le jugement, et délègue les tâches répétitives.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Un outil d'IA génère ce cas de test à partir d'une user story : "Vérifier que l'utilisateur peut se connecter." Est-ce un cas de test prêt à l'emploi selon les critères du module 6 ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Non — il manque les préconditions, des étapes précises, et un résultat attendu observable. C'est un point de départ à retravailler avec les techniques des modules 5 et 6, pas un livrable final : exactement le garde-fou rappelé dans ce module.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m15"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m16">
+      <div class="mod-eyebrow">Partie 2 · Module 16</div>
+      <h2 class="mod-title">Projet : ta première suite</h2>
+      <p>Le module qui rassemble tout. Choisis une fonctionnalité réelle — d'une appli que tu utilises, ou continue avec NovaCart — et déroule ces cinq étapes dans l'ordre :</p>
+
+      <ol>
+        <li><strong>Écris un mini plan de test</strong> (module 7) : périmètre en une phrase, 2–3 risques identifiés.</li>
+        <li><strong>Conçois 6 à 10 cas de test</strong> (module 5) en combinant au moins deux techniques — par exemple partitionnement + valeurs limites sur un champ de formulaire.</li>
+        <li><strong>Formalise-les</strong> avec le gabarit du module 6, ID inclus.</li>
+        <li><strong>Automatise-en trois</strong> avec Playwright (module 11) — commence par le cas nominal (le chemin qui marche), puis un cas d'erreur, puis un cas limite.</li>
+        <li><strong>Branche-les en CI</strong> (module 14) avec le fichier GitHub Actions fourni, adapté à ton dépôt.</li>
+      </ol>
+
+      <div class="callout">
+        <div class="callout-label">Comment savoir que c'est réussi</div>
+        <p>Tes trois tests automatisés passent en local avec <code>npx playwright test</code>, <em>et</em> ils tournent aussi tout seuls dans l'onglet "Actions" de ton dépôt GitHub après un <code>git push</code>. Si un test échoue volontairement (change une valeur attendue pour le vérifier), la pull request doit s'afficher en rouge — sinon la CI n'est pas vraiment branchée.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Avant de considérer ton mini-projet terminé : as-tu automatisé au moins un cas <em>nominal</em> (qui marche) ET un cas <em>d'erreur</em> (qui échoue volontairement) — pas seulement deux variantes qui passent toutes les deux ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Si tu n'as que des cas nominaux, ta suite ne prouve que ce qui marche déjà. Le vrai test de robustesse vient des cas d'erreur et des cas limites (module 5) — reviens en ajouter au moins un avant de considérer le projet terminé.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m16"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 3 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 3</span><h2 class="part-title">Compléments pratiques</h2></div>
+    <p class="part-intro">Ces onze modules viennent d'une feuille de route que tu avais toi-même préparée, plus un dernier module ajouté pour t'aider à te vendre sur le marché. Ce qui était déjà couvert plus haut (Playwright, Cypress, Selenium, Postman, k6, JMeter, CI/CD, IA) n'est pas répété ici — seuls les sujets vraiment nouveaux ont été gardés : Git, l'architecture Page Object, le BDD, le SQL, Jira, le RGPD, le mobile, la sécurité, Docker, et la certification/les mots-clés qui comptent pour l'emploi.</p>
+
+    <section class="module" id="m17">
+      <div class="mod-eyebrow">Partie 3 · Module 17</div>
+      <h2 class="mod-title">Git pour testeurs</h2>
+      <p>Dès que le module 11 a produit un fichier <code>tests/connexion.spec.ts</code>, il vit dans un dépôt Git — comme le code de l'application. Un testeur qui ne sait pas versionner son propre code de test finit par écraser le travail d'un collègue ou par perdre le sien.</p>
+
+      <h3>Le trajet minimal à connaître</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Commande</th><th>À quoi elle sert</th></tr>
+        <tr><td class="mono">git clone &lt;url&gt;</td><td>Récupérer le dépôt NovaCart en local, une seule fois</td></tr>
+        <tr><td class="mono">git checkout -b tests/paiement</td><td>Créer une branche dédiée avant d'ajouter des tests — jamais directement sur <code>main</code></td></tr>
+        <tr><td class="mono">git add tests/paiement.spec.ts</td><td>Sélectionner précisément ce qu'on va enregistrer</td></tr>
+        <tr><td class="mono">git commit -m "..."</td><td>Enregistrer un instantané, avec un message qui dit <em>pourquoi</em>, pas juste "ajout tests"</td></tr>
+        <tr><td class="mono">git push -u origin tests/paiement</td><td>Envoyer la branche sur GitHub</td></tr>
+      </table></div>
+
+      <p>Depuis GitHub, on ouvre une <strong>pull request</strong> — c'est exactement ce qui déclenche le pipeline du module 14 : la CI exécute les nouveaux tests avant que quiconque approuve la fusion. Si deux testeurs modifient <code>tests/connexion.spec.ts</code> en parallèle sur des branches séparées, Git signale un <strong>conflit</strong> à la fusion plutôt que d'écraser silencieusement le travail de l'un des deux — c'est précisément l'intérêt de ne jamais travailler directement sur <code>main</code>.</p>
+
+      <div class="callout">
+        <div class="callout-label">Réflexe à prendre</div>
+        <p>Un fichier <code>.gitignore</code> à la racine du projet doit exclure <code>venv/</code>, <code>__pycache__/</code>, <code>.pytest_cache/</code> et <code>test-results/</code> — ce sont des dossiers régénérés à chaque exécution, qui n'ont rien à faire dans l'historique du dépôt.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Deux testeurs créent chacun une branche à partir de <code>main</code> pour ajouter des tests dans le même fichier <code>tests/connexion.spec.ts</code>. Que se passe-t-il quand le second essaie de fusionner sa branche après le premier ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Git signale un <strong>conflit</strong> à la fusion plutôt que d'écraser silencieusement le travail du premier. Le second doit ouvrir le fichier, choisir quelles lignes garder des deux versions, puis valider la résolution avant de pouvoir fusionner — jamais forcer un écrasement.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m17"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m18">
+      <div class="mod-eyebrow">Partie 3 · Module 18</div>
+      <h2 class="mod-title">Le Page Object Model</h2>
+      <p>Les tests du module 11 fonctionnent très bien à trois. À trente, un problème apparaît : le sélecteur du champ "Mot de passe" est répété dans quinze fichiers, et le jour où le design change ce champ, il faut corriger quinze fichiers à la main. Le <strong>Page Object Model</strong> (POM) résout exactement ça.</p>
+
+      <p>Le principe : une classe par page, qui regroupe les sélecteurs et les actions possibles sur cette page. Les tests appellent des méthodes qui ont un sens métier, jamais un sélecteur brut.</p>
+
+      <p class="code-label">pages/login_page.py</p>
+      <pre>from playwright.sync_api import Page, expect
+
+
+class LoginPage:
+    def __init__(self, page: Page):
+        self.page = page
+
+    def goto(self):
+        self.page.goto("https://novacart.exemple/connexion")
+
+    def se_connecter(self, email: str, mot_de_passe: str):
+        self.page.get_by_label("E-mail").fill(email)
+        self.page.get_by_label("Mot de passe").fill(mot_de_passe)
+        self.page.get_by_role("button", name="Se connecter").click()
+
+    def attendre_erreur(self, message: str):
+        expect(self.page.get_by_text(message)).to_be_visible()</pre>
+
+      <p>Le test du module 11 devient plus court, et surtout plus stable :</p>
+      <p class="code-label">tests/test_connexion.py — réécrit avec le Page Object</p>
+      <pre>from playwright.sync_api import Page
+from pages.login_page import LoginPage
+
+
+def test_tc_conn_014_mot_de_passe_de_7_caracteres_est_rejete(page: Page):
+    connexion = LoginPage(page)
+    connexion.goto()
+    connexion.se_connecter("test@novacart.fr", "abc1234")
+    connexion.attendre_erreur("au moins 8 caractères")</pre>
+
+      <p>Le gain se voit le jour où le champ change d'identifiant : une seule ligne à corriger, dans <code>login_page.py</code> — tous les tests qui l'utilisent redeviennent verts sans y être touchés.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Le champ "Mot de passe" de NovaCart change d'attribut d'accessibilité suite à une refonte du formulaire. Combien de fichiers faut-il modifier avec le Page Object Model en place, et lequel ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Un seul : <code>login_page.py</code>. Tous les tests qui appellent <code>se_connecter()</code> redeviennent verts automatiquement, sans y être touchés — c'est exactement le gain démontré dans ce module.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m18"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m19">
+      <div class="mod-eyebrow">Partie 3 · Module 19</div>
+      <h2 class="mod-title">BDD avec pytest-bdd</h2>
+      <p>Le module 4 a introduit le format Gherkin comme façon lisible d'écrire un critère d'acceptation. <strong>pytest-bdd</strong> va plus loin : ce même texte devient exécutable, sans le retaper en code — chaque ligne du scénario est reliée à une fonction Python par une "step definition", et ça s'exécute avec le même <code>pytest</code> que le module 11 (contrairement à Cucumber, qui demande son propre runner en JavaScript).</p>
+
+      <p class="code-label">features/connexion.feature</p>
+      <pre>Fonctionnalité : Connexion à NovaCart
+
+  Scénario : Mot de passe trop court refusé
+    Étant donné que je suis sur la page de connexion
+    Quand je saisis l'e-mail "test@novacart.fr" et le mot de passe "abc1234"
+    Alors je vois le message "au moins 8 caractères"</pre>
+
+      <p class="code-label">tests/test_connexion_bdd.py</p>
+      <pre>from pytest_bdd import scenarios, given, when, then, parsers
+from playwright.sync_api import expect
+
+scenarios("connexion.feature")
+
+
+@given("que je suis sur la page de connexion")
+def aller_sur_la_page_de_connexion(page):
+    page.goto("https://novacart.exemple/connexion")
+
+
+@when(parsers.parse('je saisis l\'e-mail "{email}" et le mot de passe "{mot_de_passe}"'))
+def saisir_les_identifiants(page, email, mot_de_passe):
+    page.get_by_label("E-mail").fill(email)
+    page.get_by_label("Mot de passe").fill(mot_de_passe)
+    page.get_by_role("button", name="Se connecter").click()
+
+
+@then(parsers.parse('je vois le message "{message}"'))
+def verifier_le_message(page, message):
+    expect(page.get_by_text(message)).to_be_visible()</pre>
+
+      <p>L'intérêt réel n'est pas technique, il est humain : un Product Owner qui ne lit pas Python peut lire et même corriger le fichier <code>.feature</code>, et vérifier lui-même que le scénario décrit bien la règle métier voulue — les "step definitions" ne changent quasiment jamais une fois écrites, seuls les scénarios en langage naturel bougent au fil des besoins. La fixture <code>page</code> utilisée ici est exactement celle de <code>pytest-playwright</code>, module 11 — les deux outils cohabitent dans le même projet.</p>
+
+      <div class="callout warn">
+        <div class="callout-label">Ne pas sur-utiliser</div>
+        <p>Le BDD ajoute une couche (fichier <code>.feature</code> + steps) qui a un coût de maintenance. S'il n'y a personne côté métier qui lit réellement ces scénarios, les tests Playwright directs du module 11 sont plus simples et tout aussi valables — le BDD est un outil de collaboration, pas une obligation technique.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>En reprenant le cas <code>TC-CONN-003</code> du module 11 (identifiants valides redirigent vers le tableau de bord), écris le scénario Gherkin correspondant — pas le code, juste le fichier <code>.feature</code>.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>Scénario : Connexion réussie avec identifiants valides
+  Étant donné que je suis sur la page de connexion
+  Quand je saisis l'e-mail "test@novacart.fr" et le mot de passe "MotDePasse2026"
+  Alors je vois le message "Bonjour"</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m19"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m20">
+      <div class="mod-eyebrow">Partie 3 · Module 20</div>
+      <h2 class="mod-title">SQL — vérifier ce qui se passe côté base</h2>
+      <p>Un test comme celui du module 11 vérifie ce que <em>voit</em> l'utilisateur. Mais un bug classique se cache exactement là où personne ne regarde : l'interface affiche "Article ajouté au panier", alors qu'en base la ligne n'a pas été insérée, ou l'a été avec la mauvaise quantité. Sans requête SQL, ce bug est invisible depuis le navigateur.</p>
+
+      <p class="code-label">Vérification manuelle, en base de test</p>
+      <pre>SELECT article_id, quantite
+FROM panier
+WHERE utilisateur_id = 4471
+ORDER BY ajoute_le DESC
+LIMIT 1;</pre>
+
+      <p>On peut aussi faire de cette requête une assertion automatisée, en complément d'un test Playwright — pas à sa place, en plus :</p>
+      <p class="code-label">tests/test_panier.py — extrait</p>
+      <pre>import os
+import psycopg2
+from playwright.sync_api import Page
+
+
+def test_ajouter_article_cree_bien_une_ligne_en_base(page: Page):
+    # ... actions dans l'interface (module 11) ...
+
+    connexion = psycopg2.connect(os.environ["DATABASE_URL_TEST"])
+    curseur = connexion.cursor()
+    curseur.execute(
+        "SELECT quantite FROM panier WHERE utilisateur_id = %s",
+        (4471,)
+    )
+    resultat = curseur.fetchone()
+    assert resultat[0] == 1
+    connexion.close()</pre>
+
+      <div class="callout warn">
+        <div class="callout-label">Règle non négociable</div>
+        <p>Cette connexion pointe vers une base de <strong>test</strong>, jamais vers la production — un test qui écrit ou lit dans la vraie base de NovaCart est une porte ouverte à la fois vers des données corrompues et, comme le rappelle le module 22, vers une fuite de données personnelles réelles.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris la requête SQL qui vérifie qu'un utilisateur supprimé n'a plus aucune ligne dans la table <code>panier</code>.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>SELECT COUNT(*)
+FROM panier
+WHERE utilisateur_id = 4471;
+-- résultat attendu : 0</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m20"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m21">
+      <div class="mod-eyebrow">Partie 3 · Module 21</div>
+      <h2 class="mod-title">Suivre un bug de bout en bout avec Jira</h2>
+      <p>Le gabarit de rapport de bug du module 6 doit vivre quelque part — Jira (ou Trello pour des équipes plus légères) est l'outil le plus répandu pour ça. Ce qui compte n'est pas de connaître tous les boutons de l'interface, mais de comprendre le <strong>cycle de vie</strong> d'un ticket, parce que le rôle du testeur change à chaque étape.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Statut</th><th>Rôle du testeur</th></tr>
+        <tr><td class="mono">Nouveau</td><td>Vient de créer le ticket avec le gabarit du module 6 — titre, sévérité, étapes de reproduction</td></tr>
+        <tr><td class="mono">À trier</td><td>L'équipe assigne la priorité (module 6 : sévérité ≠ priorité) et une personne</td></tr>
+        <tr><td class="mono">En cours</td><td>Le développeur corrige — le testeur n'intervient plus, sauf si on lui demande une précision</td></tr>
+        <tr><td class="mono">En revue</td><td>Le correctif est prêt, généralement associé à une pull request (module 17) dont la CI (module 14) doit être verte</td></tr>
+        <tr><td class="mono">À vérifier</td><td><strong>Le testeur rejoue le cas de test d'origine</strong> — ne jamais fermer un ticket sur la seule parole du développeur</td></tr>
+        <tr><td class="mono">Fermé</td><td>Reproduit avant, non reproduit après : seul un testeur qui a vérifié peut clôturer</td></tr>
+      </table></div>
+
+      <p>Une pratique qui se généralise en 2026 : lier le ticket Jira directement à la pull request et au test automatisé qui couvre ce bug (souvent le même ID que le cas de test — <code>TC-CONN-014</code> pointe vers <code>NOVA-1842</code>) pour qu'on puisse remonter d'un test qui échoue en CI jusqu'au ticket qui explique pourquoi ce cas existe.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Un ticket passe directement de "En cours" à "Fermé", sans jamais passer par "À vérifier". Quel principe de ce module est violé, et quel risque ça fait courir ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Aucun testeur n'a rejoué le cas de test d'origine — le ticket se ferme sur la seule parole du développeur. Le risque : un bug "corrigé" qui ne l'est pas vraiment repart directement en production, sans filet.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m21"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m22">
+      <div class="mod-eyebrow">Partie 3 · Module 22</div>
+      <h2 class="mod-title">RGPD et données de test</h2>
+      <p>Tous les exemples de ce cours utilisent <code>test@novacart.fr</code> — jamais une vraie adresse cliente. Ce n'est pas un détail de style, c'est la règle : copier la base de production dans un environnement de test moins protégé est une des façons les plus courantes de créer une fuite de données personnelles, et une infraction au RGPD dès qu'un environnement de test contient des données réelles de clients européens.</p>
+
+      <h3>Deux techniques à distinguer</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Technique</th><th>Principe</th><th>Réversible ?</th></tr>
+        <tr><td><strong>Pseudonymisation</strong></td><td>Remplacer les données identifiantes par un identifiant technique, avec une table de correspondance gardée à part</td><td>Oui, avec la clé</td></tr>
+        <tr><td><strong>Anonymisation</strong></td><td>Remplacer définitivement par des données inventées, sans moyen de remonter à la personne réelle</td><td>Non — c'est le but</td></tr>
+      </table></div>
+
+      <p>Pour la grande majorité des cas de test (module 5), l'anonymisation totale suffit et évite tout risque : la règle de validation d'un mot de passe se teste aussi bien avec un compte entièrement fictif qu'avec un vrai. Une bibliothèque comme <strong>Faker</strong> (portée dans la plupart des langages, dont Python) génère en une ligne des jeux de données réalistes mais inventés — noms, adresses, numéros de carte au format valide mais fictif :</p>
+
+      <p class="code-label">fixtures/comptes_test.py</p>
+      <pre>from faker import Faker
+
+fake = Faker("fr_FR")
+
+
+def generer_compte_test():
+    return {
+        "email": fake.email(),
+        "nom": fake.name(),
+        "adresse": fake.address(),
+    }</pre>
+
+      <div class="callout">
+        <div class="callout-label">Question à se poser avant d'ouvrir un environnement de test</div>
+        <p>Si cet environnement était compromis demain, quelles données personnelles réelles seraient exposées ? Si la réponse n'est pas "aucune", il y a un risque de conformité à traiter avant de passer à l'outillage — pas après.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Un testeur copie 200 lignes de la table clients de production vers l'environnement de staging pour "avoir des données réalistes". Quel est le problème, et quelle alternative proposer avec les outils de ce module ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Le problème : des données personnelles réelles de clients se retrouvent dans un environnement moins protégé — un risque RGPD direct. L'alternative : générer des comptes fictifs mais réalistes avec <strong>Faker</strong>, comme dans l'exemple du module.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m22"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m23">
+      <div class="mod-eyebrow">Partie 3 · Module 23</div>
+      <h2 class="mod-title">Automatiser le mobile avec Appium</h2>
+      <p>Playwright (module 11) pilote un navigateur. Le jour où NovaCart sort une vraie application mobile native (pas juste son site consulté sur téléphone), Playwright ne peut plus rien faire — il faut <strong>Appium</strong>, qui parle aux applications iOS et Android installées sur un appareil ou un émulateur.</p>
+
+      <p>La logique reste la même que tout ce qu'on a vu : trouver un élément, agir dessus, vérifier un résultat. Seuls les sélecteurs changent — on cible par identifiant d'accessibilité plutôt que par label HTML :</p>
+
+      <p class="code-label">tests/test_connexion_mobile.py (structure simplifiée)</p>
+      <pre>from appium.webdriver.common.appiumby import AppiumBy
+
+champ_email = driver.find_element(AppiumBy.ACCESSIBILITY_ID, "champ-email")
+champ_email.send_keys("test@novacart.fr")
+
+champ_mdp = driver.find_element(AppiumBy.ACCESSIBILITY_ID, "champ-mot-de-passe")
+champ_mdp.send_keys("MotDePasse2026")
+
+bouton_connexion = driver.find_element(AppiumBy.ACCESSIBILITY_ID, "bouton-se-connecter")
+bouton_connexion.click()
+
+tableau_de_bord = driver.find_element(AppiumBy.ACCESSIBILITY_ID, "titre-tableau-de-bord")
+assert tableau_de_bord.is_displayed()</pre>
+
+      <p>Ces identifiants (<code>~champ-email</code>) doivent être ajoutés par les développeurs mobile dans le code de l'application — contrairement au web, on ne peut pas s'appuyer sur du texte visible aussi facilement. C'est une conversation à avoir tôt avec l'équipe mobile, pas une contrainte que le testeur découvre après coup.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>L'application mobile NovaCart n'a aucun identifiant d'accessibilité sur son bouton de connexion. Qui doit l'ajouter, et pourquoi le testeur ne peut-il pas simplement "trouver le bouton" comme il le ferait sur le web ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Les développeurs mobile doivent l'ajouter dans le code de l'application. Contrairement au web, il n'y a pas de texte ou de DOM aussi facilement exploitable — sans identifiant explicite, Appium n'a rien de fiable à cibler.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m23"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m24">
+      <div class="mod-eyebrow">Partie 3 · Module 24</div>
+      <h2 class="mod-title">Sécurité applicative avec OWASP ZAP</h2>
+      <p>Le module 3 citait la sécurité comme famille de test non-fonctionnelle, sans outil. <strong>OWASP ZAP</strong> (Zed Attack Proxy) comble ce vide : c'est un scanner gratuit qui se place entre le navigateur et NovaCart, observe le trafic, puis envoie automatiquement des variantes suspectes des requêtes pour chercher les failles les plus courantes — celles listées dans l'<strong>OWASP Top 10</strong>, la référence du secteur (injection, authentification cassée, en-têtes de sécurité manquants…).</p>
+
+      <p class="code-label">Terminal — scan automatisé en ligne de commande</p>
+      <pre>docker run -t zaproxy/zap-stable zap-baseline.py \
+  -t https://staging.novacart.exemple \
+  -r rapport-zap.html</pre>
+
+      <p>Sur NovaCart, un scan de base sur <code>/connexion</code> repère par exemple l'absence d'en-tête <code>Content-Security-Policy</code>, ou une page qui accepte une entrée non échappée dans le champ de recherche — des signaux à faire vérifier par un développeur, pas nécessairement des failles confirmées.</p>
+
+      <div class="callout warn">
+        <div class="callout-label">Ce que ZAP ne fait pas</div>
+        <p>Un scan automatique trouve des vulnérabilités techniques génériques. Il ne trouve pas les failles de <strong>logique métier</strong> — par exemple, un utilisateur qui accède au panier d'un autre en changeant simplement l'identifiant dans l'URL. Ce genre de cas se teste manuellement, avec les techniques du module 5 appliquées à un objectif malveillant plutôt que fonctionnel.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Un scan OWASP ZAP ne remonte aucune faille sur <code>/panier</code>, mais un testeur découvre manuellement qu'en changeant l'identifiant dans l'URL il voit le panier d'un autre client. Pourquoi ZAP n'a-t-il rien trouvé ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>C'est une faille de <strong>logique métier</strong> (autorisation), pas une vulnérabilité technique générique — exactement ce que ce module signale comme hors du périmètre d'un scanner automatique. Ce genre de cas se teste manuellement.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m24"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m25">
+      <div class="mod-eyebrow">Partie 3 · Module 25</div>
+      <h2 class="mod-title">Environnements reproductibles avec Docker</h2>
+      <p>"Ça passe sur ma machine mais pas en CI" est un symptôme classique : une version de Node différente, une police système absente, une dépendance installée à la main un jour et oubliée. <strong>Docker</strong> élimine cette classe entière de problèmes en empaquetant exactement le même environnement, partout.</p>
+
+      <p class="code-label">Dockerfile — pour exécuter les tests Playwright du module 11</p>
+      <pre>FROM mcr.microsoft.com/playwright/python:v1.48.0-jammy
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+
+CMD ["pytest", "--browser", "chromium"]</pre>
+
+      <p>La même image tourne en local (<code>docker build -t novacart-tests . &amp;&amp; docker run novacart-tests</code>) et dans le pipeline GitHub Actions du module 14 — plus de surprise entre "chez moi" et "en CI", parce que c'est littéralement le même système de fichiers qui exécute les tests dans les deux cas.</p>
+
+      <p>Une fois cette reproductibilité acquise, la question de l'échelle se pose naturellement : faire tourner les tests de charge du module 13 depuis une seule machine locale limite le nombre d'utilisateurs virtuels simulables de façon réaliste. Des VM cloud (AWS, Azure) permettent de lancer ces mêmes conteneurs depuis plusieurs régions à la fois — un sujet d'infrastructure à part entière, qui dépasse ce cours, mais qui repose entièrement sur la reproductibilité que Docker apporte ici.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Un test passe en local mais échoue en CI avec une erreur liée à une version de navigateur différente. En quoi Docker empêche-t-il ce problème de se reproduire ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>La même image tourne en local et en CI — donc littéralement la même version de navigateur et les mêmes dépendances dans les deux cas. Il ne peut plus y avoir de divergence d'environnement à l'origine du problème.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m25"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m26">
+      <div class="mod-eyebrow">Partie 3 · Module 26</div>
+      <h2 class="mod-title">Pour aller encore plus loin</h2>
+      <p>Cinq sujets plus avancés, qui méritent d'être connus de nom avant de s'y plonger en profondeur — chacun prolonge directement un module déjà vu.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Sujet</th><th>Pourquoi c'est utile</th><th>Prolonge</th></tr>
+        <tr><td><strong>GraphQL / gRPC</strong></td><td>Deux alternatives à l'API REST classique — GraphQL laisse le client choisir précisément les champs voulus, gRPC optimise la communication entre microservices internes</td><td>Module 12</td></tr>
+        <tr><td><strong>Karate</strong></td><td>Framework qui décrit des tests d'API complexes en syntaxe proche du Gherkin, sans écrire de code — utile quand l'équipe API est nombreuse et pas toute technique</td><td>Modules 12 et 19</td></tr>
+        <tr><td><strong>Newman</strong></td><td>Exécute en ligne de commande les collections écrites dans Postman — le pont entre "tester à la main dans l'interface" et "brancher en CI" sans réécrire en code</td><td>Modules 12 et 14</td></tr>
+        <tr><td><strong>Génération de données par IA</strong></td><td>Au-delà de Faker (module 22), générer des jeux de données volumineux et statistiquement réalistes pour des tests de charge (module 13) sans toucher à des données réelles</td><td>Modules 13 et 22</td></tr>
+        <tr><td><strong>Analyse de logs par IA</strong></td><td>Repérer automatiquement un pic d'erreurs inhabituel en production, en complément du monitoring classique évoqué au module 2 (shift-right)</td><td>Modules 2 et 15</td></tr>
+      </table></div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Ton équipe reçoit une collection Postman déjà écrite et veut la faire tourner automatiquement chaque nuit sans réécrire les tests en code. Quel outil du tableau ci-dessus répond exactement à ce besoin ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Newman</strong> — il exécute en ligne de commande une collection Postman existante, sans réécriture, ce qui le rend directement branchable en CI (module 14).</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m26"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m27">
+      <div class="mod-eyebrow">Partie 3 · Module 27</div>
+      <h2 class="mod-title">Te positionner sur le marché : ISTQB et les mots-clés qui comptent</h2>
+      <p>Ce module n'enseigne pas une technique de test, il t'aide à faire en sorte que tout ce que tu as appris dans les 26 modules précédents se voie vraiment dans un dossier de candidature — et se retrouve dans les bons filtres.</p>
+
+      <h3>La certification qui pèse le plus : ISTQB Foundation Level</h3>
+      <p>Contrairement au certificat NovaSavo évoqué au tout début de ce parcours, l'<strong>ISTQB Foundation Level (CTFL)</strong> est la certification la plus reconnue au monde en test logiciel — délivrée par un organisme indépendant, présente dans la quasi-totalité des offres d'emploi "testeur QA" comme atout, voire comme prérequis. En France, elle coûte autour de <strong>390&nbsp;€ TTC</strong> passée seule dans un centre agréé, ou moins cher intégrée à une formation de 2 à 3 jours qui prépare directement l'examen. Le contenu recoupe très largement la Partie 1 de ce cours (vocabulaire, cycle de vie, niveaux de test, techniques de conception) — tu n'y arriveras pas les mains vides.</p>
+
+      <div class="callout">
+        <div class="callout-label">Pourquoi c'est stratégique pour toi précisément</div>
+        <p>Pour un profil en reconversion sans diplôme informatique, une certification indépendante et reconnue internationalement compense ce qu'un diplôme classique aurait démontré — elle dit à un recruteur "quelqu'un d'autre que moi a déjà vérifié ce que je sais", ce qui compte plus que d'habitude quand le CV ne montre pas encore d'expérience du secteur.</p>
+      </div>
+
+      <h3>Ce que les offres filtrent vraiment en 2026</h3>
+      <p>D'après l'analyse d'offres de test automation croisée avec un classement par niveau de compétence (sources en bas de page), les mots-clés se répartissent en trois paliers — et ça doit se refléter dans l'ordre où tu les mets en avant sur un CV :</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Palier</th><th>Mots-clés</th><th>Couvert dans ce cours</th></tr>
+        <tr><td><strong>Présents dans 60&nbsp;%+ des offres</strong></td><td>CI/CD, tests d'API, Python, Git, SQL</td><td>Modules 11, 12, 17, 20</td></tr>
+        <tr><td><strong>Présents dans 30 à 60&nbsp;% des offres</strong></td><td>Docker, Agile/Scrum, BDD, tests de performance, cloud</td><td>Modules 2, 13, 19, 25</td></tr>
+        <tr><td><strong>Émergents, en forte croissance</strong></td><td>IA/génération de tests, tests de sécurité, observabilité</td><td>Modules 15, 24</td></tr>
+      </table></div>
+
+      <p>Concrètement : la section compétences d'un CV doit citer ces mots <em>littéralement</em> — un ATS (le logiciel qui trie les candidatures avant qu'un humain les lise) cherche des correspondances de texte, pas des synonymes. "J'ai testé un site" ne matche rien ; "Tests fonctionnels, Playwright, Python, Git, CI/CD (GitHub Actions), SQL" matche directement les critères de recherche d'un recruteur.</p>
+
+      <h3>Ton meilleur argument : le livret de mission</h3>
+      <p>Un profil en reconversion qui affiche des compétences sans preuve pratique se voit tout de suite — c'est l'erreur la plus citée dans les retours de recruteurs sur les CV de reconversion. Toi, tu as l'inverse : un vrai projet livré (site, PDF, PWA) pour un usage réel, pas un exercice de formation. Reprends-le avec le vocabulaire de ce cours :</p>
+      <ul>
+        <li>Écris-en un mini <strong>cahier de recette</strong> (module 6) a posteriori — ça prouve que tu sais formaliser un test, pas seulement en faire un</li>
+        <li>Ajoute une petite suite <strong>Playwright</strong> dessus (module 11) — quelques tests qui vérifient que le PWA fonctionne hors-ligne, que le PDF se génère correctement</li>
+        <li>Mets le tout sur GitHub avec un pipeline CI (module 14) qui tourne dessus</li>
+      </ul>
+      <p>Résultat : au lieu de dire "je débute", ton CV montre un projet réel, testé, versionné et automatisé — ce qui vaut largement plus qu'une ligne "notions de test logiciel" pour un recruteur qui trie cent candidatures en quelques minutes.</p>
+
+      <h3>Se préparer à l'entretien technique</h3>
+      <p>Un entretien de testeur junior tourne presque toujours autour de trois types de questions — prépare une réponse solide à chacun, pas juste des révisions générales :</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Type de question</th><th>Exemple concret</th><th>Ce qu'on évalue</th></tr>
+        <tr><td><strong>Théorie</strong></td><td>"Explique-moi la différence entre sévérité et priorité" (module 6), ou "quand utiliser une table de décision plutôt qu'un partitionnement en classes ?" (module 5)</td><td>Que le vocabulaire ne soit pas juste appris par cœur — sois capable de redonner l'exemple NovaCart avec tes mots</td></tr>
+        <tr><td><strong>Exercice pratique en direct</strong></td><td>Écrire des cas de test sur une fonctionnalité donnée séance tenante, ou déboguer un test Playwright qui échoue sous tes yeux</td><td>Ta méthode de raisonnement, pas la vitesse — dire à voix haute ce que tu vérifies et pourquoi vaut mieux que le silence</td></tr>
+        <tr><td><strong>Question comportementale</strong></td><td>"Raconte-moi un bug que tu as trouvé et comment tu l'as documenté"</td><td>Ton livret de mission répond exactement à cette question — c'est le moment de le sortir</td></tr>
+      </table></div>
+
+      <p>Pour présenter le livret de mission en deux minutes, une structure simple suffit : le contexte (pour qui, pour quel besoin), ce que tu as testé et comment, ce que tu as automatisé et avec quel outil, et une phrase sur ce que tu en as appris ou changerais aujourd'hui. Court, concret, dans cet ordre — pas besoin de tout détailler, le recruteur creusera ce qui l'intéresse.</p>
+
+      <div class="callout warn">
+        <div class="callout-label">Le piège classique à éviter</div>
+        <p>Citer une compétence qu'on ne maîtrise qu'en survol. Un recruteur qui repère un mot-clé sur ton CV va souvent creuser précisément celui-là — et un bluff qui s'effondre en deux questions fait plus de mal qu'une case non cochée. Mieux vaut répondre "je ne maîtrise pas encore ça en profondeur, mais voilà comment je m'y prendrais pour apprendre" — ça montre exactement la posture de testeur qu'on attend de toi : honnête sur ce qu'on ne sait pas encore vérifier.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Relis une vraie offre d'emploi de testeur QA junior (Indeed, Hellowork...) et compte combien de mots-clés du palier "60%+ des offres" du tableau ci-dessus y apparaissent littéralement. S'il en manque sur ton CV actuel, lesquels ajouter en priorité ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Il n'y a pas de correction unique ici — l'exercice est de le faire, pas de lire la réponse. Mais si CI/CD, tests d'API, Python, Git ou SQL manquent de ton CV alors que tu les as pratiqués dans ce cours, ce sont eux à ajouter en premier : ce sont les mots les plus recherchés par les filtres ATS.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m27"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 4 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 4</span><h2 class="part-title">Pour plus tard</h2></div>
+    <p class="part-intro">Un seul module ici, à garder de côté plutôt qu'à apprendre maintenant. Il est fait pour le jour, autour de décembre-janvier, où tu attaques vraiment JavaScript et TypeScript en vue de l'alternance.</p>
+
+    <section class="module" id="m28">
+      <div class="mod-eyebrow">Partie 4 · Module 28</div>
+      <h2 class="mod-title">Passerelle Python → JavaScript / TypeScript</h2>
+      <p>Tu connais déjà la logique de tout ce cours en Python. Ce module ne réenseigne rien — il te montre où chaque brique atterrit en JavaScript/TypeScript, pour que le jour où tu t'y mets, ce soit de la traduction, pas de l'apprentissage.</p>
+
+      <h3>Le vocabulaire, brique par brique</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Python</th><th>JavaScript / TypeScript</th><th>À retenir</th></tr>
+        <tr><td class="mono">mot = "valeur"</td><td class="mono">let mot = "valeur";</td><td>Deux mots-clés en JS selon si la valeur change : <code>let</code> si oui, <code>const</code> si non (à préférer par défaut)</td></tr>
+        <tr><td class="mono">def ma_fonction(x):<br>&nbsp;&nbsp;&nbsp;&nbsp;return x + 1</td><td class="mono">function maFonction(x) {<br>&nbsp;&nbsp;return x + 1;<br>}</td><td>Accolades <code>{ }</code> à la place de l'indentation, <code>return</code> explicite dans les deux cas</td></tr>
+        <tr><td class="mono">if x &gt; 0:<br>&nbsp;&nbsp;&nbsp;&nbsp;...<br>elif ...:<br>&nbsp;&nbsp;&nbsp;&nbsp;...<br>else:<br>&nbsp;&nbsp;&nbsp;&nbsp;...</td><td class="mono">if (x &gt; 0) {<br>&nbsp;&nbsp;...<br>} else if (...) {<br>&nbsp;&nbsp;...<br>} else {<br>&nbsp;&nbsp;...<br>}</td><td>Parenthèses obligatoires autour de la condition, <code>else if</code> en deux mots</td></tr>
+        <tr><td class="mono">for item in ma_liste:</td><td class="mono">for (const item of maListe) {</td><td><code>for...of</code> parcourt les valeurs, comme la boucle Python — ne pas confondre avec <code>for...in</code> qui parcourt les index</td></tr>
+        <tr><td class="mono">ma_liste = [1, 2, 3]</td><td class="mono">const maListe = [1, 2, 3];</td><td>Même notation avec crochets</td></tr>
+        <tr><td class="mono">mon_dict = {"cle": "valeur"}</td><td class="mono">const monObjet = { cle: "valeur" };</td><td>Les clés n'ont pas besoin de guillemets si ce sont des noms simples</td></tr>
+        <tr><td class="mono">None</td><td class="mono">null / undefined</td><td>JS distingue les deux (absence volontaire vs valeur jamais définie) — source de bugs fréquente au début</td></tr>
+        <tr><td class="mono">class MaClasse:<br>&nbsp;&nbsp;&nbsp;&nbsp;def __init__(self, x):<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.x = x</td><td class="mono">class MaClasse {<br>&nbsp;&nbsp;constructor(x) {<br>&nbsp;&nbsp;&nbsp;&nbsp;this.x = x;<br>&nbsp;&nbsp;}<br>}</td><td><code>constructor</code> remplace <code>__init__</code>, <code>this</code> remplace <code>self</code></td></tr>
+        <tr><td class="mono">page.get_by_label(...)</td><td class="mono">await page.getByLabel(...)</td><td>camelCase au lieu de snake_case, et <code>await</code> devient obligatoire : Playwright en TypeScript est toujours asynchrone, alors que la version Python de ce cours (<code>sync_api</code>) ne l'est pas</td></tr>
+      </table></div>
+
+      <h3>Le même test, dans les deux langages</h3>
+      <p>Voici TC-CONN-014 (module 11) tel qu'on l'a écrit en Python, et sa traduction directe en TypeScript — ligne pour ligne, la même logique :</p>
+
+      <p class="code-label">Python (ce qu'on a écrit ensemble)</p>
+      <pre>def test_tc_conn_014_mot_de_passe_de_7_caracteres_est_rejete(page: Page):
+    """TC-CONN-014 — mot de passe de 7 caractères est rejeté"""
+    page.goto("https://novacart.exemple/connexion")
+    page.get_by_label("E-mail").fill("test@novacart.fr")
+    page.get_by_label("Mot de passe").fill("abc1234")  # 7 caractères
+    page.get_by_role("button", name="Se connecter").click()
+
+    expect(page.get_by_text("au moins 8 caractères")).to_be_visible()
+    expect(page).to_have_url(re.compile(r".*connexion"))  # pas redirigé</pre>
+
+      <p class="code-label">TypeScript (la même chose)</p>
+      <pre>test('TC-CONN-014 — mot de passe de 7 caractères est rejeté', async ({ page }) =&gt; {
+  await page.goto('https://novacart.exemple/connexion');
+  await page.getByLabel('E-mail').fill('test@novacart.fr');
+  await page.getByLabel('Mot de passe').fill('abc1234'); // 7 caractères
+  await page.getByRole('button', { name: 'Se connecter' }).click();
+
+  await expect(page.getByText('au moins 8 caractères')).toBeVisible();
+  await expect(page).toHaveURL(/.*connexion/); // pas redirigé
+});</pre>
+
+      <h3>Et TypeScript, concrètement, en plus de JavaScript ?</h3>
+      <p>Une seule vraie nouveauté à apprendre : annoter le type des variables et des fonctions. Le reste (boucles, conditions, classes) est du JavaScript pur.</p>
+      <pre>function validerMotDePasse(motDePasse: string): boolean {
+  return motDePasse.length &gt;= 8 &amp;&amp; motDePasse.length &lt;= 20;
+}
+
+interface CompteTest {
+  email: string;
+  motDePasse: string;
+}</pre>
+      <p>Le compilateur TypeScript refuse de démarrer si un type ne correspond pas — une erreur qui, en Python ou en JavaScript pur, ne se serait vue qu'à l'exécution.</p>
+
+      <h3>Si l'entreprise utilise Cypress plutôt que Playwright</h3>
+      <p>Rappel du module 10 : Cypress n'existe qu'en JavaScript/TypeScript, pas de version Python. Le vocabulaire diffère un peu de Playwright, mais la logique du test (module 5) reste identique :</p>
+      <pre>describe('Connexion NovaCart', () =&gt; {
+  it('TC-CONN-014 — mot de passe de 7 caractères est rejeté', () =&gt; {
+    cy.visit('https://novacart.exemple/connexion');
+    cy.findByLabelText('E-mail').type('test@novacart.fr');
+    cy.findByLabelText('Mot de passe').type('abc1234'); // 7 caractères
+    cy.findByRole('button', { name: 'Se connecter' }).click();
+
+    cy.contains('au moins 8 caractères').should('be.visible');
+    cy.url().should('include', '/connexion');
+  });
+});</pre>
+
+      <div class="callout">
+        <div class="callout-label">Comment utiliser cette fiche</div>
+        <p>Ne l'apprends pas par cœur maintenant — reviens dessus le jour où tu commences vraiment le JS/TS. À ce moment-là, chaque ligne du tableau prendra sens en quelques minutes, parce que tu sauras déjà ce que le code est censé faire : il ne restera qu'à en changer l'habillage.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Traduis en TypeScript ce test Python, en t'aidant du tableau de correspondance : un test qui vérifie qu'un utilisateur verrouillé voit le message "Compte verrouillé" (TC-CONN-021, module 11).</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>test('TC-CONN-021 — compte verrouillé refuse même un bon mot de passe', async ({ page }) =&gt; {
+  await page.goto('https://novacart.exemple/connexion');
+  await page.getByLabel('E-mail').fill('verrouille@novacart.fr');
+  await page.getByLabel('Mot de passe').fill('BonMotDePasse1');
+  await page.getByRole('button', { name: 'Se connecter' }).click();
+
+  await expect(page.getByText('Compte verrouillé')).toBeVisible();
+});</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m28"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <div class="footer-note">
+      <p>Cours rédigé pour un usage personnel, à partir des techniques de conception de tests ISTQB (fondamentaux intemporels) et de données 2026 sur l'outillage — téléchargements npm et taux de rétention Playwright/Cypress/Selenium, comparatif des outils de test d'API, tendances d'automatisation assistée par IA. Le lien de progression (les cases à cocher) est enregistré uniquement dans ce navigateur.</p>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'qa-course-progress-v1';
+  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','m15','m16','m17','m18','m19','m20','m21','m22','m23','m24','m25','m26','m27','m28'];
+
+  function loadDone(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    }catch(e){ return {}; }
+  }
+  function saveDone(done){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(done)); }catch(e){}
+  }
+
+  var done = loadDone();
+
+  function render(){
+    var count = 0;
+    ids.forEach(function(id){
+      var isDone = !!done[id];
+      if(isDone) count++;
+      var navCheck = document.querySelector('[data-modcheck="'+id+'"]');
+      if(navCheck) navCheck.setAttribute('data-done', isDone ? 'true' : 'false');
+      var toggle = document.querySelector('[data-toggle="'+id+'"]');
+      if(toggle) toggle.setAttribute('data-done', isDone ? 'true' : 'false');
+    });
+    var countEl = document.getElementById('progress-count');
+    var fillEl = document.getElementById('progress-fill');
+    if(countEl) countEl.textContent = String(count);
+    if(fillEl) fillEl.style.width = (count / ids.length * 100) + '%';
+  }
+
+  function toggle(id){
+    done[id] = !done[id];
+    saveDone(done);
+    render();
+  }
+
+  ids.forEach(function(id){
+    var navCheck = document.querySelector('[data-modcheck="'+id+'"]');
+    if(navCheck){
+      navCheck.addEventListener('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        toggle(id);
+      });
+    }
+    var btn = document.querySelector('[data-toggle="'+id+'"]');
+    if(btn){
+      btn.addEventListener('click', function(){ toggle(id); });
+    }
+  });
+
+  render();
+
+  // Scroll-spy: highlight the nav link for the section currently in view.
+  var sections = ids.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+  var navLinks = {};
+  ids.forEach(function(id){
+    var l = document.querySelector('.nav-link[data-id="'+id+'"]');
+    if(l) navLinks[id] = l;
+  });
+
+  if('IntersectionObserver' in window){
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var id = entry.target.id;
+        var link = navLinks[id];
+        if(!link) return;
+        if(entry.isIntersecting){
+          Object.keys(navLinks).forEach(function(k){ navLinks[k].classList.remove('active'); });
+          link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+    sections.forEach(function(s){ observer.observe(s); });
+  }
+})();
+</script>

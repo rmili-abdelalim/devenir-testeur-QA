@@ -1,0 +1,1059 @@
+<title>ISTQB Foundation Level — Préparation à l'examen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F7FA;
+    --surface:#FFFFFF;
+    --surface-2:#EBF0F5;
+    --border:#D9E1E9;
+    --border-strong:#B9C6D3;
+    --text:#16202B;
+    --text-dim:#4C5A68;
+    --text-faint:#7C8B99;
+    --accent:#B45309;
+    --accent-strong:#92400E;
+    --accent-tint:#FBF0E0;
+    --fail:#B8433A;
+    --fail-tint:#FBEAE7;
+    --warn:#93650F;
+    --warn-tint:#FBF0DC;
+    --ok:#1A7F37;
+    --ok-tint:#E4F5E9;
+    --code-bg:#101A24;
+    --code-text:#DCE7EE;
+    --code-border:#223247;
+    --shadow: 0 1px 2px rgba(16,24,32,0.04), 0 8px 24px -12px rgba(16,24,32,0.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0E1520;
+      --surface:#151F2B;
+      --surface-2:#1A2635;
+      --border:#293A4D;
+      --border-strong:#3C5066;
+      --text:#E9EEF3;
+      --text-dim:#A6B4C2;
+      --text-faint:#7C8B99;
+      --accent:#E3A23C;
+      --accent-strong:#F0BA5D;
+      --accent-tint:#332510;
+      --fail:#E3766B;
+      --fail-tint:#33201D;
+      --warn:#E3B564;
+      --warn-tint:#332813;
+      --ok:#57C778;
+      --ok-tint:#152A1D;
+      --code-bg:#0A1017;
+      --code-text:#D8E5EE;
+      --code-border:#1F2E3E;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0E1520; --surface:#151F2B; --surface-2:#1A2635; --border:#293A4D; --border-strong:#3C5066;
+    --text:#E9EEF3; --text-dim:#A6B4C2; --text-faint:#7C8B99;
+    --accent:#E3A23C; --accent-strong:#F0BA5D; --accent-tint:#332510;
+    --fail:#E3766B; --fail-tint:#33201D; --warn:#E3B564; --warn-tint:#332813; --ok:#57C778; --ok-tint:#152A1D;
+    --code-bg:#0A1017; --code-text:#D8E5EE; --code-border:#1F2E3E;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--text); font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; font-size:16.5px; line-height:1.65; -webkit-font-smoothing:antialiased;}
+  .mono{font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;}
+  a{color:var(--accent-strong);}
+  ::selection{background:var(--accent-tint); color:var(--text);}
+  .shell{display:grid; grid-template-columns: 280px minmax(0,1fr); max-width:1180px; margin:0 auto;}
+  @media (max-width: 900px){ .shell{grid-template-columns: 1fr;} }
+  .sidebar{position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; padding:28px 20px 40px; border-right:1px solid var(--border);}
+  @media (max-width: 900px){ .sidebar{position:static; height:auto; border-right:none; border-bottom:1px solid var(--border);} }
+  .brand{display:flex; align-items:baseline; gap:9px; margin-bottom:4px;}
+  .brand-mark{font-family:"IBM Plex Mono"; font-weight:700; font-size:13px; color:var(--accent-strong); background:var(--accent-tint); border:1px solid var(--border-strong); border-radius:4px; padding:2px 6px; letter-spacing:0.02em;}
+  .brand-name{font-family:"IBM Plex Mono"; font-weight:600; font-size:14.5px; letter-spacing:-0.01em;}
+  .tagline{color:var(--text-faint); font-size:12.5px; margin:2px 0 20px;}
+  .progress-wrap{margin-bottom:22px;}
+  .progress-label{display:flex; justify-content:space-between; align-items:baseline; font-family:"IBM Plex Mono"; font-size:11.5px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;}
+  #progress-count{color:var(--accent-strong); font-weight:600;}
+  .progress-track{height:6px; border-radius:3px; background:var(--surface-2); border:1px solid var(--border); overflow:hidden;}
+  .progress-fill{height:100%; width:0%; background:var(--accent); transition:width 0.35s ease;}
+  .nav-part-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-faint); margin:18px 0 8px;}
+  .nav-list{list-style:none; margin:0; padding:0;}
+  .nav-item{margin-bottom:1px;}
+  .nav-link{display:flex; align-items:center; gap:9px; padding:6px 8px; border-radius:6px; color:var(--text-dim); text-decoration:none; font-size:13.5px; line-height:1.35; border:1px solid transparent;}
+  .nav-link:hover{background:var(--surface-2); color:var(--text);}
+  .nav-link.active{background:var(--accent-tint); color:var(--accent-strong); border-color:var(--border-strong);}
+  .nav-check{flex:0 0 auto; width:15px; height:15px; border-radius:4px; border:1.5px solid var(--border-strong); background:var(--surface); display:inline-flex; align-items:center; justify-content:center; cursor:pointer;}
+  .nav-check[data-done="true"]{background:var(--accent); border-color:var(--accent);}
+  .nav-check[data-done="true"]::after{content:"✓"; color:#fff; font-size:10px; font-weight:700;}
+  .nav-num{color:var(--text-faint); font-family:"IBM Plex Mono"; font-size:11.5px; min-width:16px;}
+  main{padding:44px 48px 100px; min-width:0;}
+  @media (max-width: 900px){ main{padding:32px 20px 80px;} }
+  @media (max-width: 560px){ main{padding:24px 16px 64px;} }
+  .doc-header{max-width:660px; margin-bottom:56px;}
+  .eyebrow{font-family:"IBM Plex Mono"; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent-strong); margin-bottom:12px;}
+  h1.doc-title{font-family:"IBM Plex Mono"; font-weight:600; font-size:clamp(28px, 4vw, 38px); line-height:1.15; letter-spacing:-0.01em; margin:0 0 16px; text-wrap:balance;}
+  .doc-lede{color:var(--text-dim); font-size:17px; line-height:1.6; margin:0 0 22px;}
+  .stat-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .stat-chip{font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-dim); border:1px solid var(--border); background:var(--surface); border-radius:20px; padding:5px 12px;}
+  .stat-chip b{color:var(--text); font-weight:600;}
+  .schema-box{max-width:680px; margin:0 0 24px; padding:16px 18px; border:1px solid var(--border-strong); border-radius:8px; background:var(--surface); box-shadow:var(--shadow);}
+  .schema-box-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--accent-strong); margin-bottom:10px;}
+  .schema-table{font-family:"IBM Plex Mono"; font-size:12.5px; margin-bottom:8px;}
+  .schema-table:last-child{margin-bottom:0;}
+  .schema-table .tname{font-weight:700; color:var(--accent-strong);}
+  .schema-table .tcols{color:var(--text-dim);}
+  section.module{max-width:680px; padding-top:52px; margin-top:-8px; border-top:1px solid var(--border);}
+  section.module:first-of-type{border-top:none;}
+  .part-divider{max-width:680px; margin:64px 0 8px; display:flex; align-items:center; gap:14px;}
+  .part-divider .part-tag{font-family:"IBM Plex Mono"; font-size:12px; font-weight:700; color:var(--accent-strong); background:var(--accent-tint); border:1px solid var(--border-strong); border-radius:5px; padding:4px 9px; letter-spacing:0.04em; white-space:nowrap;}
+  .part-divider h2.part-title{font-family:"IBM Plex Mono"; font-size:14px; font-weight:600; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; margin:0;}
+  .part-divider::after{content:""; flex:1; height:1px; background:var(--border);}
+  .part-intro{max-width:680px; color:var(--text-dim); margin:10px 0 0; font-size:15px;}
+  .mod-eyebrow{font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-faint); letter-spacing:0.04em; margin-bottom:8px;}
+  h2.mod-title{font-family:"IBM Plex Mono"; font-weight:600; font-size:24px; letter-spacing:-0.01em; margin:0 0 18px; text-wrap:balance;}
+  h3{font-family:"IBM Plex Mono"; font-weight:600; font-size:15.5px; margin:30px 0 10px; color:var(--text);}
+  p{margin:0 0 16px; max-width:66ch;}
+  ul, ol{margin:0 0 16px; padding-left:22px;}
+  li{margin-bottom:6px; max-width:62ch;}
+  strong{font-weight:600;}
+  .callout{border:1px solid var(--border-strong); background:var(--surface); border-radius:8px; padding:16px 18px; margin:20px 0; box-shadow:var(--shadow); max-width:680px;}
+  .callout-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--accent-strong); margin-bottom:6px;}
+  .callout p:last-child{margin-bottom:0;}
+  .callout.warn{border-color:var(--warn); background:var(--warn-tint);}
+  .callout.warn .callout-label{color:var(--warn);}
+  .exercise{border:1px solid var(--border-strong); background:var(--surface-2); border-radius:8px; padding:16px 18px; margin:26px 0 8px; max-width:680px;}
+  .exercise-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-faint); margin-bottom:8px;}
+  .exercise p{margin:0 0 10px; max-width:none;}
+  .exercise p:last-of-type{margin-bottom:0;}
+  .exercise details{margin-top:4px;}
+  .exercise summary{cursor:pointer; font-family:"IBM Plex Mono"; font-size:12.5px; font-weight:600; color:var(--accent-strong); list-style:none; display:inline-flex; align-items:center; gap:6px;}
+  .exercise summary::-webkit-details-marker{display:none;}
+  .exercise summary::before{content:"▸"; font-size:10px; display:inline-block; transition:transform 0.15s ease;}
+  .exercise details[open] summary::before{transform:rotate(90deg);}
+  .exercise .exercise-solution-body{margin-top:10px; padding-top:10px; border-top:1px dashed var(--border-strong);}
+  .exercise .exercise-solution-body p:last-child{margin-bottom:0;}
+  .exercise .exercise-solution-body pre{margin:10px 0 0; max-width:none;}
+  .qcm-opts{list-style:none; margin:0 0 10px; padding:0;}
+  .qcm-opts li{font-size:13.5px; padding:6px 10px; border:1px solid var(--border); border-radius:6px; margin-bottom:6px; background:var(--surface);}
+  .qcm-opts li b{font-family:"IBM Plex Mono"; color:var(--accent-strong); margin-right:6px;}
+  table{width:100%; border-collapse:collapse; margin:18px 0 22px; font-size:13.5px; background:var(--surface); border:1px solid var(--border); border-radius:8px; overflow:hidden;}
+  .table-scroll{overflow-x:auto; max-width:680px; margin:18px 0 22px;}
+  .table-scroll table{margin:0;}
+  th, td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--border); vertical-align:top;}
+  th{font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-faint); background:var(--surface-2);}
+  tr:last-child td{border-bottom:none;}
+  td.mono, th.mono{font-family:"IBM Plex Mono"; font-size:12.5px;}
+  .tag{display:inline-block; font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; padding:2px 7px; border-radius:4px;}
+  .tag.pass{background:var(--ok-tint); color:var(--ok);}
+  .tag.fail{background:var(--fail-tint); color:var(--fail);}
+  .tag.warn{background:var(--warn-tint); color:var(--warn);}
+  pre{background:var(--code-bg); color:var(--code-text); border:1px solid var(--code-border); border-radius:8px; padding:16px 18px; overflow-x:auto; margin:16px 0 22px; font-size:13px; line-height:1.6; max-width:680px;}
+  code{font-family:"IBM Plex Mono";}
+  p code, li code, td code{background:var(--surface-2); border:1px solid var(--border); border-radius:4px; padding:1px 5px; font-size:0.88em;}
+  .code-label{font-family:"IBM Plex Mono"; font-size:11px; color:var(--text-faint); margin:0 0 6px; letter-spacing:0.02em;}
+  .done-toggle{display:inline-flex; align-items:center; gap:8px; font-family:"IBM Plex Mono"; font-size:12.5px; color:var(--text-dim); border:1px solid var(--border-strong); background:var(--surface); border-radius:20px; padding:6px 14px 6px 10px; cursor:pointer; margin-top:28px; user-select:none;}
+  .done-toggle:hover{border-color:var(--accent);}
+  .done-toggle .box{width:15px; height:15px; border-radius:4px; border:1.5px solid var(--border-strong); display:inline-flex; align-items:center; justify-content:center; background:var(--surface);}
+  .done-toggle[data-done="true"] .box{background:var(--accent); border-color:var(--accent);}
+  .done-toggle[data-done="true"] .box::after{content:"✓"; color:#fff; font-size:10px; font-weight:700;}
+  .done-toggle[data-done="true"]{color:var(--accent-strong); border-color:var(--accent);}
+  .footer-note{max-width:680px; margin-top:70px; padding-top:24px; border-top:1px solid var(--border); color:var(--text-faint); font-size:12.5px;}
+  .footer-note a{color:var(--text-dim);}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} .progress-fill{transition:none;} }
+</style>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Sommaire du cours">
+    <div class="brand">
+      <span class="brand-mark">CTFL</span>
+      <span class="brand-name">ISTQB Foundation<br>Level</span>
+    </div>
+    <p class="tagline">Préparation à l'examen — syllabus v4.0, édition 2026</p>
+
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/17</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+
+    <div class="nav-part-label">Cadrage</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m1" href="#m1"><span class="nav-check" data-modcheck="m1"></span><span class="nav-num">01</span> Passer la certification en 2026</a></li>
+    </ul>
+
+    <div class="nav-part-label">Chap. 1 — Fondamentaux du test</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m2" href="#m2"><span class="nav-check" data-modcheck="m2"></span><span class="nav-num">02</span> Pourquoi tester ? Les 7 principes</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m3" href="#m3"><span class="nav-check" data-modcheck="m3"></span><span class="nav-num">03</span> Processus de test et testware</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m4" href="#m4"><span class="nav-check" data-modcheck="m4"></span><span class="nav-num">04</span> Compétences humaines et éthique</a></li>
+    </ul>
+
+    <div class="nav-part-label">Chap. 2 — Test et cycle de vie</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m5" href="#m5"><span class="nav-check" data-modcheck="m5"></span><span class="nav-num">05</span> Modèles de dév. et niveaux de test</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m6" href="#m6"><span class="nav-check" data-modcheck="m6"></span><span class="nav-num">06</span> Types de test et maintenance</a></li>
+    </ul>
+
+    <div class="nav-part-label">Chap. 3 — Test statique</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m7" href="#m7"><span class="nav-check" data-modcheck="m7"></span><span class="nav-num">07</span> Revues et analyse statique</a></li>
+    </ul>
+
+    <div class="nav-part-label">Chap. 4 — Analyse et conception</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m8" href="#m8"><span class="nav-check" data-modcheck="m8"></span><span class="nav-num">08</span> Techniques boîte noire</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m9" href="#m9"><span class="nav-check" data-modcheck="m9"></span><span class="nav-num">09</span> Techniques boîte blanche</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m10" href="#m10"><span class="nav-check" data-modcheck="m10"></span><span class="nav-num">10</span> Expérience et collaboration</a></li>
+    </ul>
+
+    <div class="nav-part-label">Chap. 5 — Gérer les activités de test</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m11" href="#m11"><span class="nav-check" data-modcheck="m11"></span><span class="nav-num">11</span> Planification et estimation</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m12" href="#m12"><span class="nav-check" data-modcheck="m12"></span><span class="nav-num">12</span> Gestion des risques</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m13" href="#m13"><span class="nav-check" data-modcheck="m13"></span><span class="nav-num">13</span> Suivi et gestion des anomalies</a></li>
+    </ul>
+
+    <div class="nav-part-label">Chap. 6 — Outils de test</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m14" href="#m14"><span class="nav-check" data-modcheck="m14"></span><span class="nav-num">14</span> Catégories d'outils</a></li>
+    </ul>
+
+    <div class="nav-part-label">Jour J</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m15" href="#m15"><span class="nav-check" data-modcheck="m15"></span><span class="nav-num">15</span> Examen blanc (20 questions)</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m16" href="#m16"><span class="nav-check" data-modcheck="m16"></span><span class="nav-num">16</span> Stratégie et inscription</a></li>
+    </ul>
+
+    <div class="nav-part-label">Bonus — hors syllabus</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m17" href="#m17"><span class="nav-check" data-modcheck="m17"></span><span class="nav-num">17</span> Lire les diagrammes UML</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <header class="doc-header">
+      <div class="eyebrow">Cours autoportant · Compagnon des cours QA, SQL et GitHub</div>
+      <h1 class="doc-title">ISTQB Foundation Level</h1>
+      <p class="doc-lede">Ce cours suit exactement les six chapitres du syllabus officiel <strong>CTFL v4.0</strong>, dans l'ordre où l'examen les évalue. Chaque module fait le lien avec ce que tu as déjà pratiqué dans le cours QA — l'idée n'est pas de réapprendre le test logiciel, mais de le reformuler dans le vocabulaire précis qu'attend l'examen. Chaque module se termine par une question type examen, et le cours se conclut par un examen blanc complet.</p>
+      <div class="stat-row">
+        <span class="stat-chip"><b>17</b> modules</span>
+        <span class="stat-chip">Syllabus <b>CTFL v4.0</b>, 6 chapitres</span>
+        <span class="stat-chip">Examen réel : <b>40</b> questions, <b>60 min</b>, seuil <b>26/40</b></span>
+        <span class="stat-chip">36 questions type examen dans ce cours</span>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">Comment utiliser ce cours</div>
+        <p>Le cours QA "Qualité Logicielle Automatisée" t'a déjà fait manipuler la plupart de ces notions en pratique. Ici, l'objectif est différent : associer le bon <strong>terme officiel</strong> à ce que tu sais déjà faire, parce que l'examen ISTQB porte sur le vocabulaire et les définitions précises autant que sur la compréhension. Quand une notion a déjà un exemple dans le cours QA, ce cours le rappelle brièvement plutôt que de le refaire depuis zéro.</p>
+      </div>
+    </header>
+
+    <!-- ============ CADRAGE ============ -->
+    <section class="module" id="m1">
+      <div class="mod-eyebrow">Cadrage · Module 01</div>
+      <h2 class="mod-title">Passer la certification en 2026</h2>
+      <p>L'<strong>ISTQB</strong> (International Software Testing Qualifications Board) est l'organisme qui définit un référentiel international de certifications en test logiciel. Le <strong>Certified Tester Foundation Level (CTFL)</strong> est le premier niveau — un prérequis quasi systématique avant les certifications avancées, et une preuve reconnue par les recruteurs, indépendamment de la formation ou de l'expérience préalable du candidat. C'est ce qui en fait un excellent objectif pour une reconversion : il ne demande pas d'ancienneté, seulement la maîtrise du syllabus.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Point</th><th>Détail 2026</th></tr>
+        <tr><td>Version du syllabus</td><td>CTFL v4.0</td></tr>
+        <tr><td>Format de l'examen</td><td>40 questions à choix multiple</td></tr>
+        <tr><td>Durée</td><td>60 minutes (75 minutes si l'anglais n'est pas ta langue maternelle et que tu passes en anglais)</td></tr>
+        <tr><td>Seuil de réussite</td><td>26 points sur 40 (65 %)</td></tr>
+        <tr><td>Coût en France</td><td>environ 390 € TTC selon l'organisme certificateur</td></tr>
+        <tr><td>Validité</td><td>Illimitée — pas de renouvellement à payer</td></tr>
+        <tr><td>Prérequis</td><td>Aucun — ouvert sans expérience préalable</td></tr>
+      </table></div>
+
+      <p>En France, l'examen se passe via un organisme certificateur accrédité (comme le CFTL, comité français, ou directement via un centre de test agréé), en ligne avec surveillance à distance ou en présentiel selon l'organisme. Le format QCM signifie une chose importante pour ta préparation : la difficulté n'est presque jamais la compréhension du concept — c'est la précision du vocabulaire et les pièges de reformulation entre deux réponses très proches.</p>
+
+      <div class="callout warn">
+        <div class="callout-label">Le vrai piège de cet examen</div>
+        <p>Beaucoup de questions proposent deux réponses qui semblent correctes, où une seule colle exactement à la définition du syllabus. Ce cours insiste donc sur les définitions exactes du glossaire ISTQB, même quand elles ressemblent à ce que tu sais déjà dire autrement dans le cours QA.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Question type examen</div>
+        <p><strong>Combien de temps as-tu pour répondre à l'examen CTFL, dans sa configuration standard ?</strong></p>
+        <ul class="qcm-opts">
+          <li><b>A.</b> 45 minutes</li>
+          <li><b>B.</b> 60 minutes</li>
+          <li><b>C.</b> 90 minutes</li>
+          <li><b>D.</b> Il n'y a pas de limite de temps</li>
+        </ul>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Réponse : B.</strong> 60 minutes en configuration standard (75 minutes pour les non-anglophones passant l'examen en anglais).</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m1"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ CHAPITRE 1 ============ -->
+    <div class="part-divider"><span class="part-tag">CHAPITRE 1</span><h2 class="part-title">Fondamentaux du test</h2></div>
+    <p class="part-intro">Le chapitre le plus dense de l'examen — le socle conceptuel sur lequel tout le reste s'appuie.</p>
+
+    <section class="module" id="m2">
+      <div class="mod-eyebrow">Chapitre 1 · Module 02</div>
+      <h2 class="mod-title">Pourquoi tester ? Les 7 principes</h2>
+      <p>Le syllabus distingue trois termes que l'examen adore confondre volontairement dans ses questions pièges :</p>
+      <div class="table-scroll"><table>
+        <tr><th>Terme</th><th>Définition officielle</th></tr>
+        <tr><td><strong>Erreur (error)</strong></td><td>Une action humaine qui produit un résultat incorrect — par exemple, un développeur qui se trompe dans une formule</td></tr>
+        <tr><td><strong>Défaut (defect / bug)</strong></td><td>Une imperfection dans le code ou le système, conséquence d'une erreur</td></tr>
+        <tr><td><strong>Défaillance (failure)</strong></td><td>Un écart entre le comportement observé et le comportement attendu, provoqué par un défaut lors de l'exécution</td></tr>
+      </table></div>
+      <p>Une erreur humaine peut créer un défaut qui reste dormant longtemps avant de provoquer une défaillance visible — exactement comme un bug jamais déclenché parce que le code correspondant n'a jamais été exécuté dans ces conditions précises.</p>
+
+      <h3>Les sept principes du test</h3>
+      <ol>
+        <li><strong>Tester montre la présence de défauts</strong>, pas leur absence — on ne peut jamais prouver qu'un logiciel est sans bug, seulement qu'on en a trouvé (ou pas) avec les tests exécutés.</li>
+        <li><strong>Tester exhaustivement est impossible</strong> — sauf cas triviaux, il existe trop de combinaisons pour tout tester ; on priorise selon le risque (chapitre 5).</li>
+        <li><strong>Tester tôt fait gagner du temps</strong> — le principe du "shift-left" (déjà vu dans le cours QA) : plus un défaut est détecté tard, plus il coûte cher à corriger.</li>
+        <li><strong>Les défauts se regroupent</strong> — un petit nombre de modules concentre généralement la majorité des défauts (loi de Pareto appliquée au test).</li>
+        <li><strong>Le paradoxe du pesticide</strong> — répéter exactement les mêmes tests finit par ne plus rien trouver de nouveau ; il faut réviser et diversifier les tests régulièrement.</li>
+        <li><strong>Tester dépend du contexte</strong> — on ne teste pas un logiciel médical comme un site vitrine.</li>
+        <li><strong>L'absence de défaut n'est pas suffisante</strong> — un logiciel sans bug mais qui ne répond pas au besoin réel de l'utilisateur reste un échec.</li>
+      </ol>
+
+      <div class="exercise">
+        <div class="exercise-label">Question type examen</div>
+        <p><strong>Un développeur écrit par erreur <code>&lt;=</code> au lieu de <code>&lt;</code> dans une condition. Le code contient donc :</strong></p>
+        <ul class="qcm-opts">
+          <li><b>A.</b> Une défaillance</li>
+          <li><b>B.</b> Un défaut</li>
+          <li><b>C.</b> Une erreur</li>
+          <li><b>D.</b> Un risque</li>
+        </ul>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Réponse : B.</strong> Le code contient un <strong>défaut</strong> — la conséquence de l'erreur humaine du développeur. Ce défaut ne devient une <strong>défaillance</strong> que lorsqu'il est exécuté et produit un résultat visible incorrect.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m2"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m3">
+      <div class="mod-eyebrow">Chapitre 1 · Module 03</div>
+      <h2 class="mod-title">Processus de test et testware</h2>
+      <p>Le syllabus découpe le processus de test en activités, qui se chevauchent en pratique mais qu'il faut savoir nommer séparément à l'examen :</p>
+      <div class="table-scroll"><table>
+        <tr><th>Activité</th><th>Ce qu'elle produit</th></tr>
+        <tr><td>Planification</td><td>La stratégie et le plan de test</td></tr>
+        <tr><td>Pilotage (monitoring & control)</td><td>Le suivi de l'avancement par rapport au plan</td></tr>
+        <tr><td>Analyse</td><td>Les conditions de test, dérivées des exigences</td></tr>
+        <tr><td>Conception</td><td>Les cas de test et les jeux de données</td></tr>
+        <tr><td>Implémentation</td><td>Les procédures de test, scripts, environnement prêt</td></tr>
+        <tr><td>Exécution</td><td>Les résultats de test, les anomalies relevées</td></tr>
+        <tr><td>Clôture</td><td>Le rapport de synthèse, les enseignements retenus</td></tr>
+      </table></div>
+
+      <p>Le <strong>testware</strong> désigne l'ensemble des documents produits durant ce processus : plan de test, cas de test, scripts, rapports d'anomalie, résultats. La <strong>traçabilité</strong> — relier chaque cas de test à l'exigence qu'il vérifie — est ce qui permet de répondre à la question "si cette exigence change, quels tests dois-je revoir ?".</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Question type examen</div>
+        <p><strong>À quelle activité du processus de test appartient la rédaction des cas de test ?</strong></p>
+        <ul class="qcm-opts">
+          <li><b>A.</b> Analyse de test</li>
+          <li><b>B.</b> Conception de test</li>
+          <li><b>C.</b> Implémentation de test</li>
+          <li><b>D.</b> Exécution de test</li>
+        </ul>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Réponse : B.</strong> La conception de test transforme les conditions de test (issues de l'analyse) en cas de test concrets. L'implémentation vient ensuite : transformer ces cas en procédures et scripts exécutables.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m3"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m4">
+      <div class="mod-eyebrow">Chapitre 1 · Module 04</div>
+      <h2 class="mod-title">Compétences humaines et éthique</h2>
+      <p>Le syllabus consacre une section aux compétences non techniques attendues d'un testeur — souvent sous-estimée en révision, alors que l'examen y consacre régulièrement 2 à 3 questions.</p>
+
+      <h3>L'état d'esprit du testeur (testing mindset)</h3>
+      <p>Une curiosité professionnelle, un scepticisme constructif, un souci du détail et une aisance à communiquer des mauvaises nouvelles (annoncer un bug bloquant) sans provoquer de conflit inutile. Le syllabus insiste sur la distinction entre <strong>critiquer le produit</strong>, ce qui est le rôle du testeur, et <strong>critiquer la personne</strong>, ce qu'il faut toujours éviter.</p>
+
+      <h3>Le code d'éthique ISTQB</h3>
+      <p>Huit engagements, dont les plus fréquemment cités à l'examen : agir dans l'intérêt public, respecter la confidentialité, rester honnête sur ses compétences réelles (ne pas prétendre maîtriser un domaine qu'on ne maîtrise pas), et maintenir son niveau de compétence à jour.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Question type examen</div>
+        <p><strong>Un testeur trouve un défaut critique juste avant une mise en production prévue de longue date. Quelle attitude est la plus conforme au principe d'éthique ISTQB ?</strong></p>
+        <ul class="qcm-opts">
+          <li><b>A.</b> Ne rien dire pour ne pas retarder le projet</li>
+          <li><b>B.</b> Signaler le défaut clairement, avec les faits, indépendamment de la pression du planning</li>
+          <li><b>C.</b> Corriger le défaut soi-même sans en informer l'équipe</li>
+          <li><b>D.</b> Attendre la prochaine réunion pour ne pas déranger</li>
+        </ul>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Réponse : B.</strong> Le code d'éthique place l'intérêt public et l'honnêteté professionnelle au-dessus de la pression de planning — un testeur communique les faits, même inconfortables, pour permettre une décision éclairée.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m4"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ CHAPITRE 2 ============ -->
+    <div class="part-divider"><span class="part-tag">CHAPITRE 2</span><h2 class="part-title">Test et cycle de vie</h2></div>
+    <p class="part-intro">Où le test s'insère dans le développement — largement déjà pratiqué dans le cours QA, ici reformulé avec le vocabulaire exact du syllabus.</p>
+
+    <section class="module" id="m5">
+      <div class="mod-eyebrow">Chapitre 2 · Module 05</div>
+      <h2 class="mod-title">Modèles de développement et niveaux de test</h2>
+      <p>Le syllabus attend que tu saches situer le test dans deux familles de modèles : les modèles <strong>séquentiels</strong> (cycle en V) et les modèles <strong>itératifs/incrémentaux</strong> (Agile). Dans un cycle en V, chaque phase de développement a sa phase de test miroir : les exigences se vérifient par les tests d'acceptation, la conception système par les tests système, etc. En Agile, le test est continu, intégré à chaque itération plutôt que reporté en fin de cycle.</p>
+
+      <h3>Les quatre niveaux de test</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Niveau</th><th>Objectif</th><th>Qui l'exécute généralement</th></tr>
+        <tr><td>Test de composant</td><td>Vérifier une unité de code isolée</td><td>Développeur</td></tr>
+        <tr><td>Test d'intégration</td><td>Vérifier les interactions entre composants</td><td>Développeur / testeur</td></tr>
+        <tr><td>Test système</td><td>Vérifier le système complet par rapport aux exigences</td><td>Équipe de test</td></tr>
+        <tr><td>Test d'acceptation</td><td>Valider que le système répond au besoin métier</td><td>Utilisateurs / product owner</td></tr>
+      </table></div>
+      <p>Ce découpage correspond exactement à ce que tu as pratiqué dans le cours QA (module 3) — seule la terminologie officielle change légèrement selon les sources ("test unitaire" en usage courant = "test de composant" au sens ISTQB).</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Question type examen</div>
+        <p><strong>Quel niveau de test a pour objectif principal de valider que le système répond au besoin métier réel, et non uniquement aux spécifications techniques ?</strong></p>
+        <ul class="qcm-opts">
+          <li><b>A.</b> Test de composant</li>
+          <li><b>B.</b> Test d'intégration</li>
+          <li><b>C.</b> Test système</li>
+          <li><b>D.</b> Test d'acceptation</li>
+        </ul>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Réponse : D.</strong> Le test d'acceptation valide l'aptitude du système à répondre au besoin métier — c'est la nuance qui le distingue du test système, focalisé sur la conformité aux exigences techniques.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m5"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m6">
+      <div class="mod-eyebrow">Chapitre 2 · Module 06</div>
+      <h2 class="mod-title">Types de test et maintenance</h2>
+      <p>Le syllabus classe les types de test selon quatre catégories, à ne pas confondre entre elles à l'examen :</p>
+      <div class="table-scroll"><table>
+        <tr><th>Catégorie</th><th>Question à laquelle elle répond</th><th>Exemple</th></tr>
+        <tr><td><strong>Fonctionnel</strong></td><td>Le système fait-il ce qu'il doit faire ?</td><td>Vérifier qu'une commande NovaCart se valide correctement</td></tr>
+        <tr><td><strong>Non-fonctionnel</strong></td><td>Comment le système le fait-il ?</td><td>Performance (k6), sécurité (OWASP ZAP), utilisabilité</td></tr>
+        <tr><td><strong>Boîte blanche</strong></td><td>Teste-t-on en connaissant la structure interne du code ?</td><td>Couverture de branches (module 9)</td></tr>
+        <tr><td><strong>Lié au changement</strong></td><td>Le changement a-t-il introduit une régression ?</td><td>Test de confirmation, test de régression</td></tr>
+      </table></div>
+
+      <p>Deux termes à distinguer précisément : le <strong>test de confirmation</strong> (re-tester exactement le cas qui avait échoué, pour vérifier que le correctif fonctionne) et le <strong>test de régression</strong> (re-tester d'autres fonctionnalités pour vérifier que le correctif n'a rien cassé ailleurs). Confondre les deux est une erreur fréquente sur l'examen.</p>
+
+      <h3>Le test de maintenance</h3>
+      <p>Il s'exécute sur un système déjà en production, suite à une modification, une migration, ou une mise hors service planifiée. L'<strong>analyse d'impact</strong> qui l'accompagne consiste à évaluer quelles parties du système existant sont susceptibles d'être affectées par le changement.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Question type examen</div>
+        <p><strong>Après la correction d'un bug sur le calcul du total d'une commande, l'équipe relance toute la suite de tests du module panier pour s'assurer que rien d'autre n'a été cassé. De quel type de test s'agit-il ?</strong></p>
+        <ul class="qcm-opts">
+          <li><b>A.</b> Test de confirmation</li>
+          <li><b>B.</b> Test de régression</li>
+          <li><b>C.</b> Test d'acceptation</li>
+          <li><b>D.</b> Test boîte blanche</li>
+        </ul>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Réponse : B.</strong> Relancer d'autres tests que celui qui avait initialement échoué, pour vérifier l'absence d'effet de bord, est la définition du test de régression. Re-tester uniquement le cas corrigé aurait été un test de confirmation.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m6"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ CHAPITRE 3 ============ -->
+    <div class="part-divider"><span class="part-tag">CHAPITRE 3</span><h2 class="part-title">Test statique</h2></div>
+    <p class="part-intro">Un chapitre court mais régulièrement source de questions faciles à rater si les types de revue sont mal mémorisés.</p>
+
+    <section class="module" id="m7">
+      <div class="mod-eyebrow">Chapitre 3 · Module 07</div>
+      <h2 class="mod-title">Revues et analyse statique</h2>
+      <p>Le <strong>test statique</strong> examine du contenu (code, exigences, documentation) sans l'exécuter — à l'opposé du test dynamique, qui exige une exécution réelle. Son avantage principal, martelé par le syllabus : détecter un défaut dès la phase d'exigences coûte incomparablement moins cher que de le détecter en production (principe 3, module 2).</p>
+
+      <h3>Les quatre types de revue, du plus informel au plus formel</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Type</th><th>Formalisme</th></tr>
+        <tr><td><strong>Revue informelle</strong></td><td>Aucun process défini — relecture par un collègue</td></tr>
+        <tr><td><strong>Walkthrough</strong></td><td>L'auteur présente son travail à un groupe, qui commente</td></tr>
+        <tr><td><strong>Revue technique</strong></td><td>Menée par des pairs, avec documentation, sans forcément la présence de l'auteur</td></tr>
+        <tr><td><strong>Inspection</strong></td><td>Le plus formel — rôles définis, métriques collectées, processus documenté</td></tr>
+      </table></div>
+
+      <p>L'<strong>analyse statique</strong> (au sens outillé) désigne des outils qui examinent le code sans l'exécuter — linters, analyseurs de complexité, détecteurs de code mort — pour repérer des anomalies avant même qu'un test dynamique ne soit écrit.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Question type examen</div>
+        <p><strong>Quel type de revue est caractérisé par des rôles formellement définis (modérateur, auteur, relecteurs) et la collecte de métriques ?</strong></p>
+        <ul class="qcm-opts">
+          <li><b>A.</b> Revue informelle</li>
+          <li><b>B.</b> Walkthrough</li>
+          <li><b>C.</b> Revue technique</li>
+          <li><b>D.</b> Inspection</li>
+        </ul>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Réponse : D.</strong> L'inspection est le type de revue le plus formel du syllabus, avec des rôles définis et des métriques collectées pour améliorer le processus lui-même.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m7"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ CHAPITRE 4 ============ -->
+    <div class="part-divider"><span class="part-tag">CHAPITRE 4</span><h2 class="part-title">Analyse et conception de test</h2></div>
+    <p class="part-intro">Le chapitre le plus technique — celui où tu as déjà le plus d'avance grâce au cours QA (module 4). Ici, on formalise ce que tu appliques déjà intuitivement.</p>
+
+    <section class="module" id="m8">
+      <div class="mod-eyebrow">Chapitre 4 · Module 08</div>
+      <h2 class="mod-title">Techniques boîte noire</h2>
+      <p>Les techniques boîte noire dérivent les cas de test des spécifications, sans regarder le code. Le syllabus en attend cinq précisément nommées :</p>
+      <div class="table-scroll"><table>
+        <tr><th>Technique</th><th>Principe</th></tr>
+        <tr><td><strong>Partitionnement en classes d'équivalence</strong></td><td>Regrouper les entrées qui devraient être traitées de façon identique, tester un représentant par classe</td></tr>
+        <tr><td><strong>Analyse des valeurs limites</strong></td><td>Tester aux bords de chaque classe d'équivalence — c'est là que les défauts se cachent le plus souvent</td></tr>
+        <tr><td><strong>Table de décision</strong></td><td>Tester toutes les combinaisons pertinentes de plusieurs conditions</td></tr>
+        <tr><td><strong>Test de transition d'état</strong></td><td>Tester les transitions valides et invalides entre les états d'un système</td></tr>
+        <tr><td><strong>Test de cas d'utilisation</strong></td><td>Tester des scénarios utilisateur complets, de bout en bout</td></tr>
+      </table></div>
+      <p>Ces cinq techniques ont chacune un module ou un exemple dédié dans le cours QA (module 4) — la nouveauté ici est purement terminologique : le syllabus attend le nom exact, pas juste la compréhension du principe.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Question type examen</div>
+        <p><strong>Un champ accepte un âge entre 18 et 65 ans inclus. Selon l'analyse des valeurs limites, quelles valeurs teste-t-on en priorité ?</strong></p>
+        <ul class="qcm-opts">
+          <li><b>A.</b> 0, 18, 65, 100</li>
+          <li><b>B.</b> 17, 18, 65, 66</li>
+          <li><b>C.</b> 40, 41, 42</li>
+          <li><b>D.</b> 18, 40, 65</li>
+        </ul>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Réponse : B.</strong> L'analyse des valeurs limites teste juste en dehors et juste sur chaque bord : 17 (invalide, juste sous la limite basse), 18 (valide, limite basse), 65 (valide, limite haute), 66 (invalide, juste au-dessus de la limite haute).</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m8"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m9">
+      <div class="mod-eyebrow">Chapitre 4 · Module 09</div>
+      <h2 class="mod-title">Techniques boîte blanche</h2>
+      <p>Les techniques boîte blanche s'appuient sur la structure interne du code — la couverture, en particulier. Le Foundation Level en attend deux, plus simples que ce qu'on trouve aux niveaux avancés :</p>
+      <div class="table-scroll"><table>
+        <tr><th>Technique</th><th>Ce qu'elle mesure</th></tr>
+        <tr><td><strong>Couverture d'instructions (statement coverage)</strong></td><td>Le pourcentage de lignes de code exécutées au moins une fois par la suite de tests</td></tr>
+        <tr><td><strong>Couverture de décisions (decision coverage)</strong></td><td>Le pourcentage de branches (chaque issue possible d'un <code>if</code>, par exemple) exécutées au moins une fois</td></tr>
+      </table></div>
+      <p>Point souvent testé à l'examen : une couverture de décisions à 100 % implique toujours une couverture d'instructions à 100 %, mais l'inverse est faux — on peut exécuter toutes les lignes sans jamais avoir testé la branche <code>else</code> d'un <code>if</code>, si cette branche ne contient qu'une ligne déjà couverte par un autre chemin.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Question type examen</div>
+        <p><strong>Une fonction contient un seul <code>if / else</code>. Un jeu de tests exécute uniquement la branche <code>if</code>. Quelle est la couverture de décisions obtenue ?</strong></p>
+        <ul class="qcm-opts">
+          <li><b>A.</b> 100 %</li>
+          <li><b>B.</b> 75 %</li>
+          <li><b>C.</b> 50 %</li>
+          <li><b>D.</b> 0 %</li>
+        </ul>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Réponse : C.</strong> Une seule des deux issues possibles (<code>if</code> vrai) a été exécutée sur les deux existantes (<code>if</code>/<code>else</code>) — soit 50 % de couverture de décisions.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m9"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m10">
+      <div class="mod-eyebrow">Chapitre 4 · Module 10</div>
+      <h2 class="mod-title">Expérience et collaboration</h2>
+      <p>Ces techniques s'appuient sur l'expérience et le jugement du testeur plutôt que sur une dérivation systématique des spécifications — précieuses quand la documentation est incomplète ou absente, ce qui arrive très souvent en réalité.</p>
+      <div class="table-scroll"><table>
+        <tr><th>Technique</th><th>Principe</th></tr>
+        <tr><td><strong>Devinette d'erreur (error guessing)</strong></td><td>S'appuyer sur l'expérience pour anticiper les erreurs typiques (champ vide, valeur négative, caractères spéciaux)</td></tr>
+        <tr><td><strong>Test exploratoire</strong></td><td>Concevoir et exécuter les tests simultanément, en apprenant du système au fur et à mesure — déjà pratiqué naturellement dès qu'on "essaie des choses" sur une application</td></tr>
+        <tr><td><strong>Test basé sur checklist</strong></td><td>Suivre une liste de points à vérifier, construite à partir de l'expérience ou de standards</td></tr>
+      </table></div>
+
+      <h3>Les techniques collaboratives</h3>
+      <p>Nouveauté du syllabus v4.0 par rapport aux versions précédentes : les techniques dites <strong>collaboratives</strong>, où toute l'équipe (pas seulement le testeur) participe à la conception des tests dès la définition du besoin — par exemple, le <strong>Collaborative User Story Writing</strong> et les <strong>Acceptance Criteria</strong> définis en groupe, qui recoupent directement le BDD déjà vu dans le cours QA (module 19).</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Question type examen</div>
+        <p><strong>Une testeuse teste une application sans plan de test écrit à l'avance, en adaptant ses prochains tests en fonction de ce qu'elle découvre à chaque étape. Quelle technique utilise-t-elle ?</strong></p>
+        <ul class="qcm-opts">
+          <li><b>A.</b> Test basé sur checklist</li>
+          <li><b>B.</b> Devinette d'erreur</li>
+          <li><b>C.</b> Test exploratoire</li>
+          <li><b>D.</b> Table de décision</li>
+        </ul>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Réponse : C.</strong> Concevoir et exécuter les tests en simultané, en s'adaptant à ce qui est découvert, est exactement la définition du test exploratoire.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m10"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ CHAPITRE 5 ============ -->
+    <div class="part-divider"><span class="part-tag">CHAPITRE 5</span><h2 class="part-title">Gérer les activités de test</h2></div>
+    <p class="part-intro">Le chapitre le plus "gestion de projet" du syllabus — utile aussi bien pour l'examen que pour comprendre le rôle d'un lead QA plus tard dans ta carrière.</p>
+
+    <section class="module" id="m11">
+      <div class="mod-eyebrow">Chapitre 5 · Module 11</div>
+      <h2 class="mod-title">Planification et estimation</h2>
+      <p>Le <strong>plan de test</strong> décrit la stratégie, la portée, les ressources et le calendrier des activités de test. Deux notions à bien distinguer pour l'examen :</p>
+      <div class="table-scroll"><table>
+        <tr><th>Notion</th><th>Répond à la question</th></tr>
+        <tr><td><strong>Critères d'entrée (entry criteria)</strong></td><td>Que faut-il avant de pouvoir commencer le test ? (environnement prêt, code livré, cas de test rédigés...)</td></tr>
+        <tr><td><strong>Critères de sortie (exit criteria)</strong></td><td>Quand peut-on considérer le test terminé ? (couverture atteinte, pas d'anomalie bloquante ouverte...)</td></tr>
+      </table></div>
+      <p>Les méthodes d'estimation les plus citées au syllabus : l'estimation <strong>basée sur des métriques</strong> (durée de campagnes similaires passées) et l'estimation <strong>basée sur l'expertise</strong> (avis d'experts, technique du Planning Poker en agile — qu'on retrouvera dans le cours Agile & Scrum).</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Question type examen</div>
+        <p><strong>"Aucune anomalie de sévérité critique ou majeure ne doit rester ouverte" est un exemple de :</strong></p>
+        <ul class="qcm-opts">
+          <li><b>A.</b> Critère d'entrée</li>
+          <li><b>B.</b> Critère de sortie</li>
+          <li><b>C.</b> Risque produit</li>
+          <li><b>D.</b> Testware</li>
+        </ul>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Réponse : B.</strong> C'est une condition qui détermine si le test peut être considéré comme terminé — un critère de sortie.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m11"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m12">
+      <div class="mod-eyebrow">Chapitre 5 · Module 12</div>
+      <h2 class="mod-title">Gestion des risques</h2>
+      <p>Le <strong>test basé sur les risques</strong> (risk-based testing) alloue l'effort de test proportionnellement au risque — principe déjà vu dans le cours QA (module 5), reformulé ici avec la distinction officielle entre deux catégories de risque :</p>
+      <div class="table-scroll"><table>
+        <tr><th>Type de risque</th><th>Exemple</th></tr>
+        <tr><td><strong>Risque produit</strong></td><td>Le logiciel lui-même pourrait échouer d'une façon qui nuit à l'utilisateur — ex. un calcul de total faux sur NovaCart</td></tr>
+        <tr><td><strong>Risque projet</strong></td><td>Le projet pourrait échouer à atteindre ses objectifs — ex. retard, sous-effectif, environnement de test indisponible</td></tr>
+      </table></div>
+      <p>Le niveau de risque s'évalue généralement comme le produit de la <strong>probabilité</strong> (à quel point le défaut est susceptible d'exister) et de l'<strong>impact</strong> (à quel point ses conséquences seraient graves si le défaut se manifestait) — plus ce produit est élevé, plus la zone concernée mérite d'effort de test.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Question type examen</div>
+        <p><strong>"L'environnement de test partagé avec une autre équipe pourrait ne pas être disponible à temps" est un exemple de :</strong></p>
+        <ul class="qcm-opts">
+          <li><b>A.</b> Risque produit</li>
+          <li><b>B.</b> Risque projet</li>
+          <li><b>C.</b> Défaut</li>
+          <li><b>D.</b> Critère de sortie</li>
+        </ul>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Réponse : B.</strong> Ce risque menace le bon déroulement du projet (planning, ressources), pas la qualité du logiciel lui-même — c'est un risque projet.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m12"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m13">
+      <div class="mod-eyebrow">Chapitre 5 · Module 13</div>
+      <h2 class="mod-title">Suivi et gestion des anomalies</h2>
+      <p>Le <strong>suivi de test</strong> (monitoring) collecte des métriques (cas exécutés, taux de réussite, couverture atteinte) pour alimenter le <strong>pilotage</strong> (control) — les décisions prises en réaction, comme reprioriser les tests restants ou alerter sur un retard.</p>
+
+      <h3>Sévérité et priorité — la distinction la plus testée du chapitre</h3>
+      <p>Déjà vue dans le cours QA (module 6), elle revient systématiquement à l'examen :</p>
+      <div class="table-scroll"><table>
+        <tr><th>Notion</th><th>Répond à</th><th>Qui la fixe généralement</th></tr>
+        <tr><td><strong>Sévérité</strong></td><td>Quel est l'impact technique/métier du défaut ?</td><td>Le testeur, de façon plutôt objective</td></tr>
+        <tr><td><strong>Priorité</strong></td><td>Dans quel ordre le corriger ?</td><td>Le product owner / chef de projet, selon le contexte</td></tr>
+      </table></div>
+      <p>Un défaut peut être de sévérité critique (le site plante) mais de priorité basse (sur une fonctionnalité rarement utilisée) — et inversement, un défaut mineur en sévérité (faute d'orthographe) peut avoir une priorité haute s'il apparaît sur la page d'accueil d'un client important.</p>
+
+      <p>La <strong>gestion de configuration</strong> assure que chaque version testée est identifiable de façon unique et reproductible — indispensable pour pouvoir dire "ce défaut a été trouvé sur la version 2.3.1" avec certitude.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Question type examen</div>
+        <p><strong>Un défaut fait planter l'application (sévérité critique), mais concerne une fonctionnalité expérimentale utilisée par 0,1 % des utilisateurs. L'équipe décide de le corriger dans deux sprints. Cette décision porte sur :</strong></p>
+        <ul class="qcm-opts">
+          <li><b>A.</b> La sévérité du défaut</li>
+          <li><b>B.</b> La priorité de correction</li>
+          <li><b>C.</b> Le risque projet</li>
+          <li><b>D.</b> Le critère d'entrée</li>
+        </ul>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Réponse : B.</strong> La sévérité (critique) reste inchangée — c'est l'ordre de traitement, la priorité, qui a été abaissé en tenant compte du contexte métier.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m13"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ CHAPITRE 6 ============ -->
+    <div class="part-divider"><span class="part-tag">CHAPITRE 6</span><h2 class="part-title">Outils de test</h2></div>
+    <p class="part-intro">Le chapitre le plus court du syllabus — et celui où tu as le plus d'avance grâce à ta pratique déjà réelle de Playwright, GitHub Actions et Postman.</p>
+
+    <section class="module" id="m14">
+      <div class="mod-eyebrow">Chapitre 6 · Module 14</div>
+      <h2 class="mod-title">Catégories d'outils</h2>
+      <p>Le syllabus classe les outils par ce qu'ils supportent, pas par leur nom commercial — l'examen demande de reconnaître la catégorie, pas de connaître un outil précis.</p>
+      <div class="table-scroll"><table>
+        <tr><th>Catégorie</th><th>Exemple pratiqué dans le cours QA</th></tr>
+        <tr><td>Gestion de test</td><td>Jira (module 22)</td></tr>
+        <tr><td>Exécution de test statique</td><td>Linters, analyseurs de code</td></tr>
+        <tr><td>Exécution de test / automatisation</td><td>Playwright (module 9)</td></tr>
+        <tr><td>Test de performance</td><td>k6 (module 21)</td></tr>
+        <tr><td>Test de sécurité</td><td>OWASP ZAP (module 24)</td></tr>
+        <tr><td>CI/CD</td><td>GitHub Actions (module 20, et le cours GitHub complet)</td></tr>
+      </table></div>
+
+      <h3>Bénéfices et risques de l'automatisation</h3>
+      <p>Le syllabus attend une vision nuancée, pas un enthousiasme aveugle : l'automatisation fait gagner du temps sur les tests répétitifs (régression) mais demande un investissement initial réel, peut créer un faux sentiment de sécurité si la couverture est mal comprise, et certains tests (exploratoires, utilisabilité) restent fondamentalement mieux adaptés à un testeur humain.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Question type examen</div>
+        <p><strong>Quel est un risque reconnu de l'automatisation des tests selon le syllabus ISTQB ?</strong></p>
+        <ul class="qcm-opts">
+          <li><b>A.</b> Elle rend le test exploratoire inutile</li>
+          <li><b>B.</b> Elle peut créer un faux sentiment de confiance si la couverture réelle est mal comprise</li>
+          <li><b>C.</b> Elle remplace entièrement le besoin de compétences en test</li>
+          <li><b>D.</b> Elle élimine tout risque de régression</li>
+        </ul>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Réponse : B.</strong> Une suite automatisée qui passe au vert peut donner une fausse impression de qualité si elle ne couvre en réalité qu'une partie limitée des cas — un risque explicitement cité par le syllabus.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m14"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ JOUR J ============ -->
+    <div class="part-divider"><span class="part-tag">JOUR J</span><h2 class="part-title">Passer à l'action</h2></div>
+    <p class="part-intro">Deux modules pour t'entraîner en conditions réelles, puis organiser ton passage à l'examen.</p>
+
+    <section class="module" id="m15">
+      <div class="mod-eyebrow">Jour J · Module 15</div>
+      <h2 class="mod-title">Examen blanc (20 questions)</h2>
+      <p>Vingt questions couvrant les six chapitres, dans un ordre mélangé — exactement comme le vrai examen. Donne-toi 30 minutes (la moitié du temps réel, pour deux fois moins de questions), puis vérifie tes réponses.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Question 1</div>
+        <p><strong>Quel principe du test explique qu'exécuter les mêmes tests en boucle finit par ne plus rien détecter de nouveau ?</strong></p>
+        <ul class="qcm-opts"><li><b>A.</b> Le paradoxe du pesticide</li><li><b>B.</b> Le regroupement des défauts</li><li><b>C.</b> L'absence de défaut n'est pas suffisante</li><li><b>D.</b> Tester dépend du contexte</li></ul>
+        <details><summary>Voir la correction</summary><div class="exercise-solution-body"><p><strong>A.</strong></p></div></details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Question 2</div>
+        <p><strong>Le test d'intégration vérifie principalement :</strong></p>
+        <ul class="qcm-opts"><li><b>A.</b> Une unité de code isolée</li><li><b>B.</b> Les interactions entre plusieurs composants</li><li><b>C.</b> Le besoin métier global</li><li><b>D.</b> La performance sous charge</li></ul>
+        <details><summary>Voir la correction</summary><div class="exercise-solution-body"><p><strong>B.</strong></p></div></details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Question 3</div>
+        <p><strong>Une inspection se distingue d'un walkthrough principalement par :</strong></p>
+        <ul class="qcm-opts"><li><b>A.</b> L'absence totale de documentation</li><li><b>B.</b> Des rôles formellement définis et la collecte de métriques</li><li><b>C.</b> Le fait qu'elle soit toujours automatisée</li><li><b>D.</b> Le fait qu'elle remplace le test dynamique</li></ul>
+        <details><summary>Voir la correction</summary><div class="exercise-solution-body"><p><strong>B.</strong></p></div></details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Question 4</div>
+        <p><strong>Le partitionnement en classes d'équivalence permet de :</strong></p>
+        <ul class="qcm-opts"><li><b>A.</b> Tester toutes les valeurs possibles d'un champ</li><li><b>B.</b> Regrouper les entrées traitées de façon identique et n'en tester qu'un représentant par groupe</li><li><b>C.</b> Mesurer la couverture de code</li><li><b>D.</b> Prioriser les défauts</li></ul>
+        <details><summary>Voir la correction</summary><div class="exercise-solution-body"><p><strong>B.</strong></p></div></details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Question 5</div>
+        <p><strong>Une couverture d'instructions de 100 % garantit-elle une couverture de décisions de 100 % ?</strong></p>
+        <ul class="qcm-opts"><li><b>A.</b> Oui, toujours</li><li><b>B.</b> Non, ce n'est pas garanti</li><li><b>C.</b> Seulement en test boîte noire</li><li><b>D.</b> Seulement pour les tests d'acceptation</li></ul>
+        <details><summary>Voir la correction</summary><div class="exercise-solution-body"><p><strong>B.</strong> C'est même l'inverse qui est garanti : 100 % de décisions implique 100 % d'instructions, pas le contraire.</p></div></details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Question 6</div>
+        <p><strong>Un critère d'entrée pourrait être :</strong></p>
+        <ul class="qcm-opts"><li><b>A.</b> "Aucune anomalie critique ouverte"</li><li><b>B.</b> "L'environnement de test est configuré et accessible"</li><li><b>C.</b> "90 % des cas de test ont été exécutés"</li><li><b>D.</b> "Le rapport de synthèse est validé"</li></ul>
+        <details><summary>Voir la correction</summary><div class="exercise-solution-body"><p><strong>B.</strong> Les autres décrivent des conditions de fin (critères de sortie).</p></div></details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Question 7</div>
+        <p><strong>Le risque produit concerne :</strong></p>
+        <ul class="qcm-opts"><li><b>A.</b> Le logiciel lui-même et ses défaillances potentielles</li><li><b>B.</b> Le respect du planning du projet</li><li><b>C.</b> La disponibilité des ressources humaines</li><li><b>D.</b> Le budget alloué au test</li></ul>
+        <details><summary>Voir la correction</summary><div class="exercise-solution-body"><p><strong>A.</strong></p></div></details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Question 8</div>
+        <p><strong>La sévérité d'un défaut mesure principalement :</strong></p>
+        <ul class="qcm-opts"><li><b>A.</b> L'ordre dans lequel il sera corrigé</li><li><b>B.</b> Son impact technique et métier</li><li><b>C.</b> Le temps nécessaire pour le corriger</li><li><b>D.</b> Le nombre de personnes affectées</li></ul>
+        <details><summary>Voir la correction</summary><div class="exercise-solution-body"><p><strong>B.</strong></p></div></details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Question 9</div>
+        <p><strong>Le test exploratoire se caractérise par :</strong></p>
+        <ul class="qcm-opts"><li><b>A.</b> Des cas de test entièrement écrits avant l'exécution</li><li><b>B.</b> La conception et l'exécution simultanées des tests</li><li><b>C.</b> L'usage exclusif de tables de décision</li><li><b>D.</b> L'automatisation systématique</li></ul>
+        <details><summary>Voir la correction</summary><div class="exercise-solution-body"><p><strong>B.</strong></p></div></details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Question 10</div>
+        <p><strong>Un des huit engagements du code d'éthique ISTQB porte sur :</strong></p>
+        <ul class="qcm-opts"><li><b>A.</b> L'obligation d'utiliser des outils open source</li><li><b>B.</b> La confidentialité des informations obtenues durant le test</li><li><b>C.</b> L'obligation de coder en plus de tester</li><li><b>D.</b> Le choix du framework d'automatisation</li></ul>
+        <details><summary>Voir la correction</summary><div class="exercise-solution-body"><p><strong>B.</strong></p></div></details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Question 11</div>
+        <p><strong>Le testware inclut :</strong></p>
+        <ul class="qcm-opts"><li><b>A.</b> Uniquement le code source de l'application</li><li><b>B.</b> Le plan de test, les cas de test, les scripts, les rapports d'anomalie</li><li><b>C.</b> Uniquement les outils d'automatisation</li><li><b>D.</b> Les exigences métier seules</li></ul>
+        <details><summary>Voir la correction</summary><div class="exercise-solution-body"><p><strong>B.</strong></p></div></details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Question 12</div>
+        <p><strong>Une table de décision est particulièrement adaptée pour tester :</strong></p>
+        <ul class="qcm-opts"><li><b>A.</b> Un champ de saisie avec une seule règle simple</li><li><b>B.</b> Une combinaison de plusieurs conditions métier</li><li><b>C.</b> La performance sous charge</li><li><b>D.</b> La couverture du code source</li></ul>
+        <details><summary>Voir la correction</summary><div class="exercise-solution-body"><p><strong>B.</strong></p></div></details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Question 13</div>
+        <p><strong>Le test statique se distingue du test dynamique parce qu'il :</strong></p>
+        <ul class="qcm-opts"><li><b>A.</b> Nécessite d'exécuter le programme</li><li><b>B.</b> N'exécute jamais le programme</li><li><b>C.</b> Ne concerne que le code, jamais les exigences</li><li><b>D.</b> Remplace toujours le test dynamique</li></ul>
+        <details><summary>Voir la correction</summary><div class="exercise-solution-body"><p><strong>B.</strong></p></div></details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Question 14</div>
+        <p><strong>Un testeur découvre qu'un correctif censé résoudre un bug d'affichage a en fait introduit un nouveau problème sur une autre page. Quel principe du test cela illustre-t-il le mieux ?</strong></p>
+        <ul class="qcm-opts"><li><b>A.</b> L'absence de défaut n'est pas suffisante</li><li><b>B.</b> Le regroupement des défauts</li><li><b>C.</b> Tester montre la présence de défauts, pas leur absence</li><li><b>D.</b> Le paradoxe du pesticide</li></ul>
+        <details><summary>Voir la correction</summary><div class="exercise-solution-body"><p><strong>C.</strong> On avait "prouvé" que le bug initial était résolu, mais cela n'a jamais garanti l'absence d'autres défauts — exactement ce que dit le premier principe.</p></div></details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Question 15</div>
+        <p><strong>La technique de test de transition d'état est la plus adaptée pour tester :</strong></p>
+        <ul class="qcm-opts"><li><b>A.</b> Un formulaire de saisie de nom</li><li><b>B.</b> Le cycle de vie d'une commande (créée → payée → expédiée → livrée)</li><li><b>C.</b> Un calcul de moyenne</li><li><b>D.</b> Un fichier CSS</li></ul>
+        <details><summary>Voir la correction</summary><div class="exercise-solution-body"><p><strong>B.</strong> Un cycle d'états successifs est le cas d'usage typique de cette technique.</p></div></details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Question 16</div>
+        <p><strong>Quel document décrit typiquement la stratégie globale, la portée et le calendrier des activités de test d'un projet ?</strong></p>
+        <ul class="qcm-opts"><li><b>A.</b> Le rapport d'anomalie</li><li><b>B.</b> Le plan de test</li><li><b>C.</b> Le cas de test</li><li><b>D.</b> Le code source</li></ul>
+        <details><summary>Voir la correction</summary><div class="exercise-solution-body"><p><strong>B.</strong></p></div></details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Question 17</div>
+        <p><strong>Which of these is a recognized benefit of test automation, according to the syllabus?</strong></p>
+        <ul class="qcm-opts"><li><b>A.</b> It eliminates the need for any human testing skill</li><li><b>B.</b> It can execute repetitive regression tests faster and more consistently than manual testing</li><li><b>C.</b> It guarantees full test coverage</li><li><b>D.</b> It removes all project risk</li></ul>
+        <details><summary>Voir la correction</summary><div class="exercise-solution-body"><p><strong>B.</strong> Une partie de l'examen peut être proposée en anglais selon le centre — s'entraîner sur quelques questions dans cette langue est utile.</p></div></details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Question 18</div>
+        <p><strong>Un outil de gestion de test sert principalement à :</strong></p>
+        <ul class="qcm-opts"><li><b>A.</b> Exécuter automatiquement des scripts de test</li><li><b>B.</b> Planifier, suivre et documenter les activités de test (cas, exécutions, anomalies)</li><li><b>C.</b> Générer du code applicatif</li><li><b>D.</b> Mesurer la performance réseau</li></ul>
+        <details><summary>Voir la correction</summary><div class="exercise-solution-body"><p><strong>B.</strong></p></div></details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Question 19</div>
+        <p><strong>Dans le modèle en V, à quelle phase de développement le test système correspond-il le plus directement ?</strong></p>
+        <ul class="qcm-opts"><li><b>A.</b> Conception détaillée (code)</li><li><b>B.</b> Conception système</li><li><b>C.</b> Analyse des exigences métier</li><li><b>D.</b> Maintenance</li></ul>
+        <details><summary>Voir la correction</summary><div class="exercise-solution-body"><p><strong>B.</strong></p></div></details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Question 20</div>
+        <p><strong>Quel est le seuil de réussite de l'examen CTFL Foundation Level ?</strong></p>
+        <ul class="qcm-opts"><li><b>A.</b> 20 points sur 40</li><li><b>B.</b> 26 points sur 40</li><li><b>C.</b> 30 points sur 40</li><li><b>D.</b> 36 points sur 40</li></ul>
+        <details><summary>Voir la correction</summary><div class="exercise-solution-body"><p><strong>B.</strong> 26/40, soit 65 %.</p></div></details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m15"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m16">
+      <div class="mod-eyebrow">Jour J · Module 16</div>
+      <h2 class="mod-title">Stratégie et inscription</h2>
+      <p>Un score inférieur à 26/40 sur l'examen blanc n'est pas un signal d'alarme à ce stade — c'est un plan de révision qui te dit exactement quels chapitres relire. Repère le chapitre où tu as le plus d'erreurs et retourne au module correspondant avant de retenter.</p>
+
+      <h3>Stratégie le jour de l'examen</h3>
+      <ul>
+        <li>Réponds d'abord aux questions dont tu es sûr, marque celles qui te font hésiter et reviens dessus ensuite — 60 minutes pour 40 questions laissent une marge, ne bloque pas trop longtemps sur une seule.</li>
+        <li>Quand deux réponses semblent correctes, cherche celle qui colle le plus précisément à la <strong>définition officielle du glossaire</strong>, pas celle qui te semble juste "en pratique".</li>
+        <li>Méfie-toi des questions avec une négation ("lequel n'est PAS...") — relis-les deux fois, c'est l'erreur d'inattention la plus fréquente.</li>
+      </ul>
+
+      <h3>S'inscrire en France</h3>
+      <p>Le CFTL (Comité Français des Tests Logiciels) est l'organisme de référence en France, membre de l'ISTQB. L'inscription se fait via un centre de test agréé (souvent en ligne, surveillance à distance possible) ; certains organismes de formation — dont Open Classrooms, si tu confirmes cette voie — intègrent directement la préparation et parfois l'examen dans leur cursus.</p>
+
+      <div class="callout">
+        <div class="callout-label">Pour l'alternance</div>
+        <p>Décrocher le CTFL avant tes entretiens d'alternance change concrètement la conversation : ce n'est plus "je débute et j'apprends", c'est "je suis certifié ISTQB" — une ligne de CV qui se vérifie et qui rassure un recruteur sur ta sérieux d'engagement, exactement le point discuté au module 27 du cours QA.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Sur l'examen blanc du module 15, identifie le chapitre où tu as fait le plus d'erreurs. Note-le, puis relis en priorité les modules correspondants avant de retenter un examen blanc dans quelques jours.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Pas de correction unique — c'est un exercice d'auto-évaluation. Le signal de réussite : à la deuxième tentative, ton score sur ce chapitre précis doit progresser nettement.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m16"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ BONUS ============ -->
+    <div class="part-divider"><span class="part-tag">BONUS</span><h2 class="part-title">Hors syllabus officiel</h2></div>
+    <p class="part-intro">Pas au programme de l'examen CTFL — mais un vrai plus pour comprendre les specs et les tickets que tu recevras en poste.</p>
+
+    <section class="module" id="m17">
+      <div class="mod-eyebrow">Bonus · Module 17</div>
+      <h2 class="mod-title">Lire les diagrammes UML</h2>
+      <p><strong>UML</strong> (Unified Modeling Language) est une notation standardisée que les développeurs et analystes utilisent pour représenter visuellement un système avant ou pendant son développement. En tant que testeur, tu n'auras presque jamais à en <em>dessiner</em> — mais savoir en <em>lire</em> trois types précis te fait gagner un temps considérable pour comprendre une fonctionnalité avant de concevoir tes tests.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Diagramme</th><th>Ce qu'il montre</th><th>Utilité directe en test</th></tr>
+        <tr><td><strong>Cas d'utilisation</strong><br>(use case)</td><td>Les acteurs (utilisateurs, systèmes externes) et les actions qu'ils peuvent déclencher</td><td>Base directe du <strong>test de cas d'utilisation</strong> (module 08) — chaque cas devient un scénario de bout en bout à tester</td></tr>
+        <tr><td><strong>Séquence</strong><br>(sequence)</td><td>L'ordre chronologique des échanges entre plusieurs objets ou systèmes</td><td>Comprendre l'ordre exact des appels avant de tester une API ou une intégration (utile aussi pour le cours API Avancé)</td></tr>
+        <tr><td><strong>État-transition</strong><br>(state machine)</td><td>Les états possibles d'un objet et les transitions valides entre eux</td><td>Base directe du <strong>test de transition d'état</strong> (module 08) — chaque flèche est une transition à tester, valide ou invalide</td></tr>
+      </table></div>
+
+      <h3>Exemple : le diagramme d'état d'une commande</h3>
+      <p>Imagine une commande e-commerce avec quatre états : <code>Panier</code> → <code>Validée</code> → <code>Payée</code> → <code>Expédiée</code>. Un diagramme d'état représente chaque état comme une bulle, et chaque transition possible comme une flèche entre deux bulles (par exemple <code>Panier → Validée</code> quand le client clique sur "Commander").</p>
+      <p>C'est exactement la matière première du test de transition d'état : pour chaque flèche du diagramme, un cas de test vérifie qu'elle fonctionne (transition valide) ; et pour chaque flèche <em>absente</em> mais qu'un utilisateur pourrait tenter malgré tout — comme passer directement de <code>Panier</code> à <code>Expédiée</code> sans paiement — un cas de test vérifie que le système la refuse bien (transition invalide).</p>
+
+      <div class="callout">
+        <div class="callout-label">Où tu croiseras ça en poste</div>
+        <p>Un diagramme de séquence ou d'état apparaît souvent en pièce jointe d'un ticket Jira, dans une spec fonctionnelle, ou au tableau pendant un refinement Agile (cours Agile &amp; Scrum, cérémonie de refinement). Tu n'as pas besoin de le produire — juste de le lire assez vite pour identifier les scénarios à tester, y compris ceux que le diagramme ne montre pas explicitement (les transitions invalides).</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Reprends l'exemple <code>Panier → Validée → Payée → Expédiée</code>. Liste trois transitions <strong>invalides</strong> (des passages d'état qui ne devraient jamais être possibles) que tu testerais pour t'assurer que le système les bloque bien.</p>
+        <details>
+          <summary>Voir des exemples de réponse</summary>
+          <div class="exercise-solution-body">
+            <p>Quelques exemples possibles : <code>Panier → Payée</code> (sauter la validation), <code>Panier → Expédiée</code> (sauter validation et paiement), <code>Expédiée → Panier</code> (revenir en arrière après expédition), ou re-déclencher <code>Validée → Payée</code> deux fois sur la même commande (paiement en double). L'idée est la même à chaque fois : tester ce que le diagramme <em>ne montre pas</em> comme flèche, pas seulement ce qu'il montre.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m17"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <div class="footer-note">
+      <p>Cours rédigé comme compagnon des cours "Qualité Logicielle Automatisée", "SQL pour la Qualité Logicielle" et "GitHub pour la Qualité Logicielle" — structure fidèle au syllabus officiel CTFL v4.0 (chapitres, format d'examen 40 questions / 60 min / seuil 26 points). Coût et modalités d'inscription donnés à titre indicatif pour la France en 2026 ; vérifie le tarif exact auprès du CFTL ou de ton centre d'examen au moment de t'inscrire. Le suivi de progression (cases à cocher) est enregistré uniquement dans ce navigateur.</p>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'istqb-course-progress-v1';
+  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','m15','m16','m17'];
+
+  function loadDone(){
+    try{ var raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : {}; }catch(e){ return {}; }
+  }
+  function saveDone(done){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(done)); }catch(e){} }
+  var done = loadDone();
+
+  function render(){
+    var count = 0;
+    ids.forEach(function(id){
+      var isDone = !!done[id];
+      if(isDone) count++;
+      var navCheck = document.querySelector('[data-modcheck="'+id+'"]');
+      if(navCheck) navCheck.setAttribute('data-done', isDone ? 'true' : 'false');
+      var toggle = document.querySelector('[data-toggle="'+id+'"]');
+      if(toggle) toggle.setAttribute('data-done', isDone ? 'true' : 'false');
+    });
+    var countEl = document.getElementById('progress-count');
+    var fillEl = document.getElementById('progress-fill');
+    if(countEl) countEl.textContent = String(count);
+    if(fillEl) fillEl.style.width = (count / ids.length * 100) + '%';
+  }
+  function toggle(id){ done[id] = !done[id]; saveDone(done); render(); }
+
+  ids.forEach(function(id){
+    var navCheck = document.querySelector('[data-modcheck="'+id+'"]');
+    if(navCheck){ navCheck.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); toggle(id); }); }
+    var btn = document.querySelector('[data-toggle="'+id+'"]');
+    if(btn){ btn.addEventListener('click', function(){ toggle(id); }); }
+  });
+  render();
+
+  var sections = ids.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+  var navLinks = {};
+  ids.forEach(function(id){ var l = document.querySelector('.nav-link[data-id="'+id+'"]'); if(l) navLinks[id] = l; });
+
+  if('IntersectionObserver' in window){
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var id = entry.target.id;
+        var link = navLinks[id];
+        if(!link) return;
+        if(entry.isIntersecting){
+          Object.keys(navLinks).forEach(function(k){ navLinks[k].classList.remove('active'); });
+          link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+    sections.forEach(function(s){ observer.observe(s); });
+  }
+})();
+</script>
