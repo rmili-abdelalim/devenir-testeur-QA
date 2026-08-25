@@ -9,6 +9,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
+    --bg:#F4F6FE; --surface:#FFFFFF; --surface-2:#ECF0FC; --border:#DDE3F7; --border-strong:#C2CBED;
+    --text:#161B33; --text-dim:#4B527A; --text-faint:#7B82AA;
+    --accent:#3452E0; --accent-strong:#2540C4; --accent-tint:#E7ECFC;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#05070D; --surface:#0E1424; --surface-2:#141B30; --border:#212A47; --border-strong:#31406B;
+      --text:#EEF1FA; --text-dim:#A6AFCC; --text-faint:#67709A;
+      --accent:#4C6FFF; --accent-strong:#8FA6FF; --accent-tint:#161F42;
+    }
+  }
+  :root[data-theme="dark"]{
     --bg:#05070D; --surface:#0E1424; --surface-2:#141B30; --border:#212A47; --border-strong:#31406B;
     --text:#EEF1FA; --text-dim:#A6AFCC; --text-faint:#67709A;
     --accent:#4C6FFF; --accent-strong:#8FA6FF; --accent-tint:#161F42;
@@ -51,9 +63,68 @@
   .row-arrow{flex:0 0 auto; color:var(--text-faint); display:flex; margin-top:6px;}
 
   .footer-note{margin-top:56px; padding-top:24px; border-top:1px solid var(--border); color:var(--text-faint); font-size:12.5px;}
+
+  .theme-toggle{
+    position:fixed; top:18px; right:18px; z-index:60;
+    width:38px; height:38px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--surface); color:var(--text-dim);
+    border:1px solid var(--border-strong);
+    cursor:pointer; padding:0;
+    box-shadow:0 1px 2px rgba(0,0,0,0.08), 0 6px 16px -10px rgba(0,0,0,0.35);
+    transition:color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  }
+  .theme-toggle:hover{color:var(--accent-strong); border-color:var(--accent-strong); transform:translateY(-1px);}
+  .theme-toggle svg{display:block;}
+  .theme-toggle .theme-icon-sun{display:none;}
+  .theme-toggle .theme-icon-moon{display:block;}
+  .theme-toggle.is-dark .theme-icon-sun{display:block;}
+  .theme-toggle.is-dark .theme-icon-moon{display:none;}
+  @media (max-width:640px){ .theme-toggle{top:12px; right:12px; width:34px; height:34px;} }
 </style>
 </head>
 <body>
+<button id="theme-toggle" class="theme-toggle" type="button" aria-label="Basculer entre mode clair et mode sombre" title="Mode clair / sombre">
+  <svg class="theme-icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  <svg class="theme-icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+</button>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'qa-theme-pref';
+  var root = document.documentElement;
+  var btn = document.getElementById('theme-toggle');
+  if(!btn) return;
+  function systemPrefersDark(){
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  function effectiveTheme(){
+    var explicit = root.getAttribute('data-theme');
+    if(explicit === 'dark' || explicit === 'light') return explicit;
+    return systemPrefersDark() ? 'dark' : 'light';
+  }
+  function updateIcon(){
+    btn.classList.toggle('is-dark', effectiveTheme() === 'dark');
+  }
+  try{
+    var stored = localStorage.getItem(STORAGE_KEY);
+    if(stored === 'dark' || stored === 'light'){ root.setAttribute('data-theme', stored); }
+  }catch(e){}
+  updateIcon();
+  btn.addEventListener('click', function(){
+    var next = effectiveTheme() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try{ localStorage.setItem(STORAGE_KEY, next); }catch(e){}
+    updateIcon();
+  });
+  if(window.matchMedia){
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(){
+      if(!root.getAttribute('data-theme')) updateIcon();
+    });
+  }
+})();
+</script>
+
 
 <div class="wrap">
   <div class="eyebrow-row">
