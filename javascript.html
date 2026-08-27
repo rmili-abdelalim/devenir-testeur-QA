@@ -50,6 +50,11 @@
   .progress-fill{height:100%; width:0%; background:var(--accent); transition:width 0.35s ease;}
   .nav-part-label{font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-faint); margin:18px 0 8px;}
   .nav-list{list-style:none; margin:0; padding:0;}
+  .nav-part-label{cursor:pointer; user-select:none; display:flex; align-items:center; justify-content:space-between; gap:6px;}
+  .nav-part-chevron{width:11px; height:11px; flex:none; transition:transform .18s ease; opacity:.55;}
+  .nav-part-label.is-collapsed .nav-part-chevron{transform:rotate(-90deg);}
+  .nav-list{overflow:hidden; transition:max-height .22s ease;}
+  .nav-list.is-collapsed{max-height:0 !important; margin:0; padding:0;}
   .nav-item{margin-bottom:1px;}
   .nav-link{display:flex; align-items:center; gap:9px; padding:6px 8px; border-radius:6px; color:var(--text-dim); text-decoration:none; font-size:13.5px; line-height:1.35; border:1px solid transparent;}
   .nav-link:hover{background:var(--surface-2); color:var(--text);}
@@ -1460,5 +1465,37 @@ afficherCandidatures();
 
   initConsolePlaygrounds();
   initDomPlaygrounds();
+})();
+</script>
+
+<script>
+(function(){
+  var labels = document.querySelectorAll('.nav-part-label');
+  labels.forEach(function(label){
+    var list = label.nextElementSibling;
+    if(!list || !list.classList || !list.classList.contains('nav-list')) return;
+    var chevron = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    chevron.setAttribute('class','nav-part-chevron');
+    chevron.setAttribute('viewBox','0 0 24 24');
+    chevron.setAttribute('fill','none');
+    chevron.setAttribute('stroke','currentColor');
+    chevron.setAttribute('stroke-width','2.2');
+    chevron.setAttribute('stroke-linecap','round');
+    chevron.setAttribute('stroke-linejoin','round');
+    var path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d','M6 9l6 6 6-6');
+    chevron.appendChild(path);
+    label.appendChild(chevron);
+
+    list.style.maxHeight = list.scrollHeight + 'px';
+
+    label.addEventListener('click', function(){
+      var collapsed = label.classList.toggle('is-collapsed');
+      list.classList.toggle('is-collapsed', collapsed);
+      if(!collapsed){
+        list.style.maxHeight = list.scrollHeight + 'px';
+      }
+    });
+  });
 })();
 </script>
