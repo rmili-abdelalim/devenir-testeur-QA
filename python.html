@@ -261,10 +261,10 @@
       <span class="brand-mark">PY</span>
       <span class="brand-name">Python pour la<br>Qualité Logicielle</span>
     </div>
-    <p class="tagline">Les bases du langage, la pratique de pytest, et des projets guidés par domaine (web, data, ML, jeu vidéo, cybersécurité)</p>
+    <p class="tagline">Les bases du langage, la pratique de pytest, des projets guidés par domaine, et le Python avancé (décorateurs, generators, context managers)</p>
 
     <div class="progress-wrap">
-      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/24</span></div>
+      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/27</span></div>
       <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
     </div>
 
@@ -315,9 +315,16 @@
       <li class="nav-item"><a class="nav-link" data-id="m23" href="#m23"><span class="nav-check" data-modcheck="m23"></span><span class="nav-num">23</span> Cybersécurité avec Python</a></li>
     </ul>
 
-    <div class="nav-part-label">Partie 7 — Conclusion</div>
+    <div class="nav-part-label">Partie 7 — Python avancé</div>
     <ul class="nav-list">
-      <li class="nav-item"><a class="nav-link" data-id="m24" href="#m24"><span class="nav-check" data-modcheck="m24"></span><span class="nav-num">24</span> Feuille de route et prochaines étapes</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m24" href="#m24"><span class="nav-check" data-modcheck="m24"></span><span class="nav-num">24</span> Décorateurs et générateurs</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m25" href="#m25"><span class="nav-check" data-modcheck="m25"></span><span class="nav-num">25</span> Context managers et blocs with</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m26" href="#m26"><span class="nav-check" data-modcheck="m26"></span><span class="nav-num">26</span> Type hints et logging</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 8 — Conclusion</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m27" href="#m27"><span class="nav-check" data-modcheck="m27"></span><span class="nav-num">27</span> Feuille de route et prochaines étapes</a></li>
     </ul>
   </nav>
 
@@ -325,12 +332,12 @@
     <header class="doc-header">
       <div class="eyebrow">Cours autoportant · Compagnon du cours QA</div>
       <h1 class="doc-title">Python pour la Qualité Logicielle</h1>
-      <p class="doc-lede">Les bases du langage utilisées dans tout le reste du parcours : la syntaxe, les structures de données, les fonctions, jusqu'aux notions dont tu auras besoin pour écrire tes premiers tests Playwright — puis la ligne de commande, la résolution de problèmes, pytest en profondeur, et des projets guidés par domaine (web, data, machine learning, mobile/jeu vidéo, cybersécurité). Chaque notion a son exemple exécutable, et chaque module se termine par un exercice corrigé.</p>
+      <p class="doc-lede">Les bases du langage utilisées dans tout le reste du parcours : la syntaxe, les structures de données, les fonctions, jusqu'aux notions dont tu auras besoin pour écrire tes premiers tests Playwright — puis la ligne de commande, la résolution de problèmes, pytest en profondeur, des projets guidés par domaine (web, data, machine learning, mobile/jeu vidéo, cybersécurité), et enfin les outils du Python "avancé" — décorateurs, générateurs, context managers, type hints, logging. Chaque notion a son exemple exécutable, et chaque module se termine par un exercice corrigé.</p>
       <div class="stat-row">
-        <span class="stat-chip"><b>24</b> modules</span>
-        <span class="stat-chip"><b>7</b> parties : bases → réutilisable → robuste → automatisation → compétences → projets → conclusion</span>
+        <span class="stat-chip"><b>27</b> modules</span>
+        <span class="stat-chip"><b>8</b> parties : bases → réutilisable → robuste → automatisation → compétences → projets → avancé → conclusion</span>
         <span class="stat-chip">Version : <b>Python 3.11+</b></span>
-        <span class="stat-chip"><b>24</b> exercices corrigés</span>
+        <span class="stat-chip"><b>27</b> exercices corrigés</span>
       </div>
     </header>
 
@@ -2701,12 +2708,310 @@ def inscrire_client(mot_de_passe):
   <button class="done-toggle" data-toggle="m23"><span class="box"></span> Marquer ce module comme terminé</button>
 </section>
 
-<div class="part-divider"><span class="part-tag">PARTIE 7</span><h2 class="part-title">Conclusion</h2></div>
-<p class="part-intro">Un point d'arrivée, et des pistes pour la suite.</p>
+<div class="part-divider"><span class="part-tag">PARTIE 7</span><h2 class="part-title">Python avancé</h2></div>
+<p class="part-intro">Des outils qu'on croise partout dans du code Python écrit sérieusement — et dans pytest lui-même.</p>
 
 <!-- ============ MODULE m24 ============ -->
 <section class="module" id="m24">
   <div class="mod-eyebrow">Partie 7 · Module 24</div>
+  <h2 class="mod-title">Décorateurs et générateurs</h2>
+  <p>Deux outils qu'on croise partout dans du code Python "adulte" — y compris dans pytest, dont plusieurs mécanismes (<code>@pytest.fixture</code>, <code>@pytest.mark.parametrize</code>) sont eux-mêmes des décorateurs. Comprendre comment ils fonctionnent démystifie une bonne partie de ce que tu utilises déjà sans le savoir.</p>
+
+  <h3>Les décorateurs : modifier une fonction sans toucher son code</h3>
+  <p>En Python, une fonction est un objet comme un autre : on peut la stocker dans une variable, la passer en argument, ou en créer une nouvelle qui en "enveloppe" une autre. Un <strong>décorateur</strong> est exactement ça — une fonction qui prend une fonction en entrée et renvoie une nouvelle fonction, généralement pour ajouter un comportement autour de l'originale sans modifier son code.</p>
+
+  <p class="code-label">Un décorateur qui chronomètre une fonction</p>
+  <pre>import time
+from functools import wraps
+
+def chronometre(fonction):
+    @wraps(fonction)
+    def enveloppe(*args, **kwargs):
+        debut = time.time()
+        resultat = fonction(*args, **kwargs)
+        duree = time.time() - debut
+        print(f"{fonction.__name__} a pris {duree:.3f}s")
+        return resultat
+    return enveloppe
+
+@chronometre
+def calculer_total_panier(panier):
+    return sum(article["prix"] * article["quantite"] for article in panier)</pre>
+  <p>La syntaxe <code>@chronometre</code> au-dessus de <code>calculer_total_panier</code> est un raccourci pour <code>calculer_total_panier = chronometre(calculer_total_panier)</code> : à chaque appel, c'est en réalité <code>enveloppe</code> qui s'exécute, et elle appelle la fonction d'origine au milieu de son propre travail (ici, avant et après avoir mesuré le temps écoulé).</p>
+
+  <div class="callout">
+    <div class="callout-label">Pourquoi <code>@wraps(fonction)</code> ?</div>
+    <p>Sans cette ligne, la fonction décorée "perd" son identité : <code>calculer_total_panier.__name__</code> renverrait <code>"enveloppe"</code> au lieu de <code>"calculer_total_panier"</code>, ce qui complique le débogage et casse la documentation générée automatiquement. <code>@wraps</code>, fourni par le module standard <code>functools</code>, recopie ces métadonnées sur la fonction enveloppante. C'est un détail facile à oublier, mais qu'on retrouve dans quasiment tout décorateur écrit sérieusement.</p>
+  </div>
+
+  <h3>Générateurs : produire des valeurs une par une avec <code>yield</code></h3>
+  <p>Une fonction classique calcule un résultat et le renvoie avec <code>return</code>, une seule fois. Une fonction qui contient <code>yield</code> devient un <strong>générateur</strong> : au lieu de renvoyer une valeur et de s'arrêter, elle "met en pause" à chaque <code>yield</code> et reprend exactement où elle en était à l'appel suivant. C'est utile pour parcourir de grandes quantités de données sans toutes les charger en mémoire d'un coup.</p>
+
+  <p class="code-label">Paginer les commandes NovaCart sans tout charger en mémoire</p>
+  <pre>def pages_de_commandes(commandes, taille_page=50):
+    for debut in range(0, len(commandes), taille_page):
+        yield commandes[debut:debut + taille_page]
+
+for page in pages_de_commandes(toutes_les_commandes, taille_page=50):
+    traiter_page(page)</pre>
+  <p>À chaque tour de la boucle <code>for</code>, Python redemande une valeur au générateur, qui reprend son exécution juste après le <code>yield</code> précédent. Contrairement à une fonction qui renverrait une liste complète de pages, rien n'est calculé avant que la valeur suivante ne soit réellement demandée — c'est ce qu'on appelle l'évaluation <strong>paresseuse</strong> ("lazy").</p>
+
+  <p class="code-label">Expression génératrice — la version compacte d'une compréhension</p>
+  <pre># Compréhension de liste : calcule et stocke TOUT immédiatement
+totaux = [c["prix"] * c["quantite"] for c in commandes]
+
+# Expression génératrice : ne calcule qu'au fur et à mesure
+totaux = (c["prix"] * c["quantite"] for c in commandes)
+print(sum(totaux))  # sum() consomme le générateur valeur par valeur</pre>
+  <p>Le module standard <code>itertools</code> fournit des outils prêts à l'emploi pour travailler avec ce genre de séquences, sans jamais tout charger en mémoire.</p>
+
+  <p class="code-label">itertools.chain — enchaîner plusieurs listes de clients</p>
+  <pre>import itertools
+
+clients_paris = ["Clémence", "Yanis"]
+clients_lyon = ["Farid", "Inès"]
+
+for client in itertools.chain(clients_paris, clients_lyon):
+    print(client)
+# Clémence
+# Yanis
+# Farid
+# Inès</pre>
+
+  <h3>Le lien avec la QA</h3>
+  <p>Un décorateur de type "réessayer en cas d'échec" est exactement le mécanisme derrière certaines stratégies de gestion des <strong>tests flaky</strong> (des tests instables qui échouent parfois sans changement de code). Et les générateurs deviennent précieux dès qu'un test doit parcourir un très gros jeu de données — un export de logs, un fichier CSV volumineux — sans faire exploser la mémoire de la machine qui fait tourner la suite de tests.</p>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>Écris un décorateur <code>reessayer(nombre_tentatives)</code> — qui prend un paramètre — capable de ré-exécuter une fonction jusqu'à <code>nombre_tentatives</code> fois si elle lève une exception, avant de laisser l'exception remonter au dernier échec. Applique-le à une fonction <code>appeler_api_novacart()</code> qui simule un appel réseau parfois instable (par exemple en levant une <code>ConnectionError</code> de façon aléatoire).</p>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre>import random
+from functools import wraps
+
+def reessayer(nombre_tentatives):
+    def decorateur(fonction):
+        @wraps(fonction)
+        def enveloppe(*args, **kwargs):
+            derniere_erreur = None
+            for tentative in range(1, nombre_tentatives + 1):
+                try:
+                    return fonction(*args, **kwargs)
+                except ConnectionError as erreur:
+                    derniere_erreur = erreur
+                    print(f"Tentative {tentative}/{nombre_tentatives} échouée : {erreur}")
+            raise derniere_erreur
+        return enveloppe
+    return decorateur
+
+@reessayer(nombre_tentatives=3)
+def appeler_api_novacart():
+    if random.random() < 0.7:
+        raise ConnectionError("Le serveur NovaCart n'a pas répondu.")
+    return {"statut": "ok"}</pre>
+        <p><code>reessayer(nombre_tentatives)</code> est un décorateur "avec paramètre" : il faut un niveau d'imbrication supplémentaire — une fonction qui renvoie un décorateur, qui lui-même renvoie l'enveloppe — pour que <code>nombre_tentatives</code> reste accessible à chaque appel. C'est le même principe qu'un décorateur simple, avec une couche de plus autour.</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m24"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+
+<!-- ============ MODULE m25 ============ -->
+<section class="module" id="m25">
+  <div class="mod-eyebrow">Partie 7 · Module 25</div>
+  <h2 class="mod-title">Context managers et blocs <code>with</code></h2>
+  <p>Tu utilises déjà <code>with open(...) as f:</code> depuis le module sur les fichiers. Ce module explique ce qui se passe réellement derrière ce mot-clé, et comment créer ton propre bloc <code>with</code> — une compétence qui éclaire aussi le fonctionnement des fixtures pytest vues au module 18.</p>
+
+  <h3>Ce que <code>with</code> garantit réellement</h3>
+  <p><code>with open("commandes.csv") as f:</code> ne se contente pas d'ouvrir un fichier : il garantit que <code>f.close()</code> sera appelé en sortie du bloc, <strong>même si une exception est levée à l'intérieur</strong>. C'est ce qu'on appelle un <strong>context manager</strong> — un objet qui définit explicitement ce qui doit se passer à l'entrée et à la sortie d'un bloc de code, peu importe comment on en sort.</p>
+
+  <p class="code-label">Sans with — le risque d'oublier de fermer</p>
+  <pre>f = open("commandes.csv")
+donnees = f.read()
+# Si une erreur se produit avant cette ligne, f.close() n'est jamais appelé
+f.close()</pre>
+  <p class="code-label">Avec with — la fermeture est garantie</p>
+  <pre>with open("commandes.csv") as f:
+    donnees = f.read()
+# f.close() est appelé automatiquement ici, erreur ou non</pre>
+
+  <h3>Créer son propre context manager avec une classe</h3>
+  <p>N'importe quel objet peut devenir utilisable avec <code>with</code> à condition de définir deux méthodes spéciales : <code>__enter__</code>, exécutée à l'entrée du bloc, et <code>__exit__</code>, exécutée à la sortie — y compris en cas d'exception.</p>
+
+  <p class="code-label">Une connexion NovaCart qui s'ouvre et se ferme proprement</p>
+  <pre>class ConnexionNovaCart:
+    def __enter__(self):
+        print("Connexion à la base NovaCart ouverte")
+        self.connexion = creer_connexion()
+        return self.connexion
+
+    def __exit__(self, type_erreur, valeur_erreur, traceback):
+        self.connexion.fermer()
+        print("Connexion à la base NovaCart fermée")
+        return False  # False : on ne "avale" pas l'exception, elle continue de remonter
+
+with ConnexionNovaCart() as connexion:
+    connexion.executer("SELECT * FROM commandes")</pre>
+  <p>Le retour <code>False</code> de <code>__exit__</code> indique à Python de laisser une éventuelle exception se propager normalement après la fermeture — c'est presque toujours ce qu'on veut : fermer proprement la ressource, sans pour autant cacher l'erreur.</p>
+
+  <h3>La version courte : <code>contextlib.contextmanager</code></h3>
+  <p>Écrire une classe complète pour un context manager simple est parfois lourd. Le module standard <code>contextlib</code> permet d'en écrire un à partir d'une simple fonction génératrice : tout ce qui précède le <code>yield</code> correspond à <code>__enter__</code>, tout ce qui le suit correspond à <code>__exit__</code>.</p>
+
+  <p class="code-label">Le même exemple, en version générateur</p>
+  <pre>from contextlib import contextmanager
+
+@contextmanager
+def connexion_novacart():
+    print("Connexion à la base NovaCart ouverte")
+    connexion = creer_connexion()
+    try:
+        yield connexion
+    finally:
+        connexion.fermer()
+        print("Connexion à la base NovaCart fermée")
+
+with connexion_novacart() as connexion:
+    connexion.executer("SELECT * FROM commandes")</pre>
+  <p>Le <code>try / finally</code> autour du <code>yield</code> joue le même rôle que <code>__exit__</code> : le code après <code>finally</code> s'exécute toujours, que le bloc <code>with</code> se soit terminé normalement ou par une exception.</p>
+
+  <div class="callout">
+    <div class="callout-label">Ça te rappelle quelque chose ?</div>
+    <p>C'est exactement le mécanisme derrière une fixture pytest qui utilise <code>yield</code> (module 18) : la partie avant <code>yield</code> est la préparation ("setup"), la partie après est le nettoyage ("teardown"). Une fixture pytest avec <code>yield</code> est, ni plus ni moins, un context manager déguisé.</p>
+  </div>
+
+  <h3>Le lien avec la QA</h3>
+  <p>Les context managers reviennent constamment dans des tests bien écrits : ouvrir puis fermer une connexion de test, créer puis supprimer un fichier temporaire, activer puis désactiver un mode "simulation" le temps d'un test. La fixture <code>tmp_path</code> de pytest, par exemple, s'appuie sur ce principe pour te fournir un dossier temporaire qui est automatiquement nettoyé après chaque test.</p>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>Écris un context manager <code>mesure_duree(nom_etape)</code>, avec <code>@contextmanager</code>, qui affiche le temps écoulé dans le bloc <code>with</code> une fois celui-ci terminé. Utilise-le pour mesurer le temps de traitement d'une liste de commandes NovaCart.</p>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre>import time
+from contextlib import contextmanager
+
+@contextmanager
+def mesure_duree(nom_etape):
+    debut = time.time()
+    try:
+        yield
+    finally:
+        duree = time.time() - debut
+        print(f"{nom_etape} : {duree:.3f}s")
+
+with mesure_duree("Traitement des commandes NovaCart"):
+    for commande in commandes:
+        traiter_commande(commande)</pre>
+        <p>Le <code>yield</code> ne renvoie rien ici (pas de <code>yield valeur</code>) parce qu'on n'a besoin d'aucun objet à récupérer avec <code>as</code> — seul l'effet de bord (l'affichage de la durée) nous intéresse. Le <code>finally</code> garantit que la durée s'affiche même si <code>traiter_commande</code> lève une exception au milieu de la boucle.</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m25"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+
+<!-- ============ MODULE m26 ============ -->
+<section class="module" id="m26">
+  <div class="mod-eyebrow">Partie 7 · Module 26</div>
+  <h2 class="mod-title">Type hints et logging pour du code professionnel</h2>
+  <p>Deux habitudes qui séparent souvent un script "qui marche" d'un code qu'une équipe peut relire, maintenir et déboguer sans perdre de temps : annoter les types, et journaliser proprement plutôt que semer des <code>print()</code> partout.</p>
+
+  <h3>Annoter son code avec des type hints</h3>
+  <p>Python reste un langage à typage dynamique : rien n'empêche techniquement d'appeler une fonction avec des types inattendus. Mais on peut <strong>documenter</strong> les types attendus directement dans la signature, avec les <strong>type hints</strong> — introduits au fil des versions du langage et aujourd'hui largement adoptés dans le code professionnel.</p>
+
+  <p class="code-label">Une fonction sans puis avec type hints</p>
+  <pre># Sans indication de type : on doit deviner ou aller lire le corps de la fonction
+def calculer_total(prix, quantite, remise):
+    return prix * quantite * (1 - remise)
+
+# Avec type hints : la signature dit tout, sans avoir à lire le code
+def calculer_total(prix: float, quantite: int, remise: float = 0.0) -> float:
+    return prix * quantite * (1 - remise)</pre>
+  <p>La syntaxe <code>nom: type</code> annote chaque paramètre, et <code>-> type</code> après les parenthèses annote la valeur renvoyée. Pour des structures plus riches, on utilise <code>list[str]</code>, <code>dict[str, float]</code>, ou <code>Optional[str]</code> (une valeur qui peut être <code>None</code>).</p>
+
+  <p class="code-label">Types plus riches sur une fonction NovaCart</p>
+  <pre>from typing import Optional
+
+def trouver_client(email: str, clients: list[dict]) -> Optional[dict]:
+    for client in clients:
+        if client["email"] == email:
+            return client
+    return None  # Optional[dict] : peut renvoyer un dict, ou rien</pre>
+
+  <div class="callout warn">
+    <div class="callout-label">Les type hints ne sont pas vérifiés à l'exécution</div>
+    <p>Un point souvent mal compris : écrire <code>quantite: int</code> n'empêche personne d'appeler la fonction avec <code>quantite="dix"</code> — Python ne lève aucune erreur de lui-même. Les type hints sont avant tout de la <strong>documentation exécutable</strong>, lue par les éditeurs de code pour l'autocomplétion, et par des outils d'analyse statique comme <strong>mypy</strong>, qui peuvent, eux, détecter ces incohérences avant l'exécution — typiquement dans une étape de CI dédiée, séparée des tests.</p>
+  </div>
+
+  <h3>Le module <code>logging</code>, une alternative sérieuse à <code>print</code></h3>
+  <p><code>print()</code> est parfait pour explorer rapidement un problème, mais pose problème dans un vrai projet : impossible de désactiver certains messages sans supprimer les lignes, aucune indication de gravité, aucune trace de l'heure ni du fichier d'origine. Le module standard <code>logging</code> résout ces trois problèmes.</p>
+
+  <p class="code-label">Configuration de base et niveaux de gravité</p>
+  <pre>import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+logger.debug("Détail technique, utile seulement en dévéloppement")
+logger.info("Commande NC-2026-00341 traitée avec succès")
+logger.warning("Stock du produit 'Câble USB-C' sous le seuil (3 restants)")
+logger.error("Échec du paiement pour la commande NC-2026-00342")</pre>
+  <p>Les niveaux — du moins grave au plus grave : <code>DEBUG</code>, <code>INFO</code>, <code>WARNING</code>, <code>ERROR</code>, <code>CRITICAL</code> — permettent de filtrer les messages sans toucher au code : avec <code>level=logging.WARNING</code>, seuls les messages <code>WARNING</code> et au-dessus s'affichent, ce qui rend le module <code>logging</code> aussi utile pour explorer un bug en détail que pour surveiller une application en production.</p>
+
+  <p class="code-label">Journaliser une erreur plutôt que la faire disparaître silencieusement</p>
+  <pre>def traiter_commande(commande):
+    try:
+        valider_stock(commande)
+        debiter_paiement(commande)
+    except StockInsuffisantError as erreur:
+        logger.warning(f"Stock insuffisant pour {commande['id']} : {erreur}")
+    except PaiementRefuseError as erreur:
+        logger.error(f"Paiement refusé pour {commande['id']} : {erreur}")
+        raise</pre>
+  <p><code>logger.getLogger(__name__)</code> nomme le logger d'après le fichier où il est défini : dans un projet avec plusieurs modules, les messages indiquent d'où ils viennent sans effort supplémentaire — un détail qui fait gagner un temps précieux quand un problème remonte d'un projet avec des dizaines de fichiers.</p>
+
+  <h3>Le lien avec la QA</h3>
+  <p>Une suite de tests qui échoue en pleine nuit sur un serveur d'intégration continue, sans personne pour la regarder tourner en direct, ne laisse que ses logs pour comprendre ce qui s'est passé. Une application (et une suite de tests) qui journalise correctement, avec les bons niveaux et des messages clairs, réduit drastiquement le temps nécessaire pour diagnostiquer un échec — c'est souvent la différence entre "comprendre le bug en cinq minutes" et "ne jamais réussir à le reproduire".</p>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>Reprends cette fonction, écrite avec des <code>print()</code> et sans aucune annotation de type, et réécris-la avec des type hints complets et le module <code>logging</code> (niveau <code>INFO</code> pour un succès, <code>WARNING</code> pour un stock insuffisant) :</p>
+    <pre>def appliquer_reduction(prix, pourcentage, stock):
+    if stock &lt;= 0:
+        print("Stock insuffisant")
+        return prix
+    print("Réduction appliquée")
+    return prix * (1 - pourcentage / 100)</pre>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre>import logging
+
+logger = logging.getLogger(__name__)
+
+def appliquer_reduction(prix: float, pourcentage: float, stock: int) -> float:
+    if stock &lt;= 0:
+        logger.warning("Stock insuffisant : réduction non appliquée")
+        return prix
+    logger.info(f"Réduction de {pourcentage}% appliquée")
+    return prix * (1 - pourcentage / 100)</pre>
+        <p>Les type hints (<code>float</code>, <code>int</code>) documentent immédiatement ce que la fonction attend, et les deux appels à <code>logger</code> remplacent les <code>print()</code> avec un niveau de gravité adapté à chaque situation — un stock insuffisant n'est pas une erreur bloquante mais mérite un <code>WARNING</code>, tandis que l'application réussie de la réduction est une information de routine (<code>INFO</code>).</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m26"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+
+<div class="part-divider"><span class="part-tag">PARTIE 8</span><h2 class="part-title">Conclusion</h2></div>
+<p class="part-intro">Un point d'arrivée, et des pistes pour la suite.</p>
+
+<!-- ============ MODULE m27 ============ -->
+<section class="module" id="m27">
+  <div class="mod-eyebrow">Partie 8 · Module 27</div>
   <h2 class="mod-title">Feuille de route et prochaines étapes</h2>
   <p>Regarde le chemin parcouru. Il y a quelques semaines ou quelques mois, <code>print("Hello, world!")</code> était peut-être la première ligne de Python que tu écrivais. Depuis, tu as manipulé des variables, des boucles, des fonctions, des fichiers, des dictionnaires imbriqués représentant des commandes NovaCart. Tu as touché aux tests automatisés, à Git, à SQL, à l'API, et tu viens de terminer trois projets guidés qui ressemblent, en plus petit, à ce qu'un vrai poste de testeur QA implique au quotidien. Ce n'est pas rien — et ça mérite d'être reconnu avant de regarder vers la suite.</p>
 
@@ -2750,7 +3055,7 @@ l'ISTQB Foundation pour voir si ça correspond à mes objectifs.</pre>
     </details>
   </div>
 
-  <button class="done-toggle" data-toggle="m24"><span class="box"></span> Marquer ce module comme terminé</button>
+  <button class="done-toggle" data-toggle="m27"><span class="box"></span> Marquer ce module comme terminé</button>
 </section>
 
     <div class="footer-note">
@@ -2763,7 +3068,7 @@ l'ISTQB Foundation pour voir si ça correspond à mes objectifs.</pre>
 <script>
 (function(){
   var STORAGE_KEY = 'python-course-progress-v1';
-  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','m15','m16','m17','m18','m19','m20','m21','m22','m23','m24'];
+  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','m15','m16','m17','m18','m19','m20','m21','m22','m23','m24','m25','m26','m27'];
 
   function loadDone(){
     try{
