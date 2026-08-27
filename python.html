@@ -261,10 +261,10 @@
       <span class="brand-mark">PY</span>
       <span class="brand-name">Python pour la<br>Qualité Logicielle</span>
     </div>
-    <p class="tagline">Les bases du langage, pour aborder Playwright et l'automatisation avec les idées claires</p>
+    <p class="tagline">Les bases du langage, la pratique de pytest, et des projets guidés par domaine (web, data, ML, jeu vidéo, cybersécurité)</p>
 
     <div class="progress-wrap">
-      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/14</span></div>
+      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/24</span></div>
       <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
     </div>
 
@@ -297,18 +297,40 @@
       <li class="nav-item"><a class="nav-link" data-id="m13" href="#m13"><span class="nav-check" data-modcheck="m13"></span><span class="nav-num">13</span> Programmation orientée objet</a></li>
       <li class="nav-item"><a class="nav-link" data-id="m14" href="#m14"><span class="nav-check" data-modcheck="m14"></span><span class="nav-num">14</span> Le pont vers pytest et Playwright</a></li>
     </ul>
+
+    <div class="nav-part-label">Partie 5 — Compétences complémentaires</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m15" href="#m15"><span class="nav-check" data-modcheck="m15"></span><span class="nav-num">15</span> La ligne de commande</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m16" href="#m16"><span class="nav-check" data-modcheck="m16"></span><span class="nav-num">16</span> Résoudre des problèmes avec Python</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m17" href="#m17"><span class="nav-check" data-modcheck="m17"></span><span class="nav-num">17</span> Structures de données et algorithmes</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m18" href="#m18"><span class="nav-check" data-modcheck="m18"></span><span class="nav-num">18</span> Tests avec pytest, en pratique</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 6 — Projets guidés, par domaine</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m19" href="#m19"><span class="nav-check" data-modcheck="m19"></span><span class="nav-num">19</span> Projets de développement web</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m20" href="#m20"><span class="nav-check" data-modcheck="m20"></span><span class="nav-num">20</span> Projets d'analyse de données</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m21" href="#m21"><span class="nav-check" data-modcheck="m21"></span><span class="nav-num">21</span> Projets Machine Learning &amp; IA</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m22" href="#m22"><span class="nav-check" data-modcheck="m22"></span><span class="nav-num">22</span> Projets mobile et jeu vidéo</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m23" href="#m23"><span class="nav-check" data-modcheck="m23"></span><span class="nav-num">23</span> Cybersécurité avec Python</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 7 — Conclusion</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m24" href="#m24"><span class="nav-check" data-modcheck="m24"></span><span class="nav-num">24</span> Feuille de route et prochaines étapes</a></li>
+    </ul>
   </nav>
 
   <main>
     <header class="doc-header">
       <div class="eyebrow">Cours autoportant · Compagnon du cours QA</div>
       <h1 class="doc-title">Python pour la Qualité Logicielle</h1>
-      <p class="doc-lede">Les bases du langage utilisées dans tout le reste du parcours : la syntaxe, les structures de données, les fonctions, jusqu'aux notions dont tu auras besoin pour écrire tes premiers tests Playwright. Chaque notion a son exemple exécutable, et chaque module se termine par un exercice corrigé.</p>
+      <p class="doc-lede">Les bases du langage utilisées dans tout le reste du parcours : la syntaxe, les structures de données, les fonctions, jusqu'aux notions dont tu auras besoin pour écrire tes premiers tests Playwright — puis la ligne de commande, la résolution de problèmes, pytest en profondeur, et des projets guidés par domaine (web, data, machine learning, mobile/jeu vidéo, cybersécurité). Chaque notion a son exemple exécutable, et chaque module se termine par un exercice corrigé.</p>
       <div class="stat-row">
-        <span class="stat-chip"><b>14</b> modules</span>
-        <span class="stat-chip"><b>4</b> parties : bases → réutilisable → robuste → automatisation</span>
+        <span class="stat-chip"><b>24</b> modules</span>
+        <span class="stat-chip"><b>7</b> parties : bases → réutilisable → robuste → automatisation → compétences → projets → conclusion</span>
         <span class="stat-chip">Version : <b>Python 3.11+</b></span>
-        <span class="stat-chip"><b>14</b> exercices corrigés</span>
+        <span class="stat-chip"><b>24</b> exercices corrigés</span>
       </div>
     </header>
 
@@ -1376,6 +1398,46 @@ with open("commandes.csv", "r", newline="") as f:
         <p><code>DictReader</code> renvoie systématiquement des chaînes de caractères, même pour des colonnes numériques — <code>ligne["montant"]</code> vaut la chaîne <code>"89.90"</code>, pas le nombre <code>89.90</code>. Il faut convertir explicitement avec <code>float()</code> avant tout calcul, sous peine de concaténer des textes au lieu d'additionner des nombres.</p>
       </div>
 
+      <h3>Expressions régulières avec re</h3>
+      <p>Certaines validations ne se résument pas à comparer des valeurs — il faut vérifier qu'un texte respecte un <em>motif</em> : un format de référence de commande, un code postal, un email. Le module <code>re</code>, intégré à Python, sert exactement à ça.</p>
+      <p class="code-label">Chercher un motif dans une chaîne</p>
+      <pre>import re
+
+texte = "Commande NC-2026-00123 expédiée le 12/03/2026"
+
+resultat = re.search(r"NC-\d{4}-\d{5}", texte)
+if resultat:
+    print(resultat.group())  # NC-2026-00123</pre>
+      <p><code>re.search()</code> cherche le motif n'importe où dans la chaîne et renvoie le premier trouvé. <code>re.match()</code> ne vérifie que le tout début de la chaîne — si l'identifiant de commande n'est pas en première position, <code>re.match()</code> renverra <code>None</code> là où <code>re.search()</code> le trouverait quand même.</p>
+      <p class="code-label">Extraire toutes les occurrences avec findall</p>
+      <pre>notes_livraison = """
+Client A : 75012 Paris
+Client B : 69003 Lyon
+Client C : 13001 Marseille
+"""
+
+codes_postaux = re.findall(r"\d{5}", notes_livraison)
+print(codes_postaux)  # ['75012', '69003', '13001']</pre>
+      <p>Les parenthèses créent des <strong>groupes de capture</strong> : elles permettent d'extraire une sous-partie précise du motif trouvé, plutôt que le texte entier.</p>
+      <p class="code-label">Valider et décomposer un identifiant de commande</p>
+      <pre>def extraire_annee_commande(reference):
+    resultat = re.match(r"NC-(\d{4})-(\d{5})", reference)
+    if resultat is None:
+        raise ValueError(f"Référence de commande invalide : {reference}")
+    annee, numero = resultat.groups()
+    return int(annee)
+
+print(extraire_annee_commande("NC-2026-00123"))  # 2026</pre>
+      <p>Enfin, <code>re.sub()</code> remplace toutes les occurrences d'un motif — utile pour anonymiser des données de test ou normaliser un format avant comparaison :</p>
+      <p class="code-label">Masquer les numéros de commande dans des logs</p>
+      <pre>log = "Erreur de paiement pour la commande NC-2026-00123"
+log_anonymise = re.sub(r"NC-\d{4}-\d{5}", "NC-XXXX-XXXXX", log)
+print(log_anonymise)  # Erreur de paiement pour la commande NC-XXXX-XXXXX</pre>
+      <div class="callout">
+        <div class="callout-label">Pas besoin de tout retenir par cœur</div>
+        <p>Les motifs regex sont denses à lire. En tant que testeur, l'essentiel est de reconnaître les briques courantes (<code>\d</code> pour un chiffre, <code>+</code> pour "une ou plusieurs fois", <code>{n}</code> pour "exactement n fois") et de savoir tester ton motif sur des exemples avant de l'utiliser dans une vérification automatisée.</p>
+      </div>
+
       <div class="exercise">
         <div class="exercise-label">Exercice</div>
         <p>En partant du fichier <code>commandes.csv</code> ci-dessus, écris une fonction <code>calculer_revenu_total(chemin_fichier)</code> qui lit le fichier, ne garde que les commandes dont le statut est <code>"payee"</code>, et renvoie la somme de leurs montants (en <code>float</code>).</p>
@@ -1464,6 +1526,47 @@ print(page_produit.obtenir_titre())
 page_produit.ajouter_au_panier()</pre>
 
       <p>Retiens la structure, pas les détails Playwright (ils seront couverts dans le cours dédié) : une classe par page, un constructeur qui reçoit l'objet de session, des méthodes nommées par intention (<code>ajouter_au_panier</code>, pas <code>clic_bouton_3</code>) plutôt que par implémentation. C'est ce qui rend une suite de tests lisible et maintenable sur la durée.</p>
+
+      <h3>Analyse et conception : passer d'un besoin à des classes</h3>
+      <p>Avant d'écrire une classe, il faut décider ce qu'elle représente. Une méthode simple, souvent suffisante au quotidien : dans l'énoncé du besoin, les <strong>noms</strong> deviennent généralement des candidats à devenir des classes, et les <strong>verbes</strong> associés à ces noms deviennent des candidats à devenir des méthodes.</p>
+      <p>On appelle aussi ça la <strong>responsabilité unique</strong> : une classe bien conçue fait une chose, et la fait bien. Si une classe <code>Commande</code> se met à gérer aussi l'envoi d'emails et le calcul de la TVA et la connexion à la base de données, elle devient difficile à comprendre, à tester et à faire évoluer sans tout casser. Pas besoin de connaître les grands principes de conception pour appliquer cette idée : à chaque fois qu'une classe grossit, se demander "est-ce que tout ça relève vraiment de la même responsabilité ?" suffit déjà à repérer les problèmes.</p>
+      <p class="code-label">De l'énoncé à la classe</p>
+      <pre>Besoin : "Un panier doit pouvoir ajouter un produit,
+le retirer, et calculer le total."
+
+Nom principal   → la classe : PanierNovaCart
+Verbes associés → les méthodes : ajouter_produit(), retirer_produit(), calculer_total()</pre>
+      <p>On construit la classe méthode par méthode, en partant de ce qu'elle doit stocker (son état) et de ce qu'elle doit faire (son comportement) :</p>
+      <p class="code-label">Conception pas à pas de PanierNovaCart</p>
+      <pre>class PanierNovaCart:
+    def __init__(self):
+        self.produits = []  # état : la liste des produits ajoutés
+
+    def ajouter_produit(self, produit):
+        self.produits.append(produit)
+
+    def retirer_produit(self, produit):
+        if produit in self.produits:
+            self.produits.remove(produit)
+
+    def calculer_total(self):
+        return sum(produit.prix for produit in self.produits)</pre>
+      <p>Chaque méthode correspond à exactement un verbe de l'énoncé de départ — c'est un bon signe que la classe est bien délimitée.</p>
+
+      <h3>L'héritage : réutiliser une classe existante</h3>
+      <p>Quand une nouvelle classe ressemble beaucoup à une classe existante, mais avec quelques attributs ou comportements en plus, l'héritage évite de tout réécrire. La nouvelle classe hérite de la classe de base et n'ajoute que ce qui la rend différente.</p>
+      <p class="code-label">ProduitNumerique hérite de Produit</p>
+      <pre>class ProduitNumerique(Produit):
+    def __init__(self, nom, prix, stock, taille_fichier_mo):
+        super().__init__(nom, prix, stock)  # réutilise __init__ de Produit
+        self.taille_fichier_mo = taille_fichier_mo
+
+    def duree_telechargement_estimee(self, debit_mo_par_s):
+        return self.taille_fichier_mo / debit_mo_par_s</pre>
+      <p><code>super().__init__(nom, prix, stock)</code> appelle le constructeur de <code>Produit</code> pour initialiser les attributs communs, avant d'ajouter l'attribut propre à <code>ProduitNumerique</code>. Résultat : un <code>ProduitNumerique</code> possède tout ce qu'un <code>Produit</code> possède, plus <code>taille_fichier_mo</code> et sa propre méthode.</p>
+      <pre>livre_numerique = ProduitNumerique("Guide QA débutant", 12.90, stock=999, taille_fichier_mo=8)
+print(livre_numerique)  # Produit(nom='Guide QA débutant', prix=12.9, stock=999) — __repr__ hérité de Produit
+print(livre_numerique.duree_telechargement_estimee(2))  # 4.0</pre>
 
       <div class="exercise">
         <div class="exercise-label">Exercice</div>
@@ -1591,6 +1694,1065 @@ def test_stock_insuffisant():
       <button class="done-toggle" data-toggle="m14"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
 
+<div class="part-divider"><span class="part-tag">PARTIE 5</span><h2 class="part-title">Compétences complémentaires</h2></div>
+<p class="part-intro">Des compétences transversales qui complètent le langage : la ligne de commande, une méthode pour résoudre des problèmes, les structures de données classiques, et pytest en profondeur.</p>
+
+<!-- ============ MODULE m15 ============ -->
+<section class="module" id="m15">
+  <div class="mod-eyebrow">Partie 5 · Module 15</div>
+  <h2 class="mod-title">La ligne de commande</h2>
+  <p>Jusqu'ici, tu as sans doute exécuté tes scripts Python depuis un éditeur (VS Code, PyCharm...) en cliquant sur un bouton "Run". C'est pratique pour apprendre, mais un testeur QA passe une bonne partie de sa journée dans un terminal : lancer une suite de tests, cloner un dépôt, installer une dépendance, inspecter des fichiers de logs. Ce module te donne les bases pour t'y sentir à l'aise.</p>
+
+  <h3>Se repérer dans les dossiers</h3>
+  <p>Le terminal (ou "invite de commandes", ou "console") est une fenêtre où tu tapes des commandes texte au lieu de cliquer sur des icônes. Trois commandes suffisent pour naviguer :</p>
+  <ul>
+    <li><code>pwd</code> ("print working directory") affiche le dossier dans lequel tu te trouves actuellement.</li>
+    <li><code>ls</code> (Mac/Linux) ou <code>dir</code> (Windows) liste les fichiers et sous-dossiers du dossier courant.</li>
+    <li><code>cd nom_du_dossier</code> ("change directory") te déplace dans un sous-dossier ; <code>cd ..</code> remonte d'un niveau.</li>
+  </ul>
+  <p class="code-label">Une session de navigation typique</p>
+  <pre>$ pwd
+/home/alex/projets
+
+$ ls
+novacart-tests    README.md    venv
+
+$ cd novacart-tests
+$ pwd
+/home/alex/projets/novacart-tests
+
+$ ls
+test_panier.py    test_commandes.py    conftest.py
+
+$ cd ..
+$ pwd
+/home/alex/projets</pre>
+  <p>Le <code>$</code> en début de ligne représente l'invite du terminal (le symbole exact varie) : tu ne le tapes pas, c'est le terminal qui l'affiche pour indiquer qu'il attend une commande.</p>
+
+  <h3>Lancer un script Python</h3>
+  <p>Une fois dans le bon dossier, on lance un script avec la commande <code>python</code> suivie du nom du fichier (sur certains systèmes, il faut utiliser <code>python3</code>) :</p>
+  <pre>$ python analyse_commandes.py
+12 commandes analysées.
+Chiffre d'affaires total : 1284.50 €</pre>
+  <p>C'est exactement ce qui se passe en coulisses quand ton éditeur affiche un bouton "Run" : il ouvre un terminal et tape cette commande à ta place.</p>
+
+  <h3>Passer des arguments à un script</h3>
+  <p>Un script devient bien plus utile s'il peut recevoir des informations depuis la ligne de commande, sans que tu aies à modifier le code à chaque fois. Le module <code>sys</code> donne accès à la liste <code>sys.argv</code>, qui contient les mots tapés après le nom du script.</p>
+  <p class="code-label">sys.argv — filtrer les commandes d'un client donné</p>
+  <pre>import sys
+
+# sys.argv[0] est toujours le nom du script lui-même
+client_recherche = sys.argv[1]
+
+commandes = [
+    {"client": "Léa Fabre", "montant": 42.90},
+    {"client": "Karim Nasri", "montant": 128.00},
+    {"client": "Léa Fabre", "montant": 15.50},
+]
+
+for commande in commandes:
+    if commande["client"] == client_recherche:
+        print(f"{commande['client']} : {commande['montant']} €")</pre>
+  <pre>$ python filtrer_client.py "Léa Fabre"
+Léa Fabre : 42.9 €
+Léa Fabre : 15.5 €</pre>
+  <p><code>sys.argv</code> fonctionne, mais devient vite pénible dès qu'on a plusieurs arguments optionnels : il faut gérer soi-même l'ordre, les valeurs manquantes, l'affichage de l'aide... Le module <code>argparse</code> (inclus dans la bibliothèque standard) fait ce travail pour toi.</p>
+  <p class="code-label">argparse — des arguments nommés et une aide automatique</p>
+  <pre>import argparse
+
+parser = argparse.ArgumentParser(description="Filtre les commandes NovaCart par client.")
+parser.add_argument("client", help="Nom du client à rechercher")
+parser.add_argument("--min-montant", type=float, default=0, help="Montant minimum à afficher")
+
+args = parser.parse_args()
+
+print(f"Recherche pour {args.client}, montant minimum : {args.min_montant} €")</pre>
+  <pre>$ python filtrer_client.py "Léa Fabre" --min-montant 20
+Recherche pour Léa Fabre, montant minimum : 20.0 €
+
+$ python filtrer_client.py --help
+usage: filtrer_client.py [-h] [--min-montant MIN_MONTANT] client
+...</pre>
+  <p>Avec <code>argparse</code>, <code>args.client</code> et <code>args.min_montant</code> sont typés et documentés automatiquement — et l'option <code>--help</code> existe sans rien coder de plus.</p>
+
+  <div class="callout">
+    <div class="callout-label">sys.argv ou argparse ?</div>
+    <p>Pour un script jetable à un seul argument, <code>sys.argv</code> suffit. Dès que le script est réutilisé par d'autres personnes, ou qu'il accepte plusieurs options, <code>argparse</code> évite les erreurs et rend le script auto-documenté.</p>
+  </div>
+
+  <h3>Pourquoi c'est indispensable pour un testeur QA</h3>
+  <p>En tant que testeur QA, le terminal est ton outil du quotidien, bien plus qu'un simple bouton "Run" :</p>
+  <ul>
+    <li><strong>pytest</strong> — la quasi-totalité des suites de tests automatisés se lancent avec une commande comme <code>pytest tests/</code>, souvent avec des options (<code>-v</code> pour le détail, <code>-k "commande"</code> pour ne lancer que certains tests).</li>
+    <li><strong>git</strong> — récupérer le code (<code>git pull</code>), créer une branche, valider tes modifications (<code>git commit</code>) : tout passe par le terminal dans la plupart des équipes.</li>
+    <li><strong>pip</strong> — installer les dépendances d'un projet (<code>pip install -r requirements.txt</code>) avant de pouvoir lancer quoi que ce soit.</li>
+  </ul>
+  <p>Ça rejoint directement le module 10 sur les environnements virtuels : activer un venv (<code>source venv/bin/activate</code> ou <code>venv\Scripts\activate</code>), c'est une commande de terminal. Sans ces bases, chaque prise de poste sur un nouveau projet devient un obstacle.</p>
+
+  <div class="callout warn">
+    <div class="callout-label">Windows vs Mac/Linux : quelques différences</div>
+    <p>Sur Mac et Linux, le terminal utilise généralement <strong>bash</strong> ou <strong>zsh</strong>. Sur Windows, tu auras <strong>PowerShell</strong> ou l'ancien <strong>cmd</strong> — les commandes de base (<code>cd</code>, <code>python</code>) sont identiques, mais <code>ls</code> devient <code>dir</code> sous cmd (PowerShell accepte les deux), et la syntaxe d'activation d'un venv change légèrement. Ne t'attarde pas là-dessus : retiens juste que ces différences existent, tu les apprendras au fil de l'eau sur ta machine.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>Écris un script <code>stock_bas.py</code> qui reçoit un seuil en argument de ligne de commande (par exemple <code>python stock_bas.py 5</code>) et affiche le nom de chaque produit de la liste ci-dessous dont le stock est strictement inférieur à ce seuil. Utilise <code>sys.argv</code>, sans <code>argparse</code>.</p>
+    <pre>produits = [
+    {"nom": "Casque Bluetooth", "stock": 3},
+    {"nom": "Souris sans fil", "stock": 12},
+    {"nom": "Clavier mécanique", "stock": 1},
+]</pre>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre>import sys
+
+seuil = int(sys.argv[1])
+
+produits = [
+    {"nom": "Casque Bluetooth", "stock": 3},
+    {"nom": "Souris sans fil", "stock": 12},
+    {"nom": "Clavier mécanique", "stock": 1},
+]
+
+for produit in produits:
+    if produit["stock"] &lt; seuil:
+        print(produit["nom"])</pre>
+        <p><code>sys.argv[1]</code> est toujours une chaîne de caractères : il faut la convertir avec <code>int()</code> avant de comparer un nombre. Avec <code>python stock_bas.py 5</code>, la sortie est <code>Casque Bluetooth</code> puis <code>Clavier mécanique</code>.</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m15"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+
+<!-- ============ MODULE m16 ============ -->
+<section class="module" id="m16">
+  <div class="mod-eyebrow">Partie 5 · Module 16</div>
+  <h2 class="mod-title">Résoudre des problèmes avec Python</h2>
+  <p>Savoir la syntaxe de Python ne suffit pas à résoudre un problème : il faut aussi une méthode pour ne pas se noyer devant un énoncé, et des réflexes pour comprendre pourquoi ça plante. Ces deux compétences comptent autant pour écrire un test que pour écrire le code testé.</p>
+
+  <h3>Une méthode en 5 étapes</h3>
+  <p>Face à un nouveau problème, résiste à l'envie d'ouvrir directement l'éditeur et de taper du code. Passe d'abord par ces étapes :</p>
+  <ol>
+    <li><strong>Comprendre l'énoncé.</strong> Reformule le problème avec tes propres mots. Quelles sont les entrées ? Quelle est la sortie attendue ? Y a-t-il des cas particuliers mentionnés ?</li>
+    <li><strong>Décomposer en étapes.</strong> Écris en français (ou en pseudo-code) la suite d'opérations à faire, sans te soucier de la syntaxe Python.</li>
+    <li><strong>Coder.</strong> Traduis chaque étape en Python, une à la fois.</li>
+    <li><strong>Tester.</strong> Vérifie d'abord avec un cas simple et évident, puis avec des cas limites (liste vide, valeur négative, doublon...).</li>
+    <li><strong>Améliorer.</strong> Une fois que ça marche, relis : le code est-il lisible ? Y a-t-il un cas oublié ?</li>
+  </ol>
+  <p>Cette méthode n'est pas propre à la programmation : c'est la même démarche qu'un testeur QA applique pour analyser un bug avant d'écrire son rapport.</p>
+
+  <h3>Lire un traceback</h3>
+  <p>Quand un script plante, Python affiche un <strong>traceback</strong> : la trace des appels de fonctions qui ont mené à l'erreur. Il paraît intimidant, mais il faut le lire dans un ordre précis : le <strong>message d'erreur tout en bas</strong> d'abord (le type d'erreur et sa description), puis remonter pour trouver la ligne de ton propre code responsable.</p>
+  <p class="code-label">Un traceback typique</p>
+  <pre>Traceback (most recent call last):
+  File "analyse.py", line 12, in &lt;module&gt;
+    moyenne = total / nombre_commandes
+              ~~~~~~^~~~~~~~~~~~~~~~~~
+ZeroDivisionError: division by zero</pre>
+  <p>On lit : <em>ZeroDivisionError</em> (le type d'erreur, tout en bas) — <em>division by zero</em> (sa description) — et juste au-dessus, la ligne exacte du fichier <code>analyse.py</code> qui a causé le problème. Ici, <code>nombre_commandes</code> valait 0 au moment de la division. Un traceback long avec plusieurs blocs "File ... line ..." indique juste que l'erreur s'est propagée à travers plusieurs fonctions : la dernière ligne du bloc, tout en bas, reste celle qui a réellement échoué.</p>
+
+  <h3>Le debug par print()</h3>
+  <p>La technique la plus simple pour comprendre ce qui se passe dans un script : afficher l'état des variables à des points clés avec <code>print()</code>, puis relancer le script.</p>
+  <pre>def calculer_total(panier):
+    total = 0
+    for article in panier:
+        print(f"DEBUG : article = {article}")
+        total += article["prix"] * article["quantite"]
+    print(f"DEBUG : total final = {total}")
+    return total</pre>
+  <p>Ce n'est pas élégant, mais c'est rapide et ça fonctionne sans outil supplémentaire. Pense à retirer (ou commenter) ces <code>print()</code> une fois le bug résolu — ou utilise un vrai débogueur (le module <code>pdb</code>, ou celui intégré à ton éditeur) quand le problème devient plus complexe.</p>
+
+  <div class="callout">
+    <div class="callout-label">Le rubber duck debugging</div>
+    <p>Une technique connue de tous les développeurs : explique ton code, ligne par ligne, à voix haute, à un objet inanimé — traditionnellement un canard en plastique posé sur le bureau. Le simple fait de formuler à haute voix "ici je récupère le stock, ensuite je compare au seuil..." force ton cerveau à ralentir et révèle très souvent l'erreur avant même d'avoir fini la phrase. Pas de canard sous la main ? Un collègue, ou même un message écrit à toi-même, fonctionne tout aussi bien.</p>
+  </div>
+
+  <h3>Mise en pratique : le client qui a le plus dépensé</h3>
+  <p>Énoncé : à partir d'une liste de commandes NovaCart, trouver le nom du client ayant dépensé le plus au total.</p>
+  <pre>commandes = [
+    {"client": "Léa Fabre", "montant": 42.90},
+    {"client": "Karim Nasri", "montant": 128.00},
+    {"client": "Léa Fabre", "montant": 15.50},
+    {"client": "Sofia Martin", "montant": 89.99},
+]</pre>
+  <p><strong>Étape 1 — comprendre :</strong> un même client peut apparaître plusieurs fois, il faut donc additionner ses commandes avant de comparer, pas juste prendre le montant le plus élevé d'une seule ligne.</p>
+  <p><strong>Étape 2 — pseudo-code :</strong> pour chaque commande, ajouter son montant au total du client concerné (dans un dictionnaire) ; à la fin, trouver la clé dont la valeur est la plus grande.</p>
+  <p class="code-label">Étape 3 — coder</p>
+  <pre>totaux_par_client = {}
+
+for commande in commandes:
+    client = commande["client"]
+    montant = commande["montant"]
+    totaux_par_client[client] = totaux_par_client.get(client, 0) + montant
+
+meilleur_client = max(totaux_par_client, key=totaux_par_client.get)
+print(f"{meilleur_client} : {totaux_par_client[meilleur_client]:.2f} €")</pre>
+  <p><strong>Étape 4 — tester :</strong> avec ces données, le résultat attendu est <code>Karim Nasri : 128.00 €</code> (58.40 € pour Léa Fabre, 89.99 € pour Sofia Martin). Cas limite : que se passe-t-il si <code>commandes</code> est une liste vide ? <code>max()</code> sur un dictionnaire vide lève une <code>ValueError</code> — il faudrait la gérer si ce cas est possible en pratique.</p>
+  <p><strong>Étape 5 — améliorer :</strong> <code>totaux_par_client.get(client, 0)</code> évite un <code>KeyError</code> la première fois qu'un client apparaît, en renvoyant 0 par défaut plutôt que de planter.</p>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>Le script suivant plante. Lis le traceback, identifie la ligne fautive et corrige le code pour qu'il affiche le nombre moyen d'articles par commande.</p>
+    <pre>commandes = []
+
+total_articles = sum(c["nb_articles"] for c in commandes)
+moyenne = total_articles / len(commandes)
+print(f"Moyenne : {moyenne}")</pre>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre>commandes = []
+
+if not commandes:
+    print("Aucune commande à analyser.")
+else:
+    total_articles = sum(c["nb_articles"] for c in commandes)
+    moyenne = total_articles / len(commandes)
+    print(f"Moyenne : {moyenne}")</pre>
+        <p>Le traceback indiquerait <code>ZeroDivisionError: division by zero</code> sur la ligne du calcul de <code>moyenne</code> : avec une liste <code>commandes</code> vide, <code>len(commandes)</code> vaut 0. C'est exactement le type de cas limite à tester systématiquement (étape 4 de la méthode) : que se passe-t-il quand la liste est vide ?</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m16"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+
+<!-- ============ MODULE m17 ============ -->
+<section class="module" id="m17">
+  <div class="mod-eyebrow">Partie 5 · Module 17</div>
+  <h2 class="mod-title">Structures de données et algorithmes</h2>
+  <p>Deux scripts peuvent produire exactement le même résultat, mais l'un met 10 millisecondes et l'autre 10 minutes sur un gros volume de données. La différence vient souvent du choix de la structure de données ou de l'algorithme utilisé. Ce module donne une intuition suffisante pour repérer ces situations — sans notation mathématique compliquée.</p>
+
+  <h3>La complexité, une idée simple</h3>
+  <p>La "complexité" (souvent notée en <strong>Big-O</strong>, par exemple <code>O(n)</code>) répond à une seule question : <em>si je multiplie la taille des données par 10, mon programme devient-il 10 fois plus lent, 100 fois plus lent, ou à peine plus lent ?</em></p>
+  <ul>
+    <li><strong>O(1)</strong> — temps constant : peu importe la taille des données, l'opération prend le même temps (ex : accéder à <code>ma_liste[0]</code>).</li>
+    <li><strong>O(n)</strong> — temps proportionnel à la taille <code>n</code> des données : parcourir toute une liste une fois.</li>
+    <li><strong>O(log n)</strong> — le temps augmente très lentement, même avec beaucoup de données (ex : recherche binaire, voir plus bas).</li>
+  </ul>
+  <p>Retiens surtout le réflexe : avant de choisir une structure de données, demande-toi comment elle se comportera si les données NovaCart passent de 100 produits à 100 000.</p>
+
+  <h3>Chercher dans une liste vs un dict/set</h3>
+  <p>Chercher si un produit existe dans une <code>list</code> oblige Python à examiner les éléments un par un jusqu'à trouver une correspondance (ou arriver au bout) : c'est du <strong>O(n)</strong>. Chercher une clé dans un <code>dict</code> ou une valeur dans un <code>set</code> est quasiment instantané, quelle que soit la taille : c'est du <strong>O(1)</strong>, grâce à une structure interne (une table de hachage) qui calcule directement où se trouve l'élément.</p>
+  <p class="code-label">Même besoin, deux structures différentes</p>
+  <pre># Recherche dans une liste : O(n) — Python compare un par un
+ids_en_liste = [101, 205, 309, 412, 578]  # imaginons des milliers d'ids
+if 412 in ids_en_liste:
+    print("Produit trouvé")
+
+# Recherche dans un set : O(1) — quasi instantané
+ids_en_set = {101, 205, 309, 412, 578}
+if 412 in ids_en_set:
+    print("Produit trouvé")</pre>
+  <p>Sur une liste de 20 éléments, la différence est invisible. Sur un catalogue NovaCart de 200 000 références vérifié à chaque ligne d'un fichier de commandes de 50 000 lignes, passer d'une liste à un <code>set</code> peut transformer un script de plusieurs minutes en quelques secondes.</p>
+
+  <h3>Piles et files</h3>
+  <p>Une <strong>pile</strong> (stack) fonctionne comme une pile d'assiettes : le dernier élément ajouté est le premier retiré (LIFO — "last in, first out"). En Python, une <code>list</code> suffit, avec <code>append()</code> pour empiler et <code>pop()</code> pour dépiler.</p>
+  <pre>historique_actions = []
+
+historique_actions.append("ajout_panier: Casque Bluetooth")
+historique_actions.append("modif_quantite: 2")
+historique_actions.append("suppression: Souris")
+
+derniere_action = historique_actions.pop()
+print(derniere_action)   # suppression: Souris (annulée en premier)</pre>
+  <p>Une <strong>file</strong> (queue) fonctionne à l'inverse comme une file d'attente en magasin : le premier arrivé est le premier servi (FIFO — "first in, first out"). Une <code>list</code> peut simuler une file avec <code>pop(0)</code>, mais c'est lent sur de gros volumes (retirer le premier élément oblige à décaler tous les autres en mémoire). Le module <code>collections</code> fournit <code>deque</code>, conçu pour être efficace des deux côtés.</p>
+  <pre>from collections import deque
+
+commandes_a_traiter = deque()
+
+commandes_a_traiter.append("Commande #1042")
+commandes_a_traiter.append("Commande #1043")
+commandes_a_traiter.append("Commande #1044")
+
+prochaine_commande = commandes_a_traiter.popleft()
+print(prochaine_commande)   # Commande #1042 (traitée en premier)</pre>
+
+  <h3>Recherche linéaire vs recherche binaire</h3>
+  <p>La <strong>recherche linéaire</strong> consiste à parcourir les éléments un par un (c'est ce que fait <code>in</code> sur une liste) : O(n). Si la liste est <strong>triée</strong>, la <strong>recherche binaire</strong> fait bien mieux : elle regarde l'élément du milieu, élimine directement la moitié des possibilités selon qu'il est trop grand ou trop petit, et répète — en O(log n). Le module standard <code>bisect</code> l'implémente pour toi.</p>
+  <pre>import bisect
+
+prix_tries = [9.99, 14.50, 19.99, 24.90, 34.00, 49.99, 79.90]
+
+# Trouve l'index où insérer 24.90 pour garder la liste triée
+position = bisect.bisect_left(prix_tries, 24.90)
+if position &lt; len(prix_tries) and prix_tries[position] == 24.90:
+    print(f"Prix trouvé à l'index {position}")
+else:
+    print("Prix absent de la liste")</pre>
+  <p>Sur 7 éléments, aucune différence perceptible avec une recherche linéaire. Sur une liste triée de 10 millions d'éléments, la recherche binaire fait le travail en une vingtaine de comparaisons contre potentiellement 10 millions.</p>
+
+  <h3>Pourquoi ça compte pour un testeur QA</h3>
+  <p>Un testeur QA n'écrit pas forcément l'algorithme de recherche du site NovaCart, mais ces notions servent tous les jours :</p>
+  <ul>
+    <li>Comprendre <strong>pourquoi un test devient soudainement lent</strong> quand le jeu de données de test grossit (un test qui passait en 2 secondes sur 50 produits et qui en prend 40 sur 50 000 cache souvent une recherche en O(n) là où un <code>dict</code> ferait l'affaire).</li>
+    <li>Savoir <strong>générer des jeux de données de test représentatifs</strong> : pour vérifier qu'une fonctionnalité tient la charge, il faut des volumes réalistes (des milliers de commandes, pas trois lignes à la main), et choisir la bonne structure pour les manipuler sans que le test lui-même devienne le goulot d'étranglement.</li>
+  </ul>
+
+  <div class="callout">
+    <div class="callout-label">Pas besoin de tout mémoriser</div>
+    <p>Retiens surtout deux réflexes : utiliser un <code>set</code> ou un <code>dict</code> plutôt qu'une <code>list</code> dès qu'on cherche souvent "est-ce que cet élément existe ?", et se méfier d'un test qui ralentit anormalement quand le volume de données augmente — c'est souvent le signe d'une structure de données mal choisie, pas d'une fatalité.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>Tu as une liste de 50 000 identifiants de produits NovaCart valides, et un fichier de commandes à valider qui contient 20 000 identifiants à vérifier un par un. Le script actuel utilise <code>if id_produit in liste_ids_valides:</code> et met plusieurs minutes à s'exécuter. Explique pourquoi, et corrige le script pour qu'il soit rapide.</p>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre># Avant : O(n) à chaque recherche, répétée 20 000 fois -&gt; très lent
+liste_ids_valides = [1001, 1002, 1003]  # imaginer 50 000 éléments
+
+for id_produit in ids_a_verifier:
+    if id_produit in liste_ids_valides:   # parcourt jusqu'à 50 000 éléments
+        pass
+
+# Après : conversion en set une seule fois, puis recherche en O(1)
+set_ids_valides = set(liste_ids_valides)
+
+for id_produit in ids_a_verifier:
+    if id_produit in set_ids_valides:     # quasi instantané
+        pass</pre>
+        <p>Avec une <code>list</code>, chacune des 20 000 vérifications parcourt en moyenne la moitié des 50 000 identifiants, soit environ un milliard de comparaisons au total. En convertissant <code>liste_ids_valides</code> en <code>set</code> une seule fois (coût unique, O(n)), chaque recherche suivante devient quasi instantanée : le script passe de plusieurs minutes à une fraction de seconde.</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m17"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+
+<!-- ============ MODULE m18 ============ -->
+<section class="module" id="m18">
+  <div class="mod-eyebrow">Partie 5 · Module 18</div>
+  <h2 class="mod-title">Tests avec pytest, en pratique</h2>
+  <p>Le module 14 t'a montré à quoi ressemble un test avec pytest. Ici, on passe à la pratique sérieuse : comment organiser un vrai projet de tests, comment préparer et nettoyer des données avec des fixtures, comment tester une même fonction avec des dizaines de jeux de données sans copier-coller, et comment isoler un test des services externes. C'est ce niveau de maîtrise qu'on attend d'un testeur QA qui écrit des tests automatisés au quotidien.</p>
+
+  <h3>Organiser un projet de tests</h3>
+  <p>Par convention, pytest découvre automatiquement les tests s'ils suivent quelques règles de nommage. Un projet NovaCart typique ressemble à ceci :</p>
+  <p class="code-label">Arborescence</p>
+  <pre>novacart_tests/
+├── conftest.py
+├── tests/
+│   ├── test_prix.py
+│   ├── test_stock.py
+│   └── test_commandes.py
+└── novacart/
+    └── catalogue.py</pre>
+  <ul>
+    <li>Les fichiers de test s'appellent <code>test_*.py</code> (ou <code>*_test.py</code>).</li>
+    <li>Les fonctions de test s'appellent <code>test_*</code> — c'est à ça que pytest reconnaît un test.</li>
+    <li>Un dossier <code>tests/</code> séparé du code applicatif garde le projet lisible dès qu'il grossit.</li>
+  </ul>
+  <p class="code-label">tests/test_prix.py</p>
+  <pre>def test_prix_ttc_avec_tva_normale():
+    assert calculer_prix_ttc(100, 0.20) == 120.0
+
+def test_prix_ttc_produit_gratuit():
+    assert calculer_prix_ttc(0, 0.20) == 0.0</pre>
+  <p>Pour lancer tous les tests : <code>pytest</code>. Pour un seul fichier : <code>pytest tests/test_prix.py</code>.</p>
+
+  <h3>Les fixtures pytest en profondeur</h3>
+  <p>Une fixture est une fonction qui prépare quelque chose dont un test a besoin — des données, un objet, une connexion. Pytest l'injecte automatiquement dans le test si le nom du paramètre correspond au nom de la fixture.</p>
+  <p class="code-label">Une fixture simple</p>
+  <pre>import pytest
+
+@pytest.fixture
+def panier_test():
+    return {"produits": [], "total": 0.0}
+
+def test_panier_vide_au_depart(panier_test):
+    assert panier_test["produits"] == []
+    assert panier_test["total"] == 0.0</pre>
+  <p>Par défaut, une fixture a une portée (<code>scope</code>) <code>"function"</code> : elle est recréée pour chaque test, ce qui garantit qu'un test ne pollue jamais le suivant. On peut élargir la portée pour éviter de refaire un travail coûteux plusieurs fois :</p>
+  <p class="code-label">scope="module" : une seule fois par fichier de test</p>
+  <pre>@pytest.fixture(scope="module")
+def connexion_catalogue_novacart():
+    print("Ouverture de la connexion au catalogue")
+    connexion = ouvrir_connexion_catalogue()
+    yield connexion
+    connexion.fermer()
+    print("Connexion fermée")</pre>
+  <p>Le mot-clé <code>yield</code> est essentiel : tout ce qui est avant sert à préparer les données (le setup), tout ce qui est après sert à nettoyer (le teardown) — et ce nettoyage s'exécute même si le test échoue.</p>
+  <p class="code-label">Une fixture qui prépare puis nettoie une commande</p>
+  <pre>@pytest.fixture
+def commande_novacart():
+    commande = creer_commande(client_id=42, produits=["SKU-1001"])
+    yield commande
+    supprimer_commande(commande.id)  # nettoyage garanti après le test
+
+def test_commande_a_un_statut_initial(commande_novacart):
+    assert commande_novacart.statut == "en_attente"</pre>
+  <div class="callout">
+    <div class="callout-label">Pourquoi nettoyer</div>
+    <p>Sans nettoyage, les données créées par un test peuvent fausser les tests suivants (des commandes fantômes en base, par exemple). En environnement de test, on veut repartir d'un état propre à chaque exécution.</p>
+  </div>
+
+  <h3>Tester plusieurs jeux de données avec parametrize</h3>
+  <p>Plutôt que d'écrire un test par taux de TVA, <code>@pytest.mark.parametrize</code> exécute la même fonction de test avec chaque jeu de valeurs fourni — pytest affiche chaque cas comme un test distinct dans le rapport.</p>
+  <p class="code-label">tests/test_prix.py</p>
+  <pre>import pytest
+
+@pytest.mark.parametrize("prix_ht, taux_tva, prix_ttc_attendu", [
+    (100, 0.20, 120.0),
+    (50, 0.055, 52.75),
+    (200, 0.10, 220.0),
+    (0, 0.20, 0.0),
+])
+def test_calculer_prix_ttc(prix_ht, taux_tva, prix_ttc_attendu):
+    assert calculer_prix_ttc(prix_ht, taux_tva) == prix_ttc_attendu</pre>
+  <p>Un seul test, quatre exécutions, quatre résultats indépendants dans le rapport : si le cas à 5,5 % échoue, les trois autres restent verts.</p>
+
+  <h3>Vérifier qu'une exception est bien levée</h3>
+  <p>Un test ne sert pas qu'à vérifier les cas normaux — vérifier qu'une fonction refuse bien une entrée invalide fait partie du travail. <code>pytest.raises</code> encadre le code censé lever une exception :</p>
+  <p class="code-label">tests/test_prix.py</p>
+  <pre>import pytest
+
+def test_prix_negatif_leve_une_exception():
+    with pytest.raises(ValueError):
+        calculer_prix_ttc(-10, 0.20)
+
+def test_message_erreur_stock_insuffisant():
+    with pytest.raises(ValueError, match="stock insuffisant"):
+        retirer_du_stock("SKU-1001", quantite=9999)</pre>
+  <p>Si le code à l'intérieur du bloc <code>with</code> ne lève pas l'exception attendue, le test échoue — ce qui est exactement ce qu'on veut détecter.</p>
+
+  <h3>Isoler un test avec le mocking</h3>
+  <p>Certains tests dépendent d'un service externe — une API de paiement, un envoi d'email. On ne veut pas vraiment débiter une carte bancaire à chaque exécution des tests : trop lent, trop risqué, et le résultat dépendrait d'un service qu'on ne contrôle pas. <code>unittest.mock.patch</code> remplace temporairement cette dépendance par une version factice.</p>
+  <p class="code-label">tests/test_commandes.py</p>
+  <pre>from unittest.mock import patch
+
+def rembourser_client(commande, api_paiement):
+    resultat = api_paiement.rembourser(commande.id, commande.montant)
+    return resultat["statut"] == "ok"
+
+def test_remboursement_appelle_l_api_avec_le_bon_montant():
+    commande = Commande(id="CMD-501", montant=59.90)
+    with patch("api_paiement.rembourser") as mock_rembourser:
+        mock_rembourser.return_value = {"statut": "ok"}
+        succes = rembourser_client(commande, api_paiement)
+
+    assert succes is True
+    mock_rembourser.assert_called_once_with("CMD-501", 59.90)</pre>
+  <p>Le test vérifie deux choses sans jamais appeler la vraie API : que la fonction appelle bien le service de paiement avec les bons paramètres, et qu'elle interprète correctement la réponse.</p>
+
+  <h3>Lancer pytest efficacement</h3>
+  <p>Sur un projet avec des centaines de tests, tout relancer à chaque fois est inutile pendant qu'on corrige un bug précis :</p>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Commande</th><th>Effet</th></tr></thead>
+      <tbody>
+        <tr><td><code>pytest -k prix</code></td><td>N'exécute que les tests dont le nom contient "prix"</td></tr>
+        <tr><td><code>pytest -x</code></td><td>S'arrête au tout premier échec rencontré</td></tr>
+        <tr><td><code>pytest --maxfail=3</code></td><td>S'arrête après 3 échecs</td></tr>
+        <tr><td><code>pytest -v</code></td><td>Affiche le nom de chaque test exécuté</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Partager des fixtures avec conftest.py</h3>
+  <p>Quand plusieurs fichiers de test ont besoin de la même fixture (un client NovaCart de test, une connexion factice), on évite la duplication en la plaçant dans un fichier <code>conftest.py</code> à la racine du dossier <code>tests/</code>. Pytest le charge automatiquement — aucun import à écrire.</p>
+  <p class="code-label">tests/conftest.py</p>
+  <pre>import pytest
+
+@pytest.fixture
+def client_novacart():
+    return {"id": 42, "nom": "Julie Martin", "points_fidelite": 150}</pre>
+  <p>Cette fixture <code>client_novacart</code> devient alors disponible dans <code>test_prix.py</code>, <code>test_stock.py</code> et <code>test_commandes.py</code> sans aucune ligne d'import supplémentaire.</p>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>NovaCart veut tester la fonction <code>appliquer_reduction(prix, code_promo)</code>, qui applique une réduction de 10 % si <code>code_promo</code> vaut <code>"NOVA10"</code>, de 20 % si <code>code_promo</code> vaut <code>"NOVA20"</code>, et qui lève un <code>ValueError</code> pour tout autre code. Écris un fichier de test avec : (1) une fixture <code>prix_de_base</code> qui renvoie <code>100</code> ; (2) un test paramétré couvrant <code>"NOVA10"</code> et <code>"NOVA20"</code> avec le résultat attendu ; (3) un test vérifiant qu'un code invalide lève bien une exception.</p>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre>import pytest
+
+@pytest.fixture
+def prix_de_base():
+    return 100
+
+@pytest.mark.parametrize("code_promo, prix_attendu", [
+    ("NOVA10", 90.0),
+    ("NOVA20", 80.0),
+])
+def test_appliquer_reduction_codes_valides(prix_de_base, code_promo, prix_attendu):
+    assert appliquer_reduction(prix_de_base, code_promo) == prix_attendu
+
+def test_appliquer_reduction_code_invalide(prix_de_base):
+    with pytest.raises(ValueError):
+        appliquer_reduction(prix_de_base, "CODE-BIDON")</pre>
+        <p>La fixture <code>prix_de_base</code> évite de répéter <code>100</code> partout et centralise la donnée de départ. Le test paramétré couvre les deux cas valides en une seule fonction, et <code>pytest.raises</code> vérifie que le comportement d'erreur est bien celui attendu — les trois tests s'exécutent indépendamment, dans l'ordre affiché par <code>pytest -v</code>.</p>
+      </div>
+    </details>
+  </div>
+  <button class="done-toggle" data-toggle="m18"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+
+<div class="part-divider"><span class="part-tag">PARTIE 6</span><h2 class="part-title">Projets guidés, par domaine</h2></div>
+<p class="part-intro">Des aperçus guidés de ce que Python permet de construire au-delà de la QA — utile pour comprendre les applications que tu seras amené·e à tester, quel que soit leur domaine.</p>
+
+<!-- ============ MODULE m19 ============ -->
+<section class="module" id="m19">
+  <div class="mod-eyebrow">Partie 6 · Module 19</div>
+  <h2 class="mod-title">Projets de développement web</h2>
+  <p>Jusqu'ici, tu as surtout testé du code qui tourne dans un terminal. Mais la plupart des applications que tu testeras en tant que testeur·se QA sont des applications web : un site e-commerce comme NovaCart, une API consultée par une application mobile, un back-office interne. Ce module te fait construire, en quelques lignes, une mini-application web avec <strong>Flask</strong> — pas pour devenir développeur·se web, mais pour comprendre concrètement ce qui se passe derrière une URL que tu testes tous les jours.</p>
+
+  <h3>Qu'est-ce qu'un framework web ?</h3>
+  <p>Un framework web s'occupe de la partie technique répétitive : recevoir une requête HTTP envoyée par un navigateur ou une application, comprendre quelle URL a été demandée, exécuter le bon morceau de code Python, et renvoyer une réponse. Sans framework, il faudrait réécrire tout ça à la main pour chaque projet. <strong>Flask</strong> est un micro-framework : il fait le minimum nécessaire et te laisse ajouter ce dont tu as besoin. C'est idéal pour comprendre les mécanismes sans être noyé·e sous les fonctionnalités.</p>
+
+  <p class="code-label">Installer Flask</p>
+  <pre>pip install flask</pre>
+
+  <h3>Ta première route</h3>
+  <p>Une <strong>route</strong> associe une URL à une fonction Python. Voici une mini-API qui expose le catalogue NovaCart : un client (navigateur, application, ou un futur test automatisé) qui appelle <code>/produits</code> reçoit la liste des produits en JSON.</p>
+
+  <p class="code-label">app.py</p>
+  <pre>from flask import Flask, jsonify
+
+app = Flask(__name__)
+
+produits = [
+    {"id": 1, "nom": "Casque audio sans fil", "prix": 79.99, "stock": 12},
+    {"id": 2, "nom": "Clavier mécanique", "prix": 54.50, "stock": 0},
+    {"id": 3, "nom": "Souris ergonomique", "prix": 29.90, "stock": 34},
+]
+
+@app.route("/produits")
+def liste_produits():
+    return jsonify(produits)
+
+if __name__ == "__main__":
+    app.run(debug=True)</pre>
+
+  <p>En lançant <code>python app.py</code>, Flask démarre un serveur local (par défaut sur <code>http://127.0.0.1:5000</code>). Appeler cette adresse suivie de <code>/produits</code>, depuis un navigateur ou avec un outil comme <code>curl</code>, déclenche <code>liste_produits()</code> et renvoie le catalogue en JSON.</p>
+
+  <p class="code-label">Appeler la route depuis un terminal</p>
+  <pre>curl http://127.0.0.1:5000/produits
+
+# Réponse :
+# [
+#   {"id": 1, "nom": "Casque audio sans fil", "prix": 79.99, "stock": 12},
+#   {"id": 2, "nom": "Clavier mécanique", "prix": 54.50, "stock": 0},
+#   {"id": 3, "nom": "Souris ergonomique", "prix": 29.90, "stock": 34}
+# ]</pre>
+
+  <h3>Le cycle requête / réponse</h3>
+  <p>C'est le principe fondamental à retenir, celui que tu retrouveras dans toutes les applications web que tu testeras : un client envoie une <strong>requête</strong> HTTP (une méthode comme <code>GET</code> ou <code>POST</code>, une URL, parfois des données) ; le serveur exécute du code et renvoie une <strong>réponse</strong> (un contenu, souvent du JSON pour une API, et un code de statut comme <code>200</code> pour succès ou <code>404</code> pour "introuvable"). Flask fait manipuler ce cycle avec très peu de code, ce qui le rend idéal pour bien le comprendre.</p>
+
+  <p class="code-label">Une route avec un paramètre, et une erreur 404 gérée explicitement</p>
+  <pre>from flask import Flask, jsonify, abort
+
+@app.route("/produits/&lt;int:produit_id&gt;")
+def detail_produit(produit_id):
+    for produit in produits:
+        if produit["id"] == produit_id:
+            return jsonify(produit)
+    abort(404)</pre>
+
+  <p>Ici, <code>&lt;int:produit_id&gt;</code> indique à Flask que ce morceau de l'URL est un entier variable, transmis directement à la fonction. Si aucun produit ne correspond, <code>abort(404)</code> renvoie une réponse avec le code de statut 404 — exactement le genre de comportement qu'un test d'API vérifiera plus tard : "que se passe-t-il quand je demande un produit qui n'existe pas ?"</p>
+
+  <h3>Recevoir des données : une route POST</h3>
+  <p>Une API ne fait pas que renvoyer des données, elle en reçoit aussi. Voici une route qui accepte la création d'une commande NovaCart, en lisant le corps JSON de la requête avec <code>request.get_json()</code> :</p>
+
+  <p class="code-label">Créer une commande</p>
+  <pre>from flask import request
+
+@app.route("/commandes", methods=["POST"])
+def creer_commande():
+    donnees = request.get_json()
+    if "produit_id" not in donnees or "quantite" not in donnees:
+        return jsonify({"erreur": "produit_id et quantite requis"}), 400
+
+    return jsonify({"statut": "commande créée", "produit_id": donnees["produit_id"]}), 201</pre>
+
+  <p>Le deuxième élément du tuple renvoyé (<code>400</code>, <code>201</code>...) est le code de statut HTTP. C'est une bonne habitude à prendre dès maintenant : une API bien conçue renvoie un code cohérent avec ce qui s'est réellement passé, et c'est précisément ce qu'un test d'API va contrôler.</p>
+
+  <div class="callout">
+    <div class="callout-label">Et Django, dans tout ça ?</div>
+    <p><strong>Django</strong> est un autre framework Python très utilisé, beaucoup plus complet que Flask : il inclut d'office un système d'administration, une gestion de base de données intégrée (l'ORM), l'authentification, etc. Il convient mieux à de grosses applications avec beaucoup de fonctionnalités "standard". Flask, plus minimaliste, est souvent préféré pour de petites API ou pour apprendre les bases sans se perdre dans la configuration. Tu n'as pas besoin de maîtriser Django pour ce cours : sache simplement qu'il existe, et que les concepts de route, requête et réponse vus ici avec Flask s'y retrouvent sous une autre forme.</p>
+  </div>
+
+  <h3>Le lien avec la QA</h3>
+  <p>Quand tu testeras une application Flask ou Django plus tard dans ce parcours, tu ne liras pas nécessairement tout le code source. Mais savoir qu'une application web est organisée en <strong>routes</strong> qui répondent à des <strong>endpoints</strong> (des URLs précises, comme <code>/produits</code> ou <code>/commandes</code>) change ta façon de penser les tests : pour chaque endpoint, quelles méthodes sont acceptées (<code>GET</code>, <code>POST</code>...) ? Quels codes de statut sont attendus dans quels cas ? Que se passe-t-il avec des données manquantes ou invalides ? C'est exactement la logique que tu appliqueras quand tu aborderas le test d'API plus loin dans le programme.</p>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>En repartant du code de <code>app.py</code> ci-dessus, ajoute une route <code>/produits/disponibles</code> qui renvoie en JSON uniquement les produits dont le <code>stock</code> est supérieur à 0.</p>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre>@app.route("/produits/disponibles")
+def produits_disponibles():
+    disponibles = [p for p in produits if p["stock"] &gt; 0]
+    return jsonify(disponibles)</pre>
+        <p>Avec le catalogue de l'exemple, cette route renvoie le casque audio et la souris (stock 12 et 34), mais pas le clavier mécanique (stock 0). À noter : selon l'ordre de déclaration des routes, il faut parfois placer <code>/produits/disponibles</code> avant <code>/produits/&lt;int:produit_id&gt;</code>, sinon Flask peut tenter d'interpréter "disponibles" comme un identifiant — un autre comportement qui mérite d'être vérifié par un test.</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m19"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+
+<!-- ============ MODULE m20 ============ -->
+<section class="module" id="m20">
+  <div class="mod-eyebrow">Partie 6 · Module 20</div>
+  <h2 class="mod-title">Projets d'analyse de données</h2>
+  <p>NovaCart génère chaque jour des milliers de lignes de données : commandes, montants, catégories, statuts de livraison. Analyser ces données à la main, ligne par ligne, serait impossible. C'est exactement le problème que résout <strong>pandas</strong>, la bibliothèque Python de référence pour manipuler des données tabulaires — et les réflexes que tu vas prendre ici te resserviront directement pour analyser des résultats de tests.</p>
+
+  <h3>Pandas et le DataFrame</h3>
+  <p>Un <strong>DataFrame</strong> est la structure centrale de pandas : un tableau à deux dimensions, avec des lignes et des colonnes nommées, un peu comme une feuille de calcul, mais manipulable avec du code Python. Chaque colonne peut être filtrée, transformée ou agrégée en une ligne d'instruction.</p>
+
+  <p class="code-label">Charger un fichier de commandes NovaCart</p>
+  <pre>import pandas as pd
+
+df = pd.read_csv("commandes_novacart.csv")
+print(df.head())        # affiche les 5 premières lignes
+print(df.shape)         # (nombre de lignes, nombre de colonnes)</pre>
+
+  <p>Un extrait de <code>commandes_novacart.csv</code> ressemble à ceci une fois chargé :</p>
+
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>id_commande</th><th>client</th><th>categorie</th><th>montant</th><th>date</th><th>statut</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1001</td><td>Nadia B.</td><td>Informatique</td><td>129.90</td><td>2026-01-05</td><td>livree</td></tr>
+        <tr><td>1002</td><td>Karim T.</td><td>Mode</td><td>45.00</td><td>2026-01-06</td><td>livree</td></tr>
+        <tr><td>1003</td><td>Nadia B.</td><td>Informatique</td><td>89.50</td><td>2026-01-10</td><td>retournee</td></tr>
+        <tr><td>1004</td><td>Julien M.</td><td>Informatique</td><td>310.00</td><td>2026-01-12</td><td>livree</td></tr>
+        <tr><td>1005</td><td>Karim T.</td><td>Mode</td><td>22.90</td><td>2026-01-14</td><td>livree</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Filtrer des lignes</h3>
+  <p>Filtrer un DataFrame revient à écrire une condition entre crochets. Pandas sélectionne alors uniquement les lignes qui la vérifient — pas de boucle <code>for</code> à écrire toi-même.</p>
+
+  <p class="code-label">Ne garder que certaines commandes</p>
+  <pre>commandes_info = df[df["categorie"] == "Informatique"]
+
+commandes_livrees_cher = df[(df["statut"] == "livree") &amp; (df["montant"] &gt; 100)]
+print(commandes_livrees_cher)</pre>
+
+  <div class="callout warn">
+    <div class="callout-label">Piège : modifier une copie sans le savoir</div>
+    <p>Une expression comme <code>df[df["categorie"] == "Informatique"]</code> renvoie parfois une vue sur les données originales plutôt qu'une vraie copie. Si tu comptes modifier ce sous-ensemble ensuite (par exemple ajouter une colonne), pandas peut afficher un <code>SettingWithCopyWarning</code>. Le réflexe sûr : <code>commandes_info = df[df["categorie"] == "Informatique"].copy()</code> pour obtenir explicitement une copie indépendante.</p>
+  </div>
+
+  <h3>Grouper et agréger</h3>
+  <p>C'est là que pandas devient vraiment utile : <code>groupby</code> regroupe les lignes qui partagent une même valeur dans une colonne, puis on applique une agrégation (<code>.sum()</code>, <code>.mean()</code>, <code>.count()</code>...) sur chaque groupe. Par exemple, le chiffre d'affaires par catégorie de produit, ou le client qui a le plus dépensé :</p>
+
+  <p class="code-label">Chiffre d'affaires par catégorie, et meilleur client</p>
+  <pre>ca_par_categorie = df.groupby("categorie")["montant"].sum()
+print(ca_par_categorie)
+# categorie
+# Informatique    529.40
+# Mode             67.90
+
+client_qui_depense_le_plus = df.groupby("client")["montant"].sum().sort_values(ascending=False)
+print(client_qui_depense_le_plus.head(1))
+# client
+# Nadia B.    219.40</pre>
+
+  <p><code>sort_values(ascending=False)</code> trie du plus grand au plus petit, et <code>.head(1)</code> ne garde que la première ligne — ici, le client avec le total le plus élevé.</p>
+
+  <h3>Visualiser avec matplotlib</h3>
+  <p><strong>matplotlib</strong> est la bibliothèque de référence pour transformer un DataFrame en graphique. Pandas s'y connecte directement via <code>.plot()</code> :</p>
+
+  <p class="code-label">Un graphique en barres du chiffre d'affaires par catégorie</p>
+  <pre>import matplotlib.pyplot as plt
+
+ca_par_categorie.plot(kind="bar")
+plt.title("Chiffre d'affaires par catégorie")
+plt.ylabel("Montant (€)")
+plt.tight_layout()
+plt.savefig("ca_par_categorie.png")   # ou plt.show() pour l'afficher directement</pre>
+
+  <h3>Le lien avec la QA</h3>
+  <p>Analyser des résultats de tests, c'est le même métier appliqué à d'autres données. Un fichier de résultats d'exécution (nom du test, suite, succès ou échec, durée) se charge et se manipule exactement comme un fichier de commandes :</p>
+
+  <p class="code-label">Taux de réussite par suite, et détection de tests instables</p>
+  <pre>df_tests = pd.read_csv("resultats_tests.csv")
+
+taux_reussite = df_tests.groupby("suite")["succes"].mean() * 100
+print(taux_reussite)
+
+# Un test "flaky" est un test dont le résultat change d'une exécution à l'autre
+resultats_par_test = df_tests.groupby("nom_test")["succes"].nunique()
+tests_instables = resultats_par_test[resultats_par_test &gt; 1]
+print(tests_instables)</pre>
+
+  <p>La colonne <code>succes</code> contient des <code>True</code>/<code>False</code> (ou <code>1</code>/<code>0</code>) : sa moyenne donne directement un taux de réussite. Et <code>nunique()</code> compte le nombre de résultats différents obtenus par un même test à travers plusieurs exécutions — s'il vaut plus de 1, ce test a changé de verdict, un signal typique d'un test flaky à investiguer.</p>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>À partir du DataFrame <code>df</code> des commandes NovaCart, calcule le <strong>panier moyen</strong> (montant moyen par commande) pour chaque catégorie, et indique quelle catégorie a le panier moyen le plus élevé.</p>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre>panier_moyen = df.groupby("categorie")["montant"].mean().sort_values(ascending=False)
+print(panier_moyen)
+print(panier_moyen.index[0])   # nom de la catégorie au panier moyen le plus élevé</pre>
+        <p><code>.mean()</code> calcule la moyenne au lieu de la somme : on obtient le montant moyen d'une commande dans chaque catégorie, pas le total. Sur l'extrait de l'exemple, "Informatique" a un panier moyen bien plus élevé que "Mode" — une information différente du chiffre d'affaires total, qui peut être élevé simplement parce qu'il y a beaucoup de commandes, même petites.</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m20"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+
+<!-- ============ MODULE m21 ============ -->
+<section class="module" id="m21">
+  <div class="mod-eyebrow">Partie 6 · Module 21</div>
+  <h2 class="mod-title">Projets Machine Learning &amp; IA</h2>
+  <p>Le machine learning a mauvaise réputation de "boîte noire magique". En réalité, le principe de base est simple à comprendre, même sans bagage mathématique poussé. Ce module te fait construire un tout petit modèle avec <strong>scikit-learn</strong>, pour démystifier le sujet — et pour aborder avec un regard lucide les outils de test assistés par IA que tu croiseras de plus en plus dans ton futur métier.</p>
+
+  <h3>Le principe de l'apprentissage supervisé</h3>
+  <p>Imagine que tu montres à quelqu'un cent commandes NovaCart passées, en lui disant à chaque fois si la commande a été retournée ou non. Après un moment, cette personne commence à repérer des régularités : les commandes livrées en plus de 5 jours, ou avec un seul article très bon marché, sont plus souvent retournées. C'est exactement le principe de l'<strong>apprentissage supervisé</strong> : on fournit à un algorithme des exemples (les caractéristiques, ou features) accompagnés de la bonne réponse (l'étiquette, ou label) ; l'algorithme cherche un <strong>pattern</strong> statistique reliant les deux, sans qu'on lui dise explicitement quelle règle appliquer.</p>
+
+  <p class="code-label">Un petit jeu de données : commandes NovaCart passées, retournées ou non</p>
+  <pre>import pandas as pd
+
+data = {
+    "montant":                 [120, 45, 300, 15, 90, 60, 250, 20, 180, 35],
+    "delai_livraison_jours":   [2,   5,  1,   7,  3,  4,  2,   6,  2,   5],
+    "nombre_articles":         [3,   1,  5,   1,  2,  2,  4,   1,  3,   1],
+    "retourne":                [0,   0,  0,   1,  0,  1,  0,   1,  0,   1],
+}
+df = pd.DataFrame(data)</pre>
+
+  <p>Ici, <code>montant</code>, <code>delai_livraison_jours</code> et <code>nombre_articles</code> sont les caractéristiques ; <code>retourne</code> (0 = non, 1 = oui) est l'étiquette que le modèle va apprendre à prédire.</p>
+
+  <h3>Entraîner un modèle avec scikit-learn</h3>
+  <p><strong>scikit-learn</strong> est la bibliothèque Python de référence pour le machine learning "classique" (par opposition au deep learning). Elle fournit des algorithmes prêts à l'emploi derrière une interface commune : <code>.fit()</code> pour entraîner, <code>.predict()</code> pour prédire, <code>.score()</code> pour évaluer.</p>
+
+  <p class="code-label">Entraîner un classifieur simple</p>
+  <pre>from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+
+X = df[["montant", "delai_livraison_jours", "nombre_articles"]]
+y = df["retourne"]
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+modele = LogisticRegression()
+modele.fit(X_train, y_train)
+
+print(modele.score(X_test, y_test))   # proportion de prédictions correctes sur des données jamais vues</pre>
+
+  <p>Par convention, <code>X</code> (majuscule) désigne les caractéristiques et <code>y</code> (minuscule) l'étiquette à prédire. <code>LogisticRegression</code> est un des classifieurs les plus simples de scikit-learn : malgré son nom, il sert à prédire une catégorie (ici, 0 ou 1), pas une valeur continue.</p>
+
+  <h3>Pourquoi séparer entraînement et test ?</h3>
+  <p><code>train_test_split</code> découpe les données en deux morceaux : le modèle apprend sur <code>X_train</code>/<code>y_train</code>, et on vérifie ses performances sur <code>X_test</code>/<code>y_test</code> — des exemples qu'il n'a jamais vus pendant l'entraînement. C'est essentiel pour détecter le <strong>sur-apprentissage</strong> (overfitting) : un modèle peut "apprendre par cœur" les exemples d'entraînement, y compris leur bruit et leurs particularités, sans avoir compris le pattern général. Un tel modèle obtient un score excellent sur les données qu'il connaît déjà, et un score médiocre sur des données nouvelles.</p>
+
+  <p class="code-label">Comparer le score sur l'entraînement et sur le test</p>
+  <pre>print("Score sur l'entraînement :", modele.score(X_train, y_train))
+print("Score sur le test :", modele.score(X_test, y_test))</pre>
+
+  <p>Un grand écart entre les deux scores (très bon sur l'entraînement, nettement moins bon sur le test) est un signal classique de sur-apprentissage. C'est pour cette raison qu'on n'évalue jamais un modèle uniquement sur les données qui lui ont servi à apprendre.</p>
+
+  <h3>Prédire pour une nouvelle commande</h3>
+  <p>Une fois entraîné, le modèle peut être appliqué à une commande qu'il n'a jamais rencontrée :</p>
+
+  <p class="code-label">Prédire le risque de retour</p>
+  <pre>nouvelle_commande = pd.DataFrame([{
+    "montant": 15,
+    "delai_livraison_jours": 6,
+    "nombre_articles": 1,
+}])
+
+prediction = modele.predict(nouvelle_commande)
+probabilite = modele.predict_proba(nouvelle_commande)
+
+print(prediction)     # 1 = retour prédit, 0 = pas de retour prédit
+print(probabilite)    # exemple : [[0.28, 0.72]], soit 72 % de probabilité de retour</pre>
+
+  <div class="callout warn">
+    <div class="callout-label">Un score élevé ne suffit pas</div>
+    <p>Sur un jeu de données très déséquilibré (par exemple, si 90 % des commandes ne sont jamais retournées), un modèle qui prédit systématiquement "pas de retour" obtiendrait déjà 90 % de score sans avoir rien appris d'utile. C'est pour cette raison que l'évaluation d'un modèle réel s'appuie sur plusieurs métriques, pas uniquement sur le score global — un sujet qui dépasse ce module d'introduction, mais qu'il est important de savoir exister.</p>
+  </div>
+
+  <h3>Le lien avec la QA : les outils de test assistés par IA</h3>
+  <p>Depuis quelques années, plusieurs outils de test s'appuient sur du machine learning ou des modèles de langage : génération automatique de cas de test à partir d'une spécification ou du code source, détection d'anomalies dans des résultats d'exécution (repérer un comportement qui s'écarte du profil habituel), ou correction automatique de sélecteurs cassés dans des tests d'interface (dit "self-healing"). Ce sont des outils réels et de plus en plus répandus, mais ils restent des assistants : ils proposent, et l'humain valide. Avoir compris ici qu'un modèle n'est fiable que sur des données proches de celles sur lesquelles il a appris — et qu'un bon score peut être trompeur — te donne un regard critique utile face à ces outils, plutôt qu'une confiance ou une méfiance non justifiées.</p>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>En utilisant le modèle entraîné plus haut, prédis si une commande NovaCart de <strong>200 €</strong>, livrée en <strong>2 jours</strong>, avec <strong>4 articles</strong>, risque d'être retournée. Affiche aussi la probabilité associée à cette prédiction.</p>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre>nouvelle_commande = pd.DataFrame([{
+    "montant": 200,
+    "delai_livraison_jours": 2,
+    "nombre_articles": 4,
+}])
+
+print(modele.predict(nouvelle_commande))
+print(modele.predict_proba(nouvelle_commande))</pre>
+        <p>Cette commande ressemble aux exemples "non retournés" du jeu d'entraînement (montant élevé, livraison rapide) : le modèle devrait prédire <code>0</code>, avec une probabilité de retour faible. Garde en tête que ce jeu de données ne contient que dix exemples : un modèle entraîné sur si peu de données sert à illustrer le principe, pas à produire une prédiction fiable en conditions réelles — il faudrait des centaines, voire des milliers d'exemples pour ça.</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m21"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+
+<!-- ============ MODULE m22 ============ -->
+<section class="module" id="m22">
+  <div class="mod-eyebrow">Partie 6 · Module 22</div>
+  <h2 class="mod-title">Projets mobile et jeu vidéo</h2>
+  <p>Jusqu'ici, tout ce que tu as écrit tournait dans un terminal ou manipulait des données NovaCart en coulisses. Ce module te fait sortir de ce cadre le temps d'un aperçu : comment Python permet aussi de créer des jeux vidéo et, dans une moindre mesure, des applications mobiles. Ce n'est pas le cœur du métier de testeur QA web/API que vise ce parcours, mais savoir que ça existe — et comprendre à quoi ressemble ce genre de projet — t'aide à situer les spécialités voisines du métier.</p>
+
+  <h3>Pygame : une bibliothèque pour créer des jeux 2D</h3>
+  <p><strong>Pygame</strong> est la bibliothèque la plus utilisée pour créer des jeux 2D en Python. Elle s'installe comme n'importe quel package :</p>
+  <p class="code-label">Installation</p>
+  <pre>pip install pygame</pre>
+  <p>Un jeu Pygame repose toujours sur la même structure : on ouvre une fenêtre, puis on entre dans une <strong>boucle de jeu</strong> qui tourne en continu jusqu'à ce que le joueur ferme le programme. À chaque tour de boucle, on lit les événements (clavier, souris, fermeture de fenêtre), on met à jour l'état du jeu, puis on redessine l'écran.</p>
+
+  <p class="code-label">Squelette minimal d'un jeu Pygame</p>
+  <pre>import pygame
+
+pygame.init()
+ecran = pygame.display.set_mode((800, 600))
+pygame.display.set_caption("Mon premier jeu")
+horloge = pygame.time.Clock()
+
+running = True
+while running:
+    for evenement in pygame.event.get():
+        if evenement.type == pygame.QUIT:
+            running = False
+
+    ecran.fill((20, 20, 30))          # on efface l'écran (fond gris foncé)
+    pygame.display.flip()             # on affiche l'image construite
+    horloge.tick(60)                  # on limite la boucle à 60 images/seconde
+
+pygame.quit()</pre>
+  <p>La ligne <code>while running:</code> est la boucle de jeu. La boucle <code>for evenement in pygame.event.get():</code> à l'intérieur récupère tout ce qui s'est passé depuis le dernier tour (touche pressée, clic, fermeture de fenêtre) — sans elle, la fenêtre ne réagirait à rien.</p>
+
+  <h3>Dessiner et déplacer un élément</h3>
+  <p>Pour déplacer quelque chose à l'écran, le principe est toujours le même : on garde ses coordonnées dans des variables, on les modifie selon les touches pressées, puis on redessine l'élément à sa nouvelle position à chaque tour de boucle.</p>
+  <p class="code-label">Un carré qui se déplace avec les flèches du clavier</p>
+  <pre>import pygame
+
+pygame.init()
+ecran = pygame.display.set_mode((800, 600))
+horloge = pygame.time.Clock()
+
+x, y = 400, 300
+vitesse = 5
+
+running = True
+while running:
+    for evenement in pygame.event.get():
+        if evenement.type == pygame.QUIT:
+            running = False
+
+    touches = pygame.key.get_pressed()
+    if touches[pygame.K_LEFT]:
+        x -= vitesse
+    if touches[pygame.K_RIGHT]:
+        x += vitesse
+    if touches[pygame.K_UP]:
+        y -= vitesse
+    if touches[pygame.K_DOWN]:
+        y += vitesse
+
+    ecran.fill((20, 20, 30))
+    pygame.draw.rect(ecran, (255, 140, 0), (x, y, 40, 40))
+    pygame.display.flip()
+    horloge.tick(60)
+
+pygame.quit()</pre>
+  <p><code>pygame.key.get_pressed()</code> renvoie l'état de toutes les touches du clavier à l'instant présent, ce qui permet de bouger le carré tant qu'une flèche reste enfoncée — contrairement à un événement, qui ne se déclenche qu'une fois au moment de l'appui.</p>
+
+  <div class="callout">
+    <div class="callout-label">Pourquoi horloge.tick(60) ?</div>
+    <p>Sans cette ligne, la boucle tournerait aussi vite que le processeur le permet — le jeu irait à des vitesses différentes selon l'ordinateur. <code>tick(60)</code> force la boucle à ne pas dépasser 60 tours par seconde, ce qui rend le mouvement cohérent d'une machine à l'autre.</p>
+  </div>
+
+  <h3>Et pour une application mobile ?</h3>
+  <p>Python n'est pas le langage le plus courant pour développer des applications mobiles natives, mais des bibliothèques existent pour ça : <strong>Kivy</strong> et <strong>BeeWare</strong> permettent d'écrire une application en Python et de l'empaqueter pour Android ou iOS. On ne les détaille pas ici — l'essentiel est de savoir que cette porte existe si un jour un projet t'y amène.</p>
+
+  <h3>Le lien avec la QA</h3>
+  <p>Tester un jeu vidéo ou une application mobile est un métier à part entière, avec ses propres réflexes : tests de performance (le jeu garde-t-il ses images par seconde sous charge ?), tests sur device réel (l'appli se comporte-t-elle pareil sur un vieux smartphone Android et sur un iPhone récent ?), tests de compatibilité entre tailles d'écran et versions d'OS. Ce n'est pas l'axe de ce parcours, centré sur le test web et API, mais c'est une spécialisation recherchée — utile à connaître si tu explores les métiers voisins de la QA.</p>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>Reprends le squelette minimal du début du module et transforme-le pour afficher une balle (un cercle) qui se déplace toute seule en diagonale et <strong>rebondit</strong> sur les bords de la fenêtre, sans intervention du clavier.</p>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre>import pygame
+
+pygame.init()
+LARGEUR, HAUTEUR = 800, 600
+ecran = pygame.display.set_mode((LARGEUR, HAUTEUR))
+horloge = pygame.time.Clock()
+
+x, y = 400, 300
+rayon = 20
+vx, vy = 4, 3
+
+running = True
+while running:
+    for evenement in pygame.event.get():
+        if evenement.type == pygame.QUIT:
+            running = False
+
+    x += vx
+    y += vy
+
+    if x - rayon &lt;= 0 or x + rayon &gt;= LARGEUR:
+        vx = -vx
+    if y - rayon &lt;= 0 or y + rayon &gt;= HAUTEUR:
+        vy = -vy
+
+    ecran.fill((20, 20, 30))
+    pygame.draw.circle(ecran, (0, 200, 255), (x, y), rayon)
+    pygame.display.flip()
+    horloge.tick(60)
+
+pygame.quit()</pre>
+        <p>À chaque tour, on avance la balle de <code>vx</code> et <code>vy</code>. Quand son bord touche ou dépasse une paroi, on inverse le signe de la vitesse correspondante (<code>vx = -vx</code> ou <code>vy = -vy</code>), ce qui simule un rebond. C'est le même principe qu'un contrôleur de foule qui redirige les gens quand ils arrivent au bout d'un couloir.</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m22"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+
+<!-- ============ MODULE m23 ============ -->
+<section class="module" id="m23">
+  <div class="mod-eyebrow">Partie 6 · Module 23</div>
+  <h2 class="mod-title">Cybersécurité avec Python</h2>
+  <p>Ce module reste volontairement du côté défensif : comprendre comment on protège des données plutôt que comment on attaque un système. L'objectif n'est pas de faire de toi une experte ou un expert en sécurité, mais de te donner les réflexes de base — hachage de mots de passe, méfiance envers les entrées utilisateur — et de savoir repérer les signaux d'alerte quand tu testes une application, y compris chez NovaCart.</p>
+
+  <h3>Pourquoi on ne stocke jamais un mot de passe en clair</h3>
+  <p>Si la base de données de NovaCart était un jour compromise, un mot de passe stocké tel quel ("clémence1985") serait immédiatement lisible par quiconque met la main dessus. C'est pour ça qu'on ne stocke jamais un mot de passe en clair : on stocke son <strong>empreinte</strong>, calculée par une fonction de hachage.</p>
+  <p>Une fonction de hachage transforme n'importe quelle entrée en une chaîne de longueur fixe, toujours la même pour la même entrée, et impossible à inverser pour retrouver l'entrée d'origine. Le module <code>hashlib</code> de la bibliothèque standard en propose plusieurs.</p>
+
+  <p class="code-label">Hacher un mot de passe avec hashlib</p>
+  <pre>import hashlib
+
+mot_de_passe = "MotDePasse123!"
+empreinte = hashlib.sha256(mot_de_passe.encode()).hexdigest()
+
+print(empreinte)
+# 8f7c3a2e9d1b4f6a0c5e8d2b7f1a4c9e3d6b8f0a2c4e6d8b1f3a5c7e9d0b2f4a</pre>
+  <p>NovaCart ne stocke donc jamais le mot de passe saisi à l'inscription : elle calcule son empreinte et ne conserve que celle-ci. À la connexion, elle recalcule l'empreinte du mot de passe saisi et la compare à celle stockée — sans jamais avoir besoin de connaître le mot de passe réel.</p>
+
+  <p class="code-label">Vérifier une connexion par comparaison d'empreintes</p>
+  <pre>def verifier_connexion(mot_de_passe_saisi, empreinte_stockee):
+    empreinte_calculee = hashlib.sha256(mot_de_passe_saisi.encode()).hexdigest()
+    return empreinte_calculee == empreinte_stockee</pre>
+
+  <div class="callout warn">
+    <div class="callout-label">SHA-256 seul ne suffit pas en production</div>
+    <p>L'exemple ci-dessus illustre le principe, mais un vrai système ne se contente pas d'un <code>sha256</code> nu : il ajoute un <strong>sel</strong> (une valeur aléatoire propre à chaque utilisateur, pour empêcher deux mots de passe identiques d'avoir la même empreinte) et utilise des algorithmes conçus pour être lents, comme <strong>bcrypt</strong> ou <strong>argon2</strong>, afin de rendre les attaques par force brute coûteuses. Retiens le principe ici ; les bons outils existent en bibliothèques dédiées.</p>
+  </div>
+
+  <h3>Ne jamais faire confiance à une entrée utilisateur</h3>
+  <p>Toute donnée saisie par un utilisateur — un champ de formulaire, un paramètre d'URL, un fichier importé — doit être considérée comme potentiellement hostile tant qu'elle n'a pas été validée. C'est vrai pour une adresse e-mail mal formée comme pour une tentative délibérée de manipulation.</p>
+  <p>Le cours de SQL du parcours a déjà évoqué les requêtes paramétrées : voici pourquoi elles comptent tant. Comparons deux façons d'utiliser une valeur saisie par le client dans une requête SQL.</p>
+
+  <p class="code-label">Deux façons de construire une requête — une dangereuse, une sûre</p>
+  <pre># Dangereux : la valeur saisie est collée directement dans le texte de la requête
+requete = f"SELECT * FROM clients WHERE email = '{email_saisi}'"
+curseur.execute(requete)
+
+# Sûr : la valeur est transmise à part, jamais interprétée comme du SQL
+requete = "SELECT * FROM clients WHERE email = %s"
+curseur.execute(requete, (email_saisi,))</pre>
+  <p>Dans la première version, <code>email_saisi</code> devient une partie du texte de la requête : une chaîne construite pour contenir des caractères SQL peut en changer le sens et faire exécuter au serveur autre chose que ce qui était prévu — c'est le principe d'une <strong>injection SQL</strong>. Dans la seconde, la base de données sait dès le départ que <code>email_saisi</code> est une valeur, jamais du code SQL : elle ne peut pas modifier la structure de la requête, quel que soit son contenu. Retiens la règle plutôt que le détail technique de l'attaque : une entrée utilisateur ne doit jamais être concaténée directement dans une requête ou une commande.</p>
+
+  <div class="callout">
+    <div class="callout-label">L'OWASP Top 10</div>
+    <p>L'<strong>OWASP Top 10</strong> est une liste de référence, régulièrement mise à jour, des dix familles de failles les plus courantes dans les applications web (l'injection en fait partie). On ne la détaille pas ici, mais retiens le nom : c'est un document que toute personne travaillant autour de la sécurité applicative connaît et consulte.</p>
+  </div>
+
+  <h3>Le lien avec la QA</h3>
+  <p>Les tests de sécurité — tests d'intrusion, revue de code orientée sécurité — forment une spécialité à part entière, recherchée et souvent bien valorisée. Sans devenir spécialiste, un testeur QA généraliste doit savoir reconnaître les signaux d'alerte les plus évidents : un mot de passe visible en clair dans une base de données ou un fichier de log, un formulaire qui accepte n'importe quelle entrée sans validation, un message d'erreur qui révèle des détails techniques internes. Repérer ces signaux et les remonter fait partie du travail, même sans expertise poussée.</p>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>Écris une fonction <code>inscrire_client(mot_de_passe)</code> qui vérifie que le mot de passe fait au moins 8 caractères et contient au moins un chiffre. Si ces conditions sont respectées, la fonction renvoie l'empreinte SHA-256 du mot de passe ; sinon, elle lève une <code>ValueError</code> avec un message expliquant le problème.</p>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre>import hashlib
+
+def inscrire_client(mot_de_passe):
+    if len(mot_de_passe) &lt; 8:
+        raise ValueError("Le mot de passe doit contenir au moins 8 caractères.")
+    if not any(caractere.isdigit() for caractere in mot_de_passe):
+        raise ValueError("Le mot de passe doit contenir au moins un chiffre.")
+    return hashlib.sha256(mot_de_passe.encode()).hexdigest()</pre>
+        <p>On valide toujours l'entrée avant de la traiter, jamais après : ici, si l'une des deux conditions échoue, la fonction s'arrête net avec une erreur explicite, et aucun hachage n'est calculé sur un mot de passe invalide. C'est le même réflexe que la validation d'entrée vue plus haut — ne jamais laisser une donnée non contrôlée avancer plus loin dans le programme.</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m23"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+
+<div class="part-divider"><span class="part-tag">PARTIE 7</span><h2 class="part-title">Conclusion</h2></div>
+<p class="part-intro">Un point d'arrivée, et des pistes pour la suite.</p>
+
+<!-- ============ MODULE m24 ============ -->
+<section class="module" id="m24">
+  <div class="mod-eyebrow">Partie 7 · Module 24</div>
+  <h2 class="mod-title">Feuille de route et prochaines étapes</h2>
+  <p>Regarde le chemin parcouru. Il y a quelques semaines ou quelques mois, <code>print("Hello, world!")</code> était peut-être la première ligne de Python que tu écrivais. Depuis, tu as manipulé des variables, des boucles, des fonctions, des fichiers, des dictionnaires imbriqués représentant des commandes NovaCart. Tu as touché aux tests automatisés, à Git, à SQL, à l'API, et tu viens de terminer trois projets guidés qui ressemblent, en plus petit, à ce qu'un vrai poste de testeur QA implique au quotidien. Ce n'est pas rien — et ça mérite d'être reconnu avant de regarder vers la suite.</p>
+
+  <h3>Ce que tu as construit</h3>
+  <p>Ce parcours t'a fait passer par trois familles de compétences qui se recoupent en permanence dans le métier de testeur QA : les bases du langage Python pour raisonner et automatiser, les compétences complémentaires (ligne de commande, résolution de problèmes, structures de données, pytest) pour comprendre l'environnement d'un vrai projet logiciel, et des projets guidés pour mettre tout ça en pratique sur des cas concrets. Aucune de ces briques n'est optionnelle dans le métier : c'est leur combinaison qui fait la différence entre "je sais coder un peu" et "je sais tester une application réelle".</p>
+
+  <h3>Trois pistes concrètes pour continuer à progresser</h3>
+  <p><strong>Construire un petit projet personnel.</strong> Rien ne consolide un apprentissage comme un projet choisi par toi, même modeste : un script qui vérifie automatiquement les prix d'un site, une petite suite de tests pour une API publique gratuite, un outil qui nettoie un fichier CSV que tu utilises vraiment. L'important n'est pas l'ampleur du projet, mais qu'il te fasse combiner plusieurs compétences vues dans ce cours — fonctions, gestion de fichiers, peut-être une bibliothèque de test.</p>
+  <p><strong>Contribuer à un projet open source.</strong> Pas besoin d'écrire du code au départ : corriger une documentation, signaler un bug clairement reproductible, ou proposer un petit test manquant sont des contributions bienvenues et accessibles à un niveau débutant. C'est aussi la meilleure façon de pratiquer Git et GitHub dans un contexte réel, avec de vraies pull requests et de vraies relectures.</p>
+  <p><strong>Te créer un portfolio sur GitHub.</strong> Un dépôt propre avec quelques projets, un fichier <code>README</code> qui explique ce que fait chaque projet et pourquoi tu l'as fait, vaut souvent plus qu'un long CV pour un premier poste en QA. Ce portfolio, tu peux commencer à le construire dès aujourd'hui avec les exercices de ce cours.</p>
+
+  <div class="callout">
+    <div class="callout-label">Et après ce cours ?</div>
+    <p>La suite logique de ce parcours est le cours "Qualité Logicielle Automatisée", qui approfondit les tests automatisés avec des outils utilisés en entreprise — Playwright pour l'automatisation web, pytest en contexte réel de projet. Si tu envisages une certification reconnue par les recruteurs, la certification <strong>ISTQB</strong> (niveau Foundation) est un repère solide à regarder à ce stade : elle valide les fondamentaux du métier de testeur, indépendamment d'un langage ou d'un outil précis.</p>
+  </div>
+
+  <h3>Un mot avant de te laisser partir</h3>
+  <p>Se reconvertir vers un métier technique demande du temps, de la patience envers soi-même, et une bonne dose de persévérance face aux moments où rien ne semble avancer. Si tu es arrivée ou arrivé jusqu'ici, ces qualités, tu les as déjà. Le métier de testeur QA a besoin de personnes curieuses, rigoureuses et capables de se mettre à la place de l'utilisateur — des qualités qui ne s'apprennent pas uniquement dans un cours de Python. Le reste, la maîtrise technique, continuera de se construire avec la pratique. Bonne route.</p>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>Prends cinq minutes et écris ton propre plan en <strong>trois étapes</strong> pour les 30 prochains jours, en t'appuyant sur les pistes évoquées plus haut (projet personnel, contribution open source, portfolio, cours suivant, révisions). Sois concret : que feras-tu, et à quel moment ?</p>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre>Étape 1 (semaine 1) :
+Reprendre les exercices des modules 19 à 21 et en choisir un pour
+en faire un petit projet personnel, en l'étendant avec une idée à moi.
+
+Étape 2 (semaines 2-3) :
+Créer un dépôt GitHub "portfolio-qa", y déposer ce projet avec un
+README clair, et chercher un ou deux petits projets open source
+où proposer une première contribution simple (doc, test, bug).
+
+Étape 3 (semaine 4) :
+Commencer le cours "Qualité Logicielle Automatisée" à raison de
+deux modules par semaine, et me renseigner sur le contenu de
+l'ISTQB Foundation pour voir si ça correspond à mes objectifs.</pre>
+        <p>Il n'existe pas de "bon" plan universel — celui-ci n'est qu'un exemple pour te donner un ordre de grandeur. Ce qui compte, c'est que le tien soit réaliste par rapport à ton temps disponible, et suffisamment concret pour que tu puisses savoir, dans 30 jours, si tu l'as tenu ou non.</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m24"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+
     <div class="footer-note">
       <p>Cours rédigé comme fondation du cours "Qualité Logicielle Automatisée" — même méthode, même esprit pratique. Le suivi de progression (cases à cocher) est enregistré uniquement dans ce navigateur.</p>
       <p>© 2026 Devenir Testeur QA — créé par Abdelalim Rmili. Tous droits réservés.</p>
@@ -1601,7 +2763,7 @@ def test_stock_insuffisant():
 <script>
 (function(){
   var STORAGE_KEY = 'python-course-progress-v1';
-  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14'];
+  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','m15','m16','m17','m18','m19','m20','m21','m22','m23','m24'];
 
   function loadDone(){
     try{
