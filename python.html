@@ -218,11 +218,129 @@
   .theme-toggle.is-dark .theme-icon-sun{display:block;}
   .theme-toggle.is-dark .theme-icon-moon{display:none;}
   @media (max-width:640px){ .theme-toggle{top:12px; right:12px; width:34px; height:34px;} }
+
+  .py-play-toggle{
+    position:fixed; top:18px; right:66px; z-index:60;
+    width:38px; height:38px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--surface); color:var(--text-dim);
+    border:1px solid var(--border-strong);
+    cursor:pointer; padding:0;
+    box-shadow:0 1px 2px rgba(0,0,0,0.08), 0 6px 16px -10px rgba(0,0,0,0.35);
+    transition:color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  }
+  .py-play-toggle:hover{color:var(--accent-strong); border-color:var(--accent-strong); transform:translateY(-1px);}
+  .py-play-toggle svg{display:block;}
+  @media (max-width:640px){ .py-play-toggle{top:12px; right:54px; width:34px; height:34px;} }
+
+  .py-play-overlay{
+    position:fixed; inset:0; z-index:100;
+    background:rgba(10,14,22,0.55);
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
+  }
+  .py-play-overlay[hidden]{display:none;}
+  .py-play-modal{
+    background:var(--surface); border:1px solid var(--border-strong); border-radius:14px;
+    width:min(980px, 100%); max-height:min(720px, 90vh);
+    display:flex; flex-direction:column;
+    box-shadow:0 20px 60px -20px rgba(0,0,0,0.5);
+    overflow:hidden;
+  }
+  .py-play-header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 18px; border-bottom:1px solid var(--border);
+    flex:none;
+  }
+  .py-play-title{font-family:"IBM Plex Mono"; font-size:13px; font-weight:600; letter-spacing:0.02em; color:var(--text); display:flex; align-items:center; gap:8px;}
+  .py-play-close{
+    width:28px; height:28px; border-radius:8px; border:1px solid transparent;
+    background:transparent; color:var(--text-faint); cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .py-play-close:hover{background:var(--surface-2); color:var(--text);}
+  .py-play-body{
+    flex:1 1 auto; min-height:0;
+    display:grid; grid-template-columns:1fr 1fr; gap:1px;
+    background:var(--border);
+  }
+  @media (max-width:760px){ .py-play-body{grid-template-columns:1fr; grid-template-rows:1fr 1fr;} }
+  .py-play-pane{background:var(--surface); display:flex; flex-direction:column; min-height:0;}
+  .py-play-pane-label{
+    font-family:"IBM Plex Mono"; font-size:10.5px; font-weight:600; text-transform:uppercase; letter-spacing:0.07em;
+    color:var(--text-faint); padding:9px 14px; border-bottom:1px solid var(--border); flex:none;
+  }
+  .py-play-code{
+    flex:1 1 auto; width:100%; border:none; resize:none; outline:none;
+    background:var(--surface); color:var(--text);
+    font-family:"IBM Plex Mono", monospace; font-size:12.5px; line-height:1.55;
+    padding:14px; min-height:0; box-sizing:border-box;
+  }
+  .py-play-output{
+    flex:1 1 auto; margin:0; padding:14px; overflow:auto;
+    background:var(--surface); color:var(--text);
+    font-family:"IBM Plex Mono", monospace; font-size:12.5px; line-height:1.55;
+    white-space:pre-wrap; word-break:break-word;
+  }
+  .py-play-output.is-error{color:var(--fail);}
+  .py-play-toolbar{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:12px 18px; border-top:1px solid var(--border); flex:none;
+  }
+  .py-play-run{
+    display:inline-flex; align-items:center; gap:7px;
+    background:var(--accent); color:#fff; border:none; border-radius:8px;
+    padding:8px 16px; font-family:"IBM Plex Sans"; font-size:13px; font-weight:600;
+    cursor:pointer; transition:background 0.15s ease;
+  }
+  .py-play-run:hover{background:var(--accent-strong);}
+  .py-play-run:disabled{opacity:0.55; cursor:default;}
+  .py-play-status{font-size:11.5px; color:var(--text-faint); font-family:"IBM Plex Mono";}
 </style>
 <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Basculer entre mode clair et mode sombre" title="Mode clair / sombre">
   <svg class="theme-icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
   <svg class="theme-icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
 </button>
+
+<button id="py-play-toggle" class="py-play-toggle" type="button" aria-label="Ouvrir le bac à sable Python" title="Bac à sable Python — écris et exécute du code">
+  <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+</button>
+
+<div id="py-play-overlay" class="py-play-overlay" hidden>
+  <div class="py-play-modal" role="dialog" aria-modal="true" aria-label="Bac à sable Python">
+    <div class="py-play-header">
+      <span class="py-play-title">🐍 Bac à sable Python</span>
+      <button id="py-play-close" class="py-play-close" type="button" aria-label="Fermer">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="py-play-body">
+      <div class="py-play-pane">
+        <div class="py-play-pane-label">Code</div>
+        <textarea id="py-play-code" class="py-play-code" spellcheck="false">nom = "NovaCart"
+articles = [
+    {"nom": "Guide QA débutant", "prix": 12.9},
+    {"nom": "Câble USB-C", "prix": 8.5},
+]
+
+total = sum(a["prix"] for a in articles)
+print(f"Boutique : {nom}")
+print(f"Total du panier : {total:.2f} €")</textarea>
+      </div>
+      <div class="py-play-pane">
+        <div class="py-play-pane-label">Résultat</div>
+        <pre id="py-play-output" class="py-play-output">Clique sur "Exécuter" pour lancer ce code.</pre>
+      </div>
+    </div>
+    <div class="py-play-toolbar">
+      <span id="py-play-status" class="py-play-status"></span>
+      <button id="py-play-run" class="py-play-run" type="button">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><polygon points="6 4 20 12 6 20"/></svg>
+        Exécuter
+      </button>
+    </div>
+  </div>
+</div>
 
 <script>
 (function(){
@@ -257,6 +375,98 @@
       if(!root.getAttribute('data-theme')) updateIcon();
     });
   }
+})();
+</script>
+
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+<script>
+(function(){
+  var toggleBtn = document.getElementById('py-play-toggle');
+  var overlay = document.getElementById('py-play-overlay');
+  var closeBtn = document.getElementById('py-play-close');
+  var runBtn = document.getElementById('py-play-run');
+  var codeEl = document.getElementById('py-play-code');
+  var outputEl = document.getElementById('py-play-output');
+  var statusEl = document.getElementById('py-play-status');
+  if(!toggleBtn || !overlay) return;
+
+  var pyodideInstance = null;
+  var pyodideLoading = null;
+
+  function openModal(){
+    overlay.hidden = false;
+    document.body.style.overflow = 'hidden';
+    ensurePyodide();
+  }
+  function closeModal(){
+    overlay.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  toggleBtn.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e){
+    if(e.target === overlay) closeModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && !overlay.hidden) closeModal();
+  });
+
+  function ensurePyodide(){
+    if(pyodideInstance) return Promise.resolve(pyodideInstance);
+    if(pyodideLoading) return pyodideLoading;
+    if(typeof loadPyodide !== 'function'){
+      statusEl.textContent = "Interpréteur Python indisponible (connexion réseau ?).";
+      runBtn.disabled = true;
+      return Promise.resolve(null);
+    }
+    statusEl.textContent = "Chargement de l'interpréteur Python...";
+    runBtn.disabled = true;
+    pyodideLoading = loadPyodide().then(function(instance){
+      pyodideInstance = instance;
+      statusEl.textContent = 'Prêt.';
+      runBtn.disabled = false;
+      return instance;
+    }).catch(function(err){
+      statusEl.textContent = "Impossible de charger l'interpréteur Python (connexion réseau ?).";
+      outputEl.textContent = String(err);
+      outputEl.classList.add('is-error');
+      return null;
+    });
+    return pyodideLoading;
+  }
+
+  function runCode(){
+    var code = codeEl.value;
+    outputEl.classList.remove('is-error');
+    var buffer = [];
+    pyodideInstance.setStdout({ batched: function(msg){ buffer.push(msg); } });
+    pyodideInstance.setStderr({ batched: function(msg){ buffer.push(msg); } });
+    try{
+      pyodideInstance.runPython(code);
+      outputEl.textContent = buffer.join('\n') || '(Aucune sortie — utilise print() pour afficher un résultat.)';
+    }catch(err){
+      outputEl.textContent = (buffer.length ? buffer.join('\n') + '\n\n' : '') + String(err.message || err);
+      outputEl.classList.add('is-error');
+    }
+  }
+
+  runBtn.addEventListener('click', function(){
+    if(runBtn.disabled) return;
+    statusEl.textContent = 'Exécution...';
+    runBtn.disabled = true;
+    ensurePyodide().then(function(instance){
+      if(instance){
+        setTimeout(function(){
+          runCode();
+          statusEl.textContent = 'Prêt.';
+          runBtn.disabled = false;
+        }, 10);
+      } else {
+        runBtn.disabled = false;
+      }
+    });
+  });
 })();
 </script>
 
