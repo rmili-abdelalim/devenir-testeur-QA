@@ -221,17 +221,24 @@
 
   .py-play-toggle{
     position:fixed; top:18px; right:66px; z-index:60;
-    width:38px; height:38px; border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
+    height:38px; padding:0 15px 0 12px; border-radius:19px;
+    display:flex; align-items:center; gap:7px;
     background:var(--surface); color:var(--text-dim);
     border:1px solid var(--border-strong);
-    cursor:pointer; padding:0;
+    cursor:pointer; white-space:nowrap;
+    font-family:"IBM Plex Sans"; font-size:12.5px; font-weight:600; letter-spacing:0.01em;
     box-shadow:0 1px 2px rgba(0,0,0,0.08), 0 6px 16px -10px rgba(0,0,0,0.35);
     transition:color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
   }
   .py-play-toggle:hover{color:var(--accent-strong); border-color:var(--accent-strong); transform:translateY(-1px);}
-  .py-play-toggle svg{display:block;}
-  @media (max-width:640px){ .py-play-toggle{top:12px; right:54px; width:34px; height:34px;} }
+  .py-play-toggle svg{display:block; flex:none;}
+  @media (max-width:640px){
+    .py-play-toggle{top:12px; right:54px; height:34px; padding:0 11px 0 10px; font-size:11.5px; gap:5px;}
+  }
+  @media (max-width:420px){
+    .py-play-toggle span{display:none;}
+    .py-play-toggle{padding:0; width:34px; justify-content:center; border-radius:50%;}
+  }
 
   .py-play-overlay{
     position:fixed; inset:0; z-index:100;
@@ -297,39 +304,16 @@
   .py-play-run:hover{background:var(--accent-strong);}
   .py-play-run:disabled{opacity:0.55; cursor:default;}
   .py-play-status{font-size:11.5px; color:var(--text-faint); font-family:"IBM Plex Mono";}
-
-  .py-play-hint{
-    position:fixed; top:64px; right:18px; z-index:59;
-    max-width:220px; background:var(--surface); border:1px solid var(--border-strong);
-    border-radius:10px; padding:10px 12px;
-    font-family:"IBM Plex Sans"; font-size:12px; line-height:1.45; color:var(--text-dim);
-    box-shadow:0 6px 20px -8px rgba(0,0,0,0.35);
-    display:flex; align-items:flex-start; gap:8px;
-    opacity:0; transform:translateY(-6px); pointer-events:none;
-    transition:opacity 0.2s ease, transform 0.2s ease;
-  }
-  .py-play-hint.is-visible{opacity:1; transform:translateY(0); pointer-events:auto;}
-  .py-play-hint-close{
-    flex:none; width:16px; height:16px; border:none; background:transparent;
-    color:var(--text-faint); cursor:pointer; padding:0; line-height:1; font-size:13px;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .py-play-hint-close:hover{color:var(--text);}
-  @media (max-width:640px){ .py-play-hint{top:56px; right:12px; max-width:190px;} }
 </style>
 <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Basculer entre mode clair et mode sombre" title="Mode clair / sombre">
   <svg class="theme-icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
   <svg class="theme-icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
 </button>
 
-<button id="py-play-toggle" class="py-play-toggle" type="button" aria-label="Ouvrir le bac à sable Python" title="Bac à sable Python — écris et exécute du code">
-  <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+<button id="py-play-toggle" class="py-play-toggle" type="button" aria-label="Ouvrir le bac à sable Python — essaie de coder toi-même" title="Bac à sable Python — écris et exécute du code">
+  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+  <span>Essaie de coder toi-même</span>
 </button>
-
-<div id="py-play-hint" class="py-play-hint">
-  <span>🐍 Essaie de coder toi-même — clique ici pour ouvrir un petit éditeur Python et voir le résultat.</span>
-  <button id="py-play-hint-close" class="py-play-hint-close" type="button" aria-label="Fermer l'astuce">✕</button>
-</div>
 
 <div id="py-play-overlay" class="py-play-overlay" hidden>
   <div class="py-play-modal" role="dialog" aria-modal="true" aria-label="Bac à sable Python">
@@ -415,37 +399,14 @@ print(f"Total du panier : {total:.2f} €")</textarea>
   var codeEl = document.getElementById('py-play-code');
   var outputEl = document.getElementById('py-play-output');
   var statusEl = document.getElementById('py-play-status');
-  var hintEl = document.getElementById('py-play-hint');
-  var hintCloseBtn = document.getElementById('py-play-hint-close');
   if(!toggleBtn || !overlay) return;
 
   var pyodideInstance = null;
   var pyodideLoading = null;
 
-  var HINT_KEY = 'qa-py-play-hint-dismissed';
-  var hintTimer = null;
-  function dismissHint(){
-    if(!hintEl) return;
-    hintEl.classList.remove('is-visible');
-    try{ localStorage.setItem(HINT_KEY, '1'); }catch(e){}
-    if(hintTimer){ clearTimeout(hintTimer); hintTimer = null; }
-  }
-  if(hintEl){
-    var alreadyDismissed = false;
-    try{ alreadyDismissed = localStorage.getItem(HINT_KEY) === '1'; }catch(e){}
-    if(!alreadyDismissed){
-      setTimeout(function(){ hintEl.classList.add('is-visible'); }, 700);
-      hintTimer = setTimeout(dismissHint, 13000);
-    }
-    if(hintCloseBtn){
-      hintCloseBtn.addEventListener('click', function(e){ e.stopPropagation(); dismissHint(); });
-    }
-  }
-
   function openModal(){
     overlay.hidden = false;
     document.body.style.overflow = 'hidden';
-    dismissHint();
     ensurePyodide();
   }
   function closeModal(){
