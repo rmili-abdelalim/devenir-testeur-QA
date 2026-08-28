@@ -5,6 +5,7 @@
 <style>
   :root{
     --bg:#F5F7FA;
+    --bg-rgb:245,247,250;
     --surface:#FFFFFF;
     --surface-2:#EBF0F5;
     --border:#D9E1E9;
@@ -27,6 +28,7 @@
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
       --bg:#0E1520;
+      --bg-rgb:14,21,32;
       --surface:#151F2B;
       --surface-2:#1A2635;
       --border:#293A4D;
@@ -49,6 +51,7 @@
   }
   :root[data-theme="dark"]{
     --bg:#0E1520;
+    --bg-rgb:14,21,32;
     --surface:#151F2B;
     --surface-2:#1A2635;
     --border:#293A4D;
@@ -73,7 +76,14 @@
   html{scroll-behavior:smooth;}
   body{
     margin:0;
-    background:var(--bg);
+    background-color:var(--bg);
+    background-image:
+      linear-gradient(rgba(var(--bg-rgb),0.88) 0%, rgba(var(--bg-rgb),0.94) 100%),
+      url("./python-bg.jpg");
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+    background-repeat:no-repeat;
     color:var(--text);
     font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
     font-size:16.5px;
