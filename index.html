@@ -15,23 +15,24 @@
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#05070D; --surface:#0E1424; --surface-2:#141B30; --border:#212A47; --border-strong:#31406B;
-      --text:#EEF1FA; --text-dim:#A6AFCC; --text-faint:#67709A;
-      --accent:#4C6FFF; --accent-strong:#8FA6FF; --accent-tint:#161F42;
+      --bg:#0B1330; --surface:#141C42; --surface-2:#1C2650; --border:#2B3766; --border-strong:#3E4C85;
+      --text:#F1F3FC; --text-dim:#AEB6DC; --text-faint:#7982AE;
+      --accent:#5E7FFF; --accent-strong:#96ABFF; --accent-tint:#1C2650;
     }
   }
   :root[data-theme="dark"]{
-    --bg:#05070D; --surface:#0E1424; --surface-2:#141B30; --border:#212A47; --border-strong:#31406B;
-    --text:#EEF1FA; --text-dim:#A6AFCC; --text-faint:#67709A;
-    --accent:#4C6FFF; --accent-strong:#8FA6FF; --accent-tint:#161F42;
+    --bg:#0B1330; --surface:#141C42; --surface-2:#1C2650; --border:#2B3766; --border-strong:#3E4C85;
+    --text:#F1F3FC; --text-dim:#AEB6DC; --text-faint:#7982AE;
+    --accent:#5E7FFF; --accent-strong:#96ABFF; --accent-tint:#1C2650;
   }
   *{box-sizing:border-box;}
   html,body{margin:0; background:var(--bg);}
   body{color:var(--text); font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, sans-serif; font-size:16.5px; line-height:1.6; -webkit-font-smoothing:antialiased;}
   a{ color: var(--accent); text-decoration:none; } a:hover{ color: var(--accent-strong); }
   .mono{font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;}
-  .wrap{max-width:760px; margin:0 auto; padding:64px 32px 100px;}
+  .wrap{max-width:1180px; margin:0 auto; padding:64px 32px 100px;}
   @media (max-width:640px){ .wrap{padding:44px 18px 70px;} }
+  .hero{max-width:640px;}
 
   .eyebrow-row{display:flex; align-items:center; gap:10px; margin-bottom:24px;}
   .badge{width:34px; height:34px; border-radius:9px; background:var(--accent-tint); display:flex; align-items:center; justify-content:center; color:var(--accent); flex:0 0 auto;}
@@ -46,21 +47,27 @@
   .group-label:first-of-type{margin-top:0;}
   .group-sub{color:var(--text-faint); font-size:13.5px; margin:0 0 20px; max-width:52ch;}
 
-  .list{display:flex; flex-direction:column; gap:14px;}
-  .row{
-    display:flex; align-items:flex-start; gap:16px; padding:20px; text-decoration:none; color:var(--text);
-    background:var(--surface); border-radius:16px; border-left:4px solid var(--row-accent, var(--accent));
-    box-shadow:0 1px 2px rgba(0,0,0,0.25);
-    transition:transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  .course-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(250px,1fr)); gap:16px;}
+  @media (max-width:640px){ .course-grid{grid-template-columns:1fr;} }
+  .card{
+    display:flex; flex-direction:column; gap:10px; padding:22px; text-decoration:none; color:var(--text);
+    background:var(--surface); border:1px solid var(--border); border-radius:16px;
+    box-shadow:0 1px 2px rgba(0,0,0,0.2);
+    transition:transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease;
   }
-  .row:hover{background:var(--surface-2); transform:translateY(-2px); box-shadow:0 10px 26px -14px rgba(0,0,0,0.6);}
-  .row.disabled{opacity:0.45; cursor:default; pointer-events:none;}
-  .row-icon{width:52px; height:52px; border-radius:14px; flex:0 0 auto; display:flex; align-items:center; justify-content:center; background:#EEF0F7; font-size:24px; line-height:1;}
-  .row-body{min-width:0; flex:1 1 auto; padding-top:2px;}
-  .row-title{font-family:"Bricolage Grotesque","IBM Plex Sans",sans-serif; font-weight:700; font-size:16.5px; margin:0 0 6px; color:var(--text);}
-  .row-desc{color:var(--text-dim); font-size:13.5px; line-height:1.55; margin:0 0 8px;}
-  .row-meta{font-family:"IBM Plex Mono"; font-size:11px; color:var(--text-faint);}
-  .row-arrow{flex:0 0 auto; color:var(--text-faint); display:flex; margin-top:6px;}
+  .card:hover{background:var(--surface-2); transform:translateY(-3px); box-shadow:0 14px 30px -16px rgba(0,0,0,0.55); border-color:var(--row-accent, var(--border-strong));}
+  .card.disabled{opacity:0.45; cursor:default; pointer-events:none;}
+  .card-top{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+  .card-num{
+    display:inline-flex; align-items:center; justify-content:center; min-width:38px; height:28px; padding:0 9px;
+    border-radius:8px; background:var(--surface-2); border:1px solid var(--border);
+    font-family:"IBM Plex Mono"; font-weight:700; font-size:12.5px; letter-spacing:0.02em;
+    color:var(--row-accent, var(--accent-strong));
+  }
+  .card-icon{font-size:19px; line-height:1;}
+  .card-title{font-family:"Bricolage Grotesque","IBM Plex Sans",sans-serif; font-weight:700; font-size:16px; margin:2px 0 0; color:var(--text);}
+  .card-desc{color:var(--text-dim); font-size:13px; line-height:1.55; margin:0; flex:1 1 auto;}
+  .card-meta{font-family:"IBM Plex Mono"; font-size:10.5px; color:var(--text-faint); margin-top:4px;}
 
   .footer-note{margin-top:56px; padding-top:24px; border-top:1px solid var(--border); color:var(--text-faint); font-size:12.5px;}
 
@@ -127,6 +134,7 @@
 
 
 <div class="wrap">
+  <div class="hero">
   <div class="eyebrow-row">
     <span class="badge">
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 6.1L20 11l-6.1 1.9L12 19l-1.9-6.1L4 11l6.1-1.9L12 3z"/><circle cx="19" cy="5" r="1.3" fill="currentColor" stroke="none"/></svg>
@@ -140,115 +148,86 @@
     <span class="stat-chip">Gratuit &amp; open</span>
     <span class="stat-chip">Suivi de progression <b>local</b>, dans ton navigateur</span>
   </div>
+  </div>
 
   <div class="group-label">Cœur du parcours</div>
   <p class="group-sub">Les fondations techniques, dans l'ordre où elles s'enchaînent le mieux.</p>
-  <div class="list">
+  <div class="course-grid">
 
-    <a class="row" style="--row-accent:#0F8A5F;" href="./qualite-logicielle.html">
-      <span class="row-icon">🧪</span>
-      <span class="row-body">
-        <p class="row-title">Qualité Logicielle Automatisée</p>
-        <p class="row-desc">Le cours principal : fondamentaux du test, Playwright en Python, API, performance, sécurité, mobile, CI/CD.</p>
-        <p class="row-meta">28 modules</p>
-      </span>
-      <span class="row-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+    <a class="card" style="--row-accent:#0F8A5F;" href="./qualite-logicielle.html">
+      <div class="card-top"><span class="card-num">01</span><span class="card-icon">🧪</span></div>
+      <p class="card-title">Qualité Logicielle Automatisée</p>
+      <p class="card-desc">Le cours principal : fondamentaux du test, Playwright en Python, API, performance, sécurité, mobile, CI/CD.</p>
+      <p class="card-meta">28 modules</p>
     </a>
 
-    <a class="row" style="--row-accent:#3572A5;" href="./python.html">
-      <span class="row-icon">🐍</span>
-      <span class="row-body">
-        <p class="row-title">Python</p>
-        <p class="row-desc">Les bases du langage, pytest en profondeur, des projets guidés — web, data, machine learning, jeu vidéo, cybersécurité — et le Python avancé.</p>
-        <p class="row-meta">27 modules</p>
-      </span>
-      <span class="row-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+    <a class="card" style="--row-accent:#3572A5;" href="./python.html">
+      <div class="card-top"><span class="card-num">02</span><span class="card-icon">🐍</span></div>
+      <p class="card-title">Python</p>
+      <p class="card-desc">Les bases du langage, pytest en profondeur, des projets guidés — web, data, machine learning, jeu vidéo, cybersécurité — et le Python avancé.</p>
+      <p class="card-meta">27 modules</p>
     </a>
 
-    <a class="row" style="--row-accent:#C9A400;" href="./javascript.html">
-      <span class="row-icon">⚡</span>
-      <span class="row-body">
-        <p class="row-title">JavaScript Moderne</p>
-        <p class="row-desc">Cours interactif avec bacs à sable exécutables en direct, jusqu'à un projet portfolio complet.</p>
-        <p class="row-meta">20 modules · interactif</p>
-      </span>
-      <span class="row-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+    <a class="card" style="--row-accent:#C9A400;" href="./javascript.html">
+      <div class="card-top"><span class="card-num">03</span><span class="card-icon">⚡</span></div>
+      <p class="card-title">JavaScript Moderne</p>
+      <p class="card-desc">Cours interactif avec bacs à sable exécutables en direct, jusqu'à un projet portfolio complet.</p>
+      <p class="card-meta">20 modules · interactif</p>
     </a>
 
-    <a class="row" style="--row-accent:#E0632E;" href="./html-css.html">
-      <span class="row-icon">🎨</span>
-      <span class="row-body">
-        <p class="row-title">HTML &amp; CSS — Rappel Pratique</p>
-        <p class="row-desc">Un rappel court avec bacs à sable live, jusqu'à une page portfolio complète à publier.</p>
-        <p class="row-meta">12 modules · interactif</p>
-      </span>
-      <span class="row-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+    <a class="card" style="--row-accent:#E0632E;" href="./html-css.html">
+      <div class="card-top"><span class="card-num">04</span><span class="card-icon">🎨</span></div>
+      <p class="card-title">HTML &amp; CSS — Rappel Pratique</p>
+      <p class="card-desc">Un rappel court avec bacs à sable live, jusqu'à une page portfolio complète à publier.</p>
+      <p class="card-meta">12 modules · interactif</p>
     </a>
 
-    <a class="row" style="--row-accent:#2F7DC4;" href="./sql.html">
-      <span class="row-icon">🗄️</span>
-      <span class="row-body">
-        <p class="row-title">SQL pour la Qualité Logicielle</p>
-        <p class="row-desc">Des requêtes de base aux vérifications de données en contexte QA, avec PostgreSQL.</p>
-        <p class="row-meta">22 modules</p>
-      </span>
-      <span class="row-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+    <a class="card" style="--row-accent:#2F7DC4;" href="./sql.html">
+      <div class="card-top"><span class="card-num">05</span><span class="card-icon">🗄️</span></div>
+      <p class="card-title">SQL pour la Qualité Logicielle</p>
+      <p class="card-desc">Des requêtes de base aux vérifications de données en contexte QA, avec PostgreSQL.</p>
+      <p class="card-meta">22 modules</p>
     </a>
 
-    <a class="row" style="--row-accent:#8A5CE6;" href="./github.html">
-      <span class="row-icon">🐙</span>
-      <span class="row-body">
-        <p class="row-title">GitHub pour la Qualité Logicielle</p>
-        <p class="row-desc">Git, GitHub, GitHub Desktop et CI/CD — avec un projet fil rouge pour donner du sens à chaque commande.</p>
-        <p class="row-meta">22 modules</p>
-      </span>
-      <span class="row-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+    <a class="card" style="--row-accent:#8A5CE6;" href="./github.html">
+      <div class="card-top"><span class="card-num">06</span><span class="card-icon">🐙</span></div>
+      <p class="card-title">GitHub pour la Qualité Logicielle</p>
+      <p class="card-desc">Git, GitHub, GitHub Desktop et CI/CD — avec un projet fil rouge pour donner du sens à chaque commande.</p>
+      <p class="card-meta">22 modules</p>
     </a>
 
   </div>
 
   <div class="group-label">Pour se démarquer</div>
   <p class="group-sub">Des cours plus ciblés, pour être parmi les meilleurs candidats sur les sujets qui comptent en entretien.</p>
-  <div class="list">
+  <div class="course-grid">
 
-    <a class="row" style="--row-accent:#D9840F;" href="./istqb.html">
-      <span class="row-icon">🎓</span>
-      <span class="row-body">
-        <p class="row-title">ISTQB Foundation Level</p>
-        <p class="row-desc">Préparation directe à l'examen de certification — syllabus officiel, QCM, examen blanc, + un module bonus sur la lecture UML.</p>
-        <p class="row-meta">17 modules</p>
-      </span>
-      <span class="row-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+    <a class="card" style="--row-accent:#D9840F;" href="./istqb.html">
+      <div class="card-top"><span class="card-num">07</span><span class="card-icon">🎓</span></div>
+      <p class="card-title">ISTQB Foundation Level</p>
+      <p class="card-desc">Préparation directe à l'examen de certification — syllabus officiel, QCM, examen blanc, + un module bonus sur la lecture UML.</p>
+      <p class="card-meta">17 modules</p>
     </a>
 
-    <a class="row" style="--row-accent:#E0417F;" href="./agile-scrum.html">
-      <span class="row-icon">🔄</span>
-      <span class="row-body">
-        <p class="row-title">Agile &amp; Scrum pour la QA</p>
-        <p class="row-desc">Ton rôle de testeur dans une équipe Scrum — cérémonies, user stories, Definition of Done.</p>
-        <p class="row-meta">12 modules</p>
-      </span>
-      <span class="row-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+    <a class="card" style="--row-accent:#E0417F;" href="./agile-scrum.html">
+      <div class="card-top"><span class="card-num">08</span><span class="card-icon">🔄</span></div>
+      <p class="card-title">Agile &amp; Scrum pour la QA</p>
+      <p class="card-desc">Ton rôle de testeur dans une équipe Scrum — cérémonies, user stories, Definition of Done.</p>
+      <p class="card-meta">12 modules</p>
     </a>
 
-    <a class="row" style="--row-accent:#6C63E0;" href="./api.html">
-      <span class="row-icon">🔌</span>
-      <span class="row-body">
-        <p class="row-title">API Avancé pour la QA</p>
-        <p class="row-desc">GraphQL, gRPC, REST Assured, mocking, authentification OAuth2/JWT.</p>
-        <p class="row-meta">13 modules</p>
-      </span>
-      <span class="row-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+    <a class="card" style="--row-accent:#6C63E0;" href="./api.html">
+      <div class="card-top"><span class="card-num">09</span><span class="card-icon">🔌</span></div>
+      <p class="card-title">API Avancé pour la QA</p>
+      <p class="card-desc">GraphQL, gRPC, REST Assured, mocking, authentification OAuth2/JWT.</p>
+      <p class="card-meta">13 modules</p>
     </a>
 
-    <a class="row" style="--row-accent:#22B4C8;" href="./cloud.html">
-      <span class="row-icon">☁️</span>
-      <span class="row-body">
-        <p class="row-title">Cloud pour Testeurs</p>
-        <p class="row-desc">Les bases AWS/Azure utiles à un testeur — sans devenir ingénieur cloud.</p>
-        <p class="row-meta">12 modules</p>
-      </span>
-      <span class="row-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+    <a class="card" style="--row-accent:#22B4C8;" href="./cloud.html">
+      <div class="card-top"><span class="card-num">10</span><span class="card-icon">☁️</span></div>
+      <p class="card-title">Cloud pour Testeurs</p>
+      <p class="card-desc">Les bases AWS/Azure utiles à un testeur — sans devenir ingénieur cloud.</p>
+      <p class="card-meta">12 modules</p>
     </a>
 
   </div>
