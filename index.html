@@ -9,24 +9,35 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#F4F6FE; --surface:#FFFFFF; --surface-2:#ECF0FC; --border:#DDE3F7; --border-strong:#C2CBED;
+    --bg:#F4F6FE; --bg-rgb:244,246,254; --surface:#FFFFFF; --surface-2:#ECF0FC; --border:#DDE3F7; --border-strong:#C2CBED;
     --text:#161B33; --text-dim:#4B527A; --text-faint:#7B82AA;
     --accent:#3452E0; --accent-strong:#2540C4; --accent-tint:#E7ECFC;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#0B1330; --surface:#141C42; --surface-2:#1C2650; --border:#2B3766; --border-strong:#3E4C85;
+      --bg:#0B1330; --bg-rgb:11,19,48; --surface:#141C42; --surface-2:#1C2650; --border:#2B3766; --border-strong:#3E4C85;
       --text:#F1F3FC; --text-dim:#AEB6DC; --text-faint:#7982AE;
       --accent:#5E7FFF; --accent-strong:#96ABFF; --accent-tint:#1C2650;
     }
   }
   :root[data-theme="dark"]{
-    --bg:#0B1330; --surface:#141C42; --surface-2:#1C2650; --border:#2B3766; --border-strong:#3E4C85;
+    --bg:#0B1330; --bg-rgb:11,19,48; --surface:#141C42; --surface-2:#1C2650; --border:#2B3766; --border-strong:#3E4C85;
     --text:#F1F3FC; --text-dim:#AEB6DC; --text-faint:#7982AE;
     --accent:#5E7FFF; --accent-strong:#96ABFF; --accent-tint:#1C2650;
   }
   *{box-sizing:border-box;}
-  html,body{margin:0; background:var(--bg);}
+  html{margin:0;}
+  body{
+    margin:0;
+    background-color:var(--bg);
+    background-image:
+      linear-gradient(rgba(var(--bg-rgb),0.88) 0%, rgba(var(--bg-rgb),0.94) 100%),
+      url("./hero-bg.jpg");
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+    background-repeat:no-repeat;
+  }
   body{color:var(--text); font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, sans-serif; font-size:16.5px; line-height:1.6; -webkit-font-smoothing:antialiased;}
   a{ color: var(--accent); text-decoration:none; } a:hover{ color: var(--accent-strong); }
   .mono{font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;}
