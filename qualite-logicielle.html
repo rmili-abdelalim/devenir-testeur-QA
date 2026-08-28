@@ -446,7 +446,7 @@
     <p class="tagline">Parcours 2026 — des bases au premier pipeline de tests automatisés</p>
 
     <div class="progress-wrap">
-      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/28</span></div>
+      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/32</span></div>
       <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
     </div>
 
@@ -493,19 +493,27 @@
     <ul class="nav-list">
       <li class="nav-item"><a class="nav-link" data-id="m28" href="#m28"><span class="nav-check" data-modcheck="m28"></span><span class="nav-num">28</span> Passerelle Python → JS/TS</a></li>
     </ul>
+
+    <div class="nav-part-label">Partie 5 — Projets professionnels</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m29" href="#m29"><span class="nav-check" data-modcheck="m29"></span><span class="nav-num">29</span> Projet 1 — Connexion et panier</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m30" href="#m30"><span class="nav-check" data-modcheck="m30"></span><span class="nav-num">30</span> Projet 2 — Éléments piégeux</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m31" href="#m31"><span class="nav-check" data-modcheck="m31"></span><span class="nav-num">31</span> Projet 3 — Parcours complet + API</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m32" href="#m32"><span class="nav-check" data-modcheck="m32"></span><span class="nav-num">32</span> Projet 4 — API pure</a></li>
+    </ul>
   </nav>
 
   <main>
     <header class="doc-header">
       <div class="eyebrow">Cours autoportant · Rédigé pour toi</div>
       <h1 class="doc-title">Qualité Logicielle Automatisée</h1>
-      <p class="doc-lede">Ce cours a un fil conducteur : une seule application fictive, <strong>NovaCart</strong> (un site e-commerce simple), qu'on va tester du début à la fin — d'abord à la main, sur papier, puis avec du vrai code. Chaque notion arrive avec un cas de test concret, pas seulement une définition. Et chaque module se termine par un exercice corrigé, pour vérifier que ça reste vraiment acquis.</p>
+      <p class="doc-lede">Ce cours a un fil conducteur : une seule application fictive, <strong>NovaCart</strong> (un site e-commerce simple), qu'on va tester du début à la fin — d'abord à la main, sur papier, puis avec du vrai code. Chaque notion arrive avec un cas de test concret, pas seulement une définition. Et chaque module se termine par un exercice corrigé, pour vérifier que ça reste vraiment acquis. À la fin, quatre projets professionnels prennent le relais de NovaCart sur de vrais sites d'entraînement, pour pratiquer en conditions réelles.</p>
       <div class="stat-row">
-        <span class="stat-chip"><b>28</b> modules</span>
-        <span class="stat-chip"><b>4</b> parties : théorie → outillage → marché → JS/TS</span>
+        <span class="stat-chip"><b>32</b> modules</span>
+        <span class="stat-chip"><b>5</b> parties : théorie → outillage → marché → JS/TS → projets</span>
         <span class="stat-chip">Outil principal : <b>Playwright</b></span>
         <span class="stat-chip">Langage utilisé : <b>Python</b></span>
-        <span class="stat-chip"><b>28</b> exercices corrigés</span>
+        <span class="stat-chip"><b>32</b> exercices corrigés</span>
       </div>
     </header>
 
@@ -1806,6 +1814,354 @@ interface CompteTest {
       <button class="done-toggle" data-toggle="m28"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
 
+    <!-- ============ PARTIE 5 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 5</span><h2 class="part-title">Projets professionnels</h2></div>
+    <p class="part-intro">Quatre projets sur de vrais sites, spécialement construits pour qu'on s'entraîne dessus (donc rien d'illégal à les tester, contrairement à un site de production quelconque). Contrairement à NovaCart utilisé jusqu'ici, ces sites existent vraiment : tu peux les ouvrir, les casser, y trouver de vrais bugs. Chaque projet livre ce que livre un testeur professionnel en entreprise — pas seulement du code qui passe.</p>
+
+    <section class="module" id="m29">
+      <div class="mod-eyebrow">Partie 5 · Module 29</div>
+      <h2 class="mod-title">Projet 1 — Connexion et panier (site réel)</h2>
+      <p>Terrain : <a href="https://www.saucedemo.com" target="_blank" rel="noopener">saucedemo.com</a>, le site de démonstration officiel de Sauce Labs, construit exprès pour l'entraînement à l'automatisation. Six comptes de test avec le mot de passe <code>secret_sauce</code>, chacun avec un comportement différent — dont un qui contient un bug volontaire, parfait pour ton premier vrai rapport.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Compte</th><th>Comportement</th></tr>
+        <tr><td class="mono">standard_user</td><td>Fonctionne normalement — ta base de comparaison</td></tr>
+        <tr><td class="mono">locked_out_user</td><td>Toujours refusé à la connexion, avec un message d'erreur</td></tr>
+        <tr><td class="mono">problem_user</td><td>Se connecte, mais les images produits sont mélangées — le bug à documenter</td></tr>
+        <tr><td class="mono">performance_glitch_user</td><td>Se connecte avec plusieurs secondes de latence</td></tr>
+      </table></div>
+
+      <h3>Ce qu'il faut livrer</h3>
+      <ol>
+        <li><strong>Plan de test</strong> (module 7) : périmètre (connexion + panier + tri), 2-3 risques.</li>
+        <li><strong>6 à 8 cas de test</strong> (modules 5-6) couvrant connexion valide, refusée, verrouillée, ajout/suppression au panier, tri par prix.</li>
+        <li><strong>Automatise 4 cas</strong> avec Playwright : connexion valide, connexion verrouillée, ajout de 2 articles + vérification du total, tri croissant par prix.</li>
+        <li><strong>Un vrai rapport de bug</strong> (module 6) sur le bug visuel de <code>problem_user</code> — pas un bug inventé, un vrai, que tu auras constaté toi-même.</li>
+        <li><strong>Branche en CI</strong> (module 14).</li>
+      </ol>
+
+      <p class="code-label">tests/test_saucedemo_connexion.py</p>
+      <pre>from playwright.sync_api import Page, expect
+
+
+def test_connexion_reussie_standard_user(page: Page):
+    page.goto("https://www.saucedemo.com")
+    page.get_by_placeholder("Username").fill("standard_user")
+    page.get_by_placeholder("Password").fill("secret_sauce")
+    page.get_by_role("button", name="Login").click()
+
+    expect(page).to_have_url("https://www.saucedemo.com/inventory.html")
+
+
+def test_connexion_refusee_locked_out_user(page: Page):
+    page.goto("https://www.saucedemo.com")
+    page.get_by_placeholder("Username").fill("locked_out_user")
+    page.get_by_placeholder("Password").fill("secret_sauce")
+    page.get_by_role("button", name="Login").click()
+
+    expect(page.locator("[data-test='error']")).to_contain_text("locked out")</pre>
+
+      <p class="code-label">tests/test_saucedemo_panier.py</p>
+      <pre>def test_ajout_de_deux_articles_met_a_jour_le_total(page: Page):
+    page.goto("https://www.saucedemo.com")
+    page.get_by_placeholder("Username").fill("standard_user")
+    page.get_by_placeholder("Password").fill("secret_sauce")
+    page.get_by_role("button", name="Login").click()
+
+    page.locator("[data-test='add-to-cart-sauce-labs-backpack']").click()
+    page.locator("[data-test='add-to-cart-sauce-labs-bike-light']").click()
+
+    expect(page.locator(".shopping_cart_badge")).to_have_text("2")</pre>
+
+      <div class="callout">
+        <div class="callout-label">Le rapport de bug attendu</div>
+        <p>Connecte-toi avec <code>problem_user</code> et observe les images de la page produits. Rédige un rapport complet avec le gabarit du module 6 : titre descriptif, sévérité/priorité, environnement (navigateur + URL), étapes de reproduction précises, résultat attendu vs obtenu, et une capture d'écran. C'est un vrai bug, sur un vrai site — traite-le comme tel.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Automatise un cas supplémentaire : trier les produits par prix décroissant (menu déroulant en haut de la page inventaire) et vérifier que le premier article affiché est bien le plus cher.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>def test_tri_prix_decroissant_affiche_le_plus_cher_en_premier(page: Page):
+    page.goto("https://www.saucedemo.com")
+    page.get_by_placeholder("Username").fill("standard_user")
+    page.get_by_placeholder("Password").fill("secret_sauce")
+    page.get_by_role("button", name="Login").click()
+
+    page.locator(".product_sort_container").select_option("hilo")
+
+    premier_prix = page.locator(".inventory_item_price").first.inner_text()
+    assert premier_prix == "$49.99"  # Sauce Labs Fleece Jacket, le plus cher du catalogue</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m29"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m30">
+      <div class="mod-eyebrow">Partie 5 · Module 30</div>
+      <h2 class="mod-title">Projet 2 — Éléments piégeux</h2>
+      <p>Terrain : <a href="https://the-internet.herokuapp.com" target="_blank" rel="noopener">the-internet.herokuapp.com</a>, un catalogue de pages construites exprès pour être difficiles à automatiser — alertes JavaScript, iframes, upload de fichier, éléments qui apparaissent en retard. C'est ce qu'on rencontre vraiment sur une application complexe, contrairement à un formulaire simple.</p>
+
+      <h3>Ce qu'il faut livrer</h3>
+      <p>Automatise ces quatre scénarios, chacun avec au moins une assertion :</p>
+      <div class="table-scroll"><table>
+        <tr><th>Page</th><th>Difficulté</th><th>Ce qu'il faut vérifier</th></tr>
+        <tr><td class="mono">/javascript_alerts</td><td>Boîte de dialogue JS bloquante</td><td>Accepter une alerte et lire le texte du résultat</td></tr>
+        <tr><td class="mono">/iframe</td><td>Éditeur de texte dans une iframe</td><td>Écrire dans l'éditeur et relire le contenu</td></tr>
+        <tr><td class="mono">/upload</td><td>Upload de fichier natif</td><td>Envoyer un fichier et vérifier le nom affiché après envoi</td></tr>
+        <tr><td class="mono">/dynamic_loading/2</td><td>Élément caché puis affiché après un délai</td><td>Attendre l'apparition sans <code>time.sleep</code></td></tr>
+      </table></div>
+
+      <p class="code-label">tests/test_elements_pieges.py</p>
+      <pre>from playwright.sync_api import Page, expect
+
+
+def test_alerte_javascript_est_acceptee(page: Page):
+    page.goto("https://the-internet.herokuapp.com/javascript_alerts")
+
+    page.once("dialog", lambda dialog: dialog.accept())
+    page.get_by_role("button", name="Click for JS Alert").click()
+
+    expect(page.locator("#result")).to_have_text("You successfully clicked an alert")
+
+
+def test_ecriture_dans_une_iframe(page: Page):
+    page.goto("https://the-internet.herokuapp.com/iframe")
+
+    frame = page.frame_locator("#mce_0_ifr")
+    frame.locator("body").fill("Ecrit depuis le test automatisé")
+
+    expect(frame.locator("body")).to_have_text("Ecrit depuis le test automatisé")
+
+
+def test_upload_de_fichier_affiche_le_bon_nom(page: Page, tmp_path):
+    fichier = tmp_path / "preuve.txt"
+    fichier.write_text("contenu de test")
+
+    page.goto("https://the-internet.herokuapp.com/upload")
+    page.locator("#file-upload").set_input_files(fichier)
+    page.locator("#file-submit").click()
+
+    expect(page.locator("#uploaded-files")).to_have_text("preuve.txt")
+
+
+def test_element_a_chargement_differe_finit_par_apparaitre(page: Page):
+    page.goto("https://the-internet.herokuapp.com/dynamic_loading/2")
+    page.get_by_role("button", name="Start").click()
+
+    # Playwright attend automatiquement que l'élément soit visible — pas besoin de sleep()
+    expect(page.locator("#finish")).to_be_visible(timeout=10000)</pre>
+
+      <div class="callout warn">
+        <div class="callout-label">L'erreur classique</div>
+        <p>Sur ce genre de page, le réflexe du débutant est d'ajouter <code>time.sleep(3)</code> partout "pour être sûr". C'est fragile (trop court sur une machine lente, trop long partout ailleurs) et ça ralentit toute la suite. Playwright attend déjà automatiquement qu'un élément soit visible, activable, stable — le vrai travail est de choisir le bon sélecteur et, au pire, un <code>timeout</code> explicite comme dans le dernier exemple.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>La page <code>/dynamic_loading/1</code> (sans le "/2") cache un piège différent : l'élément existe déjà dans le DOM dès le chargement, mais reste invisible (<code>display:none</code>) jusqu'au clic sur "Start". Le test du module suffit-il tel quel, ou faut-il changer quelque chose ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Le même test fonctionne sans modification : <code>expect(...).to_be_visible()</code> vérifie la visibilité réelle, pas juste la présence dans le DOM — peu importe que l'élément soit absent (cas <code>/2</code>) ou présent mais caché (cas <code>/1</code>), Playwright attend dans les deux cas qu'il devienne effectivement visible à l'écran.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m30"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m31">
+      <div class="mod-eyebrow">Partie 5 · Module 31</div>
+      <h2 class="mod-title">Projet 3 — Parcours complet + API</h2>
+      <p>Terrain : <a href="https://automationexercise.com" target="_blank" rel="noopener">automationexercise.com</a>, un site e-commerce réel construit pour la pratique, avec en plus une <a href="https://automationexercise.com/api_list" target="_blank" rel="noopener">API publique documentée</a>. C'est le projet le plus complet : interface ET API, comme un vrai produit.</p>
+
+      <h3>Partie UI — le parcours de bout en bout</h3>
+      <p>Automatise ce scénario complet, du premier clic à la confirmation :</p>
+      <ol>
+        <li>Aller sur la page d'accueil et rechercher un produit (ex. "Dress")</li>
+        <li>Ouvrir le produit et l'ajouter au panier</li>
+        <li>Aller au panier, vérifier que le produit y figure</li>
+        <li>Procéder au paiement en tant qu'invité (« Proceed To Checkout »)</li>
+      </ol>
+
+      <p class="code-label">tests/test_parcours_achat.py</p>
+      <pre>from playwright.sync_api import Page, expect
+
+
+def test_recherche_ajout_panier_et_checkout(page: Page):
+    page.goto("https://automationexercise.com")
+    page.get_by_placeholder("Search Product").fill("Dress")
+    page.get_by_role("button", name="").click()  # icône loupe
+
+    page.locator(".product-image-wrapper").first.hover()
+    page.locator(".add-to-cart").first.click()
+    page.get_by_text("Continue Shopping").click()
+
+    page.get_by_role("link", name="Cart").click()
+    expect(page.locator(".cart_description")).to_contain_text("Dress")
+
+    page.get_by_role("link", name="Proceed To Checkout").click()
+    expect(page.locator("#cart_info")).to_be_visible()</pre>
+
+      <h3>Partie API — les mêmes données, côté serveur</h3>
+      <p>L'API publique n'a pas besoin d'authentification pour consulter le catalogue — idéal pour vérifier que ce que montre l'interface correspond à ce que renvoie le serveur.</p>
+
+      <p class="code-label">tests/test_api_produits.py</p>
+      <pre>from playwright.sync_api import Page
+
+
+def test_liste_des_produits_renvoie_un_statut_200(page: Page):
+    reponse = page.request.get("https://automationexercise.com/api/productsList")
+
+    assert reponse.status == 200
+    corps = reponse.json()
+    assert corps["responseCode"] == 200
+    assert len(corps["products"]) &gt; 0
+
+
+def test_recherche_produit_trouve_au_moins_un_resultat(page: Page):
+    reponse = page.request.post(
+        "https://automationexercise.com/api/searchProduct",
+        form={"search_product": "Dress"},
+    )
+
+    corps = reponse.json()
+    assert corps["responseCode"] == 200
+    assert len(corps["products"]) &gt; 0</pre>
+
+      <h3>Le livrable final : un rapport de campagne</h3>
+      <p>Contrairement aux modules précédents, ce projet se termine par un document de synthèse — ce qu'un testeur remet à son équipe en fin de sprint, pas juste du code qui passe.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Champ</th><th>Exemple rempli</th></tr>
+        <tr><td class="mono">Périmètre testé</td><td>Recherche produit, panier, début de checkout, API catalogue</td></tr>
+        <tr><td class="mono">Cas exécutés</td><td>9 (5 UI, 4 API)</td></tr>
+        <tr><td class="mono">Cas réussis / échoués</td><td>8 réussis, 1 échoué</td></tr>
+        <tr><td class="mono">Bugs remontés</td><td>1 (voir gabarit module 6)</td></tr>
+        <tr><td class="mono">Zones non couvertes</td><td>Paiement par carte réel (nécessite des identifiants de test non fournis par le site)</td></tr>
+        <tr><td class="mono">Recommandation</td><td>Prêt pour la mise en production du parcours de recherche ; le tunnel de paiement complet reste à couvrir</td></tr>
+      </table></div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Le test <code>test_recherche_produit_trouve_au_moins_un_resultat</code> cherche "Dress" et suppose qu'il y a toujours au moins un résultat. Quelle est la limite de cette assertion, et quel cas de test additionnel écrirais-tu pour la compléter ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Elle ne prouve que le cas où des résultats existent — elle ne dit rien du comportement pour une recherche sans résultat (ex. "zzzzz"). Un cas complémentaire : vérifier que l'API renvoie bien <code>responseCode == 200</code> avec un tableau <code>products</code> vide (et pas une erreur) pour un terme introuvable — beaucoup d'API renvoient par erreur un statut différent ou une liste malformée dans ce cas.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m31"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m32">
+      <div class="mod-eyebrow">Partie 5 · Module 32</div>
+      <h2 class="mod-title">Projet 4 — API pure, sans interface</h2>
+      <p>Terrain : <a href="https://reqres.in" target="_blank" rel="noopener">reqres.in</a>, une API REST fictive mais stable, construite spécifiquement pour l'entraînement — CRUD complet sur des utilisateurs, pagination, et des codes d'erreur cohérents. Aucun navigateur nécessaire : c'est le projet le plus proche d'un poste « SDET » pur.</p>
+
+      <div class="callout">
+        <div class="callout-label">Avant de commencer</div>
+        <p>Depuis 2024, reqres.in demande une clé d'API gratuite (<code>x-api-key</code>), à récupérer sur leur site. Ajoute-la dans les en-têtes de chaque requête — c'est aussi une bonne occasion de pratiquer l'authentification par en-tête, très fréquente en entreprise.</p>
+      </div>
+
+      <h3>CRUD complet</h3>
+      <p class="code-label">tests/test_api_reqres.py</p>
+      <pre>from playwright.sync_api import Page
+
+EN_TETES = {"x-api-key": "TA_CLE_ICI"}
+
+
+def test_get_liste_utilisateurs_paginee(page: Page):
+    reponse = page.request.get("https://reqres.in/api/users?page=2", headers=EN_TETES)
+
+    assert reponse.status == 200
+    corps = reponse.json()
+    assert corps["page"] == 2
+    assert len(corps["data"]) &gt; 0
+
+
+def test_get_utilisateur_inexistant_renvoie_404(page: Page):
+    reponse = page.request.get("https://reqres.in/api/users/999", headers=EN_TETES)
+
+    assert reponse.status == 404
+
+
+def test_post_creation_utilisateur(page: Page):
+    reponse = page.request.post("https://reqres.in/api/users", headers=EN_TETES, data={
+        "name": "Amina",
+        "job": "Testeuse QA",
+    })
+
+    assert reponse.status == 201
+    corps = reponse.json()
+    assert corps["name"] == "Amina"
+    assert "id" in corps
+
+
+def test_put_mise_a_jour_utilisateur(page: Page):
+    reponse = page.request.put("https://reqres.in/api/users/2", headers=EN_TETES, data={
+        "job": "QA Lead",
+    })
+
+    assert reponse.status == 200
+    assert reponse.json()["job"] == "QA Lead"
+
+
+def test_delete_utilisateur(page: Page):
+    reponse = page.request.delete("https://reqres.in/api/users/2", headers=EN_TETES)
+
+    assert reponse.status == 204</pre>
+
+      <h3>Vérifier le schéma, pas juste le statut</h3>
+      <p>Un statut 200 ne garantit pas que la réponse a la bonne forme. Vérifie aussi les clés attendues :</p>
+      <pre>def test_utilisateur_a_les_champs_attendus(page: Page):
+    reponse = page.request.get("https://reqres.in/api/users/2", headers=EN_TETES)
+    utilisateur = reponse.json()["data"]
+
+    for champ in ("id", "email", "first_name", "last_name", "avatar"):
+        assert champ in utilisateur, f"Champ manquant : {champ}"
+    assert isinstance(utilisateur["id"], int)
+    assert "@" in utilisateur["email"]</pre>
+
+      <h3>Le livrable : un tableau de couverture</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Endpoint</th><th>Méthode</th><th>Testé</th><th>Cas couverts</th></tr>
+        <tr><td class="mono">/api/users</td><td class="mono">GET</td><td><span class="tag pass">Oui</span></td><td>Liste paginée</td></tr>
+        <tr><td class="mono">/api/users/{id}</td><td class="mono">GET</td><td><span class="tag pass">Oui</span></td><td>Existant, inexistant (404), schéma</td></tr>
+        <tr><td class="mono">/api/users</td><td class="mono">POST</td><td><span class="tag pass">Oui</span></td><td>Création valide</td></tr>
+        <tr><td class="mono">/api/users/{id}</td><td class="mono">PUT</td><td><span class="tag pass">Oui</span></td><td>Mise à jour d'un champ</td></tr>
+        <tr><td class="mono">/api/users/{id}</td><td class="mono">DELETE</td><td><span class="tag pass">Oui</span></td><td>Suppression</td></tr>
+        <tr><td class="mono">/api/register</td><td class="mono">POST</td><td><span class="tag fail">Non</span></td><td>À couvrir : inscription sans mot de passe (doit échouer)</td></tr>
+      </table></div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Complète la dernière ligne du tableau : écris le test qui manque pour <code>POST /api/register</code> avec un corps sans <code>password</code>, et vérifie que l'API répond bien par une erreur explicite plutôt qu'un succès.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>def test_inscription_sans_mot_de_passe_est_refusee(page: Page):
+    reponse = page.request.post("https://reqres.in/api/register", headers=EN_TETES, data={
+        "email": "eve.holt@reqres.in",
+    })
+
+    assert reponse.status == 400
+    corps = reponse.json()
+    assert "error" in corps</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m32"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
     <div class="footer-note">
       <p>Cours rédigé pour un usage personnel, à partir des techniques de conception de tests ISTQB (fondamentaux intemporels) et de données 2026 sur l'outillage — téléchargements npm et taux de rétention Playwright/Cypress/Selenium, comparatif des outils de test d'API, tendances d'automatisation assistée par IA. Le lien de progression (les cases à cocher) est enregistré uniquement dans ce navigateur.</p>
       <p>© 2026 Devenir Testeur QA — créé par Abdelalim Rmili. Tous droits réservés.</p>
@@ -1816,7 +2172,7 @@ interface CompteTest {
 <script>
 (function(){
   var STORAGE_KEY = 'qa-course-progress-v1';
-  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','m15','m16','m17','m18','m19','m20','m21','m22','m23','m24','m25','m26','m27','m28'];
+  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','m15','m16','m17','m18','m19','m20','m21','m22','m23','m24','m25','m26','m27','m28','m29','m30','m31','m32'];
 
   function loadDone(){
     try{
