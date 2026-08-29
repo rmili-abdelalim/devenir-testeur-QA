@@ -4,7 +4,7 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#F5F7FA; --surface:#FFFFFF; --surface-2:#EBF0F5; --border:#D9E1E9; --border-strong:#B9C6D3;
+    --bg:#F5F7FA; --bg-rgb:245,247,250; --surface:#FFFFFF; --surface-2:#EBF0F5; --border:#D9E1E9; --border-strong:#B9C6D3;
     --text:#16202B; --text-dim:#4C5A68; --text-faint:#7C8B99;
     --accent:#92720C; --accent-strong:#6B5209; --accent-tint:#FBF3D3;
     --fail:#B8433A; --fail-tint:#FBEAE7; --warn:#93650F; --warn-tint:#FBF0DC; --ok:#1A7F37; --ok-tint:#E4F5E9;
@@ -13,7 +13,7 @@
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#0E1520; --surface:#151F2B; --surface-2:#1A2635; --border:#293A4D; --border-strong:#3C5066;
+      --bg:#0E1520; --bg-rgb:14,21,32; --surface:#151F2B; --surface-2:#1A2635; --border:#293A4D; --border-strong:#3C5066;
       --text:#E9EEF3; --text-dim:#A6B4C2; --text-faint:#7C8B99;
       --accent:#FBBF24; --accent-strong:#FCD34D; --accent-tint:#332708;
       --fail:#E3766B; --fail-tint:#33201D; --warn:#E3B564; --warn-tint:#332813; --ok:#57C778; --ok-tint:#152A1D;
@@ -22,7 +22,7 @@
     }
   }
   :root[data-theme="dark"]{
-    --bg:#0E1520; --surface:#151F2B; --surface-2:#1A2635; --border:#293A4D; --border-strong:#3C5066;
+    --bg:#0E1520; --bg-rgb:14,21,32; --surface:#151F2B; --surface-2:#1A2635; --border:#293A4D; --border-strong:#3C5066;
     --text:#E9EEF3; --text-dim:#A6B4C2; --text-faint:#7C8B99;
     --accent:#FBBF24; --accent-strong:#FCD34D; --accent-tint:#332708;
     --fail:#E3766B; --fail-tint:#33201D; --warn:#E3B564; --warn-tint:#332813; --ok:#57C778; --ok-tint:#152A1D;
@@ -31,7 +31,14 @@
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
-  body{margin:0; background:var(--bg); color:var(--text); font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; font-size:16.5px; line-height:1.65; -webkit-font-smoothing:antialiased;}
+  body{margin:0; background-color:var(--bg);
+    background-image:
+      linear-gradient(rgba(var(--bg-rgb),0.88) 0%, rgba(var(--bg-rgb),0.94) 100%),
+      url("./section-bg.jpg");
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+    background-repeat:no-repeat; color:var(--text); font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; font-size:16.5px; line-height:1.65; -webkit-font-smoothing:antialiased;}
   .mono{font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;}
   a{color:var(--accent-strong);}
   ::selection{background:var(--accent-tint); color:var(--text);}
