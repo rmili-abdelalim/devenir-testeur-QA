@@ -4,7 +4,7 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#EFF9FB; --bg-rgb:239,249,251;
+    --bg:#EFF9FB; --bg-rgb:239,249,251; --overlay-1:0.65; --overlay-2:0.8;
     --surface:#FFFFFF;
     --surface-2:#E1F0F3;
     --border:#CDE4E9;
@@ -26,7 +26,7 @@
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#071E24; --bg-rgb:7,30,36;
+      --bg:#071E24; --bg-rgb:7,30,36; --overlay-1:0.32; --overlay-2:0.5;
       --surface:#0F2C34;
       --surface-2:#123842;
       --border:#1F4750;
@@ -48,7 +48,7 @@
     }
   }
   :root[data-theme="dark"]{
-    --bg:#071E24; --bg-rgb:7,30,36;
+    --bg:#071E24; --bg-rgb:7,30,36; --overlay-1:0.32; --overlay-2:0.5;
     --surface:#0F2C34;
     --surface-2:#123842;
     --border:#1F4750;
@@ -75,7 +75,7 @@
     margin:0;
     background-color:var(--bg);
     background-image:
-      linear-gradient(rgba(var(--bg-rgb),0.88) 0%, rgba(var(--bg-rgb),0.94) 100%),
+      linear-gradient(rgba(var(--bg-rgb),var(--overlay-1)) 0%, rgba(var(--bg-rgb),var(--overlay-2)) 100%),
       url("./section-bg.jpg");
     background-size:cover;
     background-position:center;

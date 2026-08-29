@@ -4,7 +4,7 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#EFF9FB; --bg-rgb:239,249,251; --surface:#FFFFFF; --surface-2:#E1F0F3; --border:#CDE4E9; --border-strong:#A9CBD3;
+    --bg:#EFF9FB; --bg-rgb:239,249,251; --overlay-1:0.65; --overlay-2:0.8; --surface:#FFFFFF; --surface-2:#E1F0F3; --border:#CDE4E9; --border-strong:#A9CBD3;
     --text:#10262B; --text-dim:#3D5D64; --text-faint:#6C8D93;
     --accent:#C2410C; --accent-strong:#9A3412; --accent-tint:#FDECE0;
     --shadow: 0 1px 2px rgba(11,31,36,0.04), 0 10px 28px -14px rgba(11,31,36,0.16);
@@ -12,7 +12,7 @@
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#071E24; --bg-rgb:7,30,36; --surface:#0F2C34; --surface-2:#123842; --border:#1F4750; --border-strong:#2E6470;
+      --bg:#071E24; --bg-rgb:7,30,36; --overlay-1:0.32; --overlay-2:0.5; --surface:#0F2C34; --surface-2:#123842; --border:#1F4750; --border-strong:#2E6470;
       --text:#E7F3F5; --text-dim:#A9C7CC; --text-faint:#6C8D93;
       --accent:#FB923C; --accent-strong:#FDBA74; --accent-tint:#3A2415;
       --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 28px -14px rgba(0,0,0,0.55);
@@ -20,7 +20,7 @@
     }
   }
   :root[data-theme="dark"]{
-    --bg:#071E24; --bg-rgb:7,30,36; --surface:#0F2C34; --surface-2:#123842; --border:#1F4750; --border-strong:#2E6470;
+    --bg:#071E24; --bg-rgb:7,30,36; --overlay-1:0.32; --overlay-2:0.5; --surface:#0F2C34; --surface-2:#123842; --border:#1F4750; --border-strong:#2E6470;
     --text:#E7F3F5; --text-dim:#A9C7CC; --text-faint:#6C8D93;
     --accent:#FB923C; --accent-strong:#FDBA74; --accent-tint:#3A2415;
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 28px -14px rgba(0,0,0,0.55);
@@ -29,7 +29,7 @@
   *{box-sizing:border-box;}
   body{margin:0; background-color:var(--bg);
     background-image:
-      linear-gradient(rgba(var(--bg-rgb),0.88) 0%, rgba(var(--bg-rgb),0.94) 100%),
+      linear-gradient(rgba(var(--bg-rgb),var(--overlay-1)) 0%, rgba(var(--bg-rgb),var(--overlay-2)) 100%),
       url("./section-bg.jpg");
     background-size:cover;
     background-position:center;

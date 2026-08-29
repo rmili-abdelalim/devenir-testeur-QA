@@ -4,15 +4,15 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#F8F4EE;
-    --bg-rgb:248,244,238;
+    --bg:#EFF9FB;
+    --bg-rgb:239,249,251; --overlay-1:0.65; --overlay-2:0.8;
     --surface:#FFFFFF;
-    --surface-2:#F0E8DA;
-    --border:#E3D7C2;
-    --border-strong:#C9B896;
-    --text:#2A1B26;
-    --text-dim:#5C4A57;
-    --text-faint:#8B7C87;
+    --surface-2:#E1F0F3;
+    --border:#CDE4E9;
+    --border-strong:#A9CBD3;
+    --text:#10262B;
+    --text-dim:#3D5D64;
+    --text-faint:#6C8D93;
     --accent:#7A4A6E;
     --accent-strong:#5C3654;
     --accent-tint:#F1E6EE;
@@ -20,22 +20,22 @@
     --fail-tint:#FBEAE7;
     --warn:#93650F;
     --warn-tint:#FBF0DC;
-    --code-bg:#241820;
-    --code-text:#EFE3E8;
-    --code-border:#3B2A35;
-    --shadow: 0 1px 2px rgba(42,27,38,0.05), 0 8px 24px -12px rgba(42,27,38,0.14);
+    --code-bg:#0B1F24;
+    --code-text:#D9EEF1;
+    --code-border:#1C3840;
+    --shadow: 0 1px 2px rgba(11,31,36,0.05), 0 8px 24px -12px rgba(11,31,36,0.14);
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#1C1119;
-      --bg-rgb:28,17,25;
-      --surface:#2A1826;
-      --surface-2:#35202F;
-      --border:#4A3346;
-      --border-strong:#684A62;
-      --text:#F3ECE9;
-      --text-dim:#C7B6C2;
-      --text-faint:#93808D;
+      --bg:#071E24;
+      --bg-rgb:7,30,36; --overlay-1:0.32; --overlay-2:0.5;
+      --surface:#0F2C34;
+      --surface-2:#123842;
+      --border:#1F4750;
+      --border-strong:#2E6470;
+      --text:#E7F3F5;
+      --text-dim:#A9C7CC;
+      --text-faint:#7A9BA1;
       --accent:#D9A85E;
       --accent-strong:#EABD7E;
       --accent-tint:#3A2E1E;
@@ -43,22 +43,22 @@
       --fail-tint:#33201D;
       --warn:#E3B564;
       --warn-tint:#332813;
-      --code-bg:#150C14;
-      --code-text:#EEDFC9;
-      --code-border:#3A2635;
+      --code-bg:#051419;
+      --code-text:#D3EDF1;
+      --code-border:#163038;
       --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
     }
   }
   :root[data-theme="dark"]{
-    --bg:#1C1119;
-    --bg-rgb:28,17,25;
-    --surface:#2A1826;
-    --surface-2:#35202F;
-    --border:#4A3346;
-    --border-strong:#684A62;
-    --text:#F3ECE9;
-    --text-dim:#C7B6C2;
-    --text-faint:#93808D;
+    --bg:#071E24;
+    --bg-rgb:7,30,36; --overlay-1:0.32; --overlay-2:0.5;
+    --surface:#0F2C34;
+    --surface-2:#123842;
+    --border:#1F4750;
+    --border-strong:#2E6470;
+    --text:#E7F3F5;
+    --text-dim:#A9C7CC;
+    --text-faint:#7A9BA1;
     --accent:#D9A85E;
     --accent-strong:#EABD7E;
     --accent-tint:#3A2E1E;
@@ -66,9 +66,9 @@
     --fail-tint:#33201D;
     --warn:#E3B564;
     --warn-tint:#332813;
-    --code-bg:#150C14;
-    --code-text:#EEDFC9;
-    --code-border:#3A2635;
+    --code-bg:#051419;
+    --code-text:#D3EDF1;
+    --code-border:#163038;
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
   }
 
@@ -78,8 +78,8 @@
     margin:0;
     background-color:var(--bg);
     background-image:
-      linear-gradient(rgba(var(--bg-rgb),0.88) 0%, rgba(var(--bg-rgb),0.94) 100%),
-      url("./qualite-logicielle-bg.jpg");
+      linear-gradient(rgba(var(--bg-rgb),var(--overlay-1)) 0%, rgba(var(--bg-rgb),var(--overlay-2)) 100%),
+      url("./section-bg.jpg");
     background-size:cover;
     background-position:center;
     background-attachment:fixed;
