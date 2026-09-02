@@ -446,7 +446,7 @@
     <p class="tagline">Parcours 2026 — des bases au premier pipeline de tests automatisés</p>
 
     <div class="progress-wrap">
-      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/32</span></div>
+      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/33</span></div>
       <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
     </div>
 
@@ -487,19 +487,20 @@
       <li class="nav-item"><a class="nav-link" data-id="m25" href="#m25"><span class="nav-check" data-modcheck="m25"></span><span class="nav-num">25</span> Environnements avec Docker</a></li>
       <li class="nav-item"><a class="nav-link" data-id="m26" href="#m26"><span class="nav-check" data-modcheck="m26"></span><span class="nav-num">26</span> Pour aller plus loin</a></li>
       <li class="nav-item"><a class="nav-link" data-id="m27" href="#m27"><span class="nav-check" data-modcheck="m27"></span><span class="nav-num">27</span> ISTQB et mots-clés du marché</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m28" href="#m28"><span class="nav-check" data-modcheck="m28"></span><span class="nav-num">28</span> Les environnements : DEV → PROD</a></li>
     </ul>
 
     <div class="nav-part-label">Partie 4 — Pour plus tard</div>
     <ul class="nav-list">
-      <li class="nav-item"><a class="nav-link" data-id="m28" href="#m28"><span class="nav-check" data-modcheck="m28"></span><span class="nav-num">28</span> Passerelle Python → JS/TS</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m29" href="#m29"><span class="nav-check" data-modcheck="m29"></span><span class="nav-num">29</span> Passerelle Python ↔ JS/TS</a></li>
     </ul>
 
     <div class="nav-part-label">Partie 5 — Projets professionnels</div>
     <ul class="nav-list">
-      <li class="nav-item"><a class="nav-link" data-id="m29" href="#m29"><span class="nav-check" data-modcheck="m29"></span><span class="nav-num">29</span> Projet 1 — Connexion et panier</a></li>
-      <li class="nav-item"><a class="nav-link" data-id="m30" href="#m30"><span class="nav-check" data-modcheck="m30"></span><span class="nav-num">30</span> Projet 2 — Éléments piégeux</a></li>
-      <li class="nav-item"><a class="nav-link" data-id="m31" href="#m31"><span class="nav-check" data-modcheck="m31"></span><span class="nav-num">31</span> Projet 3 — Parcours complet + API</a></li>
-      <li class="nav-item"><a class="nav-link" data-id="m32" href="#m32"><span class="nav-check" data-modcheck="m32"></span><span class="nav-num">32</span> Projet 4 — API pure</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m30" href="#m30"><span class="nav-check" data-modcheck="m30"></span><span class="nav-num">30</span> Projet 1 — Connexion et panier</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m31" href="#m31"><span class="nav-check" data-modcheck="m31"></span><span class="nav-num">31</span> Projet 2 — Éléments piégeux</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m32" href="#m32"><span class="nav-check" data-modcheck="m32"></span><span class="nav-num">32</span> Projet 3 — Parcours complet + API</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m33" href="#m33"><span class="nav-check" data-modcheck="m33"></span><span class="nav-num">33</span> Projet 4 — API pure</a></li>
     </ul>
   </nav>
 
@@ -509,11 +510,11 @@
       <h1 class="doc-title">Qualité Logicielle Automatisée</h1>
       <p class="doc-lede">Ce cours a un fil conducteur : une seule application fictive, <strong>NovaCart</strong> (un site e-commerce simple), qu'on va tester du début à la fin — d'abord à la main, sur papier, puis avec du vrai code. Chaque notion arrive avec un cas de test concret, pas seulement une définition. Et chaque module se termine par un exercice corrigé, pour vérifier que ça reste vraiment acquis. À la fin, quatre projets professionnels prennent le relais de NovaCart sur de vrais sites d'entraînement, pour pratiquer en conditions réelles.</p>
       <div class="stat-row">
-        <span class="stat-chip"><b>32</b> modules</span>
+        <span class="stat-chip"><b>33</b> modules</span>
         <span class="stat-chip"><b>5</b> parties : théorie → outillage → marché → JS/TS → projets</span>
         <span class="stat-chip">Outil principal : <b>Playwright</b></span>
-        <span class="stat-chip">Langage utilisé : <b>Python</b></span>
-        <span class="stat-chip"><b>32</b> exercices corrigés</span>
+        <span class="stat-chip">Langages : <b>TypeScript</b> &amp; <b>Python</b></span>
+        <span class="stat-chip"><b>37</b> exercices corrigés</span>
       </div>
     </header>
 
@@ -864,11 +865,18 @@
         <tr><td class="mono">Java</td><td>Selenium, REST Assured, JUnit/TestNG</td><td>Plus verbeuse</td><td>Grandes entreprises, banques, systèmes legacy déjà en Java</td></tr>
       </table></div>
 
-      <p>Ce cours utilise <strong>Python</strong> pour la partie pratique — un choix assumé, pas un choix par défaut. TypeScript reste légèrement plus demandé dans les offres "QA automation" pures (détail au module 27), mais Python a deux avantages qui comptent davantage ici : pas besoin de mener deux apprentissages de front en parallèle (Python d'un côté, JavaScript/TypeScript de l'autre), et une compétence Python solide ouvre aussi vers la data, les scripts et l'IA. Playwright supporte Python nativement, à parité de fonctionnalités avec sa version TypeScript — ce n'est pas un choix de repli, c'est un vrai choix professionnel.</p>
+      <p>À partir de ce module, ce cours choisit <strong>TypeScript</strong> comme langage principal pour la partie pratique. Trois raisons concrètes : c'est le langage natif de Playwright (l'outil recommandé au module suivant, conçu et documenté en priorité pour lui), c'est celui qui revient le plus souvent dans les offres "QA Automation" en 2026 (détail au module 27), et il te permet de lire directement le code d'une équipe front-end sans avoir à traduire mentalement. C'est un changement par rapport à la version précédente de ce cours, qui utilisait Python comme langage principal — le voici expliqué plutôt qu'appliqué en silence : Python restait un très bon choix pédagogique, mais TypeScript colle mieux à l'objectif "devenir employable en QA Automation" qui structure cette V2.</p>
+
+      <p>Python n'est pas abandonné pour autant : c'est un excellent langage pour démarrer (syntaxe très lisible), il ouvre vers la data et les scripts, Playwright le supporte nativement à parité de fonctionnalités avec sa version TypeScript, et de nombreuses équipes — notamment côté data/IA, ou celles qui débutent tout juste l'automatisation — l'utilisent encore comme langage principal de test. C'est pourquoi, à partir d'ici, chaque exemple de code du cours te montre <strong>d'abord sa version TypeScript, puis sa version Python juste en dessous</strong> : suis la colonne qui correspond à l'équipe que tu comptes rejoindre, ou compare les deux pour mieux comprendre chacun. Le module 29 ("Passerelle Python ↔ TypeScript") sert de dictionnaire de traduction complet entre les deux langages — n'hésite pas à y jeter un œil dès maintenant plutôt que d'attendre la fin du parcours, il a été écrit pour ça.</p>
+
+      <div class="callout">
+        <div class="callout-label">Et si mon équipe est déjà 100% Python (ou Java) ?</div>
+        <p>La règle du module reste la même qu'avant : le meilleur langage est celui de l'équipe que tu rejoins, pas celui que ce cours recommande par défaut. TypeScript est mis en avant ici parce que c'est le choix qui maximise tes chances face à un recruteur qui ne connaît pas encore ton futur poste précis — mais si tu sais déjà que tu vises une équipe Python ou Java, entraîne-toi en priorité sur la colonne correspondante.</p>
+      </div>
 
       <div class="exercise">
         <div class="exercise-label">Exercice</div>
-        <p>Un testeur rejoint une équipe déjà 100% Java, avec Selenium et REST Assured en place depuis des années. Quel langage a le plus de sens pour lui, même si Python lui semble plus simple à apprendre ? Pourquoi ?</p>
+        <p>Un testeur rejoint une équipe déjà 100% Java, avec Selenium et REST Assured en place depuis des années. Quel langage a le plus de sens pour lui, même si TypeScript est mis en avant dans ce cours ? Pourquoi ?</p>
         <details>
           <summary>Voir la correction</summary>
           <div class="exercise-solution-body">
@@ -919,17 +927,54 @@
     <section class="module" id="m11">
       <div class="mod-eyebrow">Partie 2 · Module 11</div>
       <h2 class="mod-title">Playwright en pratique</h2>
-      <p>On automatise maintenant exactement les cas de test écrits au module 5 (connexion NovaCart), avec Playwright piloté en Python via pytest — l'intégration officielle et la plus utilisée côté Python. Installation d'abord :</p>
+      <p>On automatise maintenant exactement les cas de test écrits au module 5 (connexion NovaCart), avec Playwright — <strong>en TypeScript d'abord</strong>, le langage retenu par ce cours depuis le module 9, avec l'équivalent Python juste en dessous pour ceux qui suivent cette colonne. Installation d'abord :</p>
 
-      <p class="code-label">Terminal</p>
+      <p class="code-label">Terminal — installation (TypeScript)</p>
+      <pre>npm init playwright@latest
+# répond aux questions (TypeScript : oui, dossier tests/, navigateurs : tous) — Playwright génère
+# playwright.config.ts, un dossier tests/ et un exemple prêt à lancer</pre>
+
+      <p class="code-label">Terminal — installation (Python)</p>
       <pre>python -m venv venv
 source venv/bin/activate        # sous Windows : venv\Scripts\activate
 pip install pytest-playwright
 playwright install</pre>
 
-      <p>Pas de fichier de config généré automatiquement comme en TypeScript — on crée simplement un dossier <code>tests/</code> avec des fichiers <code>test_*.py</code>, que pytest détecte tout seul. Voici le premier vrai fichier de test, qui automatise trois cas du module 5 (mot de passe valide, trop court, compte verrouillé) :</p>
+      <p>Côté TypeScript, Playwright génère sa config tout seul (<code>playwright.config.ts</code>) ; côté Python, pas d'équivalent auto-généré — on crée simplement un dossier <code>tests/</code> avec des fichiers <code>test_*.py</code>, que pytest détecte de lui-même. Voici le premier vrai fichier de test, qui automatise trois cas du module 5 (mot de passe valide, trop court, compte verrouillé) :</p>
 
-      <p class="code-label">tests/test_connexion.py</p>
+      <p class="code-label">tests/connexion.spec.ts</p>
+      <pre>import { test, expect } from '@playwright/test';
+
+test('TC-CONN-003 — identifiants valides redirigent vers le tableau de bord', async ({ page }) =&gt; {
+  await page.goto('https://novacart.exemple/connexion');
+  await page.getByLabel('E-mail').fill('test@novacart.fr');
+  await page.getByLabel('Mot de passe').fill('MotDePasse2026');
+  await page.getByRole('button', { name: 'Se connecter' }).click();
+
+  await expect(page).toHaveURL(/.*tableau-de-bord/);
+  await expect(page.getByText('Bonjour')).toBeVisible();
+});
+
+test('TC-CONN-014 — mot de passe de 7 caractères est rejeté', async ({ page }) =&gt; {
+  await page.goto('https://novacart.exemple/connexion');
+  await page.getByLabel('E-mail').fill('test@novacart.fr');
+  await page.getByLabel('Mot de passe').fill('abc1234'); // 7 caractères
+  await page.getByRole('button', { name: 'Se connecter' }).click();
+
+  await expect(page.getByText('au moins 8 caractères')).toBeVisible();
+  await expect(page).toHaveURL(/.*connexion/); // pas redirigé
+});
+
+test('TC-CONN-021 — compte verrouillé refuse même un bon mot de passe', async ({ page }) =&gt; {
+  await page.goto('https://novacart.exemple/connexion');
+  await page.getByLabel('E-mail').fill('verrouille@novacart.fr');
+  await page.getByLabel('Mot de passe').fill('BonMotDePasse1');
+  await page.getByRole('button', { name: 'Se connecter' }).click();
+
+  await expect(page.getByText('Compte verrouillé')).toBeVisible();
+});</pre>
+
+      <p class="code-label">tests/test_connexion.py — équivalent Python</p>
       <pre>import re
 from playwright.sync_api import Page, expect
 
@@ -965,22 +1010,27 @@ def test_tc_conn_021_compte_verrouille_refuse_meme_bon_mot_de_passe(page: Page):
 
     expect(page.get_by_text("Compte verrouillé")).to_be_visible()</pre>
 
-      <p class="code-label">Terminal — exécuter les tests</p>
+      <p class="code-label">Terminal — exécuter les tests (TypeScript)</p>
+      <pre>npx playwright test
+npx playwright test --trace on   # garde une trace rejouable de chaque test
+npx playwright show-report        # ouvre le rapport HTML interactif après l'exécution</pre>
+
+      <p class="code-label">Terminal — exécuter les tests (Python)</p>
       <pre>pytest --browser chromium -v
 pytest --browser chromium --tracing on   # garde une trace rejouable de chaque test</pre>
 
-      <p>La commande <code>--tracing on</code> enregistre le déroulé complet (captures d'écran, réseau, DOM) de chaque test dans un fichier <code>.zip</code>, rejouable avec <code>playwright show-trace trace.zip</code> — l'équivalent Python du rapport HTML intégré côté TypeScript.</p>
+      <p>Les deux options de trace enregistrent le déroulé complet (captures d'écran, réseau, DOM) de chaque test, rejouable ensuite avec <code>npx playwright show-trace trace.zip</code> côté TypeScript ou <code>playwright show-trace trace.zip</code> côté Python — même mécanisme, même fichier <code>.zip</code>, seule la commande d'installation diffère.</p>
 
       <h3>Trois choix qui évitent les tests fragiles</h3>
       <ul>
-        <li><strong>Sélectionner par rôle et par label</strong> (<code>get_by_role</code>, <code>get_by_label</code>) plutôt que par classe CSS — un changement de style ne casse pas le test, contrairement à un sélecteur du type <code>.btn-primary-v2</code>.</li>
-        <li><strong>Ne jamais ajouter de <code>time.sleep()</code> fixe.</strong> Playwright attend automatiquement qu'un élément soit visible et stable avant d'agir — c'est la principale raison pour laquelle il est plus fiable que Selenium par défaut.</li>
-        <li><strong>Un test, un comportement.</strong> Le nom de la fonction (<code>test_tc_conn_014_...</code>) reprend l'ID du cas de test écrit au module 6 — quand ça échoue en CI, on sait immédiatement quel cas métier est cassé, pas juste "un test sur 14 a échoué".</li>
+        <li><strong>Sélectionner par rôle et par label</strong> (<code>getByRole</code>/<code>getByLabel</code> en TypeScript, <code>get_by_role</code>/<code>get_by_label</code> en Python) plutôt que par classe CSS — un changement de style ne casse pas le test, contrairement à un sélecteur du type <code>.btn-primary-v2</code>.</li>
+        <li><strong>Ne jamais ajouter d'attente fixe</strong> (<code>page.waitForTimeout()</code> en TypeScript, <code>time.sleep()</code> en Python). Playwright attend automatiquement qu'un élément soit visible et stable avant d'agir — c'est la principale raison pour laquelle il est plus fiable que Selenium par défaut.</li>
+        <li><strong>Un test, un comportement.</strong> Le nom du test (<code>'TC-CONN-014 — ...'</code> ou <code>test_tc_conn_014_...</code>) reprend l'ID du cas de test écrit au module 6 — quand ça échoue en CI, on sait immédiatement quel cas métier est cassé, pas juste "un test sur 14 a échoué".</li>
       </ul>
 
       <div class="callout">
-        <div class="callout-label">Et si l'équipe travaille en TypeScript ?</div>
-        <p>La logique de ce module — sélecteurs par rôle, pas de <code>sleep</code>, un ID de cas de test par nom de test — est strictement identique en TypeScript, seule la syntaxe change. Si un projet l'impose, tu sauras déjà quoi faire : il ne restera qu'à changer de dialecte.</p>
+        <div class="callout-label">Deux conventions de nommage, une même logique</div>
+        <p>TypeScript nomme ses fichiers de test <code>*.spec.ts</code>, Python les nomme <code>test_*.py</code> — retiens bien cette différence, elle revient au module 17 (Git) pour configurer correctement ce qu'on ignore dans le dépôt selon la colonne que tu suis. En dehors de ce détail de nommage, la logique du test — sélecteurs par rôle, pas d'attente fixe, un ID de cas de test par nom de test — est strictement identique dans les deux langages.</p>
       </div>
 
       <div class="exercise">
@@ -989,6 +1039,17 @@ pytest --browser chromium --tracing on   # garde une trace rejouable de chaque t
         <details>
           <summary>Voir la correction</summary>
           <div class="exercise-solution-body">
+            <p class="code-label">TypeScript</p>
+            <pre>test('TC-CONN-030 — e-mail invalide (sans @) est rejeté', async ({ page }) =&gt; {
+  await page.goto('https://novacart.exemple/connexion');
+  await page.getByLabel('E-mail').fill('test-novacart.fr');
+  await page.getByLabel('Mot de passe').fill('MotDePasse2026');
+  await page.getByRole('button', { name: 'Se connecter' }).click();
+
+  await expect(page.getByText('Adresse e-mail invalide')).toBeVisible();
+  await expect(page).toHaveURL(/.*connexion/);
+});</pre>
+            <p class="code-label">Python</p>
             <pre>def test_tc_conn_030_email_sans_arobase_est_rejete(page: Page):
     """TC-CONN-030 — e-mail invalide (sans @) est rejeté"""
     page.goto("https://novacart.exemple/connexion")
@@ -1008,7 +1069,34 @@ pytest --browser chromium --tracing on   # garde une trace rejouable de chaque t
     <section class="module" id="m12">
       <div class="mod-eyebrow">Partie 2 · Module 12</div>
       <h2 class="mod-title">Tester une API</h2>
-      <p>Tout ne se teste pas par l'interface. Tester directement l'API de NovaCart est plus rapide et plus stable — pas de navigateur à démarrer, pas de CSS à charger.</p>
+      <p>Tout ne se teste pas par l'interface. Tester directement l'API de NovaCart est plus rapide et plus stable — pas de navigateur à démarrer, pas de CSS à charger. Mais avant d'ouvrir Postman ou d'écrire une ligne de code, il faut maîtriser le vocabulaire HTTP lui-même — sans ça, on apprend une syntaxe d'outil sans comprendre ce qu'elle vérifie vraiment.</p>
+
+      <h3>Les fondamentaux HTTP</h3>
+      <p>Une API REST s'utilise avec un petit nombre de <strong>méthodes</strong>, chacune avec un rôle précis :</p>
+      <div class="table-scroll"><table>
+        <tr><th>Méthode</th><th>Rôle</th><th>Exemple NovaCart</th></tr>
+        <tr><td class="mono">GET</td><td>Lire une ressource, sans effet de bord — on peut la rejouer sans risque</td><td class="mono">GET /api/produits</td></tr>
+        <tr><td class="mono">POST</td><td>Créer une ressource</td><td class="mono">POST /api/panier</td></tr>
+        <tr><td class="mono">PUT</td><td>Remplacer entièrement une ressource existante</td><td class="mono">PUT /api/produits/42</td></tr>
+        <tr><td class="mono">PATCH</td><td>Modifier partiellement une ressource</td><td class="mono">PATCH /api/panier/3 (changer la quantité)</td></tr>
+        <tr><td class="mono">DELETE</td><td>Supprimer une ressource</td><td class="mono">DELETE /api/panier/3</td></tr>
+      </table></div>
+
+      <p>Chaque réponse renvoie un <strong>code statut</strong> qui dit immédiatement ce qui s'est passé, avant même de lire le corps de la réponse :</p>
+      <div class="table-scroll"><table>
+        <tr><th>Plage</th><th>Signification</th><th>Exemples utiles en QA</th></tr>
+        <tr><td class="mono">2xx</td><td>Succès</td><td class="mono">200 OK · 201 Created · 204 No Content</td></tr>
+        <tr><td class="mono">3xx</td><td>Redirection</td><td class="mono">301 Moved Permanently · 302 Found</td></tr>
+        <tr><td class="mono">4xx</td><td>Erreur côté client — la requête envoyée est incorrecte</td><td class="mono">400 Bad Request · 401 Unauthorized · 403 Forbidden · 404 Not Found · 422 Unprocessable Entity</td></tr>
+        <tr><td class="mono">5xx</td><td>Erreur côté serveur — même une requête correcte échoue</td><td class="mono">500 Internal Server Error · 503 Service Unavailable</td></tr>
+      </table></div>
+
+      <p>Deux <strong>headers</strong> (en-têtes) reviennent dans presque tous les tests d'API : <code>Content-Type: application/json</code> (annonce que le corps de la requête/réponse est du JSON) et <code>Authorization: Bearer &lt;token&gt;</code> (transporte l'authentification — le token obtenu après une connexion réussie, comme au module 11). Le corps d'une requête ou d'une réponse est presque toujours du <strong>JSON</strong> : un objet <code>{"email": "test@novacart.fr"}</code>, une liste <code>[{"id": 1, ...}, {"id": 2, ...}]</code>, ou une valeur simple.</p>
+
+      <div class="callout">
+        <div class="callout-label">API vs UI : pourquoi tester aux deux niveaux</div>
+        <p>Un test API vérifie que le serveur fait ce qu'il doit (bon statut, bonnes données) sans se soucier de l'affichage. Un test UI (module 11) vérifie que ce que le serveur renvoie s'affiche correctement à l'écran. Les deux peuvent être vrais indépendamment l'un de l'autre : une API peut renvoyer les bonnes données pendant qu'un bug d'affichage les cache, ou une page peut sembler correcte pendant que l'API renvoie un statut d'erreur ignoré silencieusement par le front. D'où l'intérêt de tester les deux niveaux plutôt qu'un seul.</p>
+      </div>
 
       <h3>Pour débuter : Postman</h3>
       <p>Interface graphique, aucune ligne de code nécessaire. On envoie une requête, on écrit une assertion dans l'onglet "Tests" — à noter, ces scripts sont toujours en JavaScript, quel que soit ton langage principal : c'est une particularité de l'outil, pas un choix à faire :</p>
@@ -1024,8 +1112,29 @@ pm.test("La réponse contient un token", () =&gt; {
       <p>Postman est le chemin le plus rapide pour vérifier une API à la main ou la documenter en équipe — mais dès qu'il faut faire tourner ça automatiquement en CI, on bascule vers du code.</p>
 
       <h3>En projet réel : Playwright (API testing)</h3>
-      <p>Playwright ne teste pas que des pages web — son objet <code>page.request</code> teste aussi des API directement, dans le même fichier que les tests E2E du module 11, avec les mêmes fixtures pytest :</p>
-      <p class="code-label">tests/test_api_connexion.py</p>
+      <p>Playwright ne teste pas que des pages web — son objet de requête teste aussi des API directement, dans le même fichier que les tests E2E du module 11 : <code>request</code> en TypeScript, <code>page.request</code> en Python.</p>
+      <p class="code-label">tests/api-connexion.spec.ts</p>
+      <pre>import { test, expect } from '@playwright/test';
+
+test('la connexion renvoie un token pour un compte valide', async ({ request }) =&gt; {
+  const reponse = await request.post('https://novacart.exemple/api/connexion', {
+    data: { email: 'test@novacart.fr', motDePasse: 'MotDePasse2026' },
+  });
+
+  expect(reponse.status()).toBe(200);
+  const corps = await reponse.json();
+  expect(corps).toHaveProperty('token');
+});
+
+test('la connexion renvoie 401 pour un mauvais mot de passe', async ({ request }) =&gt; {
+  const reponse = await request.post('https://novacart.exemple/api/connexion', {
+    data: { email: 'test@novacart.fr', motDePasse: 'mauvais' },
+  });
+
+  expect(reponse.status()).toBe(401);
+});</pre>
+
+      <p class="code-label">tests/test_api_connexion.py — équivalent Python</p>
       <pre>from playwright.sync_api import Page
 
 
@@ -1055,6 +1164,17 @@ def test_connexion_renvoie_401_pour_un_mauvais_mot_de_passe(page: Page):
         <details>
           <summary>Voir la correction</summary>
           <div class="exercise-solution-body">
+            <p class="code-label">TypeScript</p>
+            <pre>test('le panier est vide pour un nouveau compte', async ({ request }) =&gt; {
+  const reponse = await request.get('https://novacart.exemple/api/panier', {
+    headers: { Authorization: 'Bearer TOKEN_NOUVEAU_COMPTE' },
+  });
+
+  expect(reponse.status()).toBe(200);
+  const corps = await reponse.json();
+  expect(corps).toEqual([]);
+});</pre>
+            <p class="code-label">Python</p>
             <pre>def test_panier_vide_pour_nouveau_compte(page: Page):
     reponse = page.request.get("https://novacart.exemple/api/panier", headers={
         "Authorization": "Bearer TOKEN_NOUVEAU_COMPTE",
@@ -1073,7 +1193,7 @@ def test_connexion_renvoie_401_pour_un_mauvais_mot_de_passe(page: Page):
     <section class="module" id="m13">
       <div class="mod-eyebrow">Partie 2 · Module 13</div>
       <h2 class="mod-title">Tests de charge avec k6</h2>
-      <p>Un test fonctionnel vérifie qu'une requête réussit. Un test de charge vérifie que ça tient quand des <em>milliers</em> de requêtes arrivent en même temps — <strong>k6</strong> est aujourd'hui l'outil de référence pour ça, construit spécifiquement pour ce cas d'usage (contrairement à JMeter, plus ancien et plus lourd à configurer, encore utilisé mais de moins en moins recommandé pour un nouveau projet). Précision utile : les scripts k6 s'écrivent toujours en JavaScript, même si le reste de ta suite est en Python comme dans ce cours — c'est propre à l'outil, pas une incohérence.</p>
+      <p>Un test fonctionnel vérifie qu'une requête réussit. Un test de charge vérifie que ça tient quand des <em>milliers</em> de requêtes arrivent en même temps — <strong>k6</strong> est aujourd'hui l'outil de référence pour ça, construit spécifiquement pour ce cas d'usage (contrairement à JMeter, plus ancien et plus lourd à configurer, encore utilisé mais de moins en moins recommandé pour un nouveau projet). Précision utile : les scripts k6 s'écrivent toujours en JavaScript — même dans une suite Python, c'est propre à l'outil, pas une incohérence ; ça tombe bien, c'est aussi la syntaxe la plus proche du TypeScript utilisé ailleurs dans ce cours.</p>
 
       <p class="code-label">charge-connexion.js</p>
       <pre>import http from 'k6/http';
@@ -1101,16 +1221,44 @@ export default function () {
       <pre>k6 run charge-connexion.js</pre>
       <p>k6 sort un rapport avec les métriques qui comptent vraiment sous charge : le <strong>p95</strong> (95% des requêtes répondent plus vite que ce chiffre — plus parlant qu'une moyenne, que quelques requêtes très lentes peuvent fausser), et le taux d'erreur. C'est la combinaison "Playwright pour le fonctionnel/E2E, k6 pour la charge" qui domine chez les équipes JS/TS en 2026.</p>
 
+      <h3>Aller plus loin : seuils et montée en charge progressive</h3>
+      <p>Un script réaliste ne se contente pas de lancer 50 utilisateurs d'un coup — il monte en charge progressivement (comme le trafic réel) et échoue automatiquement si une métrique dépasse un seuil, plutôt que de laisser un humain relire le rapport à l'œil :</p>
+      <p class="code-label">charge-connexion-avancee.js</p>
+      <pre>export const options = {
+  stages: [
+    { duration: '30s', target: 50 },   // montée progressive à 50 VUs
+    { duration: '1m', target: 50 },    // palier à 50 VUs
+    { duration: '30s', target: 200 },  // pic à 200 VUs
+    { duration: '1m', target: 200 },   // palier à 200 VUs
+    { duration: '30s', target: 0 },    // redescente
+  ],
+  thresholds: {
+    http_req_duration: ['p(95)&lt;500'],   // 95% des requêtes en moins de 500ms
+    http_req_failed: ['rate&lt;0.01'],     // moins de 1% d'erreurs
+  },
+};</pre>
+      <p>Avec des <code>thresholds</code>, la commande <code>k6 run</code> se termine avec un code d'erreur si le seuil est dépassé — exactement ce qu'il faut pour brancher un test de charge en CI/CD (module 14) sans surveillance humaine à chaque exécution.</p>
+
       <div class="exercise">
         <div class="exercise-label">Exercice</div>
-        <p>Modifie le script k6 de ce module pour simuler 200 utilisateurs virtuels pendant 1 minute, au lieu de 50 pendant 30 secondes.</p>
+        <p>Reprends le script avancé de ce module et modifie-le pour : (1) monter jusqu'à 500 utilisateurs virtuels au pic au lieu de 200, et (2) exiger que 99% des requêtes (et non 95%) répondent en moins de 300ms.</p>
         <details>
           <summary>Voir la correction</summary>
           <div class="exercise-solution-body">
             <pre>export const options = {
-  vus: 200,
-  duration: '1m',
+  stages: [
+    { duration: '30s', target: 50 },
+    { duration: '1m', target: 50 },
+    { duration: '30s', target: 500 },   // pic relevé à 500 VUs
+    { duration: '1m', target: 500 },
+    { duration: '30s', target: 0 },
+  ],
+  thresholds: {
+    http_req_duration: ['p(99)&lt;300'],   // 99% des requêtes en moins de 300ms
+    http_req_failed: ['rate&lt;0.01'],
+  },
 };</pre>
+            <p>Deux changements distincts à ne pas confondre : le palier (<code>target</code>) contrôle <em>combien</em> d'utilisateurs simultanés, le seuil (<code>thresholds</code>) contrôle <em>quelle performance</em> est acceptable — on peut faire varier l'un sans l'autre.</p>
           </div>
         </details>
       </div>
@@ -1121,9 +1269,40 @@ export default function () {
     <section class="module" id="m14">
       <div class="mod-eyebrow">Partie 2 · Module 14</div>
       <h2 class="mod-title">Brancher les tests en CI/CD</h2>
-      <p>Un test qui ne s'exécute que quand quelqu'un pense à le lancer à la main finit par ne plus s'exécuter du tout. L'objectif du module 2 (shift-left) se concrétise ici : les tests tournent tout seuls à chaque <code>push</code>, et bloquent la mise en production si l'un d'eux échoue.</p>
+      <p>Un test qui ne s'exécute que quand quelqu'un pense à le lancer à la main finit par ne plus s'exécuter du tout. L'objectif du module 2 (shift-left) se concrétise ici : les tests tournent tout seuls à chaque <code>push</code>, et bloquent la mise en production si l'un d'eux échoue. C'est aussi une compétence QA très recherchée en 2026, au-delà de l'automatisation elle-même : comprendre le rôle du testeur dans le pipeline, pas seulement écrire des tests.</p>
 
-      <p class="code-label">.github/workflows/tests.yml</p>
+      <div class="callout">
+        <div class="callout-label">Le rôle réel du QA dans le pipeline</div>
+        <p><code>Code → Git (module 17) → Pull Request → CI → Tests automatisés (module 11) → Rapport → Échec ou Succès → Analyse → Correction → Nouvelle exécution</code>. Le QA n'écrit pas que les tests qui tournent dans la CI : c'est lui qui lit le rapport quand ça passe au rouge, qui distingue un vrai bug d'un test fragile (module 11), qui documente l'anomalie (module 6/21) si c'est un vrai bug, et qui vérifie que la nouvelle exécution est bien verte avant de considérer que c'est corrigé — le cycle recommence à chaque nouveau commit, pas seulement à la fin du sprint.</p>
+      </div>
+
+      <p class="code-label">.github/workflows/tests.yml — TypeScript</p>
+      <pre>name: Tests NovaCart
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - run: npx playwright install --with-deps
+      - run: npx playwright test --trace retain-on-failure
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rapport-playwright
+          path: playwright-report/
+          retention-days: 30</pre>
+
+      <p class="code-label">.github/workflows/tests.yml — Python (équivalent)</p>
       <pre>name: Tests NovaCart
 
 on:
@@ -1148,7 +1327,7 @@ jobs:
           name: traces-playwright
           path: test-results/</pre>
 
-      <p>Trois détails qui changent tout au quotidien : le job échoue (donc bloque la pull request) si un seul test échoue ; <code>--tracing retain-on-failure</code> (module 11) ne garde une trace rejouable que pour les tests qui ont raté, pas besoin de fouiller dans des centaines de traces inutiles ; et ça tourne sur chaque <em>pull request</em>, pas seulement sur <code>main</code> — donc le bug est visible avant la fusion, pas après.</p>
+      <p>Trois détails qui changent tout au quotidien, dans les deux versions : le job échoue (donc bloque la pull request) si un seul test échoue ; l'option de trace/tracing (module 11) ne garde un rapport rejouable que pour les tests qui ont raté, pas besoin de fouiller dans des centaines de traces inutiles ; et ça tourne sur chaque <em>pull request</em>, pas seulement sur <code>main</code> — donc le bug est visible avant la fusion, pas après.</p>
 
       <div class="exercise">
         <div class="exercise-label">Exercice</div>
@@ -1162,7 +1341,7 @@ jobs:
   pull_request:
   schedule:
     - cron: '0 2 * * *'</pre>
-            <p>Le déclencheur <code>schedule</code> avec une expression cron fait tourner le job à heure fixe, indépendamment de toute activité sur le dépôt.</p>
+            <p>Le déclencheur <code>schedule</code> avec une expression cron fait tourner le job à heure fixe, indépendamment de toute activité sur le dépôt — valable à l'identique dans la version TypeScript et la version Python, seul le reste du job change entre les deux.</p>
           </div>
         </details>
       </div>
@@ -1217,7 +1396,7 @@ jobs:
 
       <div class="callout">
         <div class="callout-label">Comment savoir que c'est réussi</div>
-        <p>Tes trois tests automatisés passent en local avec <code>npx playwright test</code>, <em>et</em> ils tournent aussi tout seuls dans l'onglet "Actions" de ton dépôt GitHub après un <code>git push</code>. Si un test échoue volontairement (change une valeur attendue pour le vérifier), la pull request doit s'afficher en rouge — sinon la CI n'est pas vraiment branchée.</p>
+        <p>Tes trois tests automatisés passent en local avec <code>npx playwright test</code> (ou <code>pytest --browser chromium</code> si tu suis la colonne Python), <em>et</em> ils tournent aussi tout seuls dans l'onglet "Actions" de ton dépôt GitHub après un <code>git push</code>. Si un test échoue volontairement (change une valeur attendue pour le vérifier), la pull request doit s'afficher en rouge — sinon la CI n'est pas vraiment branchée.</p>
       </div>
 
       <div class="exercise">
@@ -1236,7 +1415,7 @@ jobs:
 
     <!-- ============ PARTIE 3 ============ -->
     <div class="part-divider"><span class="part-tag">PARTIE 3</span><h2 class="part-title">Compléments pratiques</h2></div>
-    <p class="part-intro">Ces onze modules viennent d'une feuille de route que tu avais toi-même préparée, plus un dernier module ajouté pour t'aider à te vendre sur le marché. Ce qui était déjà couvert plus haut (Playwright, Cypress, Selenium, Postman, k6, JMeter, CI/CD, IA) n'est pas répété ici — seuls les sujets vraiment nouveaux ont été gardés : Git, l'architecture Page Object, le BDD, le SQL, Jira, le RGPD, le mobile, la sécurité, Docker, et la certification/les mots-clés qui comptent pour l'emploi.</p>
+    <p class="part-intro">Ces douze modules viennent d'une feuille de route que tu avais toi-même préparée, plus deux modules ajoutés pour t'aider à te vendre sur le marché et à situer ton travail dans le cycle de vie complet d'un projet. Ce qui était déjà couvert plus haut (Playwright, Cypress, Selenium, Postman, k6, JMeter, CI/CD, IA) n'est pas répété ici — seuls les sujets vraiment nouveaux ont été gardés : Git, l'architecture Page Object, le BDD, le SQL, Jira, le RGPD, le mobile, la sécurité, Docker, les environnements de DEV à PROD, et la certification/les mots-clés qui comptent pour l'emploi.</p>
 
     <section class="module" id="m17">
       <div class="mod-eyebrow">Partie 3 · Module 17</div>
@@ -1257,7 +1436,17 @@ jobs:
 
       <div class="callout">
         <div class="callout-label">Réflexe à prendre</div>
-        <p>Un fichier <code>.gitignore</code> à la racine du projet doit exclure <code>venv/</code>, <code>__pycache__/</code>, <code>.pytest_cache/</code> et <code>test-results/</code> — ce sont des dossiers régénérés à chaque exécution, qui n'ont rien à faire dans l'historique du dépôt.</p>
+        <p>Un fichier <code>.gitignore</code> à la racine du projet doit exclure tout ce qui est régénéré à chaque exécution — ça n'a rien à faire dans l'historique du dépôt. Le contenu dépend de la colonne suivie (module 9) :</p>
+        <p class="code-label">.gitignore — projet TypeScript</p>
+        <pre>node_modules/
+test-results/
+playwright-report/
+playwright/.cache/</pre>
+        <p class="code-label">.gitignore — projet Python</p>
+        <pre>venv/
+__pycache__/
+.pytest_cache/
+test-results/</pre>
       </div>
 
       <div class="exercise">
@@ -1281,7 +1470,40 @@ jobs:
 
       <p>Le principe : une classe par page, qui regroupe les sélecteurs et les actions possibles sur cette page. Les tests appellent des méthodes qui ont un sens métier, jamais un sélecteur brut.</p>
 
-      <p class="code-label">pages/login_page.py</p>
+      <p class="code-label">pages/LoginPage.ts</p>
+      <pre>import { Page, expect } from '@playwright/test';
+
+export class LoginPage {
+  constructor(private page: Page) {}
+
+  async goto() {
+    await this.page.goto('https://novacart.exemple/connexion');
+  }
+
+  async seConnecter(email: string, motDePasse: string) {
+    await this.page.getByLabel('E-mail').fill(email);
+    await this.page.getByLabel('Mot de passe').fill(motDePasse);
+    await this.page.getByRole('button', { name: 'Se connecter' }).click();
+  }
+
+  async attendreErreur(message: string) {
+    await expect(this.page.getByText(message)).toBeVisible();
+  }
+}</pre>
+
+      <p>Le test du module 11 devient plus court, et surtout plus stable :</p>
+      <p class="code-label">tests/connexion.spec.ts — réécrit avec le Page Object</p>
+      <pre>import { test } from '@playwright/test';
+import { LoginPage } from '../pages/LoginPage';
+
+test('TC-CONN-014 — mot de passe de 7 caractères est rejeté', async ({ page }) =&gt; {
+  const connexion = new LoginPage(page);
+  await connexion.goto();
+  await connexion.seConnecter('test@novacart.fr', 'abc1234');
+  await connexion.attendreErreur('au moins 8 caractères');
+});</pre>
+
+      <p class="code-label">pages/login_page.py — équivalent Python</p>
       <pre>from playwright.sync_api import Page, expect
 
 
@@ -1300,7 +1522,6 @@ class LoginPage:
     def attendre_erreur(self, message: str):
         expect(self.page.get_by_text(message)).to_be_visible()</pre>
 
-      <p>Le test du module 11 devient plus court, et surtout plus stable :</p>
       <p class="code-label">tests/test_connexion.py — réécrit avec le Page Object</p>
       <pre>from playwright.sync_api import Page
 from pages.login_page import LoginPage
@@ -1312,7 +1533,7 @@ def test_tc_conn_014_mot_de_passe_de_7_caracteres_est_rejete(page: Page):
     connexion.se_connecter("test@novacart.fr", "abc1234")
     connexion.attendre_erreur("au moins 8 caractères")</pre>
 
-      <p>Le gain se voit le jour où le champ change d'identifiant : une seule ligne à corriger, dans <code>login_page.py</code> — tous les tests qui l'utilisent redeviennent verts sans y être touchés.</p>
+      <p>Le gain se voit le jour où le champ change d'identifiant : une seule ligne à corriger, dans <code>LoginPage.ts</code> (ou <code>login_page.py</code>) — tous les tests qui l'utilisent redeviennent verts sans y être touchés.</p>
 
       <div class="exercise">
         <div class="exercise-label">Exercice</div>
@@ -1320,7 +1541,7 @@ def test_tc_conn_014_mot_de_passe_de_7_caracteres_est_rejete(page: Page):
         <details>
           <summary>Voir la correction</summary>
           <div class="exercise-solution-body">
-            <p>Un seul : <code>login_page.py</code>. Tous les tests qui appellent <code>se_connecter()</code> redeviennent verts automatiquement, sans y être touchés — c'est exactement le gain démontré dans ce module.</p>
+            <p>Un seul : <code>LoginPage.ts</code> (ou <code>login_page.py</code> côté Python). Tous les tests qui appellent <code>seConnecter()</code>/<code>se_connecter()</code> redeviennent verts automatiquement, sans y être touchés — c'est exactement le gain démontré dans ce module.</p>
           </div>
         </details>
       </div>
@@ -1330,10 +1551,10 @@ def test_tc_conn_014_mot_de_passe_de_7_caracteres_est_rejete(page: Page):
 
     <section class="module" id="m19">
       <div class="mod-eyebrow">Partie 3 · Module 19</div>
-      <h2 class="mod-title">BDD avec pytest-bdd</h2>
-      <p>Le module 4 a introduit le format Gherkin comme façon lisible d'écrire un critère d'acceptation. <strong>pytest-bdd</strong> va plus loin : ce même texte devient exécutable, sans le retaper en code — chaque ligne du scénario est reliée à une fonction Python par une "step definition", et ça s'exécute avec le même <code>pytest</code> que le module 11 (contrairement à Cucumber, qui demande son propre runner en JavaScript).</p>
+      <h2 class="mod-title">BDD avec Playwright</h2>
+      <p>Le module 4 a introduit le format Gherkin comme façon lisible d'écrire un critère d'acceptation. Le BDD va plus loin : ce même texte devient exécutable, sans le retaper en code — chaque ligne du scénario est reliée à une fonction par une "step definition". Côté TypeScript, <strong>playwright-bdd</strong> génère des tests Playwright standards à partir des fichiers <code>.feature</code> ; côté Python, <strong>pytest-bdd</strong> fait la même chose avec <code>pytest</code> (module 11) — les deux cohabitent avec les tests E2E déjà écrits, pas besoin d'un outil séparé comme Cucumber avec son propre runner.</p>
 
-      <p class="code-label">features/connexion.feature</p>
+      <p class="code-label">features/connexion.feature (commun aux deux langages)</p>
       <pre>Fonctionnalité : Connexion à NovaCart
 
   Scénario : Mot de passe trop court refusé
@@ -1341,7 +1562,27 @@ def test_tc_conn_014_mot_de_passe_de_7_caracteres_est_rejete(page: Page):
     Quand je saisis l'e-mail "test@novacart.fr" et le mot de passe "abc1234"
     Alors je vois le message "au moins 8 caractères"</pre>
 
-      <p class="code-label">tests/test_connexion_bdd.py</p>
+      <p class="code-label">steps/connexion.steps.ts</p>
+      <pre>import { createBdd } from 'playwright-bdd';
+import { expect } from '@playwright/test';
+
+const { Given, When, Then } = createBdd();
+
+Given('que je suis sur la page de connexion', async ({ page }) =&gt; {
+  await page.goto('https://novacart.exemple/connexion');
+});
+
+When('je saisis l\'e-mail {string} et le mot de passe {string}', async ({ page }, email, motDePasse) =&gt; {
+  await page.getByLabel('E-mail').fill(email);
+  await page.getByLabel('Mot de passe').fill(motDePasse);
+  await page.getByRole('button', { name: 'Se connecter' }).click();
+});
+
+Then('je vois le message {string}', async ({ page }, message) =&gt; {
+  await expect(page.getByText(message)).toBeVisible();
+});</pre>
+
+      <p class="code-label">tests/test_connexion_bdd.py — équivalent Python</p>
       <pre>from pytest_bdd import scenarios, given, when, then, parsers
 from playwright.sync_api import expect
 
@@ -1364,7 +1605,7 @@ def saisir_les_identifiants(page, email, mot_de_passe):
 def verifier_le_message(page, message):
     expect(page.get_by_text(message)).to_be_visible()</pre>
 
-      <p>L'intérêt réel n'est pas technique, il est humain : un Product Owner qui ne lit pas Python peut lire et même corriger le fichier <code>.feature</code>, et vérifier lui-même que le scénario décrit bien la règle métier voulue — les "step definitions" ne changent quasiment jamais une fois écrites, seuls les scénarios en langage naturel bougent au fil des besoins. La fixture <code>page</code> utilisée ici est exactement celle de <code>pytest-playwright</code>, module 11 — les deux outils cohabitent dans le même projet.</p>
+      <p>L'intérêt réel n'est pas technique, il est humain : un Product Owner qui ne lit pas de code peut lire et même corriger le fichier <code>.feature</code>, et vérifier lui-même que le scénario décrit bien la règle métier voulue — les "step definitions" ne changent quasiment jamais une fois écrites, seuls les scénarios en langage naturel bougent au fil des besoins. La fixture <code>page</code> utilisée ici est exactement celle du module 11, dans les deux langages — le BDD s'ajoute par-dessus les tests existants, il ne les remplace pas.</p>
 
       <div class="callout warn">
         <div class="callout-label">Ne pas sur-utiliser</div>
@@ -1401,7 +1642,24 @@ ORDER BY ajoute_le DESC
 LIMIT 1;</pre>
 
       <p>On peut aussi faire de cette requête une assertion automatisée, en complément d'un test Playwright — pas à sa place, en plus :</p>
-      <p class="code-label">tests/test_panier.py — extrait</p>
+      <p class="code-label">tests/panier.spec.ts — extrait</p>
+      <pre>import { Client } from 'pg';
+import { test, expect } from '@playwright/test';
+
+test('ajouter un article crée bien une ligne en base', async ({ page }) =&gt; {
+  // ... actions dans l'interface (module 11) ...
+
+  const client = new Client({ connectionString: process.env.DATABASE_URL_TEST });
+  await client.connect();
+  const resultat = await client.query(
+    'SELECT quantite FROM panier WHERE utilisateur_id = $1',
+    [4471]
+  );
+  expect(resultat.rows[0].quantite).toBe(1);
+  await client.end();
+});</pre>
+
+      <p class="code-label">tests/test_panier.py — équivalent Python</p>
       <pre>import os
 import psycopg2
 from playwright.sync_api import Page
@@ -1425,6 +1683,39 @@ def test_ajouter_article_cree_bien_une_ligne_en_base(page: Page):
         <p>Cette connexion pointe vers une base de <strong>test</strong>, jamais vers la production — un test qui écrit ou lit dans la vraie base de NovaCart est une porte ouverte à la fois vers des données corrompues et, comme le rappelle le module 22, vers une fuite de données personnelles réelles.</p>
       </div>
 
+      <h3>Aller plus loin : JOIN, GROUP BY et sous-requêtes en contexte QA</h3>
+      <p>Un <code>SELECT</code> sur une seule table suffit pour un cas simple. Mais la plupart des bugs de cohérence en base impliquent <strong>plusieurs tables reliées entre elles</strong> — c'est là que JOIN, GROUP BY et les sous-requêtes deviennent des outils QA à part entière, pas juste une compétence "développeur".</p>
+
+      <p><strong>Vérifier qu'une commande est bien enregistrée avec toutes ses lignes</strong> — après un checkout dans l'interface, on confirme que chaque article affiché a bien sa ligne correspondante en base, avec le bon prix et la bonne quantité :</p>
+      <p class="code-label">JOIN — commande NovaCart n°8823</p>
+      <pre>SELECT c.id AS commande_id, c.statut, p.nom AS produit, l.quantite, l.prix_unitaire
+FROM commandes c
+JOIN lignes_commande l ON l.commande_id = c.id
+JOIN produits p ON p.id = l.produit_id
+WHERE c.id = 8823
+ORDER BY p.nom;</pre>
+
+      <p><strong>Détecter une incohérence qu'aucun écran ne montre</strong> — une "commande fantôme" : une ligne existe dans <code>commandes</code> mais sans aucune ligne de détail associée, signe d'une insertion partielle qui a planté en cours de route. <code>GROUP BY</code> + <code>HAVING</code> la détecte en une requête, sur toute la base d'un coup — impossible à repérer en cliquant dans l'interface commande par commande :</p>
+      <p class="code-label">GROUP BY / HAVING — commandes sans aucune ligne</p>
+      <pre>SELECT c.id, COUNT(l.id) AS nb_lignes
+FROM commandes c
+LEFT JOIN lignes_commande l ON l.commande_id = c.id
+GROUP BY c.id
+HAVING COUNT(l.id) = 0;</pre>
+
+      <p><strong>Comparer un total affiché à un total recalculé</strong> — le cas classique où l'interface montre "Total : 47,50 €" mais où ce chiffre a été mal recalculé après une modification de panier. Une sous-requête compare la valeur stockée à la valeur qu'on recalcule à la volée à partir des lignes :</p>
+      <p class="code-label">Sous-requête — total enregistré vs total recalculé</p>
+      <pre>SELECT c.id,
+       c.total AS total_enregistre,
+       (SELECT SUM(l.quantite * l.prix_unitaire)
+        FROM lignes_commande l
+        WHERE l.commande_id = c.id) AS total_calcule
+FROM commandes c
+WHERE c.id = 8823;
+-- si total_enregistre ≠ total_calcule, il y a un bug de recalcul côté serveur</pre>
+
+      <p>Dans les trois cas, la logique QA reste la même que pour un test Playwright : on part de ce que l'utilisateur devrait voir, et on vérifie que la base raconte la même histoire — <code>JOIN</code> pour rassembler les tables liées, <code>GROUP BY</code>/<code>HAVING</code> pour repérer un écart sur un ensemble de lignes, une sous-requête pour comparer une valeur stockée à une valeur recalculée.</p>
+
       <div class="exercise">
         <div class="exercise-label">Exercice</div>
         <p>Écris la requête SQL qui vérifie qu'un utilisateur supprimé n'a plus aucune ligne dans la table <code>panier</code>.</p>
@@ -1435,6 +1726,31 @@ def test_ajouter_article_cree_bien_une_ligne_en_base(page: Page):
 FROM panier
 WHERE utilisateur_id = 4471;
 -- résultat attendu : 0</pre>
+          </div>
+        </details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice — MISSION QA</div>
+        <p>Un client se plaint que sa commande NovaCart n°9010 affiche 3 articles dans son historique, mais que le total payé lui semble faux. Écris (1) la requête qui liste les lignes de cette commande avec leur prix, et (2) la requête qui compare le total enregistré au total recalculé à partir de ces lignes, pour confirmer ou infirmer le bug.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>-- 1. Lister les lignes de la commande avec leur prix
+SELECT p.nom, l.quantite, l.prix_unitaire, (l.quantite * l.prix_unitaire) AS sous_total
+FROM lignes_commande l
+JOIN produits p ON p.id = l.produit_id
+WHERE l.commande_id = 9010;
+
+-- 2. Comparer le total enregistré au total recalculé
+SELECT c.id,
+       c.total AS total_enregistre,
+       (SELECT SUM(l.quantite * l.prix_unitaire)
+        FROM lignes_commande l
+        WHERE l.commande_id = c.id) AS total_calcule
+FROM commandes c
+WHERE c.id = 9010;</pre>
+            <p>Si les deux montants diffèrent, le client a raison : c'est un bug de recalcul côté serveur (par exemple une remise appliquée deux fois, ou un article retiré du panier sans recalcul du total) à documenter comme anomalie (module 6/21), avec ces deux requêtes en pièce jointe au ticket comme preuve.</p>
           </div>
         </details>
       </div>
@@ -1485,9 +1801,20 @@ WHERE utilisateur_id = 4471;
         <tr><td><strong>Anonymisation</strong></td><td>Remplacer définitivement par des données inventées, sans moyen de remonter à la personne réelle</td><td>Non — c'est le but</td></tr>
       </table></div>
 
-      <p>Pour la grande majorité des cas de test (module 5), l'anonymisation totale suffit et évite tout risque : la règle de validation d'un mot de passe se teste aussi bien avec un compte entièrement fictif qu'avec un vrai. Une bibliothèque comme <strong>Faker</strong> (portée dans la plupart des langages, dont Python) génère en une ligne des jeux de données réalistes mais inventés — noms, adresses, numéros de carte au format valide mais fictif :</p>
+      <p>Pour la grande majorité des cas de test (module 5), l'anonymisation totale suffit et évite tout risque : la règle de validation d'un mot de passe se teste aussi bien avec un compte entièrement fictif qu'avec un vrai. Une bibliothèque comme <strong>Faker</strong> (portée dans la plupart des langages) génère en une ligne des jeux de données réalistes mais inventés — noms, adresses, numéros de carte au format valide mais fictif :</p>
 
-      <p class="code-label">fixtures/comptes_test.py</p>
+      <p class="code-label">fixtures/comptesTest.ts</p>
+      <pre>import { faker } from '@faker-js/faker/locale/fr';
+
+export function genererCompteTest() {
+  return {
+    email: faker.internet.email(),
+    nom: faker.person.fullName(),
+    adresse: faker.location.streetAddress(),
+  };
+}</pre>
+
+      <p class="code-label">fixtures/comptes_test.py — équivalent Python</p>
       <pre>from faker import Faker
 
 fake = Faker("fr_FR")
@@ -1524,32 +1851,72 @@ def generer_compte_test():
       <h2 class="mod-title">Automatiser le mobile avec Appium</h2>
       <p>Playwright (module 11) pilote un navigateur. Le jour où NovaCart sort une vraie application mobile native (pas juste son site consulté sur téléphone), Playwright ne peut plus rien faire — il faut <strong>Appium</strong>, qui parle aux applications iOS et Android installées sur un appareil ou un émulateur.</p>
 
-      <p>La logique reste la même que tout ce qu'on a vu : trouver un élément, agir dessus, vérifier un résultat. Seuls les sélecteurs changent — on cible par identifiant d'accessibilité plutôt que par label HTML :</p>
+      <p>La logique reste la même que tout ce qu'on a vu : trouver un élément, agir dessus, vérifier un résultat. Seuls les sélecteurs changent — on cible par identifiant d'accessibilité plutôt que par label HTML. Installation et connexion au driver d'abord :</p>
 
-      <p class="code-label">tests/test_connexion_mobile.py (structure simplifiée)</p>
-      <pre>from appium.webdriver.common.appiumby import AppiumBy
+      <p class="code-label">Terminal</p>
+      <pre>npm install -g appium
+appium driver install uiautomator2   # pilote Android
+pip install Appium-Python-Client
+appium   # démarre le serveur Appium, à laisser tourner dans un terminal séparé</pre>
 
-champ_email = driver.find_element(AppiumBy.ACCESSIBILITY_ID, "champ-email")
-champ_email.send_keys("test@novacart.fr")
+      <p class="code-label">tests/test_connexion_mobile.py — configuration et test complets</p>
+      <pre>from appium import webdriver
+from appium.options.android import UiAutomator2Options
+from appium.webdriver.common.appiumby import AppiumBy
 
-champ_mdp = driver.find_element(AppiumBy.ACCESSIBILITY_ID, "champ-mot-de-passe")
-champ_mdp.send_keys("MotDePasse2026")
+capabilities = {
+    "platformName": "Android",
+    "automationName": "UiAutomator2",
+    "deviceName": "emulator-5554",
+    "app": "/chemin/vers/novacart.apk",
+}
+options = UiAutomator2Options().load_capabilities(capabilities)
 
-bouton_connexion = driver.find_element(AppiumBy.ACCESSIBILITY_ID, "bouton-se-connecter")
-bouton_connexion.click()
 
-tableau_de_bord = driver.find_element(AppiumBy.ACCESSIBILITY_ID, "titre-tableau-de-bord")
-assert tableau_de_bord.is_displayed()</pre>
+def test_connexion_mobile_avec_identifiants_valides():
+    driver = webdriver.Remote("http://127.0.0.1:4723", options=options)
 
-      <p>Ces identifiants (<code>~champ-email</code>) doivent être ajoutés par les développeurs mobile dans le code de l'application — contrairement au web, on ne peut pas s'appuyer sur du texte visible aussi facilement. C'est une conversation à avoir tôt avec l'équipe mobile, pas une contrainte que le testeur découvre après coup.</p>
+    champ_email = driver.find_element(AppiumBy.ACCESSIBILITY_ID, "champ-email")
+    champ_email.send_keys("test@novacart.fr")
+
+    champ_mdp = driver.find_element(AppiumBy.ACCESSIBILITY_ID, "champ-mot-de-passe")
+    champ_mdp.send_keys("MotDePasse2026")
+
+    bouton_connexion = driver.find_element(AppiumBy.ACCESSIBILITY_ID, "bouton-se-connecter")
+    bouton_connexion.click()
+
+    tableau_de_bord = driver.find_element(AppiumBy.ACCESSIBILITY_ID, "titre-tableau-de-bord")
+    assert tableau_de_bord.is_displayed()
+
+    driver.quit()</pre>
+
+      <p>Trois éléments de <code>capabilities</code> à toujours vérifier en premier quand un test Appium ne démarre pas : <code>platformName</code> (Android ou iOS), <code>deviceName</code> (l'émulateur ou l'appareil physique ciblé), et <code>app</code> (le chemin vers le <code>.apk</code>/<code>.ipa</code> à installer) — la majorité des échecs de configuration Appium viennent d'une de ces trois valeurs incorrecte, avant même d'arriver au premier <code>find_element</code>.</p>
+
+      <p>Ces identifiants (<code>champ-email</code>) doivent être ajoutés par les développeurs mobile dans le code de l'application — contrairement au web, on ne peut pas s'appuyer sur du texte visible aussi facilement. C'est une conversation à avoir tôt avec l'équipe mobile, pas une contrainte que le testeur découvre après coup.</p>
 
       <div class="exercise">
         <div class="exercise-label">Exercice</div>
-        <p>L'application mobile NovaCart n'a aucun identifiant d'accessibilité sur son bouton de connexion. Qui doit l'ajouter, et pourquoi le testeur ne peut-il pas simplement "trouver le bouton" comme il le ferait sur le web ?</p>
+        <p>Écris le test <code>test_connexion_mobile_mot_de_passe_incorrect</code> : mêmes étapes que l'exemple du module, mais avec un mauvais mot de passe, qui doit vérifier qu'un élément avec l'identifiant d'accessibilité <code>message-erreur-connexion</code> est bien affiché (et non le tableau de bord).</p>
         <details>
           <summary>Voir la correction</summary>
           <div class="exercise-solution-body">
-            <p>Les développeurs mobile doivent l'ajouter dans le code de l'application. Contrairement au web, il n'y a pas de texte ou de DOM aussi facilement exploitable — sans identifiant explicite, Appium n'a rien de fiable à cibler.</p>
+            <pre>def test_connexion_mobile_mot_de_passe_incorrect():
+    driver = webdriver.Remote("http://127.0.0.1:4723", options=options)
+
+    champ_email = driver.find_element(AppiumBy.ACCESSIBILITY_ID, "champ-email")
+    champ_email.send_keys("test@novacart.fr")
+
+    champ_mdp = driver.find_element(AppiumBy.ACCESSIBILITY_ID, "champ-mot-de-passe")
+    champ_mdp.send_keys("mauvais_mot_de_passe")
+
+    bouton_connexion = driver.find_element(AppiumBy.ACCESSIBILITY_ID, "bouton-se-connecter")
+    bouton_connexion.click()
+
+    message_erreur = driver.find_element(AppiumBy.ACCESSIBILITY_ID, "message-erreur-connexion")
+    assert message_erreur.is_displayed()
+
+    driver.quit()</pre>
+            <p>Même structure que le cas nominal du module (module 5 : cas nominal + cas d'erreur), seul le sélecteur ciblé pour la vérification change — c'est le même réflexe qu'au module 11, transposé au mobile.</p>
           </div>
         </details>
       </div>
@@ -1585,6 +1952,29 @@ assert tableau_de_bord.is_displayed()</pre>
         </details>
       </div>
 
+      <div class="exercise">
+        <div class="exercise-label">Exercice — lire un extrait de rapport ZAP</div>
+        <p>Un scan sur <code>/connexion</code> remonte ces deux alertes. Pour chacune, dis si elle mérite un ticket immédiat (module 6) ou si elle est probablement un faux positif à vérifier avant d'ouvrir un ticket :</p>
+        <p class="code-label">rapport-zap.html — extrait</p>
+        <pre>[Risque MOYEN] Absent Anti-clickjacking Header
+  URL : https://staging.novacart.exemple/connexion
+  Description : la réponse ne contient pas d'en-tête X-Frame-Options ou
+  Content-Security-Policy frame-ancestors, ce qui permet potentiellement
+  d'intégrer la page dans un &lt;iframe&gt; malveillant.
+
+[Risque FAIBLE] Cross-Domain JavaScript Source File Inclusion
+  URL : https://staging.novacart.exemple/connexion
+  Description : la page inclut un fichier JavaScript depuis
+  https://cdn.novacart-assets.exemple — domaine externe non vérifié
+  par ce scan.</pre>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>La première (en-tête anti-clickjacking absent) mérite un ticket : c'est une vraie faiblesse de configuration serveur, facile à corriger (ajouter l'en-tête), avec un impact réel documenté dans l'OWASP Top 10. La seconde est probablement un <strong>faux positif à vérifier</strong> avant d'ouvrir un ticket : si <code>cdn.novacart-assets.exemple</code> est un domaine appartenant à NovaCart elle-même (un CDN interne), l'alerte est normale et attendue — ZAP signale simplement qu'une ressource vient d'un domaine différent, sans savoir si ce domaine est de confiance. Le réflexe attendu : vérifier qui possède le domaine avant de considérer que ZAP a trouvé quelque chose.</p>
+          </div>
+        </details>
+      </div>
+
       <button class="done-toggle" data-toggle="m24"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
 
@@ -1593,7 +1983,17 @@ assert tableau_de_bord.is_displayed()</pre>
       <h2 class="mod-title">Environnements reproductibles avec Docker</h2>
       <p>"Ça passe sur ma machine mais pas en CI" est un symptôme classique : une version de Node différente, une police système absente, une dépendance installée à la main un jour et oubliée. <strong>Docker</strong> élimine cette classe entière de problèmes en empaquetant exactement le même environnement, partout.</p>
 
-      <p class="code-label">Dockerfile — pour exécuter les tests Playwright du module 11</p>
+      <p class="code-label">Dockerfile — TypeScript, pour exécuter les tests Playwright du module 11</p>
+      <pre>FROM mcr.microsoft.com/playwright:v1.48.0-jammy
+
+WORKDIR /app
+COPY package*.json .
+RUN npm ci
+COPY . .
+
+CMD ["npx", "playwright", "test"]</pre>
+
+      <p class="code-label">Dockerfile — Python (équivalent)</p>
       <pre>FROM mcr.microsoft.com/playwright/python:v1.48.0-jammy
 
 WORKDIR /app
@@ -1603,7 +2003,7 @@ COPY . .
 
 CMD ["pytest", "--browser", "chromium"]</pre>
 
-      <p>La même image tourne en local (<code>docker build -t novacart-tests . &amp;&amp; docker run novacart-tests</code>) et dans le pipeline GitHub Actions du module 14 — plus de surprise entre "chez moi" et "en CI", parce que c'est littéralement le même système de fichiers qui exécute les tests dans les deux cas.</p>
+      <p>La même image tourne en local (<code>docker build -t novacart-tests . &amp;&amp; docker run novacart-tests</code>) et dans le pipeline GitHub Actions du module 14 — plus de surprise entre "chez moi" et "en CI", parce que c'est littéralement le même système de fichiers qui exécute les tests dans les deux cas. Les deux images officielles Microsoft (<code>playwright</code> pour Node, <code>playwright/python</code> pour Python) embarquent déjà les navigateurs et leurs dépendances système — pas besoin de gérer soi-même l'installation de Chromium/Firefox/WebKit dans l'image.</p>
 
       <p>Une fois cette reproductibilité acquise, la question de l'échelle se pose naturellement : faire tourner les tests de charge du module 13 depuis une seule machine locale limite le nombre d'utilisateurs virtuels simulables de façon réaliste. Des VM cloud (AWS, Azure) permettent de lancer ces mêmes conteneurs depuis plusieurs régions à la fois — un sujet d'infrastructure à part entière, qui dépasse ce cours, mais qui repose entièrement sur la reproductibilité que Docker apporte ici.</p>
 
@@ -1614,6 +2014,41 @@ CMD ["pytest", "--browser", "chromium"]</pre>
           <summary>Voir la correction</summary>
           <div class="exercise-solution-body">
             <p>La même image tourne en local et en CI — donc littéralement la même version de navigateur et les mêmes dépendances dans les deux cas. Il ne peut plus y avoir de divergence d'environnement à l'origine du problème.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice — compléter un docker-compose.yml</div>
+        <p>NovaCart veut faire tourner ses tests SQL du module 20 en CI, ce qui suppose une vraie base PostgreSQL de test à côté du conteneur de tests. Complète ce <code>docker-compose.yml</code> partiel en ajoutant le service <code>db</code> (image <code>postgres:16</code>, base nommée <code>novacart_test</code>, exposée sur le port 5432) :</p>
+        <pre>services:
+  tests:
+    build: .
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL_TEST: postgresql://postgres:postgres@db:5432/novacart_test
+
+  # à compléter : service "db"</pre>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>services:
+  tests:
+    build: .
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL_TEST: postgresql://postgres:postgres@db:5432/novacart_test
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: novacart_test
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"</pre>
+            <p>Le nom du service (<code>db</code>) devient le nom d'hôte utilisable depuis le conteneur <code>tests</code> — c'est pour ça que l'URL de connexion pointe vers <code>db:5432</code> et non <code>localhost:5432</code>. Cette base tourne uniquement le temps du job CI et ne contient que des données de test (module 22) — jamais une copie de la production.</p>
           </div>
         </details>
       </div>
@@ -1714,14 +2149,62 @@ CMD ["pytest", "--browser", "chromium"]</pre>
       <button class="done-toggle" data-toggle="m27"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
 
+    <section class="module" id="m28">
+      <div class="mod-eyebrow">Partie 3 · Module 28</div>
+      <h2 class="mod-title">Les environnements : de DEV à PROD</h2>
+      <p>Un test ne s'exécute jamais "quelque part au hasard" — il tourne dans un <strong>environnement</strong> précis, et cet environnement change ce qu'on a le droit d'y faire, qui y intervient, et quels tests y ont du sens. Un testeur qui ne sait pas dans quel environnement il se trouve peut, sans le vouloir, valider un correctif qui n'a jamais tourné sur une configuration proche de la production — ou pire, toucher à de vraies données clients (module 22). Ce module reprend la chaîne <strong>Développement → Intégration → Recette → Préproduction → Production</strong>, telle qu'elle existe dans la plupart des organisations, avec le rôle précis du QA à chaque étape.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Environnement</th><th>Qui intervient</th><th>Objectif</th><th>Types de tests</th><th>Données utilisées</th></tr>
+        <tr><td class="mono">Développement<br>(DEV)</td><td>Développeurs, en local ou sur un environnement isolé</td><td>Écrire et vérifier le code au fur et à mesure, sans dépendre du travail des autres</td><td>Tests unitaires</td><td>Données fictives, souvent générées à la volée</td></tr>
+        <tr><td class="mono">Intégration<br>(INT)</td><td>Développeurs et/ou assistants MOE</td><td>Vérifier que les modules développés séparément fonctionnent une fois assemblés</td><td>Tests d'intégration</td><td>Jeux de données de test partagés par l'équipe</td></tr>
+        <tr><td class="mono">Recette<br>(RECETTE)</td><td>Testeurs / QA, avec parfois les utilisateurs finaux</td><td>Valider que le produit correspond aux spécifications fonctionnelles et aux besoins métier</td><td>Tests fonctionnels (module 5), tests de recette, tests d'acceptation utilisateur (UAT)</td><td>Données fictives ou anonymisées (module 22) — jamais de données réelles</td></tr>
+        <tr><td class="mono">Préproduction<br>(PREPROD)</td><td>Équipes techniques et QA, souvent avec de l'automatisation</td><td>Dernière vérification dans une configuration identique à la production ("iso-prod"), avant la bascule</td><td>Tests de performance/charge (module 13), tests de non-régression, vérifications de compatibilité</td><td>Configuration identique à la production, données toujours fictives</td></tr>
+        <tr><td class="mono">Production<br>(PROD)</td><td>Utilisateurs finaux ; QA en observation (shift-right, module 2)</td><td>Usage réel du produit par les vrais utilisateurs</td><td>Monitoring, tests de fumée après déploiement — jamais de test qui modifie des données réelles sans précaution</td><td>Données réelles des clients</td></tr>
+      </table></div>
+
+      <div class="callout">
+        <div class="callout-label">4 ou 5 environnements ? une nuance à connaître</div>
+        <p>Tu croiseras les deux versions selon les entreprises, et ce n'est pas une erreur de l'une ou de l'autre : certaines organisations traitent la préproduction comme un <strong>5ᵉ environnement à part entière</strong> (celui présenté ici), d'autres la considèrent comme la <strong>dernière sous-étape de la recette</strong> — une bascule finale en configuration "iso-prod" plutôt qu'un environnement séparé avec sa propre équipe. Les deux visions décrivent la même réalité de terrain avec un découpage différent. Ce qui ne change jamais, quelle que soit la convention retenue : la recette valide le fonctionnel, l'étape juste avant la production valide la performance et la non-régression dans une configuration proche du réel, et aucune donnée réelle de client n'apparaît avant la production elle-même.</p>
+      </div>
+
+      <h3>Deux scénarios pratiques</h3>
+      <p><strong>Scénario 1</strong> — Un bug apparaît en préproduction (lenteur anormale sous charge) alors que tous les tests fonctionnels étaient passés en recette. Est-ce contradictoire ? Non : la recette valide le <em>comportement</em> fonctionnel avec un jeu de données réduit, la préproduction valide la <em>performance</em> avec une configuration et un volume proches du réel — deux environnements, deux objectifs différents, un bug de performance peut très bien être invisible tant qu'on n'a pas testé à l'échelle.</p>
+      <p><strong>Scénario 2</strong> — Un testeur reçoit une demande urgente : "connecte-toi directement à la base de production pour vérifier ce compte client". C'est exactement la règle non négociable du module 20 : jamais de connexion à la production pour un test, quelle que soit l'urgence — la bonne réponse est de reproduire le cas en recette avec un compte fictif équivalent, ou de faire remonter la vérification à quelqu'un habilité à consulter la production en lecture seule, sans y exécuter de test.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Une équipe NovaCart teste une nouvelle fonctionnalité de recherche. Les tests fonctionnels passent tous en recette. Avant la mise en production, quel environnement doit encore valider quoi, et pourquoi ne peut-on pas passer directement de la recette à la production ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>La préproduction doit encore valider la performance sous charge réaliste et l'absence de régression, dans une configuration identique à la production ("iso-prod") — ce que la recette, avec son jeu de données réduit, ne peut pas garantir. Passer directement de la recette à la production reviendrait à découvrir un problème de charge ou de compatibilité devant les vrais utilisateurs, au pire moment possible.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice — MISSION QA</div>
+        <p>Tu es le QA référent d'une mise en production NovaCart prévue vendredi. Établis, environnement par environnement, la checklist de ce qui doit être vérifié avant de donner le feu vert — un point par environnement (recette, préproduction), en citant pour chacun le type de test et qui doit valider.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Recette</strong> : tous les cas de test fonctionnels du plan de test (module 7) rejoués et passés, anomalies bloquantes résolues et re-testées (module 21), validation par le QA et, si prévu, par un représentant métier (UAT). <strong>Préproduction</strong> : tests de non-régression sur le périmètre existant (pas seulement la nouveauté), test de charge si la fonctionnalité est à fort trafic (module 13), vérification de compatibilité (navigateurs, versions), validation par l'équipe technique et le QA dans une configuration iso-prod. Seulement une fois ces deux feux verts obtenus, la mise en production peut être planifiée — jamais l'un sans l'autre, même sous pression de délai.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m28"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
     <!-- ============ PARTIE 4 ============ -->
     <div class="part-divider"><span class="part-tag">PARTIE 4</span><h2 class="part-title">Pour plus tard</h2></div>
-    <p class="part-intro">Un seul module ici, à garder de côté plutôt qu'à apprendre maintenant. Il est fait pour le jour, autour de décembre-janvier, où tu attaques vraiment JavaScript et TypeScript en vue de l'alternance.</p>
+    <p class="part-intro">Un seul module ici. Il n'est plus vraiment "pour plus tard" — depuis le module 9, TypeScript est déjà la colonne principale de tout ce cours — mais il reste utile à consulter dès maintenant si tu veux mieux comprendre la colonne Python affichée à côté de chaque exemple, ou si l'entreprise que tu vises travaille encore en Python.</p>
 
-    <section class="module" id="m28">
-      <div class="mod-eyebrow">Partie 4 · Module 28</div>
-      <h2 class="mod-title">Passerelle Python → JavaScript / TypeScript</h2>
-      <p>Tu connais déjà la logique de tout ce cours en Python. Ce module ne réenseigne rien — il te montre où chaque brique atterrit en JavaScript/TypeScript, pour que le jour où tu t'y mets, ce soit de la traduction, pas de l'apprentissage.</p>
+    <section class="module" id="m29">
+      <div class="mod-eyebrow">Partie 4 · Module 29</div>
+      <h2 class="mod-title">Passerelle Python ↔ TypeScript / JavaScript</h2>
+      <p>Depuis le module 9, chaque exemple de ce cours montre d'abord sa version TypeScript, puis sa version Python. Ce module rassemble le dictionnaire complet entre les deux langages — pas pour "apprendre le JS/TS plus tard", mais pour ancrer tout de suite la correspondance entre les deux colonnes que tu croises depuis le début du parcours, ou pour t'aider si une entreprise que tu vises est encore en Python.</p>
 
       <h3>Le vocabulaire, brique par brique</h3>
       <div class="table-scroll"><table>
@@ -1790,7 +2273,7 @@ interface CompteTest {
 
       <div class="callout">
         <div class="callout-label">Comment utiliser cette fiche</div>
-        <p>Ne l'apprends pas par cœur maintenant — reviens dessus le jour où tu commences vraiment le JS/TS. À ce moment-là, chaque ligne du tableau prendra sens en quelques minutes, parce que tu sauras déjà ce que le code est censé faire : il ne restera qu'à en changer l'habillage.</p>
+        <p>Garde-la ouverte en deuxième onglet pendant que tu avances dans les modules 11 à 25 : dès qu'une syntaxe TypeScript te paraît opaque, la ligne correspondante du tableau ci-dessus te ramène à ce que tu connais déjà. Pas besoin de l'apprendre par cœur — elle est faite pour être consultée à la demande, pas mémorisée d'un coup.</p>
       </div>
 
       <div class="exercise">
@@ -1811,15 +2294,15 @@ interface CompteTest {
         </details>
       </div>
 
-      <button class="done-toggle" data-toggle="m28"><span class="box"></span> Marquer ce module comme terminé</button>
+      <button class="done-toggle" data-toggle="m29"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
 
     <!-- ============ PARTIE 5 ============ -->
     <div class="part-divider"><span class="part-tag">PARTIE 5</span><h2 class="part-title">Projets professionnels</h2></div>
     <p class="part-intro">Quatre projets sur de vrais sites, spécialement construits pour qu'on s'entraîne dessus (donc rien d'illégal à les tester, contrairement à un site de production quelconque). Contrairement à NovaCart utilisé jusqu'ici, ces sites existent vraiment : tu peux les ouvrir, les casser, y trouver de vrais bugs. Chaque projet livre ce que livre un testeur professionnel en entreprise — pas seulement du code qui passe.</p>
 
-    <section class="module" id="m29">
-      <div class="mod-eyebrow">Partie 5 · Module 29</div>
+    <section class="module" id="m30">
+      <div class="mod-eyebrow">Partie 5 · Module 30</div>
       <h2 class="mod-title">Projet 1 — Connexion et panier (site réel)</h2>
       <p>Terrain : <a href="https://www.saucedemo.com" target="_blank" rel="noopener">saucedemo.com</a>, le site de démonstration officiel de Sauce Labs, construit exprès pour l'entraînement à l'automatisation. Six comptes de test avec le mot de passe <code>secret_sauce</code>, chacun avec un comportement différent — dont un qui contient un bug volontaire, parfait pour ton premier vrai rapport.</p>
 
@@ -1898,11 +2381,11 @@ def test_connexion_refusee_locked_out_user(page: Page):
         </details>
       </div>
 
-      <button class="done-toggle" data-toggle="m29"><span class="box"></span> Marquer ce module comme terminé</button>
+      <button class="done-toggle" data-toggle="m30"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
 
-    <section class="module" id="m30">
-      <div class="mod-eyebrow">Partie 5 · Module 30</div>
+    <section class="module" id="m31">
+      <div class="mod-eyebrow">Partie 5 · Module 31</div>
       <h2 class="mod-title">Projet 2 — Éléments piégeux</h2>
       <p>Terrain : <a href="https://the-internet.herokuapp.com" target="_blank" rel="noopener">the-internet.herokuapp.com</a>, un catalogue de pages construites exprès pour être difficiles à automatiser — alertes JavaScript, iframes, upload de fichier, éléments qui apparaissent en retard. C'est ce qu'on rencontre vraiment sur une application complexe, contrairement à un formulaire simple.</p>
 
@@ -1972,11 +2455,11 @@ def test_element_a_chargement_differe_finit_par_apparaitre(page: Page):
         </details>
       </div>
 
-      <button class="done-toggle" data-toggle="m30"><span class="box"></span> Marquer ce module comme terminé</button>
+      <button class="done-toggle" data-toggle="m31"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
 
-    <section class="module" id="m31">
-      <div class="mod-eyebrow">Partie 5 · Module 31</div>
+    <section class="module" id="m32">
+      <div class="mod-eyebrow">Partie 5 · Module 32</div>
       <h2 class="mod-title">Projet 3 — Parcours complet + API</h2>
       <p>Terrain : <a href="https://automationexercise.com" target="_blank" rel="noopener">automationexercise.com</a>, un site e-commerce réel construit pour la pratique, avec en plus une <a href="https://automationexercise.com/api_list" target="_blank" rel="noopener">API publique documentée</a>. C'est le projet le plus complet : interface ET API, comme un vrai produit.</p>
 
@@ -2058,11 +2541,11 @@ def test_recherche_produit_trouve_au_moins_un_resultat(page: Page):
         </details>
       </div>
 
-      <button class="done-toggle" data-toggle="m31"><span class="box"></span> Marquer ce module comme terminé</button>
+      <button class="done-toggle" data-toggle="m32"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
 
-    <section class="module" id="m32">
-      <div class="mod-eyebrow">Partie 5 · Module 32</div>
+    <section class="module" id="m33">
+      <div class="mod-eyebrow">Partie 5 · Module 33</div>
       <h2 class="mod-title">Projet 4 — API pure, sans interface</h2>
       <p>Terrain : <a href="https://reqres.in" target="_blank" rel="noopener">reqres.in</a>, une API REST fictive mais stable, construite spécifiquement pour l'entraînement — CRUD complet sur des utilisateurs, pagination, et des codes d'erreur cohérents. Aucun navigateur nécessaire : c'est le projet le plus proche d'un poste « SDET » pur.</p>
 
@@ -2159,7 +2642,7 @@ def test_delete_utilisateur(page: Page):
         </details>
       </div>
 
-      <button class="done-toggle" data-toggle="m32"><span class="box"></span> Marquer ce module comme terminé</button>
+      <button class="done-toggle" data-toggle="m33"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
 
     <div class="footer-note">
