@@ -446,7 +446,7 @@
     <p class="tagline">Parcours 2026 — des bases au premier pipeline de tests automatisés</p>
 
     <div class="progress-wrap">
-      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/37</span></div>
+      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/38</span></div>
       <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
     </div>
 
@@ -529,6 +529,7 @@
       <li class="nav-item"><a class="nav-link" data-id="m35" href="#m35"><span class="nav-check" data-modcheck="m35"></span><span class="nav-num">35</span> Projet 2 — QA Automation (TS + POM)</a></li>
       <li class="nav-item"><a class="nav-link" data-id="m36" href="#m36"><span class="nav-check" data-modcheck="m36"></span><span class="nav-num">36</span> Projet 3 — API Testing</a></li>
       <li class="nav-item"><a class="nav-link" data-id="m37" href="#m37"><span class="nav-check" data-modcheck="m37"></span><span class="nav-num">37</span> Projet 4 — CI/CD</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m38" href="#m38"><span class="nav-check" data-modcheck="m38"></span><span class="nav-num">38</span> Projet 5 — Capstone</a></li>
     </ul>
   </nav>
 
@@ -536,13 +537,13 @@
     <header class="doc-header">
       <div class="eyebrow">Cours autoportant · Rédigé pour toi</div>
       <h1 class="doc-title">Qualité Logicielle Automatisée</h1>
-      <p class="doc-lede">Ce cours a un fil conducteur : une seule application fictive, <strong>NovaCart</strong> (un site e-commerce simple), qu'on va tester du début à la fin — d'abord à la main, sur papier, puis avec du vrai code. Chaque notion arrive avec un cas de test concret, pas seulement une définition. Et chaque module se termine par un exercice corrigé, pour vérifier que ça reste vraiment acquis. À la fin, quatre projets professionnels prennent le relais de NovaCart sur de vrais sites d'entraînement, pour pratiquer en conditions réelles.</p>
+      <p class="doc-lede">Ce cours a un fil conducteur : une seule application fictive, <strong>NovaCart</strong> (un site e-commerce simple), qu'on va tester du début à la fin — d'abord à la main, sur papier, puis avec du vrai code. Chaque notion arrive avec un cas de test concret, pas seulement une définition. Et chaque module se termine par un exercice corrigé, pour vérifier que ça reste vraiment acquis. À la fin, cinq projets professionnels prennent le relais de NovaCart sur de vrais sites d'entraînement, pour pratiquer en conditions réelles.</p>
       <div class="stat-row">
-        <span class="stat-chip"><b>37</b> modules</span>
+        <span class="stat-chip"><b>38</b> modules</span>
         <span class="stat-chip"><b>11</b> niveaux de progression</span>
         <span class="stat-chip">Outil principal : <b>Playwright</b></span>
         <span class="stat-chip">Langage de référence : <b>Python</b> (+ TypeScript)</span>
-        <span class="stat-chip"><b>56</b> exercices corrigés</span>
+        <span class="stat-chip"><b>58</b> exercices corrigés</span>
       </div>
     </header>
 
@@ -1269,6 +1270,7 @@ def test_produit_respecte_le_schema(page: Page):
 
       <div class="exercise">
         <div class="exercise-label">Exercice — MISSION QA : rejouer un paiement sans protection</div>
+        <p class="difficulty-line"><span class="tag warn">Professionnelle</span></p>
         <p>L'API <code>POST /api/paiement</code> de NovaCart ne supporte aucune clé d'idempotence pour l'instant. Un utilisateur avec une connexion instable clique une fois sur "Payer", ne voit aucune confirmation après 10 secondes, et reclique. Écris un test qui prouve le risque (sans l'exploiter réellement en production), et propose la correction API attendue.</p>
         <details>
           <summary>Voir la correction</summary>
@@ -1388,6 +1390,7 @@ export default function () {
 
       <div class="exercise">
         <div class="exercise-label">Exercice — MISSION QA : verdict sur un rapport k6</div>
+        <p class="difficulty-line"><span class="tag warn">Autonome</span></p>
         <p>Voici le résumé de deux runs k6 sur <code>/api/recherche</code>, avec un seuil défini à <code>p(95)&lt;500ms</code> et <code>rate&lt;0.01</code> pour le taux d'erreur. Le système peut-il tenir la charge attendue en production ? Justifie pour chaque run.</p>
         <pre>Run A — 200 VUs, 5 min
   http_req_duration..... avg=180ms  p(95)=410ms
@@ -1496,6 +1499,7 @@ jobs:
 
       <div class="exercise">
         <div class="exercise-label">Exercice — MISSION QA : "le pipeline est rouge, pourquoi ?"</div>
+        <p class="difficulty-line"><span class="tag warn">Autonome</span></p>
         <p>Un push sur <code>main</code> fait échouer le job <code>e2e</code>. Voici ce que montre l'onglet <em>Actions</em> de GitHub :</p>
         <pre>✗ e2e / pytest --browser chromium --tracing retain-on-failure
 
@@ -1555,6 +1559,7 @@ AssertionError: Expected "Commande validée" but got ""
 
       <div class="exercise">
         <div class="exercise-label">Exercice — MISSION QA : relire une génération de tests par IA</div>
+        <p class="difficulty-line"><span class="tag warn">Professionnelle</span></p>
         <p>Un outil d'IA a généré 12 tests à partir de la user story "En tant que client, je peux rechercher un produit et l'ajouter au panier." Voici la liste, sous forme condensée (nom du test + assertion principale). Ta mission : ne rien exécuter, mais relire attentivement et classer chacun dans une des catégories du tableau — <strong>à garder tel quel</strong>, <strong>à corriger</strong> (précise le problème), ou <strong>à supprimer</strong> (doublon ou sans valeur). C'est exactement le travail attendu d'un QA qui encadre une génération par IA plutôt que de la copier-coller telle quelle.</p>
         <pre>1.  test_recherche_produit_existant()        → assert reponse.status == 200
 2.  test_recherche_produit_existant_bis()    → assert reponse.status == 200
@@ -1920,6 +1925,7 @@ env:
 
   <div class="exercise">
     <div class="exercise-label">Exercice — MISSION QA : refactoring d'un framework mal conçu</div>
+        <p class="difficulty-line"><span class="tag warn">Professionnelle</span></p>
     <p>Voici un extrait représentatif d'une suite de tests NovaCart héritée d'un projet parti trop vite. Identifie au moins 4 problèmes d'architecture (pas de bugs fonctionnels — des problèmes de conception) et propose une correction pour chacun.</p>
     <p class="code-label">tests/test_panier.py (hérité, à refactoriser)</p>
     <pre>def test_ajout_panier():
@@ -2083,6 +2089,7 @@ def test_creation_commande(api_client):
 
   <div class="exercise">
     <div class="exercise-label">Exercice — MISSION QA : "ce test passe 9 fois sur 10"</div>
+        <p class="difficulty-line"><span class="tag warn">Autonome</span></p>
     <p>Un coéquipier te signale que <code>test_notification_ajout_panier</code> échoue de façon aléatoire en CI, environ une fois sur dix. Voici le test :</p>
     <pre>def test_notification_ajout_panier(page: Page):
     page.goto("/produits/sku-042")
@@ -2141,6 +2148,7 @@ def test_creation_commande(api_client):
 
       <div class="exercise">
         <div class="exercise-label">Exercice — MISSION QA : diagnostiquer un échec E2E avec les logs</div>
+        <p class="difficulty-line"><span class="tag warn">Autonome</span></p>
         <p>Un test <code>test_ajout_avis_produit</code> échoue : l'avis client n'apparaît jamais sur la page produit après soumission. Voici trois extraits de logs, du même intervalle de temps, sur trois services différents :</p>
         <pre>[frontend]      15:04:12 req_f291c → POST /api/avis {"produit": "SKU-042", "note": 5}
 [api-avis]      15:04:12 req_f291c → avis créé en base, id=8821
@@ -2186,6 +2194,7 @@ def test_creation_commande(api_client):
 
       <div class="exercise">
         <div class="exercise-label">Exercice — MISSION QA : revue d'une pull request de tests</div>
+        <p class="difficulty-line"><span class="tag pass">Semi-guidée</span></p>
         <p>Un coéquipier ouvre une pull request avec ce test. Fais-en la revue : identifie au moins 5 problèmes distincts (parmi ceux du tableau ci-dessus) et propose une correction pour chacun.</p>
         <p class="code-label">tests/test_recherche.py (pull request à relire)</p>
         <pre>def test_recherche():
@@ -2321,6 +2330,7 @@ WHERE utilisateur_id = 4471;
 
       <div class="exercise">
         <div class="exercise-label">Exercice — MISSION QA</div>
+        <p class="difficulty-line"><span class="tag pass">Semi-guidée</span></p>
         <p>Un client se plaint que sa commande NovaCart n°9010 affiche 3 articles dans son historique, mais que le total payé lui semble faux. Écris (1) la requête qui liste les lignes de cette commande avec leur prix, et (2) la requête qui compare le total enregistré au total recalculé à partir de ces lignes, pour confirmer ou infirmer le bug.</p>
         <details>
           <summary>Voir la correction</summary>
@@ -2587,6 +2597,7 @@ def test_connexion_mobile_avec_identifiants_valides():
 
       <div class="exercise">
         <div class="exercise-label">Exercice — MISSION QA : audit d'un cookie de session</div>
+        <p class="difficulty-line"><span class="tag pass">Semi-guidée</span></p>
         <p>Voici l'en-tête <code>Set-Cookie</code> renvoyé après connexion sur l'environnement de staging de NovaCart :</p>
         <pre>Set-Cookie: session=eyJhbGciOi...; Path=/</pre>
         <p>Identifie ce qui manque, le risque concret associé à chaque absence, et la correction attendue.</p>
@@ -2835,6 +2846,7 @@ CMD ["npx", "playwright", "test"]</pre>
 
       <div class="exercise">
         <div class="exercise-label">MISSION QA — 4 défis chronométrés</div>
+        <p class="difficulty-line"><span class="tag fail">Difficile</span></p>
         <p class="code-label">Défi 1 (5 min) — ce test est signalé comme flaky, pourquoi ?</p>
         <pre>def test_suppression_article_panier(page: Page):
     page.click(".supprimer-article")
@@ -2907,6 +2919,7 @@ jobs:
 
       <div class="exercise">
         <div class="exercise-label">Exercice — MISSION QA</div>
+        <p class="difficulty-line"><span class="tag pass">Semi-guidée</span></p>
         <p>Tu es le QA référent d'une mise en production NovaCart prévue vendredi. Établis, environnement par environnement, la checklist de ce qui doit être vérifié avant de donner le feu vert — un point par environnement (recette, préproduction), en citant pour chacun le type de test et qui doit valider.</p>
         <details>
           <summary>Voir la correction</summary>
@@ -3608,6 +3621,7 @@ jobs:
 
       <div class="exercise">
         <div class="exercise-label">Exercice — MISSION QA</div>
+        <p class="difficulty-line"><span class="tag pass">Guidée</span></p>
         <p>Le workflow ci-dessus publie le rapport même si les tests échouent (<code>if: always()</code>), mais n'empêche pas encore la fusion d'une PR cassée. Quelle règle GitHub faut-il activer, et sur quelle branche, pour que ça devienne impossible ?</p>
         <details>
           <summary>Voir la correction</summary>
@@ -3618,6 +3632,118 @@ jobs:
       </div>
 
       <button class="done-toggle" data-toggle="m37"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+    <section class="module" id="m38">
+      <div class="mod-eyebrow">Niveau 11 · Module 38</div>
+      <h2 class="mod-title">Projet 5 — Capstone : reprendre une suite existante, mal en point</h2>
+      <p><span class="tag fail">Expert</span></p>
+      <p>Les quatre projets précédents partaient d'une page blanche — c'est rarement le cas dans un premier poste. Le scénario le plus fréquent pour un QA junior est inverse : rejoindre une équipe qui a <em>déjà</em> une suite de tests, écrite dans l'urgence, jamais retravaillée, que personne n'ose plus toucher. Ce capstone simule exactement ça : un dépôt hérité, avec de vrais défauts d'architecture, de fiabilité et de lisibilité — ta mission est de l'auditer, le prioriser, et le remettre en état, pas de repartir de zéro.</p>
+
+      <p class="code-label">README.md — tel que tu le reçois</p>
+      <pre># Tests NovaCart
+
+Suite de tests. Lancer avec pytest.</pre>
+
+      <p class="code-label">Le dépôt que tu hérites</p>
+      <pre>tests-novacart-legacy/
+├── test_all.py          # 14 tests, tout mélangé (UI + API)
+├── requirements.txt
+└── (pas de dossier pages/, pas de fixtures/, pas de CI)</pre>
+
+      <p class="code-label">test_all.py — extrait représentatif (le reste du fichier suit le même style)</p>
+      <pre>PASSWORD = "AdminNovaCart2024!"
+
+def test_1():
+    page.goto("https://staging.novacart.exemple/connexion")
+    page.fill("#email", "admin@novacart.com")
+    page.fill("#password", PASSWORD)
+    page.click(".btn-submit")
+    time.sleep(4)
+    assert page.status_code != 500
+
+def test_2():
+    # suppose que test_1 a laissé la session ouverte
+    page.click("#produit-42")
+    page.click(".ajouter-panier")
+    time.sleep(3)
+    r = requests.get("https://staging.novacart.exemple/api/panier")
+    assert r.status_code != 500
+
+def test_recherche():
+    page.fill(".search", "chaussures")
+    page.click(".search-btn")
+    time.sleep(2)
+    assert True   # TODO vérifier vraiment un jour</pre>
+
+      <h3>Étape 1 — Audit : ne rien corriger, seulement lister</h3>
+      <p>Avant de modifier une seule ligne, produis un audit écrit du dépôt (le même exercice que le module 23, appliqué à un dépôt entier plutôt qu'à un seul test) : liste au moins 8 problèmes distincts, en les rattachant chacun à une catégorie déjà vue dans ce cours (architecture — module 19, fiabilité — module 21, qualité de test — module 23, sécurité — module 28). Priorise-les : lesquels sont bloquants (risque réel), lesquels sont juste de l'inconfort ?</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice — MISSION QA : l'audit complet</div>
+        <p>Relis l'extrait de <code>test_all.py</code> ci-dessus et rédige ton audit avant de regarder la correction — c'est l'étape la plus importante du capstone, celle qu'un recruteur regarde en premier sur un vrai portfolio.</p>
+        <details>
+          <summary>Voir une correction possible</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Bloquants (risque réel) :</strong> mot de passe en clair dans le code source (<code>PASSWORD</code>, module 19) ; <code>assert True</code> dans <code>test_recherche</code> qui ne teste littéralement rien (module 23) ; <code>test_2</code> dépend implicitement de l'état laissé par <code>test_1</code> — aucun des deux tests n'est autonome (module 19 et 21) ; aucune CI configurée, donc rien ne s'exécute automatiquement à chaque changement (module 14) ; assertions <code>status_code != 500</code> beaucoup trop permissives, un 401 ou 403 passerait sans être détecté (module 23).</p>
+            <p><strong>Inconfort, à corriger mais moins urgent :</strong> noms de tests non descriptifs (<code>test_1</code>, <code>test_2</code>) qui ne disent rien de ce qu'ils vérifient ; <code>time.sleep()</code> systématique plutôt qu'une attente explicite, source de lenteur et de flakiness (module 21) ; aucune séparation UI/API dans la structure du dépôt (module 19) ; pas de <code>.gitignore</code> visible ; README qui ne documente ni le contexte ni comment lancer réellement la suite.</p>
+            <p>Neuf problèmes distincts couvrant quatre catégories différentes — un vrai audit professionnel ne se contente jamais de dire "c'est mal écrit", il nomme précisément chaque défaut pour pouvoir le prioriser.</p>
+          </div>
+        </details>
+      </div>
+
+      <h3>Étape 2 — Remettre en état, dans l'ordre des priorités</h3>
+      <p>Reprends ton audit et corrige dans l'ordre de priorité, pas dans l'ordre du fichier. À minima : sépare la structure (module 19), remplace les <code>time.sleep()</code> par des attentes explicites (module 21), renomme les tests, remplace les assertions permissives par des assertions précises (module 23), et sors le mot de passe vers une variable d'environnement ou un secret CI.</p>
+      <p class="code-label">Structure cible</p>
+      <pre>tests-novacart-capstone/
+├── README.md
+├── requirements.txt
+├── pages/
+│   └── login_page.py
+├── tests/
+│   ├── ui/
+│   │   └── test_recherche_et_panier.py
+│   └── api/
+│       └── test_panier_api.py
+└── .github/
+    └── workflows/
+        └── tests.yml</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice — corriger le pire test du lot</div>
+        <p>Réécris <code>test_recherche</code> (celui avec <code>assert True</code>) pour qu'il vérifie réellement quelque chose d'utile : que la recherche "chaussures" renvoie au moins un résultat pertinent, sans <code>time.sleep()</code>.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>def test_recherche_chaussures_renvoie_des_resultats_pertinents(page: Page):
+    page.goto("https://staging.novacart.exemple")
+    page.get_by_placeholder("Rechercher").fill("chaussures")
+    page.get_by_role("button", name="Rechercher").click()
+
+    resultats = page.locator(".result-item")
+    expect(resultats.first).to_be_visible(timeout=5000)
+    assert resultats.count() &gt; 0</pre>
+            <p>Trois changements : un nom qui décrit le comportement vérifié, une attente explicite sur l'apparition du premier résultat plutôt qu'un délai fixe, et une assertion qui vérifie réellement la présence de résultats plutôt qu'une vérité toujours vraie.</p>
+          </div>
+        </details>
+      </div>
+
+      <h3>Étape 3 — Brancher la CI et livrer un rapport de passation</h3>
+      <p>Le dépôt hérité n'avait aucune CI : ajoute un workflow GitHub Actions (module 14) qui exécute la suite corrigée à chaque push. Termine par un <strong>rapport de passation</strong> — le document qu'un QA remet à son équipe après avoir remis en état une suite héritée : ce qui a été corrigé, ce qui reste à faire, et pourquoi certains problèmes ont été jugés plus urgents que d'autres.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Champ</th><th>Exemple rempli</th></tr>
+        <tr><td class="mono">État initial</td><td>14 tests dans un seul fichier, 0% en CI, secrets en clair, assertions non fiables</td></tr>
+        <tr><td class="mono">Corrections apportées</td><td>Séparation UI/API, POM sur la page de connexion, secrets déplacés en variables CI, attentes explicites, CI GitHub Actions branchée</td></tr>
+        <tr><td class="mono">Dette restante</td><td>Absence de fixtures de nettoyage des données de test ; couverture API encore partielle</td></tr>
+        <tr><td class="mono">Recommandation</td><td>Suite exploitable en CI dès maintenant ; prévoir un second passage pour les fixtures avant d'ajouter de nouveaux tests</td></tr>
+      </table></div>
+
+      <div class="callout">
+        <div class="callout-label">Ce que ce capstone prouve, au-delà du code</div>
+        <p>N'importe qui peut écrire des tests sur un projet neuf. Ce qui distingue un QA capable de rejoindre une équipe existante, c'est de savoir lire un code qu'on n'a pas écrit, en évaluer les vrais risques sans tout réécrire par réflexe, et documenter ce qui a changé pour que l'équipe suivante n'ait pas à deviner. C'est ce dernier projet du portfolio (niveau 11) qui le démontre le mieux à un recruteur.</p>
+      </div>
+
+      <button class="done-toggle" data-toggle="m38"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
 
     <div class="footer-note">
@@ -3630,7 +3756,7 @@ jobs:
 <script>
 (function(){
   var STORAGE_KEY = 'qa-course-progress-v1';
-  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','m15','m16','m17','m18','m19','m20','m21','m22','m23','m24','m25','m26','m27','m28','m29','m30','m31','m32','m33','m34','m35','m36','m37'];
+  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','m15','m16','m17','m18','m19','m20','m21','m22','m23','m24','m25','m26','m27','m28','m29','m30','m31','m32','m33','m34','m35','m36','m37','m38'];
 
   function loadDone(){
     try{
