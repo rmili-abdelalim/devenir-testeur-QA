@@ -536,10 +536,10 @@ print(f"Total du panier : {total:.2f} €")</textarea>
       <span class="brand-mark">PY</span>
       <span class="brand-name">Python pour la<br>Qualité Logicielle</span>
     </div>
-    <p class="tagline">Les bases du langage, la pratique de pytest, des projets guidés par domaine, et le Python avancé (décorateurs, generators, context managers)</p>
+    <p class="tagline">Les bases du langage, SOLID et le TDD, des projets guidés par domaine, le Python avancé (décorateurs, context managers), et l'outillage professionnel (CLI, architecture, CI/CD, asyncio, bases de données)</p>
 
     <div class="progress-wrap">
-      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/28</span></div>
+      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/39</span></div>
       <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
     </div>
 
@@ -570,37 +570,56 @@ print(f"Total du panier : {total:.2f} €")</textarea>
     <div class="nav-part-label">Partie 4 — Vers l'automatisation</div>
     <ul class="nav-list">
       <li class="nav-item"><a class="nav-link" data-id="m13" href="#m13"><span class="nav-check" data-modcheck="m13"></span><span class="nav-num">13</span> Programmation orientée objet</a></li>
-      <li class="nav-item"><a class="nav-link" data-id="m14" href="#m14"><span class="nav-check" data-modcheck="m14"></span><span class="nav-num">14</span> Le pont vers pytest et Playwright</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m14" href="#m14"><span class="nav-check" data-modcheck="m14"></span><span class="nav-num">14</span> Conception pragmatique et SOLID</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m15" href="#m15"><span class="nav-check" data-modcheck="m15"></span><span class="nav-num">15</span> Le pont vers pytest et Playwright</a></li>
     </ul>
 
     <div class="nav-part-label">Partie 5 — Compétences complémentaires</div>
     <ul class="nav-list">
-      <li class="nav-item"><a class="nav-link" data-id="m15" href="#m15"><span class="nav-check" data-modcheck="m15"></span><span class="nav-num">15</span> La ligne de commande</a></li>
-      <li class="nav-item"><a class="nav-link" data-id="m16" href="#m16"><span class="nav-check" data-modcheck="m16"></span><span class="nav-num">16</span> Résoudre des problèmes avec Python</a></li>
-      <li class="nav-item"><a class="nav-link" data-id="m17" href="#m17"><span class="nav-check" data-modcheck="m17"></span><span class="nav-num">17</span> Structures de données et algorithmes</a></li>
-      <li class="nav-item"><a class="nav-link" data-id="m18" href="#m18"><span class="nav-check" data-modcheck="m18"></span><span class="nav-num">18</span> Débogage professionnel</a></li>
-      <li class="nav-item"><a class="nav-link" data-id="m19" href="#m19"><span class="nav-check" data-modcheck="m19"></span><span class="nav-num">19</span> Tests avec pytest, en pratique</a></li>
-      <li class="nav-item"><a class="nav-link" data-id="m20" href="#m20"><span class="nav-check" data-modcheck="m20"></span><span class="nav-num">20</span> Mocking avancé</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m16" href="#m16"><span class="nav-check" data-modcheck="m16"></span><span class="nav-num">16</span> La ligne de commande</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m17" href="#m17"><span class="nav-check" data-modcheck="m17"></span><span class="nav-num">17</span> Résoudre des problèmes avec Python</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m18" href="#m18"><span class="nav-check" data-modcheck="m18"></span><span class="nav-num">18</span> Structures de données et algorithmes</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m19" href="#m19"><span class="nav-check" data-modcheck="m19"></span><span class="nav-num">19</span> Débogage professionnel</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m20" href="#m20"><span class="nav-check" data-modcheck="m20"></span><span class="nav-num">20</span> Tests avec pytest, en pratique</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m21" href="#m21"><span class="nav-check" data-modcheck="m21"></span><span class="nav-num">21</span> Mocking avancé</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m22" href="#m22"><span class="nav-check" data-modcheck="m22"></span><span class="nav-num">22</span> TDD, non dogmatique</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m23" href="#m23"><span class="nav-check" data-modcheck="m23"></span><span class="nav-num">23</span> Tests basés sur les propriétés</a></li>
     </ul>
 
     <div class="nav-part-label">Partie 6 — Projets guidés, par domaine</div>
     <ul class="nav-list">
-      <li class="nav-item"><a class="nav-link" data-id="m21" href="#m21"><span class="nav-check" data-modcheck="m21"></span><span class="nav-num">21</span> Projets de développement web</a></li>
-      <li class="nav-item"><a class="nav-link" data-id="m22" href="#m22"><span class="nav-check" data-modcheck="m22"></span><span class="nav-num">22</span> Projets d'analyse de données</a></li>
-      <li class="nav-item"><a class="nav-link" data-id="m23" href="#m23"><span class="nav-check" data-modcheck="m23"></span><span class="nav-num">23</span> Python au-delà de la QA : un aperçu</a></li>
-      <li class="nav-item"><a class="nav-link" data-id="m24" href="#m24"><span class="nav-check" data-modcheck="m24"></span><span class="nav-num">24</span> Cybersécurité avec Python</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m24" href="#m24"><span class="nav-check" data-modcheck="m24"></span><span class="nav-num">24</span> Projets de développement web</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m25" href="#m25"><span class="nav-check" data-modcheck="m25"></span><span class="nav-num">25</span> Projets d'analyse de données</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m26" href="#m26"><span class="nav-check" data-modcheck="m26"></span><span class="nav-num">26</span> Python au-delà de la QA : un aperçu</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m27" href="#m27"><span class="nav-check" data-modcheck="m27"></span><span class="nav-num">27</span> Cybersécurité avec Python</a></li>
     </ul>
 
     <div class="nav-part-label">Partie 7 — Python avancé</div>
     <ul class="nav-list">
-      <li class="nav-item"><a class="nav-link" data-id="m25" href="#m25"><span class="nav-check" data-modcheck="m25"></span><span class="nav-num">25</span> Décorateurs et générateurs</a></li>
-      <li class="nav-item"><a class="nav-link" data-id="m26" href="#m26"><span class="nav-check" data-modcheck="m26"></span><span class="nav-num">26</span> Context managers et blocs with</a></li>
-      <li class="nav-item"><a class="nav-link" data-id="m27" href="#m27"><span class="nav-check" data-modcheck="m27"></span><span class="nav-num">27</span> Type hints et logging</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m28" href="#m28"><span class="nav-check" data-modcheck="m28"></span><span class="nav-num">28</span> Décorateurs et générateurs</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m29" href="#m29"><span class="nav-check" data-modcheck="m29"></span><span class="nav-num">29</span> Context managers et blocs with</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m30" href="#m30"><span class="nav-check" data-modcheck="m30"></span><span class="nav-num">30</span> Typing avancé et logging</a></li>
     </ul>
 
-    <div class="nav-part-label">Partie 8 — Conclusion</div>
+    <div class="nav-part-label">Partie 8 — Outillage professionnel</div>
     <ul class="nav-list">
-      <li class="nav-item"><a class="nav-link" data-id="m28" href="#m28"><span class="nav-check" data-modcheck="m28"></span><span class="nav-num">28</span> Feuille de route et prochaines étapes</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m31" href="#m31"><span class="nav-check" data-modcheck="m31"></span><span class="nav-num">31</span> Construire une CLI professionnelle</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m32" href="#m32"><span class="nav-check" data-modcheck="m32"></span><span class="nav-num">32</span> Organiser un projet Python</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m33" href="#m33"><span class="nav-check" data-modcheck="m33"></span><span class="nav-num">33</span> CI/CD pour un projet Python</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 9 — Concurrence, performance et données</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m34" href="#m34"><span class="nav-check" data-modcheck="m34"></span><span class="nav-num">34</span> Performance et profiling</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m35" href="#m35"><span class="nav-check" data-modcheck="m35"></span><span class="nav-num">35</span> asyncio et la concurrence</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m36" href="#m36"><span class="nav-check" data-modcheck="m36"></span><span class="nav-num">36</span> Threading, multiprocessing et le GIL</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m37" href="#m37"><span class="nav-check" data-modcheck="m37"></span><span class="nav-num">37</span> Ingénierie API côté client</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m38" href="#m38"><span class="nav-check" data-modcheck="m38"></span><span class="nav-num">38</span> Python et les bases de données</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 10 — Conclusion</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m39" href="#m39"><span class="nav-check" data-modcheck="m39"></span><span class="nav-num">39</span> Feuille de route et prochaines étapes</a></li>
     </ul>
   </nav>
 
@@ -608,12 +627,12 @@ print(f"Total du panier : {total:.2f} €")</textarea>
     <header class="doc-header">
       <div class="eyebrow">Cours autoportant · Compagnon du cours QA</div>
       <h1 class="doc-title">Python pour la Qualité Logicielle</h1>
-      <p class="doc-lede">Les bases du langage utilisées dans tout le reste du parcours : la syntaxe, les structures de données, les fonctions, jusqu'aux notions dont tu auras besoin pour écrire tes premiers tests Playwright — puis la ligne de commande, la résolution de problèmes, pytest en profondeur, un module de débogage professionnel et de mocking avancé, des projets guidés par domaine (web, data, un aperçu ML/jeu vidéo, cybersécurité), et enfin les outils du Python "avancé" — décorateurs, générateurs, context managers, type hints, logging. Chaque notion a son exemple exécutable, et chaque module se termine par un exercice corrigé.</p>
+      <p class="doc-lede">Les bases du langage utilisées dans tout le reste du parcours : la syntaxe, les structures de données, les fonctions, la conception orientée objet et les principes SOLID, jusqu'aux notions dont tu auras besoin pour écrire tes premiers tests Playwright — puis la ligne de commande, la résolution de problèmes, pytest en profondeur (mocking, TDD, tests basés sur les propriétés), des projets guidés par domaine (web, data, un aperçu ML/jeu vidéo, cybersécurité), le Python "avancé" — décorateurs, générateurs, context managers, typing, logging — et enfin l'outillage professionnel d'une équipe : ligne de commande soignée, architecture de projet, CI/CD, performance, asyncio, threading, clients API et bases de données. Chaque notion a son exemple exécutable, et chaque module se termine par un exercice corrigé.</p>
       <div class="stat-row">
-        <span class="stat-chip"><b>28</b> modules</span>
-        <span class="stat-chip"><b>8</b> parties : bases → réutilisable → robuste → automatisation → compétences → projets → avancé → conclusion</span>
+        <span class="stat-chip"><b>39</b> modules</span>
+        <span class="stat-chip"><b>10</b> parties : bases → réutilisable → robuste → automatisation → compétences → projets → avancé → outillage → concurrence/données → conclusion</span>
         <span class="stat-chip">Version : <b>Python 3.11+</b></span>
-        <span class="stat-chip"><b>28</b> exercices corrigés</span>
+        <span class="stat-chip"><b>39</b> exercices corrigés</span>
       </div>
     </header>
 
@@ -621,7 +640,7 @@ print(f"Total du panier : {total:.2f} €")</textarea>
     <div class="part-divider"><span class="part-tag">PARTIE 1</span><h2 class="part-title">Les bases du langage</h2></div>
     <p class="part-intro">Le strict nécessaire pour lire et écrire du Python correctement, sans détour.</p>
 
-    <section class="module" id="m1">
+<section class="module" id="m1">
       <div class="mod-eyebrow">Partie 1 · Module 01</div>
       <h2 class="mod-title">Pourquoi Python, et comment l'installer</h2>
       <p>Python est un langage de programmation généraliste, lisible, et extrêmement répandu dans le test logiciel : c'est le langage principal derrière <strong>Playwright</strong>, <strong>pytest</strong>, <strong>Selenium</strong> et la quasi-totalité des outils d'automatisation de tests actuels. Sa syntaxe proche du langage naturel le rend rapide à apprendre — mais "rapide à apprendre" ne veut pas dire "sans rigueur" : ce cours pose les fondations correctement, parce que c'est ce qui te permettra ensuite d'écrire des tests fiables plutôt que du code qui marche "par chance".</p>
@@ -680,8 +699,7 @@ print(12 * 8)</pre>
 
       <button class="done-toggle" data-toggle="m1"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
-
-    <section class="module" id="m2">
+<section class="module" id="m2">
       <div class="mod-eyebrow">Partie 1 · Module 02</div>
       <h2 class="mod-title">Variables, types et affichage</h2>
       <p>Une variable associe un nom à une valeur. En Python, on ne déclare pas de type explicitement : l'affectation avec <code>=</code> suffit, et le type se déduit de la valeur donnée. On parle de <strong>typage dynamique</strong>.</p>
@@ -767,8 +785,7 @@ print(type(prix_ttc))</pre>
 
       <button class="done-toggle" data-toggle="m2"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
-
-    <section class="module" id="m3">
+<section class="module" id="m3">
       <div class="mod-eyebrow">Partie 1 · Module 03</div>
       <h2 class="mod-title">Chaînes de caractères</h2>
       <p>Les chaînes (<code>str</code>) sont le type le plus manipulé en test logiciel : messages d'erreur, noms de sélecteurs, contenus de pages, données de test. Python offre des outils riches pour les construire et les découper.</p>
@@ -857,8 +874,7 @@ print(f"Référence extraite : {reference}")</pre>
 
       <button class="done-toggle" data-toggle="m3"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
-
-    <section class="module" id="m4">
+<section class="module" id="m4">
       <div class="mod-eyebrow">Partie 1 · Module 04</div>
       <h2 class="mod-title">Listes et tuples</h2>
       <p>Une <strong>liste</strong> (<code>list</code>) est une collection ordonnée et modifiable de valeurs, potentiellement de types différents. C'est la structure de données la plus utilisée en Python.</p>
@@ -964,8 +980,7 @@ print(sum(prix_filtres))   # 158.4</pre>
 
       <button class="done-toggle" data-toggle="m4"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
-
-    <section class="module" id="m5">
+<section class="module" id="m5">
       <div class="mod-eyebrow">Partie 1 · Module 05</div>
       <h2 class="mod-title">Dictionnaires et ensembles</h2>
       <p>Un <strong>dictionnaire</strong> (<code>dict</code>) associe des clés à des valeurs — c'est la structure idéale pour représenter un enregistrement (un article, un utilisateur, une réponse d'API JSON) avec des champs nommés.</p>
@@ -1070,8 +1085,7 @@ print(f"Catégories : {categories}")</pre>
 
       <button class="done-toggle" data-toggle="m5"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
-
-    <section class="module" id="m6">
+<section class="module" id="m6">
       <div class="mod-eyebrow">Partie 1 · Module 06</div>
       <h2 class="mod-title">Structures de contrôle</h2>
       <p>Les structures de contrôle décident quelle partie du code s'exécute, et combien de fois. Ce sont elles qui donnent au code sa logique — indispensables pour écrire des assertions de test conditionnelles ou parcourir des jeux de données.</p>
@@ -1193,12 +1207,11 @@ for article in catalogue:
 
       <button class="done-toggle" data-toggle="m6"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
-
     <!-- ============ PARTIE 2 ============ -->
     <div class="part-divider"><span class="part-tag">PARTIE 2</span><h2 class="part-title">Écrire du code réutilisable</h2></div>
     <p class="part-intro">Passer d'un script qu'on relit de haut en bas à un code organisé, qu'on peut appeler, réutiliser et faire évoluer.</p>
 
-    <section class="module" id="m7">
+<section class="module" id="m7">
       <div class="mod-eyebrow">Partie 2 · Module 07</div>
       <h2 class="mod-title">Fonctions</h2>
       <p>Une fonction regroupe un bloc de code sous un nom, avec des entrées (paramètres) et une sortie (valeur de retour). C'est l'outil numéro un pour éviter de répéter du code, et pour découper un problème en morceaux compréhensibles.</p>
@@ -1276,8 +1289,7 @@ print(disponible, message)</pre>
 
       <button class="done-toggle" data-toggle="m7"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
-
-    <section class="module" id="m8">
+<section class="module" id="m8">
       <div class="mod-eyebrow">Partie 2 · Module 08</div>
       <h2 class="mod-title">Compréhensions de liste et de dictionnaire</h2>
       <p>Une <strong>compréhension</strong> construit une nouvelle liste (ou dict, ou set) en une seule expression, à partir d'une séquence existante. C'est souvent plus court et plus lisible qu'une boucle <code>for</code> classique avec <code>.append()</code> — à condition de ne pas en abuser.</p>
@@ -1351,8 +1363,7 @@ print(noms_par_id)</pre>
 
       <button class="done-toggle" data-toggle="m8"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
-
-    <section class="module" id="m9">
+<section class="module" id="m9">
       <div class="mod-eyebrow">Partie 2 · Module 09</div>
       <h2 class="mod-title">Modules, imports et organisation du code</h2>
       <p>Un <strong>module</strong> est simplement un fichier <code>.py</code>. Découper un projet en plusieurs modules, chacun avec une responsabilité claire, rend le code plus facile à lire, à tester et à faire évoluer — c'est exactement la structure qu'adoptera plus tard une suite de tests Playwright (un fichier par page, un fichier par suite de tests).</p>
@@ -1431,8 +1442,7 @@ for q in quantites:
 
       <button class="done-toggle" data-toggle="m9"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
-
-    <section class="module" id="m10">
+<section class="module" id="m10">
       <div class="mod-eyebrow">Partie 2 · Module 10</div>
       <h2 class="mod-title">Environnements virtuels, pip et pyproject.toml</h2>
       <p><code>pip</code> est le gestionnaire de paquets de Python : il installe des bibliothèques tierces (comme <code>pytest</code> ou <code>playwright</code>) qui ne font pas partie de la bibliothèque standard. Le problème : installer un paquet globalement sur sa machine mélange les dépendances de tous ses projets, ce qui finit tôt ou tard par provoquer des conflits de versions.</p>
@@ -1526,12 +1536,11 @@ pip freeze &gt; requirements.txt</pre>
 
       <button class="done-toggle" data-toggle="m10"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
-
     <!-- ============ PARTIE 3 ============ -->
     <div class="part-divider"><span class="part-tag">PARTIE 3</span><h2 class="part-title">Écrire du code robuste</h2></div>
     <p class="part-intro">Ce qui distingue un script qui marche "quand tout va bien" d'un code qui tient face à des données réelles, incomplètes ou inattendues.</p>
 
-    <section class="module" id="m11">
+<section class="module" id="m11">
       <div class="mod-eyebrow">Partie 3 · Module 11</div>
       <h2 class="mod-title">Gestion des erreurs</h2>
       <p>Quand Python rencontre une situation qu'il ne peut pas gérer, il lève une <strong>exception</strong> qui interrompt le programme (sauf si elle est interceptée). Savoir gérer les exceptions correctement est ce qui distingue un script fragile d'un code qui échoue proprement, avec un message clair.</p>
@@ -1600,6 +1609,66 @@ except ValueError as erreur:
         <p>Dans du code applicatif, on attrape une exception quand on peut réagir intelligemment (proposer une valeur par défaut, réessayer, afficher un message clair). Dans du <strong>code de test</strong>, c'est souvent l'inverse : on laisse une exception inattendue remonter et faire échouer le test, plutôt que de l'attraper silencieusement — un test qui masque ses erreurs avec un <code>try/except</code> trop large donne une fausse impression de succès.</p>
       </div>
 
+      <h3>Exceptions personnalisées : donner un sens métier à l'erreur</h3>
+      <p>Une <code>ValueError</code> générique ne dit pas <em>quoi</em> était invalide dans le contexte de NovaCart. Définir ses propres classes d'exception, héritées de <code>Exception</code> (voir héritage, module 13), rend le code appelant capable de réagir précisément — et rend les tests plus lisibles (<code>pytest.raises(StockInsuffisantError)</code> en dit bien plus que <code>pytest.raises(ValueError)</code>).</p>
+
+      <p class="code-label">Une hiérarchie d'exceptions métier</p>
+      <pre>class NovaCartError(Exception):
+    """Classe de base pour toutes les erreurs métier NovaCart."""
+
+class StockInsuffisantError(NovaCartError):
+    def __init__(self, sku, demande, disponible):
+        self.sku = sku
+        super().__init__(f"{sku} : {demande} demandé(s), {disponible} disponible(s)")
+
+class PaiementRefuseError(NovaCartError):
+    pass
+
+def retirer_du_stock(sku, quantite_demandee, stock_disponible):
+    if quantite_demandee &gt; stock_disponible:
+        raise StockInsuffisantError(sku, quantite_demandee, stock_disponible)
+    return stock_disponible - quantite_demandee</pre>
+
+      <p>Hériter d'une classe de base commune (<code>NovaCartError</code>) permet aussi d'intercepter <em>toutes</em> les erreurs métier d'un coup avec <code>except NovaCartError:</code>, tout en gardant la possibilité de cibler un cas précis avec <code>except StockInsuffisantError:</code> — les deux niveaux de granularité restent disponibles.</p>
+
+      <h3>Chaîner les exceptions avec raise ... from ...</h3>
+      <p>Quand une exception est interceptée puis qu'on en lève une autre à la place (pour donner plus de contexte, par exemple), Python risque de perdre la trace de l'erreur d'origine. <code>raise ... from ...</code> préserve ce lien explicitement dans le traceback.</p>
+
+      <p class="code-label">Sans from — le contexte d'origine se perd</p>
+      <pre>def charger_configuration(chemin):
+    try:
+        with open(chemin) as f:
+            return json.load(f)
+    except FileNotFoundError:
+        raise NovaCartError(f"Configuration introuvable : {chemin}")
+    # Le traceback affiché ne montrera que NovaCartError,
+    # sans dire que la cause réelle était un fichier manquant.</pre>
+
+      <p class="code-label">Avec from — le lien de causalité est explicite</p>
+      <pre>def charger_configuration(chemin):
+    try:
+        with open(chemin) as f:
+            return json.load(f)
+    except FileNotFoundError as erreur:
+        raise NovaCartError(f"Configuration introuvable : {chemin}") from erreur
+    # Le traceback affiche maintenant les deux exceptions, avec la mention
+    # "The above exception was the direct cause of the following exception"</pre>
+
+      <div class="callout">
+        <div class="callout-label">Un pattern minimal de retry</div>
+        <p>Pour un appel réseau instable (module 21 — Mocking avancé montre comment le tester), une stratégie simple combine un nombre maximal de tentatives et une pause entre chaque essai :</p>
+        <pre>import time
+
+def appeler_avec_retry(fonction, tentatives=3, delai=1):
+    for essai in range(1, tentatives + 1):
+        try:
+            return fonction()
+        except ConnectionError:
+            if essai == tentatives:
+                raise   # dernière tentative épuisée : on laisse l'erreur remonter
+            time.sleep(delai)</pre>
+      </div>
+
       <div class="exercise">
         <div class="exercise-label">Exercice</div>
         <p>Écris une fonction <code>calculer_prix_unitaire(total, quantite)</code> qui renvoie <code>total / quantite</code>, mais gère proprement le cas <code>quantite == 0</code> en renvoyant <code>None</code> et en affichant un message explicite, ainsi que le cas où <code>total</code> ou <code>quantite</code> n'est pas un nombre (en renvoyant aussi <code>None</code> avec un message adapté).</p>
@@ -1626,8 +1695,7 @@ print(calculer_prix_unitaire(100, "x"))   # None + message</pre>
 
       <button class="done-toggle" data-toggle="m11"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
-
-    <section class="module" id="m12">
+<section class="module" id="m12">
       <div class="mod-eyebrow">Partie 3 · Module 12</div>
       <h2 class="mod-title">Fichiers, JSON et CSV</h2>
       <p>La plupart des jeux de données de test — jeux de données d'entrée, fixtures, réponses d'API enregistrées — vivent dans des fichiers texte, souvent au format JSON ou CSV. Savoir les lire (et les écrire) en Python est une compétence directement réutilisable pour préparer des données de test.</p>
@@ -1769,12 +1837,11 @@ print(calculer_revenu_total("commandes.csv"))   # 134.9</pre>
 
       <button class="done-toggle" data-toggle="m12"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
-
     <!-- ============ PARTIE 4 ============ -->
     <div class="part-divider"><span class="part-tag">PARTIE 4</span><h2 class="part-title">Vers l'automatisation et les tests</h2></div>
-    <p class="part-intro">Les deux dernières notions qui font le lien direct avec l'écriture de tests automatisés en Python.</p>
+    <p class="part-intro">Les trois dernières notions qui font le lien direct avec l'écriture de tests automatisés en Python — dont ce qui rend un code facile, ou difficile, à tester.</p>
 
-    <section class="module" id="m13">
+<section class="module" id="m13">
       <div class="mod-eyebrow">Partie 4 · Module 13</div>
       <h2 class="mod-title">Programmation orientée objet</h2>
       <p>Une <strong>classe</strong> décrit un modèle d'objet : quelles données il porte (ses attributs) et quelles actions il sait faire (ses méthodes). Un <strong>objet</strong> (ou instance) est une réalisation concrète de ce modèle. C'est un changement de perspective important — et c'est la base directe du <strong>Page Object Model</strong>, le pattern que tu utiliseras systématiquement en Playwright.</p>
@@ -1874,6 +1941,87 @@ Verbes associés → les méthodes : ajouter_produit(), retirer_produit(), calcu
 print(livre_numerique)  # Produit(nom='Guide QA débutant', prix=12.9, stock=999) — __repr__ hérité de Produit
 print(livre_numerique.duree_telechargement_estimee(2))  # 4.0</pre>
 
+      <h3>@dataclass : moins de code répétitif pour porter des données</h3>
+      <p>Beaucoup de classes ne font que porter des données, avec un <code>__init__</code> répétitif et un <code>__repr__</code> écrit à la main. Le décorateur <code>@dataclass</code> (module <code>dataclasses</code>) génère ce code automatiquement à partir des annotations de type.</p>
+
+      <p class="code-label">La classe Produit du début du module, en dataclass</p>
+      <pre>from dataclasses import dataclass
+
+@dataclass
+class Produit:
+    nom: str
+    prix: float
+    stock: int
+
+    def est_disponible(self):
+        return self.stock &gt; 0
+
+casque = Produit("Casque audio", 45.0, 12)
+print(casque)                    # Produit(nom='Casque audio', prix=45.0, stock=12) — généré automatiquement
+print(casque == Produit("Casque audio", 45.0, 12))   # True — __eq__ généré aussi</pre>
+
+      <p><code>@dataclass</code> génère <code>__init__</code>, <code>__repr__</code> et <code>__eq__</code> à partir des attributs annotés — exactement ce qu'on écrivait à la main plus haut, en bien moins de lignes. Les méthodes métier (<code>est_disponible</code>) restent définies normalement.</p>
+
+      <h3>@property : exposer un calcul comme un attribut</h3>
+      <p><code>@property</code> permet d'appeler une méthode sans parenthèses, comme un simple attribut — utile pour un calcul dérivé qu'on veut présenter comme une donnée, tout en gardant le contrôle sur son calcul.</p>
+
+      <p class="code-label">prix_ttc comme propriété calculée</p>
+      <pre>class Produit:
+    def __init__(self, nom, prix_ht, taux_tva=0.20):
+        self.nom = nom
+        self.prix_ht = prix_ht
+        self.taux_tva = taux_tva
+
+    @property
+    def prix_ttc(self):
+        return round(self.prix_ht * (1 + self.taux_tva), 2)
+
+casque = Produit("Casque audio", 45.0)
+print(casque.prix_ttc)   # 54.0 — pas casque.prix_ttc() : c'est un attribut, pas un appel</pre>
+
+      <h3>classmethod et staticmethod</h3>
+      <p><code>@classmethod</code> reçoit la classe elle-même (<code>cls</code>) plutôt qu'une instance — utile pour un constructeur alternatif. <code>@staticmethod</code> ne reçoit ni l'un ni l'autre : c'est une fonction simplement rangée dans la classe parce qu'elle en est conceptuellement proche.</p>
+
+      <p class="code-label">Un constructeur alternatif depuis une ligne CSV</p>
+      <pre>class Produit:
+    def __init__(self, nom, prix, stock):
+        self.nom, self.prix, self.stock = nom, prix, stock
+
+    @classmethod
+    def depuis_ligne_csv(cls, ligne):
+        nom, prix, stock = ligne.split(",")
+        return cls(nom, float(prix), int(stock))
+
+    @staticmethod
+    def format_prix(montant):
+        return f"{montant:.2f} €"
+
+produit = Produit.depuis_ligne_csv("Casque audio,45.0,12")
+print(produit.nom, Produit.format_prix(produit.prix))</pre>
+
+      <h3>Interfaces avec ABC et Protocol</h3>
+      <p>Une classe abstraite (<code>ABC</code>) définit un contrat que ses sous-classes <strong>doivent</strong> respecter — utile pour garantir que toute nouvelle "page" d'un Page Object Model implémente bien les méthodes attendues.</p>
+
+      <p class="code-label">Un contrat explicite avec ABC</p>
+      <pre>from abc import ABC, abstractmethod
+
+class PageObject(ABC):
+    @abstractmethod
+    def charger(self): ...
+
+    @abstractmethod
+    def est_chargee(self) -&gt; bool: ...
+
+class PageProduitNovaCart(PageObject):
+    def charger(self):
+        print("Navigation vers la page produit")
+    def est_chargee(self) -&gt; bool:
+        return True
+
+# PageObject()  # lèverait TypeError : impossible d'instancier une classe abstraite</pre>
+
+      <p><code>Protocol</code> (module <code>typing</code>, approfondi au module 30) offre une alternative plus souple : au lieu d'hériter explicitement, n'importe quel objet qui possède les bonnes méthodes "convient" — utile quand on ne contrôle pas la hiérarchie de classes d'une bibliothèque externe.</p>
+
       <div class="exercise">
         <div class="exercise-label">Exercice</div>
         <p>Écris une classe <code>CompteUtilisateurNovaCart</code> avec un constructeur prenant <code>email</code> et <code>solde_points_fidelite</code> (par défaut 0), une méthode <code>ajouter_points(montant)</code> qui incrémente le solde, et une méthode <code>peut_echanger(cout_en_points)</code> qui renvoie <code>True</code> si le solde est suffisant. Crée une instance et vérifie son comportement.</p>
@@ -1904,11 +2052,118 @@ print(compte.peut_echanger(200))         # False</pre>
 
       <button class="done-toggle" data-toggle="m13"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
+<!-- ============ MODULE m14 ============ -->
+<!-- ============ MODULE m14 (nouveau) ============ -->
+<section class="module" id="m14">
+  <div class="mod-eyebrow">Partie 4 · Module 14</div>
+  <h2 class="mod-title">Conception pragmatique et SOLID</h2>
+  <p>Le module 13 a introduit la responsabilité unique à travers un exemple concret. SOLID regroupe cinq principes de conception orientée objet, dont la responsabilité unique fait partie — pas pour les réciter, mais parce qu'ils décrivent des problèmes réels qui apparaissent tôt ou tard dans une base de tests qui grossit.</p>
 
-    <section class="module" id="m14">
-      <div class="mod-eyebrow">Partie 4 · Module 14</div>
+  <h3>Les 5 principes, par le problème qu'ils résolvent</h3>
+  <div class="table-scroll"><table>
+    <tr><th>Principe</th><th>Le problème qu'il évite</th></tr>
+    <tr><td><strong>S</strong> — Responsabilité unique</td><td>Une classe qui fait trop de choses devient difficile à comprendre, tester, et modifier sans risque (module 13).</td></tr>
+    <tr><td><strong>O</strong> — Ouvert/fermé</td><td>Ajouter un comportement force à modifier du code existant qui marchait déjà, au lieu d'étendre sans y toucher.</td></tr>
+    <tr><td><strong>L</strong> — Substitution de Liskov</td><td>Une sous-classe qui ne respecte pas le contrat de sa classe parente casse le code qui utilise cette dernière.</td></tr>
+    <tr><td><strong>I</strong> — Ségrégation des interfaces</td><td>Une interface trop large force les classes à implémenter des méthodes dont elles n'ont pas besoin.</td></tr>
+    <tr><td><strong>D</strong> — Inversion des dépendances</td><td>Du code qui dépend directement d'une implémentation concrète est difficile à tester sans la vraie dépendance.</td></tr>
+  </table></div>
+
+  <h3>Cas concret : une architecture de tests devenue impossible à maintenir</h3>
+  <p>Ce runner de tests appelle directement une API de paiement réelle — un problème classique de <strong>D</strong> (inversion des dépendances) qui, en pratique, rend toute la suite lente, fragile face au réseau, et impossible à faire tourner hors ligne.</p>
+
+  <p class="code-label">Avant : couplage direct à une implémentation concrète</p>
+  <pre>import requests
+
+class ValidateurCommande:
+    def valider_paiement(self, commande):
+        reponse = requests.post("https://api-paiement.novacart.com/verifier", json={
+            "id": commande.id, "montant": commande.montant
+        })
+        return reponse.json()["valide"]</pre>
+
+  <p><code>ValidateurCommande</code> ne peut être testé qu'en appelant le vrai service — lent, instable, et impossible sans connexion. L'inversion des dépendances consiste à dépendre d'une <strong>abstraction</strong> (un <code>Protocol</code>, module 13) plutôt que d'une implémentation précise, pour pouvoir substituer un faux service pendant les tests.</p>
+
+  <p class="code-label">Après : dépendre d'une abstraction, injectée depuis l'extérieur</p>
+  <pre>from typing import Protocol
+
+class ServicePaiement(Protocol):
+    def verifier(self, id_commande: str, montant: float) -> bool: ...
+
+class ValidateurCommande:
+    def __init__(self, service_paiement: ServicePaiement):
+        self.service_paiement = service_paiement   # injecté, pas construit ici
+
+    def valider_paiement(self, commande):
+        return self.service_paiement.verifier(commande.id, commande.montant)
+
+# En test : un faux service, sans aucun réseau
+class FauxServicePaiement:
+    def verifier(self, id_commande, montant):
+        return True
+
+validateur = ValidateurCommande(FauxServicePaiement())</pre>
+
+  <p>Ce même changement rend <code>ValidateurCommande</code> testable avec un <code>Mock</code> (module 21) exactement de la même façon — l'inversion des dépendances est ce qui rend le mocking possible sans réécrire la classe testée à chaque fois.</p>
+
+  <div class="callout">
+    <div class="callout-label">Pragmatique, pas dogmatique</div>
+    <p>SOLID décrit des tensions à surveiller, pas des règles à appliquer partout systématiquement. Un petit script jetable n'a pas besoin d'une interface <code>Protocol</code> pour une seule implémentation qui n'existera jamais autrement. Le signal à repérer : "cette classe est-elle difficile à tester ou à faire évoluer à cause de sa conception ?" — si non, SOLID n'a rien à corriger ici.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>Cette classe viole le principe de responsabilité unique : elle valide un email, l'enregistre en base, <em>et</em> envoie un email de bienvenue. Propose une décomposition en plusieurs classes ou fonctions, chacune avec une seule responsabilité, et explique en une phrase le rôle de chacune.</p>
+    <pre>class InscriptionClient:
+    def inscrire(self, email, mot_de_passe):
+        if "@" not in email:
+            raise ValueError("Email invalide")
+        connexion = sqlite3.connect("novacart.db")
+        connexion.execute("INSERT INTO clients VALUES (?, ?)", (email, mot_de_passe))
+        connexion.commit()
+        smtplib.SMTP("smtp.novacart.com").sendmail(
+            "no-reply@novacart.com", email, "Bienvenue chez NovaCart !"
+        )</pre>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre>class ValidateurEmail:
+    def valider(self, email: str) -> bool:
+        return "@" in email
+
+class DepotClient:
+    def enregistrer(self, email: str, mot_de_passe: str) -> None:
+        connexion = sqlite3.connect("novacart.db")
+        connexion.execute("INSERT INTO clients VALUES (?, ?)", (email, mot_de_passe))
+        connexion.commit()
+
+class NotificateurBienvenue:
+    def envoyer(self, email: str) -> None:
+        smtplib.SMTP("smtp.novacart.com").sendmail(
+            "no-reply@novacart.com", email, "Bienvenue chez NovaCart !"
+        )
+
+class InscriptionClient:
+    def __init__(self, validateur, depot, notificateur):
+        self.validateur, self.depot, self.notificateur = validateur, depot, notificateur
+
+    def inscrire(self, email, mot_de_passe):
+        if not self.validateur.valider(email):
+            raise ValueError("Email invalide")
+        self.depot.enregistrer(email, mot_de_passe)
+        self.notificateur.envoyer(email)</pre>
+        <p><code>ValidateurEmail</code> décide si une donnée est valide, <code>DepotClient</code> parle à la base de données, <code>NotificateurBienvenue</code> parle au réseau email — trois responsabilités distinctes, chacune testable isolément (avec des mocks pour <code>DepotClient</code> et <code>NotificateurBienvenue</code> dans les tests de <code>InscriptionClient</code>), sans qu'un changement dans l'un de ces trois axes n'oblige à toucher aux deux autres.</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m14"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+<!-- ============ MODULE m15 ============ -->
+<section class="module" id="m15">
+      <div class="mod-eyebrow">Partie 4 · Module 15</div>
       <h2 class="mod-title">Le pont vers pytest et Playwright</h2>
-      <p>Ce module ne t'apprend rien de syntaxiquement nouveau — il relie ce que tu viens d'apprendre à la suite de ce cours (Partie 5, testing professionnel) et au cours "Qualité Logicielle Automatisée". L'objectif : que la première fonction de test pytest que tu ouvres ne te surprenne pas syntaxiquement, avant d'aller plus loin dans les modules 19 et 20.</p>
+      <p>Ce module ne t'apprend rien de syntaxiquement nouveau — il relie ce que tu viens d'apprendre à la suite de ce cours (Partie 5, testing professionnel) et au cours "Qualité Logicielle Automatisée". L'objectif : que la première fonction de test pytest que tu ouvres ne te surprenne pas syntaxiquement, avant d'aller plus loin dans les modules 20 et 21.</p>
 
       <h3>Une fonction de test pytest, décryptée</h3>
       <p><code>pytest</code> est un framework de test : il découvre automatiquement toute fonction dont le nom commence par <code>test_</code> dans un fichier dont le nom commence par <code>test_</code>, et l'exécute. Regarde cette fonction avec ce que tu sais déjà :</p>
@@ -1952,7 +2207,7 @@ def test_article_est_disponible():
       <h3>Un mot sur les fixtures (aperçu, pas le détail)</h3>
       <p>Une <strong>fixture</strong> pytest est une fonction qui prépare quelque chose dont un test a besoin (par exemple, un navigateur Playwright déjà ouvert, ou un jeu de données déjà chargé), et pytest l'injecte automatiquement dans le test en la nommant simplement comme paramètre :</p>
 
-      <p class="code-label">Aperçu d'une fixture (le détail complet vient au module 19, juste après le prochain)</p>
+      <p class="code-label">Aperçu d'une fixture (le détail complet vient au module 20, juste après le prochain)</p>
       <pre>import pytest
 
 @pytest.fixture
@@ -1962,7 +2217,7 @@ def catalogue_test():
 def test_premier_article_disponible(catalogue_test):
     assert catalogue_test[0]["stock"] &gt; 0</pre>
 
-      <p><code>@pytest.fixture</code> est un <strong>décorateur</strong> — une syntaxe qui modifie le comportement de la fonction juste en dessous ; retiens pour l'instant seulement le motif visuel : <code>@quelque_chose</code> juste au-dessus d'un <code>def</code>. Le module 25 (Partie 7) explique en détail comment un décorateur fonctionne réellement ; le module 19, juste après celui-ci, détaille les fixtures et <code>conftest.py</code>.</p>
+      <p><code>@pytest.fixture</code> est un <strong>décorateur</strong> — une syntaxe qui modifie le comportement de la fonction juste en dessous ; retiens pour l'instant seulement le motif visuel : <code>@quelque_chose</code> juste au-dessus d'un <code>def</code>. Le module 28 (Partie 7) explique en détail comment un décorateur fonctionne réellement ; le module 20, juste après celui-ci, détaille les fixtures et <code>conftest.py</code>.</p>
 
       <div class="callout">
         <div class="callout-label">Ce qui te reste à apprendre, et où</div>
@@ -1997,15 +2252,15 @@ def test_stock_insuffisant():
         </details>
       </div>
 
-      <button class="done-toggle" data-toggle="m14"><span class="box"></span> Marquer ce module comme terminé</button>
+      <button class="done-toggle" data-toggle="m15"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
-
+<!-- ============ PARTIE 5 ============ -->
 <div class="part-divider"><span class="part-tag">PARTIE 5</span><h2 class="part-title">Compétences complémentaires</h2></div>
-<p class="part-intro">Des compétences transversales qui complètent le langage : la ligne de commande, une méthode pour résoudre des problèmes, les structures de données classiques, le débogage professionnel, pytest en profondeur, et le mocking avancé.</p>
+<p class="part-intro">Des compétences transversales qui complètent le langage : la ligne de commande, une méthode pour résoudre des problèmes, les structures de données classiques, le débogage professionnel, pytest en profondeur, le mocking avancé, le TDD, et les tests basés sur les propriétés.</p>
 
-<!-- ============ MODULE m15 ============ -->
-<section class="module" id="m15">
-  <div class="mod-eyebrow">Partie 5 · Module 15</div>
+<!-- ============ MODULE m16 ============ -->
+<section class="module" id="m16">
+  <div class="mod-eyebrow">Partie 5 · Module 16</div>
   <h2 class="mod-title">La ligne de commande</h2>
   <p>Jusqu'ici, tu as sans doute exécuté tes scripts Python depuis un éditeur (VS Code, PyCharm...) en cliquant sur un bouton "Run". C'est pratique pour apprendre, mais un testeur QA passe une bonne partie de sa journée dans un terminal : lancer une suite de tests, cloner un dépôt, installer une dépendance, inspecter des fichiers de logs. Ce module te donne les bases pour t'y sentir à l'aise.</p>
 
@@ -2129,12 +2384,11 @@ for produit in produits:
     </details>
   </div>
 
-  <button class="done-toggle" data-toggle="m15"><span class="box"></span> Marquer ce module comme terminé</button>
+  <button class="done-toggle" data-toggle="m16"><span class="box"></span> Marquer ce module comme terminé</button>
 </section>
-
-<!-- ============ MODULE m16 ============ -->
-<section class="module" id="m16">
-  <div class="mod-eyebrow">Partie 5 · Module 16</div>
+<!-- ============ MODULE m17 ============ -->
+<section class="module" id="m17">
+  <div class="mod-eyebrow">Partie 5 · Module 17</div>
   <h2 class="mod-title">Résoudre des problèmes avec Python</h2>
   <p>Savoir la syntaxe de Python ne suffit pas à résoudre un problème : il faut aussi une méthode pour ne pas se noyer devant un énoncé, et des réflexes pour comprendre pourquoi ça plante. Ces deux compétences comptent autant pour écrire un test que pour écrire le code testé.</p>
 
@@ -2222,12 +2476,11 @@ else:
     </details>
   </div>
 
-  <button class="done-toggle" data-toggle="m16"><span class="box"></span> Marquer ce module comme terminé</button>
+  <button class="done-toggle" data-toggle="m17"><span class="box"></span> Marquer ce module comme terminé</button>
 </section>
-
-<!-- ============ MODULE m17 ============ -->
-<section class="module" id="m17">
-  <div class="mod-eyebrow">Partie 5 · Module 17</div>
+<!-- ============ MODULE m18 ============ -->
+<section class="module" id="m18">
+  <div class="mod-eyebrow">Partie 5 · Module 18</div>
   <h2 class="mod-title">Structures de données et algorithmes</h2>
   <p>Deux scripts peuvent produire exactement le même résultat, mais l'un met 10 millisecondes et l'autre 10 minutes sur un gros volume de données. La différence vient souvent du choix de la structure de données ou de l'algorithme utilisé. Ce module donne une intuition suffisante pour repérer ces situations — sans notation mathématique compliquée.</p>
 
@@ -2302,6 +2555,56 @@ else:
     <p>Retiens surtout deux réflexes : utiliser un <code>set</code> ou un <code>dict</code> plutôt qu'une <code>list</code> dès qu'on cherche souvent "est-ce que cet élément existe ?", et se méfier d'un test qui ralentit anormalement quand le volume de données augmente — c'est souvent le signe d'une structure de données mal choisie, pas d'une fatalité.</p>
   </div>
 
+  <h3>La récursion : une fonction qui s'appelle elle-même</h3>
+  <p>Une fonction <strong>récursive</strong> résout un problème en l'appliquant à une version plus petite du même problème, jusqu'à atteindre un <strong>cas de base</strong> assez simple pour être résolu directement. Sans cas de base correct, la récursion ne s'arrête jamais.</p>
+
+  <p class="code-label">Parcourir une arborescence de dossiers de résultats de tests</p>
+  <pre>def compter_fichiers(dossier):
+    total = 0
+    for entree in os.scandir(dossier):
+        if entree.is_dir():
+            total += compter_fichiers(entree.path)   # cas récursif : sous-dossier
+        else:
+            total += 1                                # cas de base : un fichier
+    return total</pre>
+
+  <div class="callout warn">
+    <div class="callout-label">Le piège de la récursion infinie</div>
+    <p>Oublier le cas de base — ou écrire une condition qui ne se rapproche jamais de lui — produit une <code>RecursionError</code> après environ 1000 appels imbriqués (la limite par défaut de Python). C'est l'équivalent récursif d'une boucle <code>while</code> dont la condition ne devient jamais fausse.</p>
+  </div>
+
+  <h3>Arbres et graphes : modéliser des relations</h3>
+  <p>Un <strong>arbre</strong> est une structure hiérarchique : chaque nœud a un parent (sauf la racine) et zéro ou plusieurs enfants — une arborescence de fichiers, une structure de menu imbriqué. Un <strong>graphe</strong> généralise l'idée : des nœuds reliés par des arêtes, sans hiérarchie imposée — un graphe de dépendances entre modules Python, où <code>A</code> peut dépendre de <code>B</code> qui dépend de <code>A</code>.</p>
+
+  <p class="code-label">Un graphe de dépendances, représenté en dictionnaire</p>
+  <pre>dependances = {
+    "test_commandes": ["test_panier", "test_paiement"],
+    "test_panier": ["test_catalogue"],
+    "test_paiement": ["test_catalogue"],
+    "test_catalogue": [],
+}</pre>
+
+  <h3>Parcourir un graphe : BFS et DFS</h3>
+  <p>Deux stratégies pour parcourir un graphe ou un arbre. Le <strong>parcours en largeur</strong> (BFS — Breadth-First Search) explore niveau par niveau, avec une file (<code>deque</code>, vu plus haut dans ce module). Le <strong>parcours en profondeur</strong> (DFS — Depth-First Search) suit une branche jusqu'au bout avant de revenir en arrière, naturellement récursif ou avec une pile.</p>
+
+  <p class="code-label">DFS pour détecter un cycle d'imports</p>
+  <pre>def detecter_cycle(graphe, noeud, visites, en_cours):
+    visites.add(noeud)
+    en_cours.add(noeud)
+
+    for voisin in graphe.get(noeud, []):
+        if voisin in en_cours:
+            return True   # on revient sur un nœud déjà en cours de visite : cycle !
+        if voisin not in visites and detecter_cycle(graphe, voisin, visites, en_cours):
+            return True
+
+    en_cours.remove(noeud)
+    return False
+
+# detecter_cycle(dependances, "test_commandes", set(), set())  # False ici : pas de cycle</pre>
+
+  <p>Ce genre de détection de cycle n'est pas théorique : un cycle d'imports Python (<code>module_a</code> importe <code>module_b</code> qui importe <code>module_a</code>) provoque une <code>ImportError</code> difficile à diagnostiquer sans comprendre ce mécanisme de parcours de graphe.</p>
+
   <div class="exercise">
     <div class="exercise-label">Exercice</div>
     <p>Tu as une liste de 50 000 identifiants de produits NovaCart valides, et un fichier de commandes à valider qui contient 20 000 identifiants à vérifier un par un. Le script actuel utilise <code>if id_produit in liste_ids_valides:</code> et met plusieurs minutes à s'exécuter. Explique pourquoi, et corrige le script pour qu'il soit rapide.</p>
@@ -2326,13 +2629,13 @@ for id_produit in ids_a_verifier:
     </details>
   </div>
 
-  <button class="done-toggle" data-toggle="m17"><span class="box"></span> Marquer ce module comme terminé</button>
+  <button class="done-toggle" data-toggle="m18"><span class="box"></span> Marquer ce module comme terminé</button>
 </section>
-<!-- ============ MODULE m18 (nouveau) ============ -->
-<section class="module" id="m18">
-  <div class="mod-eyebrow">Partie 5 · Module 18</div>
+<!-- ============ MODULE m19 ============ -->
+<section class="module" id="m19">
+  <div class="mod-eyebrow">Partie 5 · Module 19</div>
   <h2 class="mod-title">Débogage professionnel</h2>
-  <p>Le module 16 t'a donné les premiers réflexes : lire un traceback, débugger par <code>print()</code>, reformuler le problème. Sur un vrai projet — une suite de tests qui échoue en CI, un bug qui ne se reproduit qu'une fois sur dix — ces réflexes ne suffisent plus. Ce module ajoute un vrai débogueur et une méthode rigoureuse pour ne jamais chercher un bug au hasard.</p>
+  <p>Le module 17 t'a donné les premiers réflexes : lire un traceback, débugger par <code>print()</code>, reformuler le problème. Sur un vrai projet — une suite de tests qui échoue en CI, un bug qui ne se reproduit qu'une fois sur dix — ces réflexes ne suffisent plus. Ce module ajoute un vrai débogueur et une méthode rigoureuse pour ne jamais chercher un bug au hasard.</p>
 
   <h3>Le débogueur interactif : pdb et breakpoint()</h3>
   <p>Contrairement à <code>print()</code>, qui oblige à deviner à l'avance quelle variable afficher puis à relancer le script, un débogueur <strong>interrompt</strong> l'exécution à un point précis et laisse inspecter l'état du programme en direct — variables, pile d'appels, exécution pas à pas. Python fournit <code>pdb</code> dans sa bibliothèque standard, et la fonction <code>breakpoint()</code> (depuis Python 3.7) l'invoque sans même avoir à l'importer.</p>
@@ -2369,7 +2672,7 @@ for id_produit in ids_a_verifier:
     <li><strong>REPRODUIRE.</strong> Si tu ne peux pas déclencher le bug à volonté, tout le reste est bâti sur du sable. Note les conditions exactes : données, environnement, séquence d'actions.</li>
     <li><strong>ISOLER.</strong> Réduis le cas au minimum : quel est le plus petit bout de code, la plus petite donnée d'entrée qui déclenche encore le problème ?</li>
     <li><strong>HYPOTHÈSE.</strong> Formule explicitement ce que tu penses être la cause, avant d'aller regarder — ça t'oblige à raisonner plutôt qu'à fouiller au hasard.</li>
-    <li><strong>INVESTIGUER.</strong> Utilise le débogueur (ou les logs, module 27) pour vérifier ou infirmer ton hypothèse avec des faits, pas des suppositions.</li>
+    <li><strong>INVESTIGUER.</strong> Utilise le débogueur (ou les logs, module 30) pour vérifier ou infirmer ton hypothèse avec des faits, pas des suppositions.</li>
     <li><strong>CAUSE RACINE.</strong> Ne t'arrête pas au premier symptôme : une <code>KeyError</code> peut être le résultat d'un problème bien plus en amont dans le flux de données.</li>
     <li><strong>CORRIGER.</strong> Corrige la cause racine identifiée, pas seulement le symptôme observé.</li>
     <li><strong>TESTER.</strong> Vérifie que le cas reproduit à l'étape 1 est bien résolu — et que rien d'autre ne s'est cassé au passage.</li>
@@ -2419,13 +2722,13 @@ def test_remise_plafonnee_a_30_pourcent():
     </details>
   </div>
 
-  <button class="done-toggle" data-toggle="m18"><span class="box"></span> Marquer ce module comme terminé</button>
+  <button class="done-toggle" data-toggle="m19"><span class="box"></span> Marquer ce module comme terminé</button>
 </section>
-<!-- ============ MODULE m18 ============ -->
-<section class="module" id="m19">
-  <div class="mod-eyebrow">Partie 5 · Module 19</div>
+<!-- ============ MODULE m20 ============ -->
+<section class="module" id="m20">
+  <div class="mod-eyebrow">Partie 5 · Module 20</div>
   <h2 class="mod-title">Tests avec pytest, en pratique</h2>
-  <p>Le module 14 t'a montré à quoi ressemble un test avec pytest. Ici, on passe à la pratique sérieuse : comment organiser un vrai projet de tests, comment préparer et nettoyer des données avec des fixtures, comment tester une même fonction avec des dizaines de jeux de données sans copier-coller, et comment isoler un test des services externes. C'est ce niveau de maîtrise qu'on attend d'un testeur QA qui écrit des tests automatisés au quotidien.</p>
+  <p>Le module 15 t'a montré à quoi ressemble un test avec pytest. Ici, on passe à la pratique sérieuse : comment organiser un vrai projet de tests, comment préparer et nettoyer des données avec des fixtures, comment tester une même fonction avec des dizaines de jeux de données sans copier-coller, et comment isoler un test des services externes. C'est ce niveau de maîtrise qu'on attend d'un testeur QA qui écrit des tests automatisés au quotidien.</p>
 
   <h3>Organiser un projet de tests</h3>
   <p>Par convention, pytest découvre automatiquement les tests s'ils suivent quelques règles de nommage. Un projet NovaCart typique ressemble à ceci :</p>
@@ -2585,13 +2888,13 @@ def test_appliquer_reduction_code_invalide(prix_de_base):
       </div>
     </details>
   </div>
-  <button class="done-toggle" data-toggle="m19"><span class="box"></span> Marquer ce module comme terminé</button>
+  <button class="done-toggle" data-toggle="m20"><span class="box"></span> Marquer ce module comme terminé</button>
 </section>
-<!-- ============ MODULE m20 (nouveau) ============ -->
-<section class="module" id="m20">
-  <div class="mod-eyebrow">Partie 5 · Module 20</div>
+<!-- ============ MODULE m21 ============ -->
+<section class="module" id="m21">
+  <div class="mod-eyebrow">Partie 5 · Module 21</div>
   <h2 class="mod-title">Mocking avancé</h2>
-  <p>Le module 19 a introduit <code>unittest.mock.patch</code> sur un cas simple. En pratique professionnelle, isoler un test d'une dépendance externe demande un vocabulaire précis et des outils plus riches — sans quoi on finit soit par tester de vraies API à chaque exécution, soit par écrire des mocks si permissifs qu'ils ne détectent plus rien.</p>
+  <p>Le module 20 a introduit <code>unittest.mock.patch</code> sur un cas simple. En pratique professionnelle, isoler un test d'une dépendance externe demande un vocabulaire précis et des outils plus riches — sans quoi on finit soit par tester de vraies API à chaque exécution, soit par écrire des mocks si permissifs qu'ils ne détectent plus rien.</p>
 
   <h3>Le vocabulaire des test doubles</h3>
   <p>"Mock" est souvent utilisé comme terme générique, mais la littérature du test distingue plusieurs rôles précis — les connaître aide à choisir le bon outil, et à comprendre ce qu'un test vérifie réellement :</p>
@@ -2642,7 +2945,7 @@ for tentative in range(3):
     except ConnectionError:
         print(f"Tentative {tentative + 1} échouée")</pre>
 
-  <p>C'est exactement ce type de mock qui permet de tester un décorateur <code>reessayer(...)</code> (module 25 — Décorateurs et générateurs) sans dépendre d'un vrai service instable.</p>
+  <p>C'est exactement ce type de mock qui permet de tester un décorateur <code>reessayer(...)</code> (module 28 — Décorateurs et générateurs) sans dépendre d'un vrai service instable.</p>
 
   <h3>autospec : un mock qui respecte la vraie signature</h3>
   <p>Un <code>Mock</code> nu accepte n'importe quel appel, même incorrect — <code>api_paiement.rembourser(1, 2, 3, 4, 5)</code> ne provoquerait aucune erreur, alors même que la vraie fonction n'accepte que deux arguments. C'est un vrai risque : un test peut rester vert alors que le code appelle mal une dépendance, et l'erreur n'apparaît qu'en production. <code>autospec=True</code> corrige ça en inspectant la vraie fonction ou classe, pour que le mock lève une erreur si l'appel ne correspond pas à sa signature réelle.</p>
@@ -2696,12 +2999,169 @@ def test_verifier_stock_disponible_trois_scenarios():
     </details>
   </div>
 
-  <button class="done-toggle" data-toggle="m20"><span class="box"></span> Marquer ce module comme terminé</button>
+  <button class="done-toggle" data-toggle="m21"><span class="box"></span> Marquer ce module comme terminé</button>
 </section>
+<!-- ============ MODULE m22 ============ -->
+<!-- ============ MODULE (nouveau) TDD ============ -->
+<section class="module" id="m22">
+  <div class="mod-eyebrow">Partie 5 · Module 22</div>
+  <h2 class="mod-title">TDD, non dogmatique</h2>
+  <p>Le développement piloté par les tests (TDD — Test-Driven Development) inverse l'ordre habituel : on écrit le test avant le code qu'il teste. Ce module montre le cycle sur un cas réel, puis une discussion honnête de quand cette pratique aide vraiment — et quand elle ralentit sans bénéfice clair.</p>
+
+  <h3>Le cycle Red-Green-Refactor</h3>
+  <ol>
+    <li><strong>Red.</strong> Écrire un test qui échoue, pour une fonctionnalité qui n'existe pas encore.</li>
+    <li><strong>Green.</strong> Écrire le code le plus simple possible qui fait passer ce test — pas le code "idéal", juste ce qu'il faut pour être vert.</li>
+    <li><strong>Refactor.</strong> Une fois vert, améliorer la structure du code sans changer son comportement, en s'appuyant sur le test comme filet de sécurité.</li>
+  </ol>
+
+  <h3>En pratique : une fonction de calcul de remise NovaCart</h3>
+  <p class="code-label">Red — le test existe, la fonction non</p>
+  <pre>def test_remise_10_pourcent_sur_100_euros():
+    assert calculer_remise(100, code_promo="NOVA10") == 10.0
+# NameError : calculer_remise n'existe pas encore — le test échoue, c'est attendu</pre>
+
+  <p class="code-label">Green — le code le plus simple qui passe</p>
+  <pre>def calculer_remise(prix, code_promo):
+    if code_promo == "NOVA10":
+        return prix * 0.10
+    return 0</pre>
+
+  <p class="code-label">Un second test pousse à généraliser (nouveau Red, puis Green)</p>
+  <pre>def test_remise_20_pourcent():
+    assert calculer_remise(100, code_promo="NOVA20") == 20.0
+
+# Green : généraliser plutôt qu'empiler des if
+TAUX_PROMO = {"NOVA10": 0.10, "NOVA20": 0.20}
+
+def calculer_remise(prix, code_promo):
+    return prix * TAUX_PROMO.get(code_promo, 0)</pre>
+
+  <p><strong>Refactor</strong> : les deux tests restent verts après ce passage d'une chaîne de <code>if</code> à un dictionnaire — c'est exactement ce que le filet de sécurité des tests permet de vérifier immédiatement, sans reparcourir tout le code à la main.</p>
+
+  <h3>Quand le TDD aide, et quand il ralentit</h3>
+  <div class="table-scroll"><table>
+    <tr><th>Le TDD aide quand...</th><th>Le TDD ralentit inutilement quand...</th></tr>
+    <tr><td>La logique métier est bien définie à l'avance (règles de calcul, validations)</td><td>Le problème est exploratoire — on ne sait pas encore à quoi ressemblera la solution</td></tr>
+    <tr><td>Le code sera modifié souvent, et une régression coûterait cher</td><td>C'est un script jetable, utilisé une fois puis abandonné</td></tr>
+    <tr><td>L'équipe partage la discipline et maintient les tests à jour</td><td>Les tests eux-mêmes finissent réécrits à chaque changement d'implémentation (signe de tests trop couplés au détail interne)</td></tr>
+  </table></div>
+
+  <div class="callout">
+    <div class="callout-label">Non dogmatique</div>
+    <p>Écrire les tests <em>après</em> le code, tant qu'ils sont écrits et qu'ils couvrent vraiment le comportement, reste largement préférable à ne pas les écrire du tout. Le TDD est un outil pour penser la conception avant l'implémentation — pas une obligation morale.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>En suivant Red-Green-Refactor, développe une fonction <code>niveau_urgence(nombre_jours_retard)</code> qui renvoie <code>"faible"</code> (0-2 jours), <code>"moyen"</code> (3-7 jours) ou <code>"critique"</code> (plus de 7 jours). Écris d'abord un test pour le cas "faible", fais-le passer, puis ajoute les cas "moyen" et "critique" un par un.</p>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre>def test_urgence_faible():
+    assert niveau_urgence(1) == "faible"
+
+def niveau_urgence(jours):   # Green minimal
+    return "faible"
+
+def test_urgence_moyenne():
+    assert niveau_urgence(5) == "moyen"
+
+def niveau_urgence(jours):   # généralisation après le 2e test
+    if jours &lt;= 2:
+        return "faible"
+    if jours &lt;= 7:
+        return "moyen"
+    return "critique"
+
+def test_urgence_critique():
+    assert niveau_urgence(10) == "critique"   # déjà couvert par la généralisation ci-dessus</pre>
+        <p>Le point pédagogique : la première version "Green" est délibérément simpliste (elle ne gère qu'un cas), et c'est le second test qui force à généraliser — exactement le mécanisme qui pousse le code à évoluer par petits pas vérifiés, plutôt que par une conception anticipée qui pourrait s'avérer fausse.</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m22"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+<!-- ============ MODULE m23 ============ -->
+<!-- ============ MODULE (nouveau) Hypothesis/testabilite ============ -->
+<section class="module" id="m23">
+  <div class="mod-eyebrow">Partie 5 · Module 23</div>
+  <h2 class="mod-title">Tests basés sur les propriétés et testabilité</h2>
+  <p>Tous les tests vus jusqu'ici sont des <strong>tests par l'exemple</strong> : une entrée précise, une sortie attendue précise. Ce module introduit une approche complémentaire — les tests basés sur les propriétés — puis pose une question plus large : qu'est-ce qui rend du code facile ou difficile à tester ?</p>
+
+  <h3>Test par l'exemple vs test de propriété</h3>
+  <p>Un test par l'exemple vérifie un cas précis : <code>trier([3, 1, 2]) == [1, 2, 3]</code>. Un test de propriété vérifie une règle qui doit rester vraie pour <strong>n'importe quelle</strong> entrée valide : "pour toute liste, le résultat trié contient les mêmes éléments, dans un ordre croissant". <strong>Hypothesis</strong> génère automatiquement des centaines d'entrées variées (y compris des cas limites auxquels on ne pense pas) pour vérifier que la propriété tient.</p>
+
+  <p class="code-label">Un test de propriété avec Hypothesis</p>
+  <pre>from hypothesis import given, strategies as st
+
+@given(st.lists(st.integers()))
+def test_trier_conserve_les_elements(liste):
+    resultat = sorted(liste)
+    assert sorted(resultat) == sorted(liste)          # mêmes éléments
+    assert all(resultat[i] &lt;= resultat[i+1] for i in range(len(resultat)-1))  # croissant</pre>
+
+  <p>Hypothesis exécute ce test avec de nombreuses listes générées automatiquement — vides, avec doublons, avec des nombres négatifs, très longues — et signale le plus petit cas qui fait échouer la propriété s'il en trouve un, ce qu'un jeu d'exemples écrits à la main manque facilement.</p>
+
+  <p class="code-label">Une propriété sur le calcul de remise</p>
+  <pre>from hypothesis import given, strategies as st
+
+@given(st.floats(min_value=0, max_value=10000), st.floats(min_value=0, max_value=1))
+def test_remise_ne_rend_jamais_negatif(prix, taux):
+    resultat = appliquer_remise(prix, taux)
+    assert resultat &gt;= 0    # propriété : jamais de prix négatif, quelle que soit l'entrée valide</pre>
+
+  <div class="callout">
+    <div class="callout-label">Complémentaire, pas remplaçant</div>
+    <p>Les tests de propriété ne remplacent pas les tests par l'exemple : ils sont excellents pour des fonctions avec des règles mathématiques ou structurelles claires (tri, parsing, calculs), moins adaptés pour vérifier qu'un cas métier précis produit exactement le bon message d'erreur.</p>
+  </div>
+
+  <h3>Mutation testing : la couverture ne suffit pas</h3>
+  <p>Un taux de couverture de 90% signifie que 90% des lignes s'exécutent pendant les tests — pas que ces lignes sont réellement <em>vérifiées</em>. Le <strong>mutation testing</strong> (des outils comme <code>mutmut</code>) modifie automatiquement le code source (change un <code>&gt;</code> en <code>&gt;=</code>, un <code>+</code> en <code>-</code>) et relance les tests : si un test ne détecte pas la modification, c'est qu'il ne vérifiait pas vraiment ce bout de code, malgré une couverture à 100%.</p>
+
+  <h3>Ce qui rend du code testable</h3>
+  <p>La testabilité n'est pas une propriété séparée de la qualité du code — c'est souvent son symptôme le plus visible. Du code avec des dépendances injectées (module 14 — SOLID), des fonctions pures (mêmes entrées, même sortie, aucun effet de bord caché) et des responsabilités bien séparées est mécaniquement plus facile à tester que du code fortement couplé à des singletons globaux ou à des appels réseau directs.</p>
+
+  <div class="table-scroll"><table>
+    <tr><th>Smell de test</th><th>Ce qu'il révèle</th></tr>
+    <tr><td><strong>Flaky</strong> — échoue parfois sans changement de code</td><td>Dépendance à un ordre, un timing, ou un état partagé mal isolé</td></tr>
+    <tr><td><strong>Fragile</strong> — casse au moindre changement de détail interne</td><td>Le test vérifie l'implémentation plutôt que le comportement</td></tr>
+    <tr><td><strong>Couplé</strong> — plusieurs tests échouent ensemble pour une seule cause</td><td>Manque d'isolation entre les tests (mocking insuffisant, état partagé)</td></tr>
+    <tr><td><strong>Lent</strong> — ralentit toute la suite</td><td>Appels réseau ou disque réels là où un mock suffirait</td></tr>
+  </table></div>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>Écris un test de propriété avec Hypothesis pour une fonction <code>inverser(chaine)</code> qui inverse une chaîne de caractères. Vérifie deux propriétés : (1) inverser deux fois redonne la chaîne d'origine, (2) la longueur du résultat est égale à celle de l'entrée.</p>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre>from hypothesis import given, strategies as st
+
+def inverser(chaine):
+    return chaine[::-1]
+
+@given(st.text())
+def test_inverser_deux_fois_redonne_original(chaine):
+    assert inverser(inverser(chaine)) == chaine
+
+@given(st.text())
+def test_inverser_conserve_la_longueur(chaine):
+    assert len(inverser(chaine)) == len(chaine)</pre>
+        <p><code>st.text()</code> génère des chaînes variées — vides, avec des caractères Unicode, très longues — sans qu'on ait à les énumérer soi-même. Ces deux propriétés restent vraies pour absolument toute chaîne, ce qui les rend bien plus robustes qu'une poignée d'exemples choisis à la main.</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m23"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+<!-- ============ PARTIE 6 ============ -->
 <div class="part-divider"><span class="part-tag">PARTIE 6</span><h2 class="part-title">Projets guidés, par domaine</h2></div>
-<!-- ============ MODULE m19 ============ -->
-<section class="module" id="m21">
-  <div class="mod-eyebrow">Partie 6 · Module 21</div>
+
+<!-- ============ MODULE m24 ============ -->
+<section class="module" id="m24">
+  <div class="mod-eyebrow">Partie 6 · Module 24</div>
   <h2 class="mod-title">Projets de développement web</h2>
   <p>Jusqu'ici, tu as surtout testé du code qui tourne dans un terminal. Mais la plupart des applications que tu testeras en tant que testeur·se QA sont des applications web : un site e-commerce comme NovaCart, une API consultée par une application mobile, un back-office interne. Ce module te fait construire, en quelques lignes, une mini-application web avec <strong>Flask</strong> — pas pour devenir développeur·se web, mais pour comprendre concrètement ce qui se passe derrière une URL que tu testes tous les jours.</p>
 
@@ -2798,11 +3258,11 @@ def produits_disponibles():
     </details>
   </div>
 
-  <button class="done-toggle" data-toggle="m21"><span class="box"></span> Marquer ce module comme terminé</button>
+  <button class="done-toggle" data-toggle="m24"><span class="box"></span> Marquer ce module comme terminé</button>
 </section>
-<!-- ============ MODULE m20 ============ -->
-<section class="module" id="m22">
-  <div class="mod-eyebrow">Partie 6 · Module 22</div>
+<!-- ============ MODULE m25 ============ -->
+<section class="module" id="m25">
+  <div class="mod-eyebrow">Partie 6 · Module 25</div>
   <h2 class="mod-title">Projets d'analyse de données</h2>
   <p>NovaCart génère chaque jour des milliers de lignes de données : commandes, montants, catégories, statuts de livraison. Analyser ces données à la main, ligne par ligne, serait impossible. C'est exactement le problème que résout <strong>pandas</strong>, la bibliothèque Python de référence pour manipuler des données tabulaires — et les réflexes que tu vas prendre ici te resserviront directement pour analyser des résultats de tests.</p>
 
@@ -2906,11 +3366,11 @@ print(panier_moyen.index[0])   # nom de la catégorie au panier moyen le plus é
     </details>
   </div>
 
-  <button class="done-toggle" data-toggle="m22"><span class="box"></span> Marquer ce module comme terminé</button>
+  <button class="done-toggle" data-toggle="m25"><span class="box"></span> Marquer ce module comme terminé</button>
 </section>
-<!-- ============ MODULE m23 (fusion des anciens modules ML/IA et mobile/jeu vidéo) ============ -->
-<section class="module" id="m23">
-  <div class="mod-eyebrow">Partie 6 · Module 23</div>
+<!-- ============ MODULE m26 ============ -->
+<section class="module" id="m26">
+  <div class="mod-eyebrow">Partie 6 · Module 26</div>
   <h2 class="mod-title">Python au-delà de la QA : un aperçu</h2>
   <p>Ce module est volontairement court : l'objectif n'est pas de te former au machine learning ou au développement de jeux vidéo, mais de te donner des repères sur deux domaines où Python est très présent, pour situer les spécialités voisines du métier de testeur QA — sans détourner le temps du parcours de ses priorités (automatisation, API, architecture).</p>
 
@@ -2982,11 +3442,11 @@ print("Score test :", modele.score(X_test, y_test))
     </details>
   </div>
 
-  <button class="done-toggle" data-toggle="m23"><span class="box"></span> Marquer ce module comme terminé</button>
+  <button class="done-toggle" data-toggle="m26"><span class="box"></span> Marquer ce module comme terminé</button>
 </section>
-<!-- ============ MODULE m23 ============ -->
-<section class="module" id="m24">
-  <div class="mod-eyebrow">Partie 6 · Module 24</div>
+<!-- ============ MODULE m27 ============ -->
+<section class="module" id="m27">
+  <div class="mod-eyebrow">Partie 6 · Module 27</div>
   <h2 class="mod-title">Cybersécurité avec Python</h2>
   <p>Ce module reste volontairement du côté défensif : comprendre comment on protège des données plutôt que comment on attaque un système. L'objectif n'est pas de faire de toi une experte ou un expert en sécurité, mais de te donner les réflexes de base — hachage de mots de passe, méfiance envers les entrées utilisateur — et de savoir repérer les signaux d'alerte quand tu testes une application, y compris chez NovaCart.</p>
 
@@ -3033,6 +3493,44 @@ curseur.execute(requete, (email_saisi,))</pre>
     <p>L'<strong>OWASP Top 10</strong> est une liste de référence, régulièrement mise à jour, des dix familles de failles les plus courantes dans les applications web (l'injection en fait partie). On ne la détaille pas ici, mais retiens le nom : c'est un document que toute personne travaillant autour de la sécurité applicative connaît et consulte.</p>
   </div>
 
+  <h3>Secrets et variables d'environnement</h3>
+  <p>Une clé d'API, un mot de passe de base de données ou un token ne doivent <strong>jamais</strong> être écrits en dur dans le code source — un dépôt Git garde l'historique de chaque version, donc un secret commité une seule fois reste récupérable même après suppression. La pratique standard consiste à les lire depuis des <strong>variables d'environnement</strong>, injectées au moment de l'exécution plutôt qu'écrites dans le fichier.</p>
+
+  <p class="code-label">Lire un secret depuis l'environnement, jamais en dur</p>
+  <pre>import os
+
+# Mauvais : la clé apparaît en clair dans le code et dans l'historique Git
+CLE_API = "sk-live-a1b2c3d4e5f6"
+
+# Correct : la valeur vient de l'environnement, jamais commitée
+CLE_API = os.environ["NOVACART_API_KEY"]
+# ou, avec une valeur par défaut si absente :
+CLE_API = os.environ.get("NOVACART_API_KEY", "")</pre>
+
+  <p>En pratique, un fichier <code>.env</code> (non commité — listé dans <code>.gitignore</code>) contient ces valeurs en local, et un fichier <code>.env.example</code> (commité, lui) documente les noms de variables attendus sans leurs vraies valeurs — exactement le pattern déjà utilisé dans le projet API Testing du portfolio.</p>
+
+  <h3>La désérialisation non sécurisée</h3>
+  <p>Le module <code>pickle</code> sérialise des objets Python complets — mais <code>pickle.load()</code> exécute du code arbitraire pendant la désérialisation. Charger un fichier <code>pickle</code> dont l'origine n'est pas fiable équivaut à exécuter n'importe quel code fourni par cette source.</p>
+
+  <div class="callout warn">
+    <div class="callout-label">Ne jamais pickle.load() une source non fiable</div>
+    <p>Pour échanger des données avec l'extérieur (une API, un fichier reçu d'un utilisateur), préférer <strong>JSON</strong> : il ne peut représenter que des données (chaînes, nombres, listes, dicts), jamais du code exécutable. Réserver <code>pickle</code> à des données strictement internes, jamais partagées.</p>
+  </div>
+
+  <h3>Vulnérabilités de dépendances</h3>
+  <p>Un projet Python moderne s'appuie sur des dizaines de paquets tiers (module 10) — chacun est une porte d'entrée potentielle si une vulnérabilité y est découverte. <code>pip-audit</code> (ou l'onglet "Dependabot" d'un dépôt GitHub) compare les versions installées à une base de vulnérabilités connues.</p>
+
+  <p class="code-label">Vérifier les dépendances d'un projet</p>
+  <pre>$ pip install pip-audit
+$ pip-audit
+Found 1 known vulnerability in 1 package
+Name    Version  ID                  Fix Versions
+------  -------  ------------------  ------------
+requests 2.25.0  GHSA-j8r2-6x86-q33q 2.31.0</pre>
+
+  <h3>Le principe du moindre privilège</h3>
+  <p>Un compte de service, une clé d'API ou un utilisateur de base de données ne doit disposer que des permissions strictement nécessaires à sa tâche — jamais "admin par simplicité". Un script qui se contente de <em>lire</em> le catalogue NovaCart n'a besoin d'aucune permission d'écriture ; lui en donner quand même transforme une éventuelle faille mineure (ce script est compromis) en incident majeur (le catalogue entier peut être modifié).</p>
+
   <h3>Le lien avec la QA</h3>
   <p>Les tests de sécurité — tests d'intrusion, revue de code orientée sécurité — forment une spécialité à part entière, recherchée et souvent bien valorisée. Sans devenir spécialiste, un testeur QA généraliste doit savoir reconnaître les signaux d'alerte les plus évidents : un mot de passe visible en clair dans une base de données ou un fichier de log, un formulaire qui accepte n'importe quelle entrée sans validation, un message d'erreur qui révèle des détails techniques internes. Repérer ces signaux et les remonter fait partie du travail, même sans expertise poussée.</p>
 
@@ -3055,12 +3553,14 @@ def inscrire_client(mot_de_passe):
     </details>
   </div>
 
-  <button class="done-toggle" data-toggle="m24"><span class="box"></span> Marquer ce module comme terminé</button>
+  <button class="done-toggle" data-toggle="m27"><span class="box"></span> Marquer ce module comme terminé</button>
 </section>
+<!-- ============ PARTIE 7 ============ -->
 <div class="part-divider"><span class="part-tag">PARTIE 7</span><h2 class="part-title">Python avancé</h2></div>
-<!-- ============ MODULE m24 ============ -->
-<section class="module" id="m25">
-  <div class="mod-eyebrow">Partie 7 · Module 25</div>
+
+<!-- ============ MODULE m28 ============ -->
+<section class="module" id="m28">
+  <div class="mod-eyebrow">Partie 7 · Module 28</div>
   <h2 class="mod-title">Décorateurs et générateurs</h2>
   <p>Deux outils qu'on croise partout dans du code Python "adulte" — y compris dans pytest, dont plusieurs mécanismes (<code>@pytest.fixture</code>, <code>@pytest.mark.parametrize</code>) sont eux-mêmes des décorateurs. Comprendre comment ils fonctionnent démystifie une bonne partie de ce que tu utilises déjà sans le savoir.</p>
 
@@ -3162,13 +3662,13 @@ def appeler_api_novacart():
     </details>
   </div>
 
-  <button class="done-toggle" data-toggle="m25"><span class="box"></span> Marquer ce module comme terminé</button>
+  <button class="done-toggle" data-toggle="m28"><span class="box"></span> Marquer ce module comme terminé</button>
 </section>
-<!-- ============ MODULE m25 ============ -->
-<section class="module" id="m26">
-  <div class="mod-eyebrow">Partie 7 · Module 26</div>
+<!-- ============ MODULE m29 ============ -->
+<section class="module" id="m29">
+  <div class="mod-eyebrow">Partie 7 · Module 29</div>
   <h2 class="mod-title">Context managers et blocs <code>with</code></h2>
-  <p>Tu utilises déjà <code>with open(...) as f:</code> depuis le module sur les fichiers. Ce module explique ce qui se passe réellement derrière ce mot-clé, et comment créer ton propre bloc <code>with</code> — une compétence qui éclaire aussi le fonctionnement des fixtures pytest vues au module 19.</p>
+  <p>Tu utilises déjà <code>with open(...) as f:</code> depuis le module sur les fichiers. Ce module explique ce qui se passe réellement derrière ce mot-clé, et comment créer ton propre bloc <code>with</code> — une compétence qui éclaire aussi le fonctionnement des fixtures pytest vues au module 20.</p>
 
   <h3>Ce que <code>with</code> garantit réellement</h3>
   <p><code>with open("commandes.csv") as f:</code> ne se contente pas d'ouvrir un fichier : il garantit que <code>f.close()</code> sera appelé en sortie du bloc, <strong>même si une exception est levée à l'intérieur</strong>. C'est ce qu'on appelle un <strong>context manager</strong> — un objet qui définit explicitement ce qui doit se passer à l'entrée et à la sortie d'un bloc de code, peu importe comment on en sort.</p>
@@ -3224,7 +3724,7 @@ with connexion_novacart() as connexion:
 
   <div class="callout">
     <div class="callout-label">Ça te rappelle quelque chose ?</div>
-    <p>C'est exactement le mécanisme derrière une fixture pytest qui utilise <code>yield</code> (module 19) : la partie avant <code>yield</code> est la préparation ("setup"), la partie après est le nettoyage ("teardown"). Une fixture pytest avec <code>yield</code> est, ni plus ni moins, un context manager déguisé.</p>
+    <p>C'est exactement le mécanisme derrière une fixture pytest qui utilise <code>yield</code> (module 20) : la partie avant <code>yield</code> est la préparation ("setup"), la partie après est le nettoyage ("teardown"). Une fixture pytest avec <code>yield</code> est, ni plus ni moins, un context manager déguisé.</p>
   </div>
 
   <h3>Le lien avec la QA</h3>
@@ -3256,12 +3756,12 @@ with mesure_duree("Traitement des commandes NovaCart"):
     </details>
   </div>
 
-  <button class="done-toggle" data-toggle="m26"><span class="box"></span> Marquer ce module comme terminé</button>
+  <button class="done-toggle" data-toggle="m29"><span class="box"></span> Marquer ce module comme terminé</button>
 </section>
-<!-- ============ MODULE m26 ============ -->
-<section class="module" id="m27">
-  <div class="mod-eyebrow">Partie 7 · Module 27</div>
-  <h2 class="mod-title">Type hints et logging pour du code professionnel</h2>
+<!-- ============ MODULE m30 ============ -->
+<section class="module" id="m30">
+  <div class="mod-eyebrow">Partie 7 · Module 30</div>
+  <h2 class="mod-title">Typing avancé et logging pour du code professionnel</h2>
   <p>Deux habitudes qui séparent souvent un script "qui marche" d'un code qu'une équipe peut relire, maintenir et déboguer sans perdre de temps : annoter les types, et journaliser proprement plutôt que semer des <code>print()</code> partout.</p>
 
   <h3>Annoter son code avec des type hints</h3>
@@ -3291,6 +3791,67 @@ def trouver_client(email: str, clients: list[dict]) -> Optional[dict]:
     <p>Un point souvent mal compris : écrire <code>quantite: int</code> n'empêche personne d'appeler la fonction avec <code>quantite="dix"</code> — Python ne lève aucune erreur de lui-même. Les type hints sont avant tout de la <strong>documentation exécutable</strong>, lue par les éditeurs de code pour l'autocomplétion, et par des outils d'analyse statique comme <strong>mypy</strong>, qui peuvent, eux, détecter ces incohérences avant l'exécution — typiquement dans une étape de CI dédiée, séparée des tests.</p>
   </div>
 
+  <h3>Le vocabulaire du typing moderne</h3>
+  <p>Au-delà de <code>list[str]</code> et <code>Optional[str]</code>, la bibliothèque <code>typing</code> couvre des besoins précis qui reviennent constamment dans du code professionnel :</p>
+
+  <div class="table-scroll"><table>
+    <tr><th>Outil</th><th>Sert à</th></tr>
+    <tr><td class="mono">Union / |</td><td>Plusieurs types possibles : <code>int | str</code> (syntaxe moderne, remplace <code>Union[int, str]</code>)</td></tr>
+    <tr><td class="mono">TypeAlias</td><td>Nommer un type composé pour la lisibilité : <code>Catalogue: TypeAlias = list[dict[str, float]]</code></td></tr>
+    <tr><td class="mono">TypeVar / Generic</td><td>Écrire une fonction ou une classe qui marche pour "un type T", sans savoir lequel à l'avance</td></tr>
+    <tr><td class="mono">Protocol</td><td>Définir un contrat par les méthodes présentes, sans exiger d'héritage explicite (vu au module 13)</td></tr>
+    <tr><td class="mono">Literal</td><td>Restreindre une valeur à un ensemble fixe : <code>statut: Literal["payee", "annulee", "remboursee"]</code></td></tr>
+    <tr><td class="mono">TypedDict</td><td>Documenter la forme exacte attendue d'un dictionnaire (les clés, leurs types)</td></tr>
+    <tr><td class="mono">Final</td><td>Signale qu'une variable ne doit plus être réaffectée après son initialisation</td></tr>
+    <tr><td class="mono">ClassVar</td><td>Distingue un attribut partagé par la classe d'un attribut propre à chaque instance</td></tr>
+    <tr><td class="mono">Self</td><td>Le type de retour "l'instance elle-même", utile pour une méthode qui renvoie <code>self</code></td></tr>
+    <tr><td class="mono">@overload</td><td>Documenter plusieurs signatures valides pour une même fonction selon les arguments fournis</td></tr>
+  </table></div>
+
+  <p class="code-label">TypedDict, Literal et Generic sur un cas NovaCart</p>
+  <pre>from typing import TypedDict, Literal, TypeVar, Generic
+
+class Commande(TypedDict):
+    id: str
+    statut: Literal["payee", "annulee", "remboursee"]
+    montant: float
+
+T = TypeVar("T")
+
+class Resultat(Generic[T]):
+    """Enveloppe générique : un succès contient une valeur de type T, ou une erreur."""
+    def __init__(self, valeur: T | None, erreur: str | None = None):
+        self.valeur = valeur
+        self.erreur = erreur
+
+    def est_succes(self) -> bool:
+        return self.erreur is None
+
+def charger_commande(id_commande: str) -> Resultat[Commande]:
+    ...   # Resultat[Commande] : un Resultat spécialisé pour un type Commande précis</pre>
+
+  <p><code>TypedDict</code> documente ici qu'une <code>Commande</code> n'est pas "un dict quelconque" mais un dict avec exactement ces clés et ces types — <code>mypy</code> signale une erreur si le code tente d'accéder à une clé absente de la définition. <code>Literal</code> restreint <code>statut</code> aux trois valeurs valides : passer <code>"en_cours"</code> serait détecté avant l'exécution, pas découvert en production.</p>
+
+  <h3>Utiliser mypy ou pyright en pratique</h3>
+  <p>Écrire des type hints sans jamais les vérifier revient à écrire des tests qu'on ne lance jamais. <strong>mypy</strong> et <strong>pyright</strong> (l'un ou l'autre suffit, pas besoin des deux) analysent le code sans l'exécuter et signalent les incohérences de type.</p>
+
+  <p class="code-label">Détecter une incohérence avant l'exécution</p>
+  <pre># fichier commandes.py
+def calculer_total(prix: float, quantite: int) -> float:
+    return prix * quantite
+
+calculer_total(45.0, "trois")   # incohérence de type, jamais levée à l'exécution ici</pre>
+  <pre>$ mypy commandes.py
+commandes.py:4: error: Argument 2 to "calculer_total" has incompatible type "str"; expected "int"
+Found 1 error in 1 file (checked 1 source file)</pre>
+
+  <p>C'est exactement le genre de vérification qu'on place dans une étape dédiée d'un pipeline CI (avant les tests, après le lint) : elle attrape une catégorie entière de bugs — passer le mauvais type à une fonction — sans avoir à écrire le moindre test pour ça.</p>
+
+  <div class="callout">
+    <div class="callout-label">Documentation, tooling, détection précoce — jamais une garantie totale</div>
+    <p>Même avec mypy en CI, les type hints restent un filet de sécurité partiel : du code qui contourne le typage (un <code>dict</code> générique passé partout, un <code>Any</code> explicite) échappe à la vérification. L'objectif réaliste n'est pas "zéro bug de type", mais une base de code où l'intention est explicite et où la majorité des erreurs de type se voient avant l'exécution plutôt qu'en production.</p>
+  </div>
+
   <h3>Le module <code>logging</code>, une alternative sérieuse à <code>print</code></h3>
   <p><code>print()</code> est parfait pour explorer rapidement un problème, mais pose problème dans un vrai projet : impossible de désactiver certains messages sans supprimer les lignes, aucune indication de gravité, aucune trace de l'heure ni du fichier d'origine. Le module standard <code>logging</code> résout ces trois problèmes.</p>
 
@@ -3317,6 +3878,25 @@ logger.error("Échec du paiement pour la commande NC-2026-00342")</pre>
         logger.error(f"Paiement refusé pour {commande['id']} : {erreur}")
         raise</pre>
   <p><code>logger.getLogger(__name__)</code> nomme le logger d'après le fichier où il est défini : dans un projet avec plusieurs modules, les messages indiquent d'où ils viennent sans effort supplémentaire — un détail qui fait gagner un temps précieux quand un problème remonte d'un projet avec des dizaines de fichiers.</p>
+
+  <h3>Logging structuré et corrélation : une introduction</h3>
+  <p>Un message texte comme <code>"Paiement refusé pour NC-2026-00342"</code> est lisible par un humain, mais difficile à interroger automatiquement à grande échelle ("montre-moi tous les échecs de paiement du dernier quart d'heure"). Le <strong>logging structuré</strong> journalise des données (souvent en JSON) plutôt qu'une phrase, ce qui rend les logs directement filtrables et agrégeables par les outils d'observabilité.</p>
+
+  <p class="code-label">Un log structuré, prêt à être interrogé</p>
+  <pre>import logging, json
+
+class FormateurJSON(logging.Formatter):
+    def format(self, record):
+        return json.dumps({
+            "niveau": record.levelname,
+            "message": record.getMessage(),
+            "module": record.module,
+        })
+
+logger.warning("Stock insuffisant", extra={"sku": "SKU-1001", "demande": 5})
+# → {"niveau": "WARNING", "message": "Stock insuffisant", "module": "commandes"}</pre>
+
+  <p>Sur un système avec plusieurs services (une API, un worker, une base), suivre une seule requête à travers tous les logs qu'elle traverse demande un <strong>identifiant de corrélation</strong> : un identifiant unique généré au début d'une requête, transmis à chaque log qu'elle déclenche, qui permet de reconstituer tout son parcours d'un simple filtre — plutôt qu'un mot-clé approximatif dans un océan de logs non liés entre eux. Ce sujet est approfondi dans un contexte de production ; retiens ici le principe : un identifiant qui voyage avec la requête, du premier au dernier log.</p>
 
   <h3>Le lien avec la QA</h3>
   <p>Une suite de tests qui échoue en pleine nuit sur un serveur d'intégration continue, sans personne pour la regarder tourner en direct, ne laisse que ses logs pour comprendre ce qui s'est passé. Une application (et une suite de tests) qui journalise correctement, avec les bons niveaux et des messages clairs, réduit drastiquement le temps nécessaire pour diagnostiquer un échec — c'est souvent la différence entre "comprendre le bug en cinq minutes" et "ne jamais réussir à le reproduire".</p>
@@ -3348,12 +3928,593 @@ def appliquer_reduction(prix: float, pourcentage: float, stock: int) -> float:
     </details>
   </div>
 
-  <button class="done-toggle" data-toggle="m27"><span class="box"></span> Marquer ce module comme terminé</button>
+  <button class="done-toggle" data-toggle="m30"><span class="box"></span> Marquer ce module comme terminé</button>
 </section>
-<div class="part-divider"><span class="part-tag">PARTIE 8</span><h2 class="part-title">Conclusion</h2></div>
-<!-- ============ MODULE m27 ============ -->
-<section class="module" id="m28">
-  <div class="mod-eyebrow">Partie 8 · Module 28</div>
+<!-- ============ PARTIE 8 ============ -->
+<div class="part-divider"><span class="part-tag">PARTIE 8</span><h2 class="part-title">Outillage professionnel</h2></div>
+<p class="part-intro">Les outils qui transforment du code qui marche sur ta machine en un projet fiable, partagé et automatisé : une ligne de commande soignée, une architecture claire, et un pipeline d'intégration continue.</p>
+
+<!-- ============ MODULE m31 ============ -->
+<!-- ============ MODULE (nouveau) CLI professionnel ============ -->
+<section class="module" id="m31">
+  <div class="mod-eyebrow">Partie 8 · Module 31</div>
+  <h2 class="mod-title">Construire une ligne de commande professionnelle</h2>
+  <p>Le module 16 a couvert l'utilisation de la ligne de commande. Ce module va plus loin : comment <strong>construire</strong> un outil en ligne de commande soi-même — le genre de script qu'une équipe QA écrit pour automatiser des vérifications répétées (nettoyer des fixtures de test, générer un rapport, vérifier un environnement avant de lancer une suite).</p>
+
+  <h3><code>argparse</code> : la base de la bibliothèque standard</h3>
+  <p class="code-label">Un outil qui vérifie l'état d'un environnement de test NovaCart</p>
+  <pre>import argparse
+
+def main():
+    parser = argparse.ArgumentParser(description="Vérifie un environnement de test NovaCart")
+    parser.add_argument("environnement", choices=["dev", "staging", "prod"])
+    parser.add_argument("--timeout", type=int, default=30, help="Délai en secondes")
+    parser.add_argument("--verbose", action="store_true", help="Affiche le détail")
+    args = parser.parse_args()
+
+    print(f"Vérification de {args.environnement} (timeout={args.timeout}s)")
+    if args.verbose:
+        print("Mode verbeux activé")
+
+if __name__ == "__main__":
+    main()</pre>
+  <p><code>argparse</code> génère automatiquement <code>--help</code>, valide les choix autorisés, et convertit les types — un script qui prend des arguments "à la main" via <code>sys.argv</code> réinvente mal ce qui existe déjà, sans validation ni messages d'erreur clairs.</p>
+
+  <h3>Sous-commandes : plusieurs actions dans un seul outil</h3>
+  <p>Un outil réel a souvent plusieurs commandes (<code>git commit</code>, <code>git push</code>). <code>argparse</code> le permet via des sous-parseurs :</p>
+  <pre>parser = argparse.ArgumentParser(prog="novacart-qa")
+sous_commandes = parser.add_subparsers(dest="commande", required=True)
+
+parser_verif = sous_commandes.add_parser("verifier", help="Vérifie un environnement")
+parser_verif.add_argument("environnement")
+
+parser_nettoie = sous_commandes.add_parser("nettoyer", help="Nettoie les fixtures de test")
+parser_nettoie.add_argument("--force", action="store_true")
+
+args = parser.parse_args()
+if args.commande == "verifier":
+    verifier(args.environnement)
+elif args.commande == "nettoyer":
+    nettoyer(force=args.force)</pre>
+
+  <h3>Codes de sortie : le contrat avec le système</h3>
+  <p>Un script appelé depuis une CI (module 33) ou un autre script doit signaler son succès ou son échec par son <strong>code de sortie</strong> — <code>0</code> pour un succès, une valeur non nulle pour un échec — pas seulement par un message affiché que personne ne lira dans un pipeline automatisé.</p>
+  <pre>import sys
+
+def main():
+    if not verifier(args.environnement):
+        print("Échec de la vérification", file=sys.stderr)
+        sys.exit(1)     # code non nul : la CI sait que ça a échoué
+    sys.exit(0)</pre>
+
+  <div class="callout">
+    <div class="callout-label">Click ou Typer, pour aller plus loin</div>
+    <p>Pour des CLI plus riches, les bibliothèques tierces <strong>Click</strong> et <strong>Typer</strong> (basé sur les type hints du module 30) réduisent le code répétitif et gèrent nativement les sous-commandes, la coloration, la complétion shell. <code>argparse</code> reste néanmoins la bonne base à connaître : il est présent partout sans dépendance supplémentaire, et les concepts (arguments, options, sous-commandes, codes de sortie) sont identiques d'un outil à l'autre.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>Écris un script <code>argparse</code> avec une commande <code>compter</code> qui prend un argument positionnel <code>fichier</code> (chemin d'un fichier texte) et une option <code>--lignes</code> (booléenne, <code>store_true</code>) qui, si présente, affiche le nombre de lignes du fichier plutôt que le nombre de caractères.</p>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre>import argparse
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("fichier")
+    parser.add_argument("--lignes", action="store_true")
+    args = parser.parse_args()
+
+    with open(args.fichier, encoding="utf-8") as f:
+        contenu = f.read()
+
+    if args.lignes:
+        print(len(contenu.splitlines()))
+    else:
+        print(len(contenu))
+
+if __name__ == "__main__":
+    main()</pre>
+        <p>L'usage devient <code>python compter.py rapport.txt --lignes</code>. Le contexte manager <code>with open(...)</code> (module 12) garantit que le fichier est fermé même si la lecture échoue.</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m31"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+<!-- ============ MODULE m32 ============ -->
+<!-- ============ MODULE (nouveau) Architecture de projet ============ -->
+<section class="module" id="m32">
+  <div class="mod-eyebrow">Partie 8 · Module 32</div>
+  <h2 class="mod-title">Organiser un projet Python</h2>
+  <p>Un script de quelques lignes n'a pas besoin de structure. Un projet qui grossit — plusieurs fichiers, des tests, une CLI (module 31), une CI (module 33) — en a besoin, et une mauvaise organisation coûte cher à corriger une fois le projet avancé.</p>
+
+  <h3>Le "src layout"</h3>
+  <p>Deux façons courantes de structurer un projet : le code directement à la racine ("flat layout"), ou dans un dossier <code>src/</code> ("src layout"). Le second est aujourd'hui recommandé car il empêche d'importer accidentellement le code non installé — une erreur fréquente qui masque de vrais problèmes d'import lorsqu'on teste un package avant de l'installer correctement.</p>
+  <pre>novacart-qa/
+├── pyproject.toml          # module 10
+├── README.md
+├── src/
+│   └── novacart_qa/
+│       ├── __init__.py
+│       ├── verification.py
+│       ├── cli.py          # module 31
+│       └── clients/
+│           ├── __init__.py
+│           └── api.py      # module 37
+└── tests/
+    ├── conftest.py
+    ├── test_verification.py
+    └── test_cli.py</pre>
+  <p>Les tests vivent dans un dossier <code>tests/</code> séparé du code source, jamais mélangés — <code>pytest</code> (module 20) les découvre automatiquement sans qu'ils polluent le package installé.</p>
+
+  <h3>La direction des dépendances</h3>
+  <p>Une règle simple évite la plupart des <strong>imports circulaires</strong> : les modules de bas niveau (accès aux données, clients API) ne doivent jamais importer les modules de haut niveau (logique métier, CLI) qui les utilisent — la dépendance va dans un seul sens.</p>
+  <p class="code-label">Import circulaire : deux modules qui dépendent l'un de l'autre</p>
+  <pre># verification.py
+from .rapport import generer_rapport   # verification dépend de rapport
+
+# rapport.py
+from .verification import Verification  # rapport dépend de verification
+# ImportError au chargement : dépendance circulaire</pre>
+  <p>La correction typique : extraire ce dont les deux ont besoin (souvent une classe de données ou une interface, module 13) dans un troisième module que les deux importent, sans dépendre l'un de l'autre.</p>
+
+  <h3>Le rôle de <code>__init__.py</code></h3>
+  <p>Un <code>__init__.py</code> (même vide) marque un dossier comme package Python importable. Il sert aussi à définir l'API publique d'un package — ce qu'un fichier <code>from novacart_qa import Verification</code> peut réellement importer, sans exposer les détails internes de chaque sous-module.</p>
+  <pre># src/novacart_qa/__init__.py
+from .verification import Verification
+from .cli import main
+
+__all__ = ["Verification", "main"]   # ce que "from novacart_qa import *" expose</pre>
+
+  <div class="callout">
+    <div class="callout-label">Le bon moment pour structurer</div>
+    <p>Structurer un script de 30 lignes en package avec <code>src/</code>, sous-modules et <code>__init__.py</code> est de la sur-ingénierie. Le signal à surveiller : le projet devient difficile à naviguer, ou un import commence à casser de façon inattendue — c'est à ce moment que la structure apporte une vraie valeur, pas avant.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>Un projet a deux fichiers : <code>calculs.py</code> qui importe une fonction de formatage depuis <code>affichage.py</code>, et <code>affichage.py</code> qui importe une constante <code>TAUX_TVA</code> depuis <code>calculs.py</code> — une dépendance circulaire. Propose une réorganisation en trois fichiers qui élimine le cycle.</p>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre># constantes.py — aucune dépendance
+TAUX_TVA = 0.20
+
+# calculs.py — dépend uniquement de constantes
+from .constantes import TAUX_TVA
+
+def prix_ttc(prix_ht):
+    return prix_ht * (1 + TAUX_TVA)
+
+# affichage.py — dépend de calculs, jamais l'inverse
+from .calculs import prix_ttc
+
+def formater_prix(prix_ht):
+    return f"{prix_ttc(prix_ht):.2f} €"</pre>
+        <p><code>constantes.py</code> ne dépend de rien, <code>calculs.py</code> ne dépend que de <code>constantes</code>, et <code>affichage.py</code> ne dépend que de <code>calculs</code> — la dépendance circule dans un seul sens, du plus général vers le plus spécifique.</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m32"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+<!-- ============ MODULE m33 ============ -->
+<!-- ============ MODULE (nouveau) CI/CD Python ============ -->
+<section class="module" id="m33">
+  <div class="mod-eyebrow">Partie 8 · Module 33</div>
+  <h2 class="mod-title">CI/CD pour un projet Python</h2>
+  <p>Le module 9 du cours "Qualité Logicielle Automatisée" a introduit CI/CD dans les grandes lignes. Ce module montre concrètement à quoi ressemble un pipeline pour un projet Python — celui que tu utiliseras réellement en poste de testeur QA sur un dépôt qui contient des tests automatisés.</p>
+
+  <h3>Un workflow GitHub Actions minimal</h3>
+  <p class="code-label">.github/workflows/ci.yml</p>
+  <pre>name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+      - run: pip install -e ".[dev]"
+      - run: ruff check .
+      - run: ruff format --check .
+      - run: pytest --cov=src --cov-report=term-missing</pre>
+  <p>Ce pipeline se déclenche à chaque <code>push</code> et chaque pull request. La <strong>matrice</strong> (<code>matrix</code>) fait tourner la même suite sur plusieurs versions de Python en parallèle — utile pour détecter qu'une fonctionnalité récente casse sur une version plus ancienne encore supportée. <code>cache: "pip"</code> évite de retélécharger les dépendances à chaque exécution.</p>
+
+  <h3>La chaîne de qualité, dans l'ordre</h3>
+  <div class="table-scroll"><table>
+    <tr><th>Étape</th><th>Rôle</th><th>Échoue si...</th></tr>
+    <tr><td><code>ruff check</code></td><td>Lint : détecte les erreurs et mauvaises pratiques</td><td>Import inutilisé, variable non définie, style incohérent</td></tr>
+    <tr><td><code>ruff format --check</code></td><td>Vérifie le formatage sans le modifier</td><td>Le code n'a pas été formaté avec l'outil du projet</td></tr>
+    <tr><td><code>mypy</code> (module 30)</td><td>Vérifie les types statiquement</td><td>Incohérence entre les type hints et l'usage réel</td></tr>
+    <tr><td><code>pytest</code></td><td>Exécute la suite de tests</td><td>Un test échoue — la porte la plus stricte</td></tr>
+  </table></div>
+  <p>Ces étapes s'arrêtent à la première qui échoue (<code>fail fast</code>) : inutile de lancer une suite de tests longue de dix minutes si le code ne passe même pas le lint, qui prend deux secondes.</p>
+
+  <h3>Le badge de statut et la protection de branche</h3>
+  <p>Un badge dans le <code>README</code> (<code>![CI](.../ci.yml/badge.svg)</code>) affiche en un coup d'œil si la branche principale est verte. En pratique, une équipe configure aussi une <strong>règle de protection de branche</strong> sur <code>main</code> : impossible de fusionner une pull request tant que le workflow CI n'est pas passé — le pipeline devient un vrai gardien, pas une simple information.</p>
+
+  <div class="callout">
+    <div class="callout-label">CI locale avant de pousser</div>
+    <p>Faire tourner <code>ruff check</code> et <code>pytest</code> localement avant de pousser (ou via un hook <code>pre-commit</code>) évite l'aller-retour lent d'attendre que la CI distante échoue pour découvrir une erreur de lint triviale. La CI distante reste le filet de sécurité final — pas le premier retour qu'on devrait recevoir.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>Le job CI ci-dessus lance <code>ruff format --check</code> avant <code>pytest</code>. Explique en deux phrases pourquoi cet ordre (lint et format avant les tests) est préférable à l'ordre inverse, en te basant sur le principe "fail fast".</p>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <p>Le lint et le format sont rapides (quelques secondes) alors qu'une suite de tests peut prendre plusieurs minutes. En les plaçant en premier, une erreur triviale de style est signalée immédiatement, sans attendre l'exécution complète des tests — ce qui économise du temps de calcul et donne un retour plus rapide à la personne qui a poussé le code. L'ordre inverse ferait attendre la suite complète pour finalement échouer sur un problème qui aurait pu être détecté en une seconde.</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m33"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+<!-- ============ PARTIE 9 ============ -->
+<div class="part-divider"><span class="part-tag">PARTIE 9</span><h2 class="part-title">Concurrence, performance et données</h2></div>
+<p class="part-intro">Ce qui devient nécessaire quand un programme doit être rapide, gérer plusieurs choses à la fois, ou parler à un service ou une base de données externes.</p>
+
+<!-- ============ MODULE m34 ============ -->
+<!-- ============ MODULE (nouveau) Performance et profiling ============ -->
+<section class="module" id="m34">
+  <div class="mod-eyebrow">Partie 9 · Module 34</div>
+  <h2 class="mod-title">Performance et profiling</h2>
+  <p>"Optimiser" du code sans mesurer d'abord est un des pièges les plus fréquents en développement — on passe du temps à accélérer une partie du code qui n'était pas le goulot d'étranglement. Ce module donne les outils pour mesurer avant d'agir.</p>
+
+  <h3>Mesurer avant d'optimiser</h3>
+  <p class="code-label"><code>timeit</code> : comparer deux implémentations</p>
+  <pre>import timeit
+
+def avec_boucle(n):
+    resultat = []
+    for i in range(n):
+        resultat.append(i * i)
+    return resultat
+
+def avec_comprehension(n):
+    return [i * i for i in range(n)]   # module 8
+
+print(timeit.timeit(lambda: avec_boucle(10_000), number=100))
+print(timeit.timeit(lambda: avec_comprehension(10_000), number=100))
+# La compréhension de liste est presque toujours plus rapide en pratique</pre>
+
+  <h3><code>cProfile</code> : trouver le vrai goulot d'étranglement</h3>
+  <p>Sur un programme entier plutôt qu'une seule fonction isolée, <code>cProfile</code> indique où le temps est réellement passé — souvent une surprise par rapport à l'intuition.</p>
+  <pre>python -m cProfile -s cumulative generer_rapport.py
+
+         120043 function calls in 2.341 seconds
+   Ordered by: cumulative time
+   ncalls  tottime  cumtime  filename:lineno(function)
+        1    0.002    2.341  generer_rapport.py:1(main)
+      500    2.180    2.180  requetes.py:12(appeler_api)   ← le vrai goulot
+    10000    0.089    0.089  formatage.py:5(formater_ligne)</pre>
+  <p>Ici, 93% du temps est passé dans les appels réseau (<code>appeler_api</code>), pas dans le formatage — optimiser <code>formater_ligne</code> n'aurait quasiment aucun effet visible, alors que réduire ou paralléliser les appels API (module 35, asyncio) résoudrait le vrai problème.</p>
+
+  <h3>Trois erreurs de performance fréquentes</h3>
+  <div class="table-scroll"><table>
+    <tr><th>Erreur</th><th>Pourquoi c'est lent</th><th>Alternative</th></tr>
+    <tr><td>Concaténer des chaînes dans une boucle avec <code>+=</code></td><td>Chaque concaténation recrée une nouvelle chaîne en mémoire</td><td><code>"".join(liste_de_chaines)</code></td></tr>
+    <tr><td>Chercher un élément dans une liste avec <code>in</code>, en boucle</td><td>Recherche en O(n) à chaque appel</td><td>Convertir en <code>set</code> (recherche en O(1) en moyenne, module 18)</td></tr>
+    <tr><td>Charger un fichier volumineux entier en mémoire</td><td>Consomme toute la RAM pour rien si on traite ligne par ligne</td><td>Itérer avec un générateur (module 28)</td></tr>
+  </table></div>
+
+  <div class="callout">
+    <div class="callout-label">La règle des 80/20</div>
+    <p>En pratique, une petite partie du code (souvent moins de 20%) consomme la grande majorité du temps d'exécution. Profiler avant d'optimiser évite de passer des heures à accélérer du code qui ne représentait déjà que 0,1% du temps total — un gain invisible pour un coût réel en lisibilité du code.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>Cette fonction vérifie si un identifiant de commande fait partie d'une liste de commandes à surveiller, appelée pour chaque commande d'un lot de 50 000. Explique pourquoi elle est lente à grande échelle, et corrige-la.</p>
+    <pre>COMMANDES_A_SURVEILLER = [f"CMD-{i}" for i in range(5000)]   # liste
+
+def est_a_surveiller(id_commande):
+    return id_commande in COMMANDES_A_SURVEILLER</pre>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre>COMMANDES_A_SURVEILLER = {f"CMD-{i}" for i in range(5000)}   # set, pas liste
+
+def est_a_surveiller(id_commande):
+    return id_commande in COMMANDES_A_SURVEILLER</pre>
+        <p>Avec une liste, chaque <code>in</code> parcourt jusqu'à 5000 éléments un par un (O(n)) — répété 50 000 fois, cela fait jusqu'à 250 millions de comparaisons. Un <code>set</code> teste l'appartenance en temps quasi constant (O(1) en moyenne) grâce à sa structure de hachage, ce qui rend l'opération globale des milliers de fois plus rapide sans changer la logique.</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m34"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+<!-- ============ MODULE m35 ============ -->
+<!-- ============ MODULE (nouveau) asyncio ============ -->
+<section class="module" id="m35">
+  <div class="mod-eyebrow">Partie 9 · Module 35</div>
+  <h2 class="mod-title">asyncio et la concurrence</h2>
+  <p>Quand un programme attend beaucoup — des réponses réseau, par exemple — il passe le plus clair de son temps inactif. <code>asyncio</code> permet d'exécuter plusieurs de ces attentes <strong>en même temps</strong> plutôt que l'une après l'autre, sans utiliser plusieurs threads.</p>
+
+  <h3>Le problème : des appels API en série</h3>
+  <p class="code-label">Séquentiel : chaque appel attend le précédent</p>
+  <pre>import requests, time
+
+def verifier_tous(urls):
+    resultats = []
+    for url in urls:
+        resultats.append(requests.get(url).status_code)
+    return resultats
+
+# 10 URLs à 300ms chacune ≈ 3 secondes, en attendant chaque réponse l'une après l'autre</pre>
+
+  <h3><code>async</code> / <code>await</code> : attendre sans bloquer</h3>
+  <pre>import asyncio, httpx
+
+async def verifier_une(client, url):
+    reponse = await client.get(url)          # rend la main pendant l'attente réseau
+    return reponse.status_code
+
+async def verifier_tous(urls):
+    async with httpx.AsyncClient() as client:
+        taches = [verifier_une(client, url) for url in urls]
+        return await asyncio.gather(*taches)  # exécute les 10 appels en concurrence
+
+resultats = asyncio.run(verifier_tous(urls))
+# Les 10 appels partent quasiment en même temps ≈ 300ms au lieu de 3 secondes</pre>
+  <p><code>await</code> ne bloque pas le programme : pendant qu'une requête attend sa réponse réseau, l'<strong>event loop</strong> d'<code>asyncio</code> peut avancer sur une autre tâche. <code>asyncio.gather</code> lance plusieurs coroutines et attend qu'elles se terminent toutes.</p>
+
+  <h3>Concurrence, pas parallélisme</h3>
+  <p><code>asyncio</code> tourne sur un seul thread : il ne fait jamais deux calculs en même temps, il alterne intelligemment entre des tâches qui attendent. C'est excellent pour des opérations <strong>I/O-bound</strong> (réseau, disque) où le temps est passé à attendre — inutile pour des calculs <strong>CPU-bound</strong> (module 36) où il n'y a pas d'attente à combler.</p>
+
+  <div class="callout">
+    <div class="callout-label">Où ça sert vraiment en QA</div>
+    <p>Un cas d'usage concret : vérifier que 50 endpoints d'une API répondent correctement. En séquentiel, un test lent à 300ms par appel prend 15 secondes. En concurrent avec <code>asyncio.gather</code>, il peut descendre sous la seconde — une différence qui compte directement sur le temps d'exécution d'une suite de tests.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>Écris une fonction <code>async</code> <code>attendre_et_doubler(n)</code> qui attend <code>0.1</code> seconde (<code>await asyncio.sleep(0.1)</code>) puis renvoie <code>n * 2</code>. Écris ensuite une fonction qui l'appelle en concurrence sur <code>[1, 2, 3]</code> avec <code>asyncio.gather</code> et affiche le résultat.</p>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre>import asyncio
+
+async def attendre_et_doubler(n):
+    await asyncio.sleep(0.1)
+    return n * 2
+
+async def main():
+    resultats = await asyncio.gather(
+        attendre_et_doubler(1),
+        attendre_et_doubler(2),
+        attendre_et_doubler(3),
+    )
+    print(resultats)   # [2, 4, 6]
+
+asyncio.run(main())</pre>
+        <p>Les trois appels attendent chacun 0,1 seconde, mais comme ils s'exécutent en concurrence via <code>gather</code>, le programme entier prend environ 0,1 seconde au total — pas 0,3 seconde comme s'ils étaient appelés l'un après l'autre.</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m35"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+<!-- ============ MODULE m36 ============ -->
+<!-- ============ MODULE (nouveau) Threading/multiprocessing/GIL ============ -->
+<section class="module" id="m36">
+  <div class="mod-eyebrow">Partie 9 · Module 36</div>
+  <h2 class="mod-title">Threading, multiprocessing et le GIL</h2>
+  <p>Le module précédent a montré <code>asyncio</code> pour la concurrence I/O-bound sur un seul thread. Ce module couvre les deux autres outils de parallélisme de Python — et explique pourquoi le choix entre eux dépend d'une contrainte particulière au langage : le GIL.</p>
+
+  <h3>Le GIL, en une explication concrète</h3>
+  <p>Le <strong>Global Interpreter Lock</strong> (GIL) est un verrou interne à l'interpréteur CPython qui garantit qu'<strong>un seul thread exécute du bytecode Python à la fois</strong>, même sur une machine à plusieurs cœurs. Conséquence directe : le module <code>threading</code> n'accélère jamais un calcul pur Python, quel que soit le nombre de threads lancés.</p>
+
+  <h3>Threading : utile pour l'attente, pas le calcul</h3>
+  <pre>import threading, time
+
+def telecharger(url, resultats, index):
+    time.sleep(0.5)              # simule une attente réseau — le GIL est relâché ici
+    resultats[index] = f"contenu de {url}"
+
+urls = ["url1", "url2", "url3"]
+resultats = [None] * len(urls)
+threads = [threading.Thread(target=telecharger, args=(u, resultats, i)) for i, u in enumerate(urls)]
+for t in threads: t.start()
+for t in threads: t.join()
+# ≈ 0.5s au total, pas 1.5s : le GIL est relâché pendant les opérations d'I/O (réseau, disque)</pre>
+  <p>Le GIL est relâché pendant les opérations bloquantes (réseau, disque, <code>time.sleep</code>) — c'est pour cela que <code>threading</code> aide bien pour des tâches d'I/O, exactement comme <code>asyncio</code>, mais avec un modèle de programmation différent (pas d'<code>async</code>/<code>await</code>).</p>
+
+  <h3>Multiprocessing : contourner le GIL pour du vrai calcul</h3>
+  <pre>from concurrent.futures import ProcessPoolExecutor
+
+def calcul_lourd(n):
+    return sum(i * i for i in range(n))   # CPU-bound : aucune attente à combler
+
+with ProcessPoolExecutor() as executor:
+    resultats = list(executor.map(calcul_lourd, [10_000_000] * 4))
+# Chaque processus a son propre interpréteur Python et son propre GIL :
+# les 4 calculs tournent vraiment en parallèle sur 4 cœurs</pre>
+  <p><code>multiprocessing</code> lance des <strong>processus</strong> séparés, chacun avec sa propre mémoire et son propre GIL — un vrai parallélisme, au prix d'un coût de démarrage plus élevé et de données qui doivent être sérialisées pour passer d'un processus à l'autre.</p>
+
+  <h3>Choisir le bon outil</h3>
+  <div class="table-scroll"><table>
+    <tr><th>Situation</th><th>Outil</th></tr>
+    <tr><td>Beaucoup d'attente réseau, code déjà écrit en <code>async</code></td><td><code>asyncio</code> (module 35)</td></tr>
+    <tr><td>Beaucoup d'attente réseau/disque, code existant non asynchrone</td><td><code>threading</code></td></tr>
+    <tr><td>Calcul intensif (CPU-bound) : traitement d'image, calcul numérique</td><td><code>multiprocessing</code></td></tr>
+  </table></div>
+
+  <div class="callout">
+    <div class="callout-label">Le piège classique</div>
+    <p>Utiliser <code>threading</code> pour accélérer un calcul CPU-bound est l'erreur la plus fréquente sur ce sujet : le GIL empêche tout gain, et le code devient plus complexe pour rien. Vérifier d'abord si la tâche est I/O-bound (attente) ou CPU-bound (calcul) est la question qui détermine le bon outil.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>Une équipe QA doit (1) appeler 20 endpoints d'API différents pour vérifier leur disponibilité, et (2) calculer une somme de contrôle (checksum) sur 20 gros fichiers locaux. Pour chaque tâche, indique si <code>threading</code> ou <code>multiprocessing</code> est le plus adapté, et pourquoi.</p>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <p><strong>(1) Appeler 20 endpoints</strong> : I/O-bound — la majorité du temps est passée à attendre le réseau. <code>threading</code> (ou <code>asyncio</code>) convient bien : le GIL est relâché pendant l'attente réseau, donc les 20 appels peuvent réellement se chevaucher dans le temps.</p>
+        <p><strong>(2) Calculer un checksum sur 20 fichiers</strong> : CPU-bound — le calcul du checksum sollicite le processeur en continu, sans attente à combler. <code>threading</code> n'apporterait aucun gain à cause du GIL ; <code>multiprocessing</code> permet de répartir réellement les 20 calculs sur plusieurs cœurs.</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m36"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+<!-- ============ MODULE m37 ============ -->
+<!-- ============ MODULE (nouveau) Ingenierie API cote client ============ -->
+<section class="module" id="m37">
+  <div class="mod-eyebrow">Partie 9 · Module 37</div>
+  <h2 class="mod-title">Ingénierie API côté client</h2>
+  <p>Le cours "Qualité Logicielle Automatisée" couvre le test d'API. Ce module aborde l'autre face : écrire un <strong>client</strong> Python robuste pour consommer une API — ce qu'un outil d'automatisation ou un script de vérification fait en permanence.</p>
+
+  <h3>Le strict minimum ne suffit pas</h3>
+  <p class="code-label">Fragile : aucune gestion d'erreur</p>
+  <pre>import requests
+
+def recuperer_commande(id_commande):
+    reponse = requests.get(f"https://api.novacart.com/commandes/{id_commande}")
+    return reponse.json()   # plante si le réseau échoue, si le JSON est invalide, si le statut est une erreur</pre>
+  <p>Ce code suppose que le réseau répond toujours, instantanément, avec du JSON valide. En pratique, un réseau peut être lent, une API peut renvoyer une erreur 500, ou ne jamais répondre — un client robuste doit gérer ces trois cas explicitement.</p>
+
+  <h3>Timeouts, retries et gestion des statuts</h3>
+  <pre>import requests
+from requests.adapters import HTTPAdapter, Retry
+
+def creer_session():
+    session = requests.Session()
+    retries = Retry(total=3, backoff_factor=0.5, status_forcelist=[500, 502, 503])
+    session.mount("https://", HTTPAdapter(max_retries=retries))
+    return session
+
+def recuperer_commande(id_commande, session):
+    try:
+        reponse = session.get(
+            f"https://api.novacart.com/commandes/{id_commande}",
+            timeout=5,                       # jamais d'appel sans timeout
+        )
+        reponse.raise_for_status()           # lève une exception sur 4xx/5xx (module 11)
+        return reponse.json()
+    except requests.exceptions.Timeout:
+        raise RuntimeError(f"L'API n'a pas répondu en 5s pour la commande {id_commande}")
+    except requests.exceptions.HTTPError as e:
+        raise RuntimeError(f"Erreur API ({reponse.status_code}) pour {id_commande}") from e</pre>
+  <p>Trois protections essentielles : un <strong>timeout</strong> explicite (jamais d'attente infinie), des <strong>retries</strong> automatiques avec backoff progressif pour les erreurs temporaires (5xx), et <code>raise_for_status()</code> pour transformer un statut d'erreur HTTP en exception Python explicite plutôt qu'un JSON silencieusement incohérent.</p>
+
+  <h3>Réutiliser une session</h3>
+  <p>Créer une <code>requests.Session()</code> une fois et la réutiliser pour tous les appels (plutôt qu'un <code>requests.get</code> à chaque fois) réutilise la connexion TCP sous-jacente — un gain de performance réel sur un client qui fait beaucoup d'appels, dans le même esprit que la performance mesurée au module 34.</p>
+
+  <div class="callout">
+    <div class="callout-label">Isoler le client pour le tester</div>
+    <p>Encapsuler les appels API dans une classe ou un module dédié (module 32 — architecture) rend le reste du code testable avec un mock (module 21) plutôt que dépendant d'un vrai réseau à chaque exécution de test — le même principe d'inversion des dépendances que le module 14 (SOLID).</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>Cette fonction ne gère aucune erreur. Ajoute un <code>timeout</code> de 3 secondes et transforme toute erreur réseau ou statut HTTP en erreur en levant une <code>RuntimeError</code> avec un message clair.</p>
+    <pre>def verifier_stock(id_produit):
+    reponse = requests.get(f"https://api.novacart.com/stock/{id_produit}")
+    return reponse.json()["quantite"]</pre>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre>def verifier_stock(id_produit):
+    try:
+        reponse = requests.get(f"https://api.novacart.com/stock/{id_produit}", timeout=3)
+        reponse.raise_for_status()
+        return reponse.json()["quantite"]
+    except requests.exceptions.Timeout:
+        raise RuntimeError(f"Timeout en vérifiant le stock du produit {id_produit}")
+    except requests.exceptions.RequestException as e:
+        raise RuntimeError(f"Impossible de vérifier le stock du produit {id_produit}") from e</pre>
+        <p><code>requests.exceptions.RequestException</code> est la classe de base de toutes les erreurs réseau de <code>requests</code> — l'attraper capture les erreurs de connexion, DNS, et statuts HTTP en un seul bloc, tout en gardant le <code>Timeout</code> séparé pour un message plus précis.</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m37"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+<!-- ============ MODULE m38 ============ -->
+<!-- ============ MODULE (nouveau) Python et bases de donnees ============ -->
+<section class="module" id="m38">
+  <div class="mod-eyebrow">Partie 9 · Module 38</div>
+  <h2 class="mod-title">Python et les bases de données</h2>
+  <p>Le cours "Qualité Logicielle Automatisée" couvre SQL. Ce module montre comment interagir avec une base de données <strong>depuis Python</strong> — utile pour vérifier l'état d'une base après un test, ou préparer des données de test.</p>
+
+  <h3><code>sqlite3</code> : intégré, sans installation</h3>
+  <pre>import sqlite3
+
+with sqlite3.connect("novacart.db") as connexion:   # context manager : commit/rollback auto
+    curseur = connexion.cursor()
+    curseur.execute(
+        "SELECT id, statut FROM commandes WHERE client_id = ?", (42,)
+    )
+    for id_commande, statut in curseur.fetchall():
+        print(id_commande, statut)</pre>
+  <p><code>sqlite3</code> fait partie de la bibliothèque standard — aucune installation nécessaire, une base entière tient dans un seul fichier. Excellent pour des tests, des scripts, ou des prototypes ; une base comme PostgreSQL prend le relais pour une application en production avec plusieurs utilisateurs concurrents.</p>
+
+  <h3>Requêtes paramétrées : la seule façon sûre</h3>
+  <p class="code-label">Dangereux : injection SQL (voir aussi module 27, cybersécurité)</p>
+  <pre>id_client = input("ID client : ")
+curseur.execute(f"SELECT * FROM commandes WHERE client_id = {id_client}")
+# Une entrée comme "1 OR 1=1" renvoie TOUTES les commandes, pas seulement celles du client 1</pre>
+  <p class="code-label">Sûr : le paramètre est transmis séparément de la requête</p>
+  <pre>curseur.execute("SELECT * FROM commandes WHERE client_id = ?", (id_client,))
+# Le pilote traite id_client comme une donnée, jamais comme du SQL exécutable</pre>
+  <p>La règle est absolue, sans exception : ne <strong>jamais</strong> construire une requête SQL par concaténation ou f-string avec une valeur venant de l'utilisateur ou d'une source externe — toujours passer par les paramètres (<code>?</code> avec <code>sqlite3</code>, <code>%s</code> avec d'autres pilotes).</p>
+
+  <h3>Un aperçu des ORM</h3>
+  <p>Un ORM (Object-Relational Mapper) comme <strong>SQLAlchemy</strong> représente les lignes d'une table comme des objets Python, évitant d'écrire du SQL brut pour les opérations courantes :</p>
+  <pre>from sqlalchemy import select
+from sqlalchemy.orm import Session
+
+with Session(moteur) as session:
+    commandes = session.scalars(
+        select(Commande).where(Commande.client_id == 42)
+    ).all()
+    for commande in commandes:
+        print(commande.id, commande.statut)   # objet Python, pas un tuple brut</pre>
+  <p>Un ORM protège nativement contre l'injection SQL (les paramètres passent toujours par des valeurs liées) et rend le code plus proche du reste de la base orientée objet — au prix d'une couche d'abstraction supplémentaire à comprendre pour déboguer une requête lente ou inattendue.</p>
+
+  <div class="callout">
+    <div class="callout-label">Toujours fermer la connexion</div>
+    <p>Utiliser <code>with sqlite3.connect(...)</code> (module 12) garantit que la transaction est validée (<code>commit</code>) ou annulée (<code>rollback</code>) automatiquement, et que la connexion se libère même si une exception survient au milieu de la requête — une connexion oubliée ouverte finit par épuiser les connexions disponibles sur une base partagée.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>Cette fonction est vulnérable à l'injection SQL. Corrige-la en utilisant une requête paramétrée.</p>
+    <pre>def chercher_commande(id_commande):
+    curseur.execute(f"SELECT * FROM commandes WHERE id = {id_commande}")
+    return curseur.fetchone()</pre>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+        <pre>def chercher_commande(id_commande):
+    curseur.execute("SELECT * FROM commandes WHERE id = ?", (id_commande,))
+    return curseur.fetchone()</pre>
+        <p>Le paramètre <code>?</code> est toujours transmis comme une donnée au pilote SQLite, jamais interprété comme du SQL — même si <code>id_commande</code> contenait une chaîne malveillante comme <code>"1; DROP TABLE commandes"</code>, elle serait traitée comme une simple valeur de comparaison, sans effet destructeur.</p>
+      </div>
+    </details>
+  </div>
+
+  <button class="done-toggle" data-toggle="m38"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+<div class="part-divider"><span class="part-tag">PARTIE 10</span><h2 class="part-title">Conclusion</h2></div>
+
+<!-- ============ MODULE m39 ============ -->
+<section class="module" id="m39">
+  <div class="mod-eyebrow">Partie 10 · Module 39</div>
   <h2 class="mod-title">Feuille de route et prochaines étapes</h2>
   <p>Regarde le chemin parcouru. Il y a quelques semaines ou quelques mois, <code>print("Hello, world!")</code> était peut-être la première ligne de Python que tu écrivais. Depuis, tu as manipulé des variables, des boucles, des fonctions, des fichiers, des dictionnaires imbriqués représentant des commandes NovaCart. Tu as touché aux tests automatisés, à Git, à SQL, à l'API, et tu viens de terminer trois projets guidés qui ressemblent, en plus petit, à ce qu'un vrai poste de testeur QA implique au quotidien. Ce n'est pas rien — et ça mérite d'être reconnu avant de regarder vers la suite.</p>
 
@@ -3380,7 +4541,7 @@ def appliquer_reduction(prix: float, pourcentage: float, stock: int) -> float:
       <summary>Voir la correction</summary>
       <div class="exercise-solution-body">
         <pre>Étape 1 (semaine 1) :
-Reprendre les exercices des modules 21 à 23 et en choisir un pour
+Reprendre les exercices des modules 24 à 26 et en choisir un pour
 en faire un petit projet personnel, en l'étendant avec une idée à moi.
 
 Étape 2 (semaines 2-3) :
@@ -3397,7 +4558,7 @@ l'ISTQB Foundation pour voir si ça correspond à mes objectifs.</pre>
     </details>
   </div>
 
-  <button class="done-toggle" data-toggle="m28"><span class="box"></span> Marquer ce module comme terminé</button>
+  <button class="done-toggle" data-toggle="m39"><span class="box"></span> Marquer ce module comme terminé</button>
 </section>
     <div class="footer-note">
       <p>Cours rédigé comme fondation du cours "Qualité Logicielle Automatisée" — même méthode, même esprit pratique. Le suivi de progression (cases à cocher) est enregistré uniquement dans ce navigateur.</p>
@@ -3409,7 +4570,7 @@ l'ISTQB Foundation pour voir si ça correspond à mes objectifs.</pre>
 <script>
 (function(){
   var STORAGE_KEY = 'python-course-progress-v1';
-  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','m15','m16','m17','m18','m19','m20','m21','m22','m23','m24','m25','m26','m27','m28'];
+  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','m15','m16','m17','m18','m19','m20','m21','m22','m23','m24','m25','m26','m27','m28','m29','m30','m31','m32','m33','m34','m35','m36','m37','m38','m39'];
 
   function loadDone(){
     try{
