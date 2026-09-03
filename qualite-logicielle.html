@@ -542,7 +542,7 @@
         <span class="stat-chip"><b>11</b> niveaux de progression</span>
         <span class="stat-chip">Outil principal : <b>Playwright</b></span>
         <span class="stat-chip">Langage de référence : <b>Python</b> (+ TypeScript)</span>
-        <span class="stat-chip"><b>50</b> exercices corrigés</span>
+        <span class="stat-chip"><b>53</b> exercices corrigés</span>
       </div>
     </header>
 
@@ -1220,6 +1220,74 @@ test('la connexion renvoie 401 pour un mauvais mot de passe', async ({ request }
         </details>
       </div>
 
+
+      <h3>Enchaîner des appels avec des données dynamiques</h3>
+      <p>Un test API réaliste ne s'arrête presque jamais à un seul appel isolé : il crée une ressource, récupère l'identifiant renvoyé par le serveur, puis l'utilise dans les appels suivants — impossible de coder cet identifiant en dur puisqu'il change à chaque exécution.</p>
+      <p class="code-label">tests/test_commande_chainee.py</p>
+      <pre>def test_creation_puis_lecture_de_commande(page: Page):
+    creation = page.request.post("https://novacart.exemple/api/commandes", data={
+        "produits": ["SKU-042"],
+    })
+    assert creation.status == 201
+    commande_id = creation.json()["id"]          # jamais codé en dur — vient de la réponse
+
+    lecture = page.request.get(f"https://novacart.exemple/api/commandes/{commande_id}")
+    assert lecture.status == 200
+    assert lecture.json()["statut"] == "en_attente"</pre>
+      <p>C'est le même principe que les fixtures du module 19 (créer un état, puis l'utiliser) appliqué à l'intérieur d'un seul test plutôt qu'entre plusieurs.</p>
+
+      <h3>Idempotence : rejouer un appel sans effet de bord supplémentaire</h3>
+      <p>Une opération est <strong>idempotente</strong> si l'exécuter plusieurs fois produit le même résultat qu'une seule fois. <code>GET</code>, <code>PUT</code> et <code>DELETE</code> sont censées l'être par convention HTTP ; <code>POST</code> ne l'est presque jamais — c'est justement ce qui en fait un point à tester explicitement, en particulier sur un appel de paiement où un double clic ou une requête rejouée après un timeout réseau ne doit pas débiter deux fois.</p>
+      <div class="table-scroll"><table>
+        <tr><th>Méthode</th><th>Idempotente ?</th><th>Risque si elle ne l'est pas</th></tr>
+        <tr><td class="mono">PUT /api/produits/42</td><td>Oui, attendu</td><td>Deux appels identiques doivent laisser la ressource dans le même état</td></tr>
+        <tr><td class="mono">DELETE /api/panier/3</td><td>Oui, attendu</td><td>Un second appel doit renvoyer 404, pas une erreur serveur</td></tr>
+        <tr><td class="mono">POST /api/paiement</td><td>Non, par nature</td><td>Rejouée sans protection (clé d'idempotence), elle peut débiter deux fois</td></tr>
+      </table></div>
+      <p>Pour un appel critique comme un paiement, une API bien conçue accepte une <strong>clé d'idempotence</strong> envoyée par le client (<code>Idempotency-Key: abc123</code>) : le serveur reconnaît une requête déjà traitée avec cette clé et renvoie le même résultat sans débiter une seconde fois — un point à vérifier explicitement plutôt qu'à supposer.</p>
+
+      <h3>Validation de schéma : au-delà du statut et d'un champ isolé</h3>
+      <p>Vérifier un champ à la fois (<code>assert "token" in corps</code>) devient vite insuffisant à mesure qu'une réponse s'enrichit — un champ renommé, un type qui change silencieusement de <code>string</code> à <code>number</code>, passent inaperçus. Un test de <strong>schéma</strong> vérifie la forme entière de la réponse en une fois :</p>
+      <p class="code-label">test_schema_produit.py (avec jsonschema)</p>
+      <pre>from jsonschema import validate
+
+schema_produit = {
+    "type": "object",
+    "required": ["id", "nom", "prix", "enStock"],
+    "properties": {
+        "id": {"type": "string"},
+        "nom": {"type": "string"},
+        "prix": {"type": "number"},
+        "enStock": {"type": "boolean"},
+    },
+}
+
+def test_produit_respecte_le_schema(page: Page):
+    reponse = page.request.get("https://novacart.exemple/api/produits/SKU-042")
+    validate(instance=reponse.json(), schema=schema_produit)</pre>
+      <p>Le même principe existe côté TypeScript avec <strong>Zod</strong> ou <strong>Ajv</strong> — et à l'échelle d'une équipe entière plutôt que d'un seul test, cette idée devient le <em>contract testing</em> (des outils comme Pact) : le fournisseur et le consommateur d'une API valident tous les deux le même contrat, pour détecter une rupture avant même de déployer.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice — MISSION QA : rejouer un paiement sans protection</div>
+        <p>L'API <code>POST /api/paiement</code> de NovaCart ne supporte aucune clé d'idempotence pour l'instant. Un utilisateur avec une connexion instable clique une fois sur "Payer", ne voit aucune confirmation après 10 secondes, et reclique. Écris un test qui prouve le risque (sans l'exploiter réellement en production), et propose la correction API attendue.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p class="code-label">tests/test_paiement_double.py</p>
+            <pre>def test_paiement_rejoue_sans_cle_debite_deux_fois(page: Page):
+    payload = {"commandeId": "CMD-9001", "montant": 49.99}
+
+    premier = page.request.post("https://staging.novacart.exemple/api/paiement", data=payload)
+    second = page.request.post("https://staging.novacart.exemple/api/paiement", data=payload)
+
+    assert premier.status == 200
+    # Sur une API sans protection d'idempotence, ce second appel crée un second débit :
+    assert second.json()["transactionId"] != premier.json()["transactionId"]  # prouve le doublon</pre>
+            <p>La correction attendue côté API n'est pas côté test : accepter un en-tête <code>Idempotency-Key</code> généré une seule fois par le client au moment du clic, stocker les clés déjà traitées côté serveur pendant une fenêtre de temps, et renvoyer la réponse de la première transaction pour toute requête rejouée avec la même clé — plutôt que de compter sur le client pour ne jamais re-cliquer.</p>
+          </div>
+        </details>
+      </div>
+
       <button class="done-toggle" data-toggle="m12"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
 
@@ -1292,6 +1360,49 @@ export default function () {
   },
 };</pre>
             <p>Deux changements distincts à ne pas confondre : le palier (<code>target</code>) contrôle <em>combien</em> d'utilisateurs simultanés, le seuil (<code>thresholds</code>) contrôle <em>quelle performance</em> est acceptable — on peut faire varier l'un sans l'autre.</p>
+          </div>
+        </details>
+      </div>
+
+
+      <h3>Les types de tests de charge : pas tous la même question</h3>
+      <p>"Tester la charge" recouvre en réalité plusieurs questions différentes, chacune avec son propre profil de script :</p>
+      <div class="table-scroll"><table>
+        <tr><th>Type</th><th>Question posée</th><th>Profil typique</th></tr>
+        <tr><td><strong>Baseline</strong></td><td>Quelle est la performance normale, sans charge particulière ?</td><td>Quelques utilisateurs, référence pour comparer les autres tests</td></tr>
+        <tr><td><strong>Load (charge)</strong></td><td>Le système tient-il la charge attendue en production ?</td><td>Montée progressive jusqu'au trafic prévu, palier soutenu</td></tr>
+        <tr><td><strong>Stress</strong></td><td>À partir de quel point ça casse, et comment ?</td><td>Montée continue au-delà du trafic attendu, jusqu'à la rupture</td></tr>
+        <tr><td><strong>Spike (pic)</strong></td><td>Le système absorbe-t-il un afflux brutal (soldes, campagne) ?</td><td>Montée quasi instantanée, pas progressive</td></tr>
+        <tr><td><strong>Soak (endurance)</strong></td><td>Une charge modérée mais prolongée révèle-t-elle une fuite mémoire ?</td><td>Charge modeste sur plusieurs heures, pas juste quelques minutes</td></tr>
+      </table></div>
+      <p>Le script à seuils du début de ce module est un test de type <em>load</em> classique. Un test <em>spike</em> reprendrait la même structure avec une seule étape qui saute directement à la cible, sans montée progressive :</p>
+      <p class="code-label">spike-soldes.js — extrait</p>
+      <pre>export const options = {
+  stages: [
+    { duration: '10s', target: 10 },
+    { duration: '30s', target: 800 },  // saut brutal, pas de montée progressive
+    { duration: '1m', target: 800 },
+    { duration: '10s', target: 10 },
+  ],
+};</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice — MISSION QA : verdict sur un rapport k6</div>
+        <p>Voici le résumé de deux runs k6 sur <code>/api/recherche</code>, avec un seuil défini à <code>p(95)&lt;500ms</code> et <code>rate&lt;0.01</code> pour le taux d'erreur. Le système peut-il tenir la charge attendue en production ? Justifie pour chaque run.</p>
+        <pre>Run A — 200 VUs, 5 min
+  http_req_duration..... avg=180ms  p(95)=410ms
+  http_req_failed....... rate=0.3%
+  ✓ thresholds respectés
+
+Run B — 500 VUs, 5 min
+  http_req_duration..... avg=620ms  p(95)=1850ms
+  http_req_failed....... rate=4.2%
+  ✗ thresholds dépassés</pre>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Run A : GO.</strong> Le p95 (410ms) reste sous le seuil de 500ms et le taux d'erreur (0.3%) reste largement sous 1% — le système absorbe 200 utilisateurs simultanés sans dégradation notable par rapport à sa moyenne (180ms), signe qu'il n'est pas proche de sa limite.</p>
+            <p><strong>Run B : NO-GO en l'état.</strong> Le p95 grimpe à 1850ms (presque 4× le seuil) et le taux d'erreur atteint 4.2% (4× le seuil autorisé) — le système est en train de craquer sous 500 utilisateurs, pas juste ralentir. Avant de conclure "il faut plus de serveurs", identifier le goulot d'étranglement : est-ce le CPU applicatif, le pool de connexions à la base de données (souvent la première limite atteinte), ou un service externe appelé en cascade ? Le run B répond à la question "où est la limite", pas encore "pourquoi" — la suite du diagnostic sort du périmètre du seul rapport k6.</p>
           </div>
         </details>
       </div>
@@ -2392,6 +2503,45 @@ def test_connexion_mobile_avec_identifiants_valides():
           <summary>Voir la correction</summary>
           <div class="exercise-solution-body">
             <p>La première (en-tête anti-clickjacking absent) mérite un ticket : c'est une vraie faiblesse de configuration serveur, facile à corriger (ajouter l'en-tête), avec un impact réel documenté dans l'OWASP Top 10. La seconde est probablement un <strong>faux positif à vérifier</strong> avant d'ouvrir un ticket : si <code>cdn.novacart-assets.exemple</code> est un domaine appartenant à NovaCart elle-même (un CDN interne), l'alerte est normale et attendue — ZAP signale simplement qu'une ressource vient d'un domaine différent, sans savoir si ce domaine est de confiance. Le réflexe attendu : vérifier qui possède le domaine avant de considérer que ZAP a trouvé quelque chose.</p>
+          </div>
+        </details>
+      </div>
+
+
+      <h3>JWT : ce qu'un testeur QA vérifie sans être cryptographe</h3>
+      <p>Un token JWT (module 11 pour son usage en authentification) encode ses informations en clair, simplement encodées en base64 — pas chiffrées. Un testeur QA n'a pas besoin de casser une signature pour repérer des risques concrets :</p>
+      <div class="table-scroll"><table>
+        <tr><th>Point à vérifier</th><th>Ce que ça révèle</th></tr>
+        <tr><td>Expiration (<code>exp</code>) présente et raisonnable</td><td>Un token sans expiration, ou valide 10 ans, reste exploitable indéfiniment s'il fuite</td></tr>
+        <tr><td>Contenu du payload (décodable sur jwt.io, sans la clé secrète)</td><td>Un mot de passe ou une donnée sensible ne doit jamais apparaître en clair dans le payload</td></tr>
+        <tr><td>Un token modifié (payload changé, signature laissée telle quelle) est-il rejeté ?</td><td>Si l'API accepte quand même le token, la signature n'est pas vérifiée côté serveur — faille critique</td></tr>
+        <tr><td>Algorithme <code>none</code> accepté ?</td><td>Une vulnérabilité historique connue : certaines bibliothèques acceptaient un token sans aucune signature si l'en-tête déclarait <code>"alg": "none"</code></td></tr>
+      </table></div>
+      <p>Le deuxième test du tableau se vérifie en quelques lignes, sans outil spécialisé : prendre un token valide, changer un caractère dans le payload décodé, le ré-encoder, et observer si l'API le refuse toujours (comportement attendu) ou l'accepte (faille à signaler immédiatement).</p>
+
+      <h3>Cookies de session : trois indicateurs à lire dans l'onglet réseau</h3>
+      <p>Un cookie de session mal configuré est aussi risqué qu'un token JWT mal vérifié — et se contrôle en quelques secondes dans les DevTools du navigateur (onglet Application ou Réseau), sans outil supplémentaire :</p>
+      <div class="table-scroll"><table>
+        <tr><th>Attribut</th><th>Rôle</th><th>Absent = risque</th></tr>
+        <tr><td class="mono">HttpOnly</td><td>Interdit l'accès au cookie depuis JavaScript</td><td>Un script injecté (XSS) peut voler le cookie de session</td></tr>
+        <tr><td class="mono">Secure</td><td>N'envoie le cookie que sur une connexion HTTPS</td><td>Le cookie peut circuler en clair sur une connexion non chiffrée</td></tr>
+        <tr><td class="mono">SameSite</td><td>Limite l'envoi du cookie aux requêtes venant du même site</td><td>Expose à des attaques CSRF (une autre page déclenche une action au nom de l'utilisateur connecté)</td></tr>
+      </table></div>
+      <p>Sur NovaCart, un exemple de payload manuel simple pour vérifier qu'un champ de recherche échappe correctement son entrée : saisir <code>&lt;script&gt;alert(1)&lt;/script&gt;</code> dans le champ recherche et observer si le texte s'affiche tel quel (correct) ou si le script s'exécute (faille XSS) — le même réflexe qu'un scan automatique appliqué plus haut, ici fait à la main sur un cas ciblé.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice — MISSION QA : audit d'un cookie de session</div>
+        <p>Voici l'en-tête <code>Set-Cookie</code> renvoyé après connexion sur l'environnement de staging de NovaCart :</p>
+        <pre>Set-Cookie: session=eyJhbGciOi...; Path=/</pre>
+        <p>Identifie ce qui manque, le risque concret associé à chaque absence, et la correction attendue.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p>Aucun des trois attributs de sécurité n'est présent :</p>
+            <p><strong>1. <code>HttpOnly</code> absent</strong> — un script malveillant injecté sur la page (via une faille XSS ailleurs sur le site) peut lire ce cookie avec <code>document.cookie</code> et l'exfiltrer. Correction : ajouter <code>HttpOnly</code>.</p>
+            <p><strong>2. <code>Secure</code> absent</strong> — le cookie peut être transmis sur une connexion HTTP non chiffrée si elle existe, exposant la session à une interception réseau. Correction : ajouter <code>Secure</code> (nécessite HTTPS partout, ce qui est déjà le cas en production).</p>
+            <p><strong>3. <code>SameSite</code> absent</strong> — le comportement par défaut varie selon le navigateur ; explicite vaut mieux qu'implicite. Correction : <code>SameSite=Lax</code> pour un site e-commerce classique (protège contre le CSRF tout en gardant les liens externes fonctionnels).</p>
+            <p>En-tête corrigé attendu : <code>Set-Cookie: session=eyJhbGciOi...; Path=/; HttpOnly; Secure; SameSite=Lax</code></p>
           </div>
         </details>
       </div>
