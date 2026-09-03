@@ -1,0 +1,1595 @@
+<title>TypeScript pour la Qualité Logicielle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EFF9FB;
+    --bg-rgb:239,249,251; --overlay-1:0.65; --overlay-2:0.8;
+    --surface:#FFFFFF;
+    --surface-2:#E1F0F3;
+    --border:#CDE4E9;
+    --border-strong:#A9CBD3;
+    --text:#10262B;
+    --text-dim:#3D5D64;
+    --text-faint:#6C8D93;
+    --accent:#7A4A6E;
+    --accent-strong:#5C3654;
+    --accent-tint:#F1E6EE;
+    --fail:#B8433A;
+    --fail-tint:#FBEAE7;
+    --warn:#93650F;
+    --warn-tint:#FBF0DC;
+    --code-bg:#0B1F24;
+    --code-text:#D9EEF1;
+    --code-border:#1C3840;
+    --shadow: 0 1px 2px rgba(11,31,36,0.05), 0 8px 24px -12px rgba(11,31,36,0.14);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#071E24;
+      --bg-rgb:7,30,36; --overlay-1:0.32; --overlay-2:0.5;
+      --surface:#0F2C34;
+      --surface-2:#123842;
+      --border:#1F4750;
+      --border-strong:#2E6470;
+      --text:#E7F3F5;
+      --text-dim:#A9C7CC;
+      --text-faint:#7A9BA1;
+      --accent:#D9A85E;
+      --accent-strong:#EABD7E;
+      --accent-tint:#3A2E1E;
+      --fail:#E3766B;
+      --fail-tint:#33201D;
+      --warn:#E3B564;
+      --warn-tint:#332813;
+      --code-bg:#051419;
+      --code-text:#D3EDF1;
+      --code-border:#163038;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#071E24;
+    --bg-rgb:7,30,36; --overlay-1:0.32; --overlay-2:0.5;
+    --surface:#0F2C34;
+    --surface-2:#123842;
+    --border:#1F4750;
+    --border-strong:#2E6470;
+    --text:#E7F3F5;
+    --text-dim:#A9C7CC;
+    --text-faint:#7A9BA1;
+    --accent:#D9A85E;
+    --accent-strong:#EABD7E;
+    --accent-tint:#3A2E1E;
+    --fail:#E3766B;
+    --fail-tint:#33201D;
+    --warn:#E3B564;
+    --warn-tint:#332813;
+    --code-bg:#051419;
+    --code-text:#D3EDF1;
+    --code-border:#163038;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background-color:var(--bg);
+    background-image:
+      linear-gradient(rgba(var(--bg-rgb),var(--overlay-1)) 0%, rgba(var(--bg-rgb),var(--overlay-2)) 100%),
+      url("./section-bg.jpg");
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+    background-repeat:no-repeat;
+    color:var(--text);
+    font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size:16.5px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;}
+
+  a{color:var(--accent-strong);}
+  :root[data-theme="dark"] a, :root:not([data-theme="light"]) a{color:var(--accent-strong);}
+
+  ::selection{background:var(--accent-tint); color:var(--text);}
+
+  /* ---------- layout shell ---------- */
+  .shell{
+    display:grid;
+    grid-template-columns: 280px minmax(0,1fr);
+    max-width:1180px;
+    margin:0 auto;
+  }
+  @media (max-width: 900px){
+    .shell{grid-template-columns: 1fr;}
+  }
+
+  /* ---------- sidebar ---------- */
+  .sidebar{
+    position:sticky;
+    top:0;
+    align-self:start;
+    height:100vh;
+    overflow-y:auto;
+    padding:28px 20px 40px;
+    border-right:1px solid var(--border);
+  }
+  @media (max-width: 900px){
+    .sidebar{position:static; height:auto; border-right:none; border-bottom:1px solid var(--border);}
+  }
+  .brand{
+    display:flex; align-items:baseline; gap:9px;
+    margin-bottom:4px;
+  }
+  .brand-mark{
+    font-family:"IBM Plex Mono";
+    font-weight:700;
+    font-size:13px;
+    color:var(--accent-strong);
+    background:var(--accent-tint);
+    border:1px solid var(--border-strong);
+    border-radius:4px;
+    padding:2px 6px;
+    letter-spacing:0.02em;
+  }
+  .brand-name{
+    font-family:"IBM Plex Mono";
+    font-weight:600;
+    font-size:14.5px;
+    letter-spacing:-0.01em;
+  }
+  .tagline{
+    color:var(--text-faint);
+    font-size:12.5px;
+    margin:2px 0 20px;
+  }
+
+  .progress-wrap{margin-bottom:22px;}
+  .progress-label{
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-family:"IBM Plex Mono"; font-size:11.5px; color:var(--text-faint);
+    text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;
+  }
+  #progress-count{color:var(--accent-strong); font-weight:600;}
+  .progress-track{
+    height:6px; border-radius:3px; background:var(--surface-2);
+    border:1px solid var(--border); overflow:hidden;
+  }
+  .progress-fill{
+    height:100%; width:0%; background:var(--accent);
+    transition:width 0.35s ease;
+  }
+
+  .nav-part-label{
+    font-family:"IBM Plex Mono"; font-size:11px; font-weight:600;
+    text-transform:uppercase; letter-spacing:0.08em; color:var(--text-faint);
+    margin:18px 0 8px;
+  }
+  .nav-list{list-style:none; margin:0; padding:0;}
+  .nav-part-label{cursor:pointer; user-select:none; display:flex; align-items:center; justify-content:space-between; gap:6px;}
+  .nav-part-chevron{width:11px; height:11px; flex:none; transition:transform .18s ease; opacity:.55;}
+  .nav-part-label.is-collapsed .nav-part-chevron{transform:rotate(-90deg);}
+  .nav-list{overflow:hidden; transition:max-height .22s ease;}
+  .nav-list.is-collapsed{max-height:0 !important; margin:0; padding:0;}
+  .nav-item{margin-bottom:1px;}
+  .nav-link{
+    display:flex; align-items:center; gap:9px;
+    padding:6px 8px; border-radius:6px;
+    color:var(--text-dim); text-decoration:none;
+    font-size:13.5px; line-height:1.35;
+    border:1px solid transparent;
+  }
+  .nav-link:hover{background:var(--surface-2); color:var(--text);}
+  .nav-link.active{background:var(--accent-tint); color:var(--accent-strong); border-color:var(--border-strong);}
+  .nav-check{
+    flex:0 0 auto; width:15px; height:15px; border-radius:4px;
+    border:1.5px solid var(--border-strong); background:var(--surface);
+    display:inline-flex; align-items:center; justify-content:center; cursor:pointer;
+  }
+  .nav-check[data-done="true"]{background:var(--accent); border-color:var(--accent);}
+  .nav-check[data-done="true"]::after{content:"✓"; color:#fff; font-size:10px; font-weight:700;}
+  .nav-num{color:var(--text-faint); font-family:"IBM Plex Mono"; font-size:11.5px; min-width:16px;}
+
+  /* ---------- main content ---------- */
+  main{padding:44px 48px 100px; min-width:0;}
+  @media (max-width: 900px){ main{padding:32px 20px 80px;} }
+  @media (max-width: 560px){ main{padding:24px 16px 64px;} }
+
+  .doc-header{max-width:640px; margin-bottom:56px;}
+  .eyebrow{
+    font-family:"IBM Plex Mono"; font-size:12px; font-weight:600;
+    text-transform:uppercase; letter-spacing:0.1em; color:var(--accent-strong);
+    margin-bottom:12px;
+  }
+  h1.doc-title{
+    font-family:"IBM Plex Mono"; font-weight:600;
+    font-size:clamp(28px, 4vw, 38px);
+    line-height:1.15; letter-spacing:-0.01em;
+    margin:0 0 16px; text-wrap:balance;
+  }
+  .doc-lede{color:var(--text-dim); font-size:17px; line-height:1.6; margin:0 0 22px;}
+  .stat-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .stat-chip{
+    font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-dim);
+    border:1px solid var(--border); background:var(--surface);
+    border-radius:20px; padding:5px 12px;
+  }
+  .stat-chip b{color:var(--text); font-weight:600;}
+
+  section.module{
+    max-width:680px;
+    padding-top:52px;
+    margin-top:-8px;
+    border-top:1px solid var(--border);
+  }
+  section.module:first-of-type{border-top:none;}
+  .part-divider{
+    max-width:680px; margin:64px 0 8px;
+    display:flex; align-items:center; gap:14px;
+  }
+  .part-divider .part-tag{
+    font-family:"IBM Plex Mono"; font-size:12px; font-weight:700;
+    color:var(--accent-strong); background:var(--accent-tint);
+    border:1px solid var(--border-strong); border-radius:5px;
+    padding:4px 9px; letter-spacing:0.04em; white-space:nowrap;
+  }
+  .part-divider h2.part-title{
+    font-family:"IBM Plex Mono"; font-size:14px; font-weight:600;
+    color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em;
+    margin:0;
+  }
+  .part-divider::after{content:""; flex:1; height:1px; background:var(--border);}
+  .part-intro{max-width:680px; color:var(--text-dim); margin:10px 0 0; font-size:15px;}
+
+  .mod-eyebrow{
+    font-family:"IBM Plex Mono"; font-size:12px; color:var(--text-faint);
+    letter-spacing:0.04em; margin-bottom:8px;
+  }
+  h2.mod-title{
+    font-family:"IBM Plex Mono"; font-weight:600; font-size:24px;
+    letter-spacing:-0.01em; margin:0 0 18px; text-wrap:balance;
+  }
+  h3{
+    font-family:"IBM Plex Mono"; font-weight:600; font-size:15.5px;
+    margin:30px 0 10px; color:var(--text);
+  }
+  p{margin:0 0 16px; max-width:66ch;}
+  ul, ol{margin:0 0 16px; padding-left:22px;}
+  li{margin-bottom:6px; max-width:62ch;}
+  strong{font-weight:600;}
+
+  .callout{
+    border:1px solid var(--border-strong); background:var(--surface);
+    border-radius:8px; padding:16px 18px; margin:20px 0;
+    box-shadow:var(--shadow);
+  }
+  .callout-label{
+    font-family:"IBM Plex Mono"; font-size:11px; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.06em; color:var(--accent-strong);
+    margin-bottom:6px;
+  }
+  .callout p:last-child{margin-bottom:0;}
+  .callout.warn{border-color:var(--warn); background:var(--warn-tint);}
+  .callout.warn .callout-label{color:var(--warn);}
+
+  .exercise{
+    border:1px solid var(--border-strong); background:var(--surface-2);
+    border-radius:8px; padding:16px 18px; margin:26px 0 8px; max-width:680px;
+  }
+  .exercise-label{
+    font-family:"IBM Plex Mono"; font-size:11px; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.06em; color:var(--text-faint);
+    margin-bottom:8px;
+  }
+  .exercise p{margin:0 0 10px; max-width:none;}
+  .exercise p:last-of-type{margin-bottom:0;}
+  .exercise details{margin-top:4px;}
+  .exercise summary{
+    cursor:pointer; font-family:"IBM Plex Mono"; font-size:12.5px; font-weight:600;
+    color:var(--accent-strong); list-style:none; display:inline-flex; align-items:center; gap:6px;
+  }
+  .exercise summary::-webkit-details-marker{display:none;}
+  .exercise summary::before{content:"▸"; font-size:10px; display:inline-block; transition:transform 0.15s ease;}
+  .exercise details[open] summary::before{transform:rotate(90deg);}
+  .exercise .exercise-solution-body{
+    margin-top:10px; padding-top:10px; border-top:1px dashed var(--border-strong);
+  }
+  .exercise .exercise-solution-body p:last-child{margin-bottom:0;}
+  .exercise .exercise-solution-body pre{margin:10px 0 0; max-width:none;}
+
+  table{
+    width:100%; border-collapse:collapse; margin:18px 0 22px;
+    font-size:13.5px; background:var(--surface);
+    border:1px solid var(--border); border-radius:8px; overflow:hidden;
+  }
+  .table-scroll{overflow-x:auto; max-width:680px; margin:18px 0 22px;}
+  .table-scroll table{margin:0;}
+  th, td{
+    text-align:left; padding:9px 12px; border-bottom:1px solid var(--border);
+    vertical-align:top;
+  }
+  th{
+    font-family:"IBM Plex Mono"; font-size:11px; font-weight:600;
+    text-transform:uppercase; letter-spacing:0.04em; color:var(--text-faint);
+    background:var(--surface-2);
+  }
+  tr:last-child td{border-bottom:none;}
+  td.mono, th.mono{font-family:"IBM Plex Mono"; font-size:12.5px;}
+  .tag{
+    display:inline-block; font-family:"IBM Plex Mono"; font-size:11px; font-weight:600;
+    padding:2px 7px; border-radius:4px;
+  }
+  .tag.pass{background:var(--accent-tint); color:var(--accent-strong);}
+  .tag.fail{background:var(--fail-tint); color:var(--fail);}
+  .tag.warn{background:var(--warn-tint); color:var(--warn);}
+
+  pre{
+    background:var(--code-bg); color:var(--code-text);
+    border:1px solid var(--code-border); border-radius:8px;
+    padding:16px 18px; overflow-x:auto; margin:16px 0 22px;
+    font-size:13px; line-height:1.6; max-width:680px;
+  }
+  code{font-family:"IBM Plex Mono";}
+  p code, li code, td code{
+    background:var(--surface-2); border:1px solid var(--border);
+    border-radius:4px; padding:1px 5px; font-size:0.88em;
+  }
+  .code-label{
+    font-family:"IBM Plex Mono"; font-size:11px; color:var(--text-faint);
+    margin:0 0 6px; letter-spacing:0.02em;
+  }
+
+  .done-toggle{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:"IBM Plex Mono"; font-size:12.5px; color:var(--text-dim);
+    border:1px solid var(--border-strong); background:var(--surface);
+    border-radius:20px; padding:6px 14px 6px 10px; cursor:pointer;
+    margin-top:28px; user-select:none;
+  }
+  .done-toggle:hover{border-color:var(--accent);}
+  .done-toggle .box{
+    width:15px; height:15px; border-radius:4px; border:1.5px solid var(--border-strong);
+    display:inline-flex; align-items:center; justify-content:center; background:var(--surface);
+  }
+  .done-toggle[data-done="true"] .box{background:var(--accent); border-color:var(--accent);}
+  .done-toggle[data-done="true"] .box::after{content:"✓"; color:#fff; font-size:10px; font-weight:700;}
+  .done-toggle[data-done="true"]{color:var(--accent-strong); border-color:var(--accent);}
+
+  .footer-note{
+    max-width:680px; margin-top:70px; padding-top:24px;
+    border-top:1px solid var(--border);
+    color:var(--text-faint); font-size:12.5px;
+  }
+  .footer-note a{color:var(--text-dim);}
+
+  .kbd{
+    font-family:"IBM Plex Mono"; font-size:12px; background:var(--surface-2);
+    border:1px solid var(--border-strong); border-bottom-width:2px;
+    border-radius:4px; padding:1px 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .progress-fill{transition:none;}
+  }
+
+  .theme-toggle{
+    position:fixed; top:18px; right:18px; z-index:60;
+    width:38px; height:38px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--surface); color:var(--text-dim);
+    border:1px solid var(--border-strong);
+    cursor:pointer; padding:0;
+    box-shadow:0 1px 2px rgba(0,0,0,0.08), 0 6px 16px -10px rgba(0,0,0,0.35);
+    transition:color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  }
+  .theme-toggle:hover{color:var(--accent-strong); border-color:var(--accent-strong); transform:translateY(-1px);}
+  .theme-toggle svg{display:block;}
+  .theme-toggle .theme-icon-sun{display:none;}
+  .theme-toggle .theme-icon-moon{display:block;}
+  .theme-toggle.is-dark .theme-icon-sun{display:block;}
+  .theme-toggle.is-dark .theme-icon-moon{display:none;}
+  @media (max-width:640px){ .theme-toggle{top:12px; right:12px; width:34px; height:34px;} }
+</style>
+<button id="theme-toggle" class="theme-toggle" type="button" aria-label="Basculer entre mode clair et mode sombre" title="Mode clair / sombre">
+  <svg class="theme-icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  <svg class="theme-icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+</button>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'qa-theme-pref';
+  var root = document.documentElement;
+  var btn = document.getElementById('theme-toggle');
+  if(!btn) return;
+  function systemPrefersDark(){
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  function effectiveTheme(){
+    var explicit = root.getAttribute('data-theme');
+    if(explicit === 'dark' || explicit === 'light') return explicit;
+    return systemPrefersDark() ? 'dark' : 'light';
+  }
+  function updateIcon(){
+    btn.classList.toggle('is-dark', effectiveTheme() === 'dark');
+  }
+  try{
+    var stored = localStorage.getItem(STORAGE_KEY);
+    if(stored === 'dark' || stored === 'light'){ root.setAttribute('data-theme', stored); }
+  }catch(e){}
+  updateIcon();
+  btn.addEventListener('click', function(){
+    var next = effectiveTheme() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try{ localStorage.setItem(STORAGE_KEY, next); }catch(e){}
+    updateIcon();
+  });
+  if(window.matchMedia){
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(){
+      if(!root.getAttribute('data-theme')) updateIcon();
+    });
+  }
+})();
+</script>
+
+<div class="shell">
+  <nav class="sidebar" aria-label="Sommaire du cours">
+    <div class="brand">
+      <span class="brand-mark">TS</span>
+      <span class="brand-name">TypeScript pour<br>la Qualité Logicielle</span>
+    </div>
+    <p class="tagline">Parcours 2026 — du premier fichier .ts à l'architecture d'un framework typé</p>
+
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/17</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+
+    <div class="nav-part-label">Niveau 1 — Démarrer avec TypeScript</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m1" href="#m1"><span class="nav-check" data-modcheck="m1"></span><span class="nav-num">01</span> Pourquoi TypeScript, et comment l'installer</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m2" href="#m2"><span class="nav-check" data-modcheck="m2"></span><span class="nav-num">02</span> Types primitifs et annotations</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m3" href="#m3"><span class="nav-check" data-modcheck="m3"></span><span class="nav-num">03</span> Fonctions typées</a></li>
+    </ul>
+
+    <div class="nav-part-label">Niveau 2 — Structurer ses données</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m4" href="#m4"><span class="nav-check" data-modcheck="m4"></span><span class="nav-num">04</span> Tableaux, tuples et objets typés</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m5" href="#m5"><span class="nav-check" data-modcheck="m5"></span><span class="nav-num">05</span> Interfaces et type aliases</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m6" href="#m6"><span class="nav-check" data-modcheck="m6"></span><span class="nav-num">06</span> Union types et literal types</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m7" href="#m7"><span class="nav-check" data-modcheck="m7"></span><span class="nav-num">07</span> Enums</a></li>
+    </ul>
+
+    <div class="nav-part-label">Niveau 3 — Programmation orientée objet</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m8" href="#m8"><span class="nav-check" data-modcheck="m8"></span><span class="nav-num">08</span> Classes : constructeur, propriétés, méthodes</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m9" href="#m9"><span class="nav-check" data-modcheck="m9"></span><span class="nav-num">09</span> Héritage, modificateurs d'accès, interfaces</a></li>
+    </ul>
+
+    <div class="nav-part-label">Niveau 4 — Écrire du TypeScript robuste</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m10" href="#m10"><span class="nav-check" data-modcheck="m10"></span><span class="nav-num">10</span> null, undefined et le mode strict</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m11" href="#m11"><span class="nav-check" data-modcheck="m11"></span><span class="nav-num">11</span> Type narrowing et type guards</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m12" href="#m12"><span class="nav-check" data-modcheck="m12"></span><span class="nav-num">12</span> any, unknown, never : bien choisir</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m13" href="#m13"><span class="nav-check" data-modcheck="m13"></span><span class="nav-num">13</span> Discriminated unions</a></li>
+    </ul>
+
+    <div class="nav-part-label">Niveau 5 — TypeScript avancé</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m14" href="#m14"><span class="nav-check" data-modcheck="m14"></span><span class="nav-num">14</span> Generics</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m15" href="#m15"><span class="nav-check" data-modcheck="m15"></span><span class="nav-num">15</span> Types utilitaires</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m16" href="#m16"><span class="nav-check" data-modcheck="m16"></span><span class="nav-num">16</span> Architecturer son code : erreurs typées, retry, tooling</a></li>
+    </ul>
+
+    <div class="nav-part-label">Niveau 6 — Projet portfolio</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m17" href="#m17"><span class="nav-check" data-modcheck="m17"></span><span class="nav-num">17</span> Projet — une librairie de panier, typée de bout en bout</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <header class="doc-header">
+      <div class="eyebrow">Cours autoportant · Rédigé pour toi</div>
+      <h1 class="doc-title">TypeScript pour la Qualité Logicielle</h1>
+      <p class="doc-lede">Ce cours part du principe que tu ne connais pas encore TypeScript — pas même JavaScript en profondeur. On commence par les tout premiers types et la première fonction annotée, et on avance progressivement jusqu'à l'architecture d'un vrai framework de test typé : generics, types utilitaires, gestion d'erreurs typée. Chaque module se termine par un exercice corrigé, et le cours se termine par un projet complet, à publier sur ton portfolio.</p>
+      <div class="stat-row">
+        <span class="stat-chip"><b>17</b> modules</span>
+        <span class="stat-chip"><b>6</b> niveaux de progression</span>
+        <span class="stat-chip">Progressif : <b>débutant</b> → <b>avancé</b></span>
+        <span class="stat-chip">Langage : <b>TypeScript</b></span>
+      </div>
+    </header>
+
+
+    <div class="part-divider"><span class="part-tag">NIVEAU 1</span><h2 class="part-title">Démarrer avec TypeScript</h2></div>
+    <p class="part-intro">Trois modules pour écrire, compiler et comprendre ton tout premier code TypeScript — sans supposer que tu connais déjà JavaScript en profondeur.</p>
+
+    <section class="module" id="m1">
+      <div class="mod-eyebrow">Niveau 1 · Module 01</div>
+      <h2 class="mod-title">Pourquoi TypeScript, et comment l'installer</h2>
+      <p>TypeScript est un sur-ensemble de JavaScript : tout code JavaScript valide est déjà du TypeScript valide. Ce qu'il ajoute, c'est un système de types vérifié <em>avant</em> l'exécution — le compilateur (<code>tsc</code>) refuse de générer le fichier <code>.js</code> final si un type ne correspond pas, plutôt que de laisser l'erreur se produire chez un utilisateur ou pendant un test.</p>
+
+      <h3>Installer TypeScript et compiler un premier fichier</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Commande</th><th>Ce qu'elle fait</th></tr>
+        <tr><td class="mono">npm install -D typescript</td><td>Installe le compilateur TypeScript dans le projet</td></tr>
+        <tr><td class="mono">npx tsc --init</td><td>Génère un fichier <code>tsconfig.json</code> avec les options par défaut</td></tr>
+        <tr><td class="mono">npx tsc</td><td>Compile tous les fichiers <code>.ts</code> du projet en <code>.js</code>, selon le tsconfig</td></tr>
+        <tr><td class="mono">npx ts-node fichier.ts</td><td>Exécute un fichier <code>.ts</code> directement, sans étape de compilation séparée (pratique pour tester vite)</td></tr>
+      </table></div>
+
+      <p class="code-label">bonjour.ts</p>
+      <pre>function saluer(nom: string): string {
+  return `Bonjour, ${nom} !`;
+}
+
+console.log(saluer('Amina'));
+console.log(saluer(42)); // Erreur de compilation : 42 n'est pas une string</pre>
+
+      <div class="callout">
+        <div class="callout-label">Ce que ça change concrètement</div>
+        <p>En JavaScript pur, <code>saluer(42)</code> s'exécuterait sans broncher et produirait un résultat probablement faux (<code>"Bonjour, 42 !"</code>). En TypeScript, l'éditeur souligne l'erreur avant même que tu lances le programme, et <code>tsc</code> refuse de compiler.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris une fonction <code>addition(a: number, b: number): number</code> qui retourne la somme des deux paramètres, puis un appel qui provoquerait une erreur de compilation si tu passais une chaîne de caractères à la place d'un nombre.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>function addition(a: number, b: number): number {
+  return a + b;
+}
+
+addition(2, 3);      // OK -&gt; 5
+addition('2', 3);    // Erreur de compilation : '2' n'est pas assignable au paramètre de type 'number'</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m1"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m2">
+      <div class="mod-eyebrow">Niveau 1 · Module 02</div>
+      <h2 class="mod-title">Types primitifs et annotations</h2>
+      <p>TypeScript propose une annotation pour chaque type primitif de JavaScript, plus quelques types propres au typage statique.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Type</th><th>Exemple</th><th>Remarque</th></tr>
+        <tr><td class="mono">string</td><td class="mono">let nom: string = 'Amina';</td><td>Guillemets simples, doubles ou template strings, indifféremment</td></tr>
+        <tr><td class="mono">number</td><td class="mono">let age: number = 27;</td><td>Un seul type numérique — pas de distinction int/float comme en Python</td></tr>
+        <tr><td class="mono">boolean</td><td class="mono">let actif: boolean = true;</td><td>—</td></tr>
+        <tr><td class="mono">null / undefined</td><td class="mono">let valeur: string | null = null;</td><td>Détaillé au module 10</td></tr>
+        <tr><td class="mono">(inféré)</td><td class="mono">let ville = 'Paris';</td><td>Sans annotation, TypeScript déduit <code>string</code> tout seul à partir de la valeur</td></tr>
+      </table></div>
+
+      <h3>L'inférence de type : ne pas tout annoter</h3>
+      <p>Annoter <code>let ville: string = 'Paris';</code> est redondant : TypeScript infère déjà <code>string</code> à partir de la valeur assignée. La règle pratique : annoter les paramètres de fonction et les retours (module 3), laisser l'inférence faire le reste pour les variables locales évidentes.</p>
+      <pre>let annees = 5;          // inféré : number
+let pays = 'France';     // inféré : string
+annees = 'cinq';          // Erreur : 'cinq' n'est pas assignable à number</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Déclare trois variables sans les annoter explicitement — un nom, un prix, une disponibilité en stock — puis vérifie mentalement (ou dans ton éditeur) le type que TypeScript infère pour chacune.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>let nomProduit = 'Casque audio';  // inféré : string
+let prix = 59.9;                  // inféré : number
+let enStock = true;               // inféré : boolean</pre>
+            <p>Aucune annotation nécessaire ici — TypeScript lit la valeur littérale et en déduit le type le plus précis possible.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m2"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m3">
+      <div class="mod-eyebrow">Niveau 1 · Module 03</div>
+      <h2 class="mod-title">Fonctions typées</h2>
+      <p>Une fonction typée annonce, avant même d'être lue, ce qu'elle attend et ce qu'elle promet de retourner — utile pour soi-même six mois plus tard, et indispensable pour quiconque appelle cette fonction sans en avoir lu le corps.</p>
+
+      <h3>Paramètres, retour, valeurs par défaut, paramètres optionnels</h3>
+      <pre>function calculerRemise(prix: number, pourcentage: number = 10): number {
+  return prix - (prix * pourcentage) / 100;
+}
+
+function formaterNom(prenom: string, nom?: string): string {
+  return nom ? `${prenom} ${nom}` : prenom;
+}
+
+calculerRemise(100);        // pourcentage par défaut : 10 -&gt; 90
+calculerRemise(100, 20);    // -&gt; 80
+formaterNom('Yanis');        // -&gt; "Yanis"
+formaterNom('Yanis', 'B.');  // -&gt; "Yanis B."</pre>
+      <p><code>nom?: string</code> signifie « ce paramètre peut être omis » — son type réel à l'intérieur de la fonction est <code>string | undefined</code>, pas juste <code>string</code>.</p>
+
+      <h3>Les fonctions fléchées, typées de la même façon</h3>
+      <pre>const multiplier = (a: number, b: number): number =&gt; a * b;
+
+const estMajeur = (age: number): boolean =&gt; age &gt;= 18;</pre>
+
+      <div class="callout">
+        <div class="callout-label">Toujours annoter le retour d'une fonction publique</div>
+        <p>TypeScript peut inférer le type de retour tout seul, mais l'annoter explicitement sur une fonction utilisée ailleurs dans le projet évite qu'un changement accidentel du corps de la fonction modifie silencieusement son contrat.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris une fonction <code>estPrixValide(prix: number): boolean</code> qui retourne <code>true</code> si le prix est strictement positif, puis une fonction <code>appliquerTva(prix: number, taux?: number): number</code> où <code>taux</code> vaut 20 par défaut si non fourni.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>function estPrixValide(prix: number): boolean {
+  return prix &gt; 0;
+}
+
+function appliquerTva(prix: number, taux: number = 20): number {
+  return prix * (1 + taux / 100);
+}
+
+appliquerTva(100);      // -&gt; 120
+appliquerTva(100, 5.5); // -&gt; 105.5</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m3"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <div class="part-divider"><span class="part-tag">NIVEAU 2</span><h2 class="part-title">Structurer ses données</h2></div>
+    <p class="part-intro">Une variable isolée ne suffit jamais longtemps : ces modules couvrent les tableaux, les objets, et les façons de nommer et de contraindre leur forme.</p>
+
+    <section class="module" id="m4">
+      <div class="mod-eyebrow">Niveau 2 · Module 04</div>
+      <h2 class="mod-title">Tableaux, tuples et objets typés</h2>
+      <p>Un tableau JavaScript peut mélanger n'importe quel type ; un tableau TypeScript, non — sauf si on le décide explicitement.</p>
+
+      <h3>Tableaux</h3>
+      <pre>let notes: number[] = [12, 15, 9, 18];
+let noms: Array&lt;string&gt; = ['Ana', 'Léo']; // syntaxe équivalente à string[]
+
+notes.push(20);   // OK
+notes.push('20'); // Erreur : '20' n'est pas assignable à number</pre>
+
+      <h3>Tuples : un tableau de longueur et de types fixes</h3>
+      <pre>let coordonnee: [number, number] = [48.85, 2.35];
+let statutHttp: [number, string] = [404, 'Not Found'];
+
+coordonnee = [1, 2, 3]; // Erreur : trop d'éléments pour ce tuple</pre>
+      <p>Un tuple est utile quand l'ordre et le nombre d'éléments ont un sens précis — contrairement à un tableau classique, qui suppose une liste homogène de longueur variable.</p>
+
+      <h3>Objets typés inline</h3>
+      <pre>let utilisateur: { nom: string; age: number; actif: boolean } = {
+  nom: 'Sami',
+  age: 31,
+  actif: true
+};
+
+utilisateur.age = 'trente-deux'; // Erreur de type</pre>
+      <p>Ce type inline devient vite pénible à répéter — le module 5 introduit une façon de le nommer une fois pour toutes.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Déclare un tableau <code>prixArticles: number[]</code> avec trois valeurs, un tuple <code>plage: [number, number]</code> représentant un minimum et un maximum, et un objet inline typé représentant un article avec <code>nom</code> et <code>prix</code>.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>let prixArticles: number[] = [12.5, 8, 45.9];
+let plage: [number, number] = [10, 50];
+let article: { nom: string; prix: number } = { nom: 'Tapis de souris', prix: 12.5 };</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m4"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m5">
+      <div class="mod-eyebrow">Niveau 2 · Module 05</div>
+      <h2 class="mod-title">Interfaces et type aliases</h2>
+      <p>Plutôt que de répéter <code>{ nom: string; prix: number }</code> partout, on lui donne un nom réutilisable. TypeScript propose deux syntaxes pour ça : <code>interface</code> et <code>type</code>.</p>
+
+      <pre>interface Produit {
+  nom: string;
+  prix: number;
+  enStock: boolean;
+}
+
+type ProduitAlias = {
+  nom: string;
+  prix: number;
+  enStock: boolean;
+};
+
+function afficher(p: Produit): string {
+  return `${p.nom} — ${p.prix} €`;
+}</pre>
+
+      <div class="table-scroll"><table>
+        <tr><th>Situation</th><th>Choix conseillé</th><th>Pourquoi</th></tr>
+        <tr><td>Forme d'un objet (le cas le plus courant)</td><td class="mono">interface</td><td>Peut être étendue plus tard (<code>extends</code>), messages d'erreur souvent plus lisibles</td></tr>
+        <tr><td>Union, tuple, type calculé</td><td class="mono">type</td><td><code>interface</code> ne peut pas représenter une union de types</td></tr>
+        <tr><td>Type d'une fonction, d'un tuple</td><td class="mono">type</td><td>Syntaxe plus directe pour ces cas</td></tr>
+      </table></div>
+
+      <h3>Propriétés optionnelles et lecture seule</h3>
+      <pre>interface Utilisateur {
+  readonly id: string;   // ne peut plus changer après création
+  email: string;
+  telephone?: string;    // optionnelle
+}
+
+const u: Utilisateur = { id: 'u1', email: 'a@b.fr' };
+u.id = 'u2'; // Erreur : id est en lecture seule</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Définis une interface <code>Commande</code> avec <code>id</code> (readonly), <code>montant</code> (number), et <code>notes</code> (string, optionnelle). Crée ensuite un objet qui respecte cette interface, sans fournir <code>notes</code>.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>interface Commande {
+  readonly id: string;
+  montant: number;
+  notes?: string;
+}
+
+const commande: Commande = { id: 'cmd-42', montant: 89.9 };</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m5"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m6">
+      <div class="mod-eyebrow">Niveau 2 · Module 06</div>
+      <h2 class="mod-title">Union types et literal types</h2>
+      <p>Une union type dit « cette valeur peut être de tel type OU de tel autre » — plus honnête qu'un <code>any</code> quand la variabilité est en réalité limitée à quelques cas connus.</p>
+
+      <pre>let identifiant: string | number;
+identifiant = 'user-42'; // OK
+identifiant = 42;        // OK aussi
+identifiant = true;      // Erreur : boolean n'est pas dans l'union</pre>
+
+      <h3>Literal types : restreindre à des valeurs précises</h3>
+      <pre>let statut: 'en_attente' | 'validee' | 'annulee';
+statut = 'validee';  // OK
+statut = 'en cours'; // Erreur : cette chaîne n'est pas l'une des trois valeurs autorisées
+
+function changerStatut(s: 'en_attente' | 'validee' | 'annulee') {
+  console.log(`Nouveau statut : ${s}`);
+}</pre>
+      <p>C'est nettement plus strict qu'un simple <code>string</code> : le compilateur refuse toute valeur en dehors de la liste exacte, y compris une faute de frappe.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Déclare un type <code>Role</code> restreint aux valeurs <code>'client'</code>, <code>'admin'</code> et <code>'support'</code>, puis une fonction <code>peutSupprimerUnProduit(role: Role): boolean</code> qui retourne <code>true</code> uniquement pour <code>'admin'</code>.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>type Role = 'client' | 'admin' | 'support';
+
+function peutSupprimerUnProduit(role: Role): boolean {
+  return role === 'admin';
+}</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m6"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m7">
+      <div class="mod-eyebrow">Niveau 2 · Module 07</div>
+      <h2 class="mod-title">Enums</h2>
+      <p>Un enum nomme un ensemble fixe de constantes liées entre elles — une alternative aux literal types du module 6, utile quand le groupe de valeurs a une identité propre plutôt que d'être juste « une des chaînes possibles ici ».</p>
+
+      <pre>enum StatutCommande {
+  EnAttente,
+  Validee,
+  Expediee,
+  Annulee
+}
+
+let statut: StatutCommande = StatutCommande.Validee;
+console.log(statut); // 1 (chaque membre reçoit un nombre croissant à partir de 0)</pre>
+
+      <h3>Enum à valeurs de chaîne — souvent préférable</h3>
+      <pre>enum StatutCommande {
+  EnAttente = 'EN_ATTENTE',
+  Validee = 'VALIDEE',
+  Expediee = 'EXPEDIEE',
+  Annulee = 'ANNULEE'
+}
+
+console.log(StatutCommande.Validee); // 'VALIDEE' — bien plus lisible dans un log ou une base de données</pre>
+
+      <div class="callout warn">
+        <div class="callout-label">Enum ou union de literal types ?</div>
+        <p>Beaucoup d'équipes en 2026 préfèrent une union de literal types (module 6) à un enum : pas de code JavaScript généré en plus, comparaison directe avec de simples chaînes venant d'une API. Réserve l'enum aux cas où le regroupement sous un même nom (<code>StatutCommande.Validee</code>) apporte une vraie clarté.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Définis un enum à valeurs de chaîne <code>NiveauLog</code> avec <code>Info</code>, <code>Avertissement</code>, <code>Erreur</code>, puis une fonction <code>formaterLog(niveau: NiveauLog, message: string): string</code>.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>enum NiveauLog {
+  Info = 'INFO',
+  Avertissement = 'AVERTISSEMENT',
+  Erreur = 'ERREUR'
+}
+
+function formaterLog(niveau: NiveauLog, message: string): string {
+  return `[${niveau}] ${message}`;
+}
+
+formaterLog(NiveauLog.Erreur, 'Connexion à la base perdue');
+// -&gt; "[ERREUR] Connexion à la base perdue"</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m7"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <div class="part-divider"><span class="part-tag">NIVEAU 3</span><h2 class="part-title">Programmation orientée objet</h2></div>
+    <p class="part-intro">TypeScript ajoute au JavaScript des classes des annotations de type et des modificateurs d'accès que JavaScript seul n'a jamais eus nativement.</p>
+
+    <section class="module" id="m8">
+      <div class="mod-eyebrow">Niveau 3 · Module 08</div>
+      <h2 class="mod-title">Classes : constructeur, propriétés, méthodes</h2>
+      <pre>class Produit {
+  nom: string;
+  prix: number;
+
+  constructor(nom: string, prix: number) {
+    this.nom = nom;
+    this.prix = prix;
+  }
+
+  appliquerRemise(pourcentage: number): number {
+    return this.prix - (this.prix * pourcentage) / 100;
+  }
+}
+
+const stylo = new Produit('Stylo', 2.5);
+console.log(stylo.appliquerRemise(10)); // 2.25</pre>
+
+      <h3>Raccourci : déclarer les propriétés dans le constructeur</h3>
+      <pre>class Produit {
+  constructor(public nom: string, public prix: number) {}
+
+  appliquerRemise(pourcentage: number): number {
+    return this.prix - (this.prix * pourcentage) / 100;
+  }
+}
+// Strictement équivalent à la version précédente, en plus court.</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris une classe <code>Panier</code> avec une propriété <code>articles: string[]</code> initialisée vide, une méthode <code>ajouter(article: string): void</code>, et une méthode <code>taille(): number</code> qui retourne le nombre d'articles.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>class Panier {
+  articles: string[] = [];
+
+  ajouter(article: string): void {
+    this.articles.push(article);
+  }
+
+  taille(): number {
+    return this.articles.length;
+  }
+}
+
+const panier = new Panier();
+panier.ajouter('Chaussures');
+console.log(panier.taille()); // 1</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m8"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m9">
+      <div class="mod-eyebrow">Niveau 3 · Module 09</div>
+      <h2 class="mod-title">Héritage, modificateurs d'accès, interfaces implémentées</h2>
+      <h3>Héritage avec <code>extends</code></h3>
+      <pre>class Utilisateur {
+  constructor(public nom: string, public email: string) {}
+
+  seConnecter(): string {
+    return `${this.nom} s'est connecté.`;
+  }
+}
+
+class Administrateur extends Utilisateur {
+  constructor(nom: string, email: string, public permissions: string[]) {
+    super(nom, email);
+  }
+
+  supprimerProduit(id: string): string {
+    return `${this.nom} a supprimé le produit ${id}.`;
+  }
+}
+
+const admin = new Administrateur('Léa', 'lea@novacart.fr', ['supprimer', 'modifier']);
+console.log(admin.seConnecter()); // méthode héritée</pre>
+
+      <h3>Modificateurs d'accès</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Modificateur</th><th>Accessible depuis</th></tr>
+        <tr><td class="mono">public</td><td>Partout (par défaut si omis)</td></tr>
+        <tr><td class="mono">private</td><td>Uniquement à l'intérieur de la classe elle-même</td></tr>
+        <tr><td class="mono">protected</td><td>La classe elle-même et ses classes filles (<code>extends</code>)</td></tr>
+      </table></div>
+
+      <h3>Une classe qui implémente une interface</h3>
+      <pre>interface Notifiable {
+  envoyerNotification(message: string): void;
+}
+
+class ServiceEmail implements Notifiable {
+  envoyerNotification(message: string): void {
+    console.log(`E-mail envoyé : ${message}`);
+  }
+}
+// `implements` force la classe à fournir exactement les méthodes promises par l'interface.</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Crée une interface <code>Payable</code> avec une méthode <code>payer(montant: number): string</code>, puis une classe <code>CarteBancaire implements Payable</code> et une classe <code>Especes implements Payable</code>, chacune avec sa propre implémentation.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>interface Payable {
+  payer(montant: number): string;
+}
+
+class CarteBancaire implements Payable {
+  payer(montant: number): string {
+    return `${montant} € payés par carte bancaire.`;
+  }
+}
+
+class Especes implements Payable {
+  payer(montant: number): string {
+    return `${montant} € payés en espèces.`;
+  }
+}</pre>
+            <p>Les deux classes respectent le même contrat (<code>Payable</code>) tout en ayant un comportement différent — la base du polymorphisme.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m9"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <div class="part-divider"><span class="part-tag">NIVEAU 4</span><h2 class="part-title">Écrire du TypeScript robuste</h2></div>
+    <p class="part-intro">Jusqu'ici, l'essentiel de la syntaxe. Ces quatre modules sont ceux qui distinguent un code qui compile d'un code qui empêche réellement des bugs d'exister.</p>
+
+    <section class="module" id="m10">
+      <div class="mod-eyebrow">Niveau 4 · Module 10</div>
+      <h2 class="mod-title">null, undefined et le mode strict</h2>
+      <p>Sans le mode strict, TypeScript autorise <code>null</code> et <code>undefined</code> à peu près partout — ce qui annule une bonne partie de l'intérêt du typage. Le mode strict (<code>"strict": true</code> dans <code>tsconfig.json</code>) change ça.</p>
+
+      <pre>// Sans strictNullChecks
+let email: string = null; // autorisé — dangereux
+
+// Avec strictNullChecks (recommandé, activé par "strict": true)
+let email: string = null; // Erreur : null n'est pas assignable à string
+let email2: string | null = null; // OK — il faut le dire explicitement</pre>
+
+      <h3>Optional chaining <code>?.</code> et nullish coalescing <code>??</code></h3>
+      <pre>interface Utilisateur {
+  nom: string;
+  adresse?: { ville: string };
+}
+
+function afficherVille(u: Utilisateur): string {
+  return u.adresse?.ville ?? 'Ville inconnue';
+}
+// ?.  : n'accède à .ville que si adresse existe, sinon renvoie undefined sans planter
+// ??  : remplace seulement si la valeur est null ou undefined (contrairement à ||, qui remplacerait aussi 0 ou '')</pre>
+
+      <div class="callout">
+        <div class="callout-label">Pourquoi ?? et pas ||</div>
+        <p><code>quantite || 10</code> remplacerait aussi une quantité valide de <code>0</code> par <code>10</code> — un vrai bug silencieux dans un panier. <code>quantite ?? 10</code> ne remplace que <code>null</code>/<code>undefined</code>, donc <code>0</code> reste <code>0</code>.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Avec l'interface <code>Utilisateur</code> ci-dessus, écris une fonction <code>compterCaracteresVille(u: Utilisateur): number</code> qui retourne la longueur du nom de la ville, ou <code>0</code> si l'adresse n'existe pas — sans jamais planter.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>function compterCaracteresVille(u: Utilisateur): number {
+  return u.adresse?.ville.length ?? 0;
+}</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m10"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m11">
+      <div class="mod-eyebrow">Niveau 4 · Module 11</div>
+      <h2 class="mod-title">Type narrowing et type guards</h2>
+      <p>Quand une variable peut être de plusieurs types (union, module 6), TypeScript « rétrécit » son type au fil du code, à condition de le vérifier explicitement au bon endroit.</p>
+
+      <pre>function afficherId(id: string | number): string {
+  if (typeof id === 'string') {
+    return id.toUpperCase(); // TypeScript sait ici que id est une string
+  }
+  return id.toFixed(0);      // et ici, que id est un number
+}</pre>
+
+      <h3>instanceof et in</h3>
+      <pre>class Chien { aboyer(): string { return 'Wouf'; } }
+class Chat { miauler(): string { return 'Miaou'; } }
+
+function faireDuBruit(animal: Chien | Chat): string {
+  if (animal instanceof Chien) return animal.aboyer();
+  return animal.miauler();
+}
+
+interface Voiture { roues: number; }
+interface Bateau { moteurHorsBord: boolean; }
+
+function decrire(v: Voiture | Bateau): string {
+  if ('roues' in v) return `${v.roues} roues`;
+  return 'Un bateau';
+}</pre>
+
+      <h3>Un type guard personnalisé</h3>
+      <pre>function estString(valeur: unknown): valeur is string {
+  return typeof valeur === 'string';
+}
+
+function traiter(valeur: unknown) {
+  if (estString(valeur)) {
+    console.log(valeur.toUpperCase()); // valeur est bien typée string ici
+  }
+}</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris une fonction <code>longueur(valeur: string | string[]): number</code> qui retourne la longueur de la chaîne, ou le nombre d'éléments si c'est un tableau, en utilisant <code>Array.isArray()</code> pour le narrowing.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>function longueur(valeur: string | string[]): number {
+  if (Array.isArray(valeur)) {
+    return valeur.length;
+  }
+  return valeur.length; // fonctionne aussi sur une string
+}</pre>
+            <p><code>Array.isArray()</code> est lui-même un type guard intégré à TypeScript — il rétrécit l'union exactement comme <code>typeof</code> ou <code>instanceof</code>.</p>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m11"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m12">
+      <div class="mod-eyebrow">Niveau 4 · Module 12</div>
+      <h2 class="mod-title">any, unknown, never : bien choisir</h2>
+      <div class="table-scroll"><table>
+        <tr><th>Type</th><th>Ce qu'il signifie</th><th>À utiliser quand</th></tr>
+        <tr><td class="mono">any</td><td>Désactive complètement la vérification de type</td><td>Idéalement jamais — c'est une porte de sortie, pas un outil</td></tr>
+        <tr><td class="mono">unknown</td><td>Accepte tout, mais interdit l'usage avant vérification</td><td>Une donnée externe dont la forme n'est pas encore connue (réponse API, JSON.parse)</td></tr>
+        <tr><td class="mono">never</td><td>Une fonction qui ne retourne jamais normalement</td><td>Une fonction qui lève toujours une exception, ou une branche prouvée inatteignable</td></tr>
+      </table></div>
+
+      <pre>function parser(brut: string): unknown {
+  return JSON.parse(brut);
+}
+
+const donnees = parser('{"nom":"Amina"}');
+donnees.nom; // Erreur : il faut vérifier la forme de 'donnees' avant
+
+function echouerToujours(message: string): never {
+  throw new Error(message);
+}</pre>
+
+      <h3>never dans un switch exhaustif</h3>
+      <pre>type Statut = 'en_attente' | 'validee' | 'annulee';
+
+function libelle(s: Statut): string {
+  switch (s) {
+    case 'en_attente': return 'En attente';
+    case 'validee': return 'Validée';
+    case 'annulee': return 'Annulée';
+    default:
+      const exhaustif: never = s; // si un nouveau statut est ajouté au type sans être géré ici,
+      return exhaustif;           // cette ligne ne compile plus -&gt; l'oubli est détecté à la compilation
+  }
+}</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris une fonction <code>parserJson(brut: string): unknown</code>, puis une fonction <code>estUtilisateurValide(valeur: unknown): valeur is { nom: string }</code> qui vérifie que la valeur est un objet avec une propriété <code>nom</code> de type string.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>function parserJson(brut: string): unknown {
+  return JSON.parse(brut);
+}
+
+function estUtilisateurValide(valeur: unknown): valeur is { nom: string } {
+  return (
+    typeof valeur === 'object' &amp;&amp;
+    valeur !== null &amp;&amp;
+    'nom' in valeur &amp;&amp;
+    typeof (valeur as { nom: unknown }).nom === 'string'
+  );
+}</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m12"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m13">
+      <div class="mod-eyebrow">Niveau 4 · Module 13</div>
+      <h2 class="mod-title">Discriminated unions</h2>
+      <p>Plutôt qu'un type flou avec des champs tous optionnels, on donne à chaque forme possible un champ commun — souvent <code>status</code> ou <code>type</code> — qui permet au compilateur de savoir exactement quels champs existent dans chaque branche.</p>
+
+      <pre>type ReponseApi =
+  | { status: 'success'; donnees: { id: string; nom: string } }
+  | { status: 'erreurValidation'; champs: string[] }
+  | { status: 'erreurServeur'; code: number };
+
+function traiterReponse(reponse: ReponseApi): string {
+  switch (reponse.status) {
+    case 'success':
+      return `Reçu : ${reponse.donnees.nom}`;
+    case 'erreurValidation':
+      return `Champs invalides : ${reponse.champs.join(', ')}`;
+    case 'erreurServeur':
+      return `Erreur serveur ${reponse.code}`;
+  }
+}</pre>
+      <p>Dans chaque <code>case</code>, TypeScript sait automatiquement quels champs sont disponibles — impossible d'écrire <code>reponse.champs</code> dans la branche <code>'success'</code>, le compilateur le refuse.</p>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Modélise le résultat d'une tentative de paiement avec une union discriminée à trois branches : <code>'approuve'</code> (avec un <code>numeroTransaction: string</code>), <code>'refuse'</code> (avec une <code>raison: string</code>), <code>'enAttente'</code> (sans champ additionnel). Écris une fonction qui affiche un message adapté à chaque cas.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>type ResultatPaiement =
+  | { statut: 'approuve'; numeroTransaction: string }
+  | { statut: 'refuse'; raison: string }
+  | { statut: 'enAttente' };
+
+function messagePaiement(resultat: ResultatPaiement): string {
+  switch (resultat.statut) {
+    case 'approuve':
+      return `Paiement approuvé (transaction ${resultat.numeroTransaction})`;
+    case 'refuse':
+      return `Paiement refusé : ${resultat.raison}`;
+    case 'enAttente':
+      return 'Paiement en attente de confirmation';
+  }
+}</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m13"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <div class="part-divider"><span class="part-tag">NIVEAU 5</span><h2 class="part-title">TypeScript avancé</h2></div>
+    <p class="part-intro">Ce que la plupart des cours pour débutants n'abordent jamais : utiliser le système de types comme un outil de conception, sur des cas qu'on rencontre vraiment en construisant un vrai projet.</p>
+
+    <section class="module" id="m14">
+      <div class="mod-eyebrow">Niveau 5 · Module 14</div>
+      <h2 class="mod-title">Generics</h2>
+      <p>Sans generics, une fonction ou une classe réutilisable pour plusieurs types finit par être copiée-collée une fois par type, ou perd son typage en passant par <code>any</code>. Les generics permettent d'écrire cette logique une seule fois, pour n'importe quel type.</p>
+
+      <h3>Une fonction générique, simple</h3>
+      <pre>function premierElement&lt;T&gt;(tableau: T[]): T | undefined {
+  return tableau[0];
+}
+
+premierElement&lt;number&gt;([1, 2, 3]);        // -&gt; number | undefined
+premierElement&lt;string&gt;(['a', 'b']);       // -&gt; string | undefined
+premierElement([true, false]);            // T inféré automatiquement : boolean</pre>
+
+      <h3>Une fixture réutilisable, écrite une seule fois</h3>
+      <pre>function creerFixture&lt;T&gt;(
+  creer: () =&gt; Promise&lt;T&gt;,
+  supprimer: (ressource: T) =&gt; Promise&lt;void&gt;
+) {
+  let ressource: T;
+  return {
+    async setup() { ressource = await creer(); return ressource; },
+    async teardown() { await supprimer(ressource); }
+  };
+}
+
+const fixtureUtilisateur = creerFixture&lt;Utilisateur&gt;(
+  () =&gt; api.creerUtilisateurDeTest(),
+  (u) =&gt; api.supprimerUtilisateur(u.id)
+);
+// Même implémentation, réutilisable pour n'importe quel type de ressource.</pre>
+
+      <h3>Contraindre un generic avec <code>extends</code></h3>
+      <pre>function afficherNom&lt;T extends { nom: string }&gt;(item: T): string {
+  return item.nom; // autorisé : T est garanti d'avoir au moins .nom
+}
+
+afficherNom({ nom: 'Casque', prix: 59 }); // OK
+afficherNom({ prix: 59 });                // Erreur : il manque 'nom'</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Écris une fonction générique <code>dernierElement&lt;T&gt;(tableau: T[]): T | undefined</code>, puis une fonction générique <code>creerPaire&lt;A, B&gt;(a: A, b: B): [A, B]</code> qui retourne un tuple des deux valeurs.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>function dernierElement&lt;T&gt;(tableau: T[]): T | undefined {
+  return tableau[tableau.length - 1];
+}
+
+function creerPaire&lt;A, B&gt;(a: A, b: B): [A, B] {
+  return [a, b];
+}
+
+creerPaire('id-42', 200); // -&gt; [string, number]</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m14"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m15">
+      <div class="mod-eyebrow">Niveau 5 · Module 15</div>
+      <h2 class="mod-title">Types utilitaires</h2>
+      <p>TypeScript fournit une boîte à outils de types dérivés d'un type existant, sans jamais le réécrire à la main.</p>
+
+      <div class="table-scroll"><table>
+        <tr><th>Type utilitaire</th><th>Ce qu'il fait</th><th>Exemple d'usage</th></tr>
+        <tr><td class="mono">Partial&lt;Utilisateur&gt;</td><td>Tous les champs deviennent optionnels</td><td>Overrides d'une factory de données de test</td></tr>
+        <tr><td class="mono">Required&lt;Config&gt;</td><td>Tous les champs deviennent obligatoires</td><td>Vérifier qu'une config est complète après résolution</td></tr>
+        <tr><td class="mono">Pick&lt;Utilisateur, 'nom'|'email'&gt;</td><td>Ne garde que certains champs</td><td>Une vue partielle d'un type, pour un formulaire par exemple</td></tr>
+        <tr><td class="mono">Omit&lt;Utilisateur, 'id'&gt;</td><td>Retire certains champs</td><td>Le payload de création, où l'id est généré côté serveur</td></tr>
+        <tr><td class="mono">Record&lt;'dev'|'prod', Config&gt;</td><td>Objet indexé par un ensemble de clés connues</td><td>Configuration par environnement — impossible d'en oublier un</td></tr>
+        <tr><td class="mono">ReturnType&lt;typeof f&gt;</td><td>Le type de retour d'une fonction existante</td><td>Typer une valeur sans redéclarer le type à la main</td></tr>
+      </table></div>
+
+      <h3>Une factory de données de test générique</h3>
+      <pre>interface Utilisateur {
+  id: string;
+  email: string;
+  role: 'client' | 'admin';
+}
+
+function buildUtilisateur(overrides: Partial&lt;Utilisateur&gt; = {}): Utilisateur {
+  return {
+    id: crypto.randomUUID(),
+    email: `test.${Date.now()}@exemple.fr`,
+    role: 'client',
+    ...overrides
+  };
+}
+
+const admin = buildUtilisateur({ role: 'admin' });</pre>
+
+      <div class="callout warn">
+        <div class="callout-label">Où s'arrêter</div>
+        <p>Lire et utiliser ces types utilitaires couramment fait une vraie différence. Écrire ses propres mapped types ou conditional types avancés relève plutôt du travail d'un auteur de librairie — rarement nécessaire sur un projet applicatif classique.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Avec l'interface <code>Utilisateur</code> ci-dessus, écris le type du payload de création (sans <code>id</code>), et une fonction <code>creerUtilisateur(payload: Omit&lt;Utilisateur, 'id'&gt;): Utilisateur</code> qui génère un id.</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <pre>type PayloadCreationUtilisateur = Omit&lt;Utilisateur, 'id'&gt;;
+
+function creerUtilisateur(payload: PayloadCreationUtilisateur): Utilisateur {
+  return { id: crypto.randomUUID(), ...payload };
+}</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m15"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <section class="module" id="m16">
+      <div class="mod-eyebrow">Niveau 5 · Module 16</div>
+      <h2 class="mod-title">Architecturer son code : erreurs typées, retry, tooling</h2>
+      <p>Ce module rassemble ce qui distingue un projet TypeScript avec une vraie discipline d'ingénierie d'un projet qui compile juste par chance.</p>
+
+      <h3>Erreurs typées plutôt qu'un <code>try/catch</code> à l'aveugle</h3>
+      <pre>type Resultat&lt;T&gt; =
+  | { ok: true; valeur: T }
+  | { ok: false; erreur: string };
+
+async function tenterConnexion(email: string, motDePasse: string): Promise&lt;Resultat&lt;Session&gt;&gt; {
+  const reponse = await api.post('/connexion', { email, motDePasse });
+  if (reponse.status !== 200) {
+    return { ok: false, erreur: `Connexion refusée (${reponse.status})` };
+  }
+  return { ok: true, valeur: reponse.data as Session };
+}
+
+const resultat = await tenterConnexion(email, motDePasse);
+if (!resultat.ok) {
+  throw new Error(`Échec : ${resultat.erreur}`);
+}
+const session = resultat.valeur; // garanti d'exister ici</pre>
+      <p>Contrairement à une exception, impossible d'oublier de gérer l'échec par erreur : le compilateur refuse d'accéder à <code>.valeur</code> sans avoir vérifié <code>.ok</code> d'abord.</p>
+
+      <h3>Un retry générique et typé</h3>
+      <pre>async function avecRetry&lt;T&gt;(
+  action: () =&gt; Promise&lt;T&gt;,
+  tentatives = 3,
+  delaiMs = 500
+): Promise&lt;T&gt; {
+  let derniereErreur: unknown;
+  for (let i = 0; i &lt; tentatives; i++) {
+    try {
+      return await action();
+    } catch (erreur) {
+      derniereErreur = erreur;
+      await new Promise((resolve) =&gt; setTimeout(resolve, delaiMs * (i + 1)));
+    }
+  }
+  throw derniereErreur;
+}</pre>
+
+      <h3>Le tooling qui fait tenir tout ça dans le temps</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Outil</th><th>Rôle</th></tr>
+        <tr><td class="mono">tsconfig strict (module 10)</td><td>Bloque les régressions de typage à la compilation</td></tr>
+        <tr><td class="mono">@typescript-eslint/recommended-type-checked</td><td>Attrape les <code>any</code> implicites, les promesses non attendues</td></tr>
+        <tr><td class="mono">tsc --noEmit en étape de CI dédiée</td><td>Empêche une pull request avec un type cassé de fusionner</td></tr>
+      </table></div>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice — relire et retyper un morceau de code existant</div>
+        <p>Ce fragment compile, mais il est truffé de typage relâché. Identifie au moins trois problèmes avant de regarder la correction.</p>
+        <pre>async function getData(url: any): Promise&lt;any&gt; {
+  const res = await fetch(url);
+  return res.json();
+}
+
+let cache: any = {};</pre>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+            <p><strong>Problèmes :</strong> <code>url: any</code> accepte n'importe quoi ; <code>Promise&lt;any&gt;</code> propage l'absence de type à tout appelant ; aucune vérification de <code>res.ok</code> avant de parser ; <code>cache: any</code> en variable globale mutable sans garantie sur son contenu.</p>
+            <pre>async function getData&lt;T&gt;(url: string): Promise&lt;T&gt; {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Requête échouée (${res.status})`);
+  return (await res.json()) as T;
+}
+
+const cache = new Map&lt;string, unknown&gt;();</pre>
+          </div>
+        </details>
+      </div>
+
+      <button class="done-toggle" data-toggle="m16"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <div class="part-divider"><span class="part-tag">NIVEAU 6</span><h2 class="part-title">Projet portfolio</h2></div>
+    <p class="part-intro">Un seul projet, mais complet : il mobilise tout ce qui a été vu depuis le module 1, à publier sur GitHub comme preuve concrète de compétence.</p>
+
+    <section class="module" id="m17">
+      <div class="mod-eyebrow">Niveau 6 · Module 17</div>
+      <h2 class="mod-title">Projet — une librairie de panier, typée de bout en bout</h2>
+      <p><span class="tag warn">Autonome</span></p>
+      <p>Construis une petite librairie <code>panier-ts</code> qui gère un panier d'achat : ajout, suppression, calcul du total, application d'une remise. L'objectif n'est pas la complexité, mais la discipline de typage sur un projet réel, du début à la fin.</p>
+
+      <h3>Exigences</h3>
+      <div class="table-scroll"><table>
+        <tr><th>Exigence</th><th>Module lié</th></tr>
+        <tr><td>Une interface <code>Article</code> (id, nom, prix, quantité)</td><td>Module 5</td></tr>
+        <tr><td>Une classe <code>Panier</code> avec des méthodes typées (<code>ajouter</code>, <code>retirer</code>, <code>total</code>)</td><td>Module 8</td></tr>
+        <tr><td>Une union discriminée pour le résultat d'une tentative d'ajout (stock insuffisant, article invalide, succès)</td><td>Module 13</td></tr>
+        <tr><td>Une fonction générique <code>trouverParId&lt;T extends { id: string }&gt;</code> réutilisée pour chercher un article</td><td>Module 14</td></tr>
+        <tr><td>tsconfig en mode strict complet, zéro <code>any</code> dans tout le projet</td><td>Modules 10, 16</td></tr>
+        <tr><td>Un README expliquant les choix de typage, pas seulement l'installation</td><td>—</td></tr>
+      </table></div>
+
+      <h3>Structure cible</h3>
+      <pre>panier-ts/
+├── README.md
+├── tsconfig.json
+├── src/
+│   ├── types.ts       (Article, ResultatAjout, ...)
+│   ├── panier.ts       (classe Panier)
+│   └── index.ts
+└── tests/
+    └── panier.test.ts</pre>
+
+      <div class="exercise">
+        <div class="exercise-label">Exercice — MISSION : la méthode <code>ajouter</code> qui refuse l'implicite</div>
+        <p>Écris la méthode <code>ajouter</code> de la classe <code>Panier</code>. Elle doit retourner une union discriminée à trois branches : <code>{ statut: 'ajoute'; article: Article }</code>, <code>{ statut: 'stockInsuffisant' }</code>, <code>{ statut: 'quantiteInvalide' }</code> — jamais lever d'exception pour un cas prévisible.</p>
+        <details>
+          <summary>Voir une correction possible</summary>
+          <div class="exercise-solution-body">
+            <pre>interface Article {
+  id: string;
+  nom: string;
+  prix: number;
+  quantite: number;
+}
+
+type ResultatAjout =
+  | { statut: 'ajoute'; article: Article }
+  | { statut: 'stockInsuffisant' }
+  | { statut: 'quantiteInvalide' };
+
+class Panier {
+  private articles: Article[] = [];
+
+  ajouter(article: Article, stockDisponible: number): ResultatAjout {
+    if (article.quantite &lt;= 0) {
+      return { statut: 'quantiteInvalide' };
+    }
+    if (article.quantite &gt; stockDisponible) {
+      return { statut: 'stockInsuffisant' };
+    }
+    this.articles.push(article);
+    return { statut: 'ajoute', article };
+  }
+
+  total(): number {
+    return this.articles.reduce((somme, a) =&gt; somme + a.prix * a.quantite, 0);
+  }
+}</pre>
+            <p>Chaque branche de <code>ResultatAjout</code> force l'appelant à gérer explicitement l'échec — exactement le principe du module 16, appliqué ici à un vrai cas d'usage plutôt qu'à un exemple isolé.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">Ce que ce projet prouve</div>
+        <p>N'importe qui peut écrire un panier qui fonctionne. Ce qui se voit sur un dépôt GitHub, c'est si chaque cas d'échec prévisible est modélisé dans les types eux-mêmes, plutôt que découvert au premier bug en production.</p>
+      </div>
+
+      <button class="done-toggle" data-toggle="m17"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <div class="footer-note">
+      <p>Cours rédigé pour un usage personnel, à partir de la documentation officielle TypeScript et de pratiques observées sur des bases de code professionnelles en 2026. Le lien de progression (les cases à cocher) est enregistré uniquement dans ce navigateur.</p>
+      <p>© 2026 Devenir Testeur QA — créé par Abdelalim Rmili. Tous droits réservés.</p>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'ts-course-progress-v1';
+  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','m15','m16','m17'];
+
+  function loadDone(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    }catch(e){ return {}; }
+  }
+  function saveDone(done){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(done)); }catch(e){}
+  }
+
+  var done = loadDone();
+
+  function render(){
+    var count = 0;
+    ids.forEach(function(id){
+      var isDone = !!done[id];
+      if(isDone) count++;
+      var navCheck = document.querySelector('[data-modcheck="'+id+'"]');
+      if(navCheck) navCheck.setAttribute('data-done', isDone ? 'true' : 'false');
+      var toggle = document.querySelector('[data-toggle="'+id+'"]');
+      if(toggle) toggle.setAttribute('data-done', isDone ? 'true' : 'false');
+    });
+    var countEl = document.getElementById('progress-count');
+    var fillEl = document.getElementById('progress-fill');
+    if(countEl) countEl.textContent = String(count);
+    if(fillEl) fillEl.style.width = (count / ids.length * 100) + '%';
+  }
+
+  function toggle(id){
+    done[id] = !done[id];
+    saveDone(done);
+    render();
+  }
+
+  ids.forEach(function(id){
+    var navCheck = document.querySelector('[data-modcheck="'+id+'"]');
+    if(navCheck){
+      navCheck.addEventListener('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        toggle(id);
+      });
+    }
+    var btn = document.querySelector('[data-toggle="'+id+'"]');
+    if(btn){
+      btn.addEventListener('click', function(){ toggle(id); });
+    }
+  });
+
+  render();
+
+  var sections = ids.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+  var navLinks = {};
+  ids.forEach(function(id){
+    var l = document.querySelector('.nav-link[data-id="'+id+'"]');
+    if(l) navLinks[id] = l;
+  });
+
+  if('IntersectionObserver' in window){
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var id = entry.target.id;
+        var link = navLinks[id];
+        if(!link) return;
+        if(entry.isIntersecting){
+          Object.keys(navLinks).forEach(function(k){ navLinks[k].classList.remove('active'); });
+          link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+    sections.forEach(function(s){ observer.observe(s); });
+  }
+})();
+</script>
+
+<script>
+(function(){
+  var labels = document.querySelectorAll('.nav-part-label');
+  labels.forEach(function(label){
+    var list = label.nextElementSibling;
+    if(!list || !list.classList || !list.classList.contains('nav-list')) return;
+    var chevron = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    chevron.setAttribute('class','nav-part-chevron');
+    chevron.setAttribute('viewBox','0 0 24 24');
+    chevron.setAttribute('fill','none');
+    chevron.setAttribute('stroke','currentColor');
+    chevron.setAttribute('stroke-width','2.2');
+    chevron.setAttribute('stroke-linecap','round');
+    chevron.setAttribute('stroke-linejoin','round');
+    var path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d','M6 9l6 6 6-6');
+    chevron.appendChild(path);
+    label.appendChild(chevron);
+
+    list.style.maxHeight = list.scrollHeight + 'px';
+
+    label.addEventListener('click', function(){
+      var collapsed = label.classList.toggle('is-collapsed');
+      list.classList.toggle('is-collapsed', collapsed);
+      if(!collapsed){
+        list.style.maxHeight = list.scrollHeight + 'px';
+      }
+    });
+  });
+})();
+</script>

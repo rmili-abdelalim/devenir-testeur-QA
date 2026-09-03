@@ -446,7 +446,7 @@
     <p class="tagline">Parcours 2026 — des bases au premier pipeline de tests automatisés</p>
 
     <div class="progress-wrap">
-      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/41</span></div>
+      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/38</span></div>
       <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
     </div>
 
@@ -531,12 +531,6 @@
       <li class="nav-item"><a class="nav-link" data-id="m37" href="#m37"><span class="nav-check" data-modcheck="m37"></span><span class="nav-num">37</span> Projet 4 — CI/CD</a></li>
       <li class="nav-item"><a class="nav-link" data-id="m38" href="#m38"><span class="nav-check" data-modcheck="m38"></span><span class="nav-num">38</span> Projet 5 — Capstone</a></li>
     </ul>
-    <div class="nav-part-label">Niveau 12 — TypeScript avancé pour l'automatisation QA</div>
-    <ul class="nav-list">
-      <li class="nav-item"><a class="nav-link" data-id="m39" href="#m39"><span class="nav-check" data-modcheck="m39"></span><span class="nav-num">39</span> Sortir du niveau débutant</a></li>
-      <li class="nav-item"><a class="nav-link" data-id="m40" href="#m40"><span class="nav-check" data-modcheck="m40"></span><span class="nav-num">40</span> Generics et types utilitaires</a></li>
-      <li class="nav-item"><a class="nav-link" data-id="m41" href="#m41"><span class="nav-check" data-modcheck="m41"></span><span class="nav-num">41</span> Architecturer un framework typé</a></li>
-    </ul>
   </nav>
 
   <main>
@@ -545,11 +539,11 @@
       <h1 class="doc-title">Qualité Logicielle Automatisée</h1>
       <p class="doc-lede">Ce cours a un fil conducteur : une seule application fictive, <strong>NovaCart</strong> (un site e-commerce simple), qu'on va tester du début à la fin — d'abord à la main, sur papier, puis avec du vrai code. Chaque notion arrive avec un cas de test concret, pas seulement une définition. Et chaque module se termine par un exercice corrigé, pour vérifier que ça reste vraiment acquis. À la fin, cinq projets professionnels prennent le relais de NovaCart sur de vrais sites d'entraînement, pour pratiquer en conditions réelles.</p>
       <div class="stat-row">
-        <span class="stat-chip"><b>41</b> modules</span>
-        <span class="stat-chip"><b>12</b> niveaux de progression</span>
+        <span class="stat-chip"><b>38</b> modules</span>
+        <span class="stat-chip"><b>11</b> niveaux de progression</span>
         <span class="stat-chip">Outil principal : <b>Playwright</b></span>
-        <span class="stat-chip">Langage de référence : <b>Python</b> (+ TypeScript avancé)</span>
-        <span class="stat-chip"><b>60</b> exercices corrigés</span>
+        <span class="stat-chip">Langage de référence : <b>Python</b> (+ TypeScript)</span>
+        <span class="stat-chip"><b>58</b> exercices corrigés</span>
       </div>
     </header>
 
@@ -3752,341 +3746,6 @@ def test_recherche():
       <button class="done-toggle" data-toggle="m38"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
 
-    <div class="part-divider"><span class="part-tag">NIVEAU 12</span><h2 class="part-title">TypeScript avancé pour l'automatisation QA</h2></div>
-    <p class="part-intro">Le module 33 t'a donné le vocabulaire pour lire du TypeScript à côté du Python de ce cours. Ces trois modules vont ailleurs : utiliser le système de types comme un outil de conception, pas comme une formalité que le compilateur impose. C'est ce qui distingue, sur un vrai projet TypeScript, quelqu'un qui « connaît la syntaxe » d'un QA Automation Engineer à qui une équipe confie l'architecture du framework.</p>
-
-    <section class="module" id="m39">
-      <div class="mod-eyebrow">Niveau 12 · Module 39</div>
-      <h2 class="mod-title">Sortir du niveau débutant</h2>
-      <p>Écrire un test qui compile n'est pas la barre. La vraie question qu'un recruteur teste en entretien technique : est-ce que tu utilises les types pour qu'une erreur soit détectée <em>avant</em> l'exécution, ou est-ce qu'ils ne servent qu'à faire taire l'éditeur ? Ce module pose les trois réflexes qui font la différence.</p>
-
-      <h3><code>any</code> est un mensonge, <code>unknown</code> est honnête</h3>
-      <p><code>any</code> désactive purement et simplement la vérification de type sur tout ce qui en découle — c'est la porte dérobée la plus fréquente dans une base TypeScript mal disciplinée. <code>unknown</code> fait l'inverse : il accepte n'importe quelle valeur, mais interdit de l'utiliser tant qu'on ne l'a pas vérifiée.</p>
-
-      <p class="code-label">Avec <code>any</code> — aucune erreur, même si c'est faux</p>
-      <pre>function parserReponseApi(brut: string): any {
-  return JSON.parse(brut);
-}
-
-const reponse = parserReponseApi(corpsBrut);
-reponse.donnees.utilisateur.email.toUpperCase();
-// Compile sans problème, même si `donnees` n'existe pas sur cette réponse.
-// L'erreur n'apparaît qu'à l'exécution — exactement le bug que le typage devait éviter.</pre>
-
-      <p class="code-label">Avec <code>unknown</code> — le compilateur t'arrête avant</p>
-      <pre>function parserReponseApi(brut: string): unknown {
-  return JSON.parse(brut);
-}
-
-const reponse = parserReponseApi(corpsBrut);
-reponse.donnees.utilisateur.email.toUpperCase();
-// Erreur de compilation : 'reponse' is of type 'unknown'.
-// -&gt; il faut d'abord vérifier la forme des données avant de les utiliser.</pre>
-
-      <h3>Le tsconfig d'un vrai projet de test</h3>
-      <div class="table-scroll"><table>
-        <tr><th>Option</th><th>Ce qu'elle empêche</th><th>Erreur qu'elle attrape</th></tr>
-        <tr><td class="mono">strict: true</td><td>Active tout le paquet ci-dessous d'un coup</td><td>—</td></tr>
-        <tr><td class="mono">noImplicitAny</td><td>Un paramètre sans type déclaré redevient <code>any</code> silencieusement</td><td><code>function retry(fn, tries)</code> sans annotations</td></tr>
-        <tr><td class="mono">strictNullChecks</td><td><code>null</code>/<code>undefined</code> assignables partout sans vérification</td><td>Accéder à <code>.email</code> sur un utilisateur possiblement <code>null</code></td></tr>
-        <tr><td class="mono">noUncheckedIndexedAccess</td><td>Un accès par index (tableau, objet) supposé toujours présent</td><td><code>const p = produits[0]</code> typé <code>Produit</code> au lieu de <code>Produit | undefined</code></td></tr>
-        <tr><td class="mono">exactOptionalPropertyTypes</td><td>Confondre « propriété absente » et « propriété valant <code>undefined</code> »</td><td>Un objet de config où <code>timeout?: number</code> accepterait <code>{ timeout: undefined }</code> par erreur</td></tr>
-      </table></div>
-      <p><code>noUncheckedIndexedAccess</code> est celle que le moins de projets activent — et celle qui attrape le plus de bugs réels dans du code de test : un <code>resultats[0]</code> qui suppose toujours au moins un résultat plante en silence le jour où l'API n'en renvoie aucun.</p>
-
-      <h3>Réduire <code>unknown</code> à quelque chose d'utilisable : le narrowing</h3>
-      <p>Quatre outils suffisent dans l'immense majorité des cas : <code>typeof</code> pour les primitives, <code>instanceof</code> pour les classes, l'opérateur <code>in</code> pour vérifier qu'une clé existe, et un <strong>type predicate</strong> personnalisé quand la logique de vérification est plus complexe qu'une seule expression.</p>
-      <pre>function estErreurApi(valeur: unknown): valeur is { message: string; code: number } {
-  return (
-    typeof valeur === 'object' &amp;&amp;
-    valeur !== null &amp;&amp;
-    'message' in valeur &amp;&amp;
-    'code' in valeur
-  );
-}
-
-if (estErreurApi(reponse)) {
-  // TypeScript sait maintenant que `reponse` a bien `.message` et `.code`
-  console.error(`Erreur ${reponse.code} : ${reponse.message}`);
-}</pre>
-
-      <h3>Discriminated unions : modéliser un résultat qui peut échouer de plusieurs façons</h3>
-      <p>Plutôt qu'un type flou avec des champs tous optionnels, on donne à chaque forme possible un champ commun (souvent <code>status</code> ou <code>type</code>) qui permet au compilateur de savoir exactement quels champs existent dans chaque branche.</p>
-      <pre>type ResultatPanier =
-  | { status: 'success'; donnees: Panier }
-  | { status: 'validationError'; champs: string[] }
-  | { status: 'serverError'; code: number };
-
-function assertPanierValide(
-  resultat: ResultatPanier
-): asserts resultat is { status: 'success'; donnees: Panier } {
-  if (resultat.status !== 'success') {
-    throw new Error(`Réponse inattendue du panier : ${resultat.status}`);
-  }
-}
-
-const resultat = await recupererPanier(idUtilisateur);
-assertPanierValide(resultat);
-// À partir d'ici, TypeScript garantit que resultat.donnees existe.
-expect(resultat.donnees.articles.length).toBeGreaterThan(0);</pre>
-
-      <div class="callout">
-        <div class="callout-label">Pourquoi ça change quelque chose pour un testeur</div>
-        <p>En Python, une fixture mal formée ne se voit qu'à l'exécution du test — parfois seulement sur un cas limite rarement joué. Avec une union discriminée, le compilateur refuse de démarrer si un test suppose la mauvaise forme de données. C'est une classe entière de tests flaky (module 21) éliminée avant même le premier run.</p>
-      </div>
-
-      <div class="exercise">
-        <div class="exercise-label">Exercice — MISSION QA : typer une réponse API à trois visages</div>
-        <p class="difficulty-line"><span class="tag warn">Professionnelle</span></p>
-        <p>L'endpoint <code>GET /api/panier/:id</code> de NovaCart peut répondre de trois façons : <code>200</code> avec le panier, <code>422</code> avec <code>{ errors: string[] }</code>, ou <code>500</code> avec <code>{ message: string }</code>. Écris : (1) le type union discriminée <code>ReponsePanier</code>, (2) une fonction de narrowing qui isole le cas succès, (3) un test Playwright qui utilise ce type pour asserter sur la bonne branche sans jamais utiliser <code>any</code>.</p>
-        <details>
-          <summary>Voir la correction</summary>
-          <div class="exercise-solution-body">
-            <pre>type ReponsePanier =
-  | { code: 200; status: 'success'; donnees: Panier }
-  | { code: 422; status: 'validationError'; errors: string[] }
-  | { code: 500; status: 'serverError'; message: string };
-
-function estSucces(
-  reponse: ReponsePanier
-): reponse is { code: 200; status: 'success'; donnees: Panier } {
-  return reponse.status === 'success';
-}
-
-test('TC-PANIER-030 — le panier vide renvoie une liste vide, pas une erreur', async ({ request }) =&gt; {
-  const res = await request.get('/api/panier/user-vide');
-  const reponse = (await res.json()) as ReponsePanier;
-
-  if (!estSucces(reponse)) {
-    throw new Error(`Réponse inattendue : ${reponse.status}`);
-  }
-
-  expect(reponse.donnees.articles).toEqual([]);
-});</pre>
-            <p>Le point clé : <code>as ReponsePanier</code> est la seule affirmation de type de tout l'exercice, faite une fois à la frontière (juste après <code>.json()</code>) — tout le reste du code est vérifié par le narrowing, jamais réaffirmé à la main.</p>
-          </div>
-        </details>
-      </div>
-
-      <button class="done-toggle" data-toggle="m39"><span class="box"></span> Marquer ce module comme terminé</button>
-    </section>
-
-    <section class="module" id="m40">
-      <div class="mod-eyebrow">Niveau 12 · Module 40</div>
-      <h2 class="mod-title">Generics et types utilitaires : arrêter de dupliquer son framework</h2>
-      <p>Sans generics, un framework de test grossit par copier-coller : une fixture pour les utilisateurs, une quasi-identique pour les produits, une autre pour les commandes. Les generics permettent d'écrire cette logique une seule fois, pour n'importe quel type.</p>
-
-      <h3>Une fixture générique, écrite une seule fois</h3>
-      <pre>function creerFixtureApi&lt;T&gt;(
-  creer: () =&gt; Promise&lt;T&gt;,
-  supprimer: (ressource: T) =&gt; Promise&lt;void&gt;
-) {
-  let ressource: T;
-  return {
-    async setup() { ressource = await creer(); return ressource; },
-    async teardown() { await supprimer(ressource); }
-  };
-}
-
-const fixtureUtilisateur = creerFixtureApi&lt;Utilisateur&gt;(
-  () =&gt; api.creerUtilisateurDeTest(),
-  (u) =&gt; api.supprimerUtilisateur(u.id)
-);
-
-const fixtureProduit = creerFixtureApi&lt;Produit&gt;(
-  () =&gt; api.creerProduitDeTest(),
-  (p) =&gt; api.supprimerProduit(p.id)
-);
-// Même implémentation, deux types différents. Zéro duplication.</pre>
-
-      <h3>Les types utilitaires que tu vas réellement utiliser</h3>
-      <div class="table-scroll"><table>
-        <tr><th>Type utilitaire</th><th>Usage concret en QA</th></tr>
-        <tr><td class="mono">Partial&lt;Utilisateur&gt;</td><td>Overrides d'une factory de données de test — tous les champs deviennent optionnels</td></tr>
-        <tr><td class="mono">Omit&lt;Utilisateur, 'id'&gt;</td><td>Le payload envoyé pour créer un utilisateur : l'<code>id</code> est généré côté serveur, il ne doit pas pouvoir être fourni</td></tr>
-        <tr><td class="mono">Record&lt;'dev'|'int'|'preprod'|'prod', ConfigEnv&gt;</td><td>Objet de configuration typé par environnement (module 32) — impossible d'oublier un environnement, le compilateur l'exige</td></tr>
-        <tr><td class="mono">ReturnType&lt;typeof creerFixtureApi&gt;</td><td>Typer la valeur retournée par une fonction existante sans la redéclarer à la main</td></tr>
-        <tr><td class="mono">Required&lt;ConfigOptionnelle&gt;</td><td>Vérifier, une fois la config résolue, qu'il ne reste plus aucun champ optionnel non renseigné</td></tr>
-      </table></div>
-
-      <h3>Une factory de données de test générique</h3>
-      <pre>function buildUtilisateur(overrides: Partial&lt;Utilisateur&gt; = {}): Utilisateur {
-  return {
-    id: crypto.randomUUID(),
-    email: `test.${Date.now()}@novacart.exemple`,
-    motDePasse: 'MotDePasse2026!',
-    role: 'client',
-    ...overrides
-  };
-}
-
-const admin = buildUtilisateur({ role: 'admin' });
-const utilisateurVerrouille = buildUtilisateur({ role: 'client', verrouille: true });</pre>
-      <p>C'est la version typée du principe vu au module 21 (données de test isolées par <code>uuid</code> pour éviter les tests flaky) : ici, en plus de l'isolation, le compilateur refuse un <code>overrides</code> qui contiendrait un champ inexistant sur <code>Utilisateur</code>, ou une valeur du mauvais type.</p>
-
-      <h3>Mapped types, juste ce qu'il faut pour les reconnaître</h3>
-      <p>Un mapped type transforme chaque clé d'un type existant. Tu en écriras rarement toi-même — mais savoir les lire évite de paniquer face à une définition de librairie.</p>
-      <pre>type TousOptionnels&lt;T&gt; = { [K in keyof T]?: T[K] };
-// C'est exactement la définition de Partial&lt;T&gt; — tu viens de comprendre comment il est construit en interne.</pre>
-
-      <div class="callout warn">
-        <div class="callout-label">Où s'arrêter</div>
-        <p>Un QA Automation Engineer doit lire et utiliser generics et types utilitaires couramment. Écrire ses propres types conditionnels ou mapped types avancés relève plutôt du travail d'un auteur de librairie — rarement le poste visé par ce cours. Viser le top 5% ici, c'est une utilisation disciplinée et sans <code>any</code>, pas de l'acrobatie de types.</p>
-      </div>
-
-      <div class="exercise">
-        <div class="exercise-label">Exercice — MISSION QA : une factory générique pour deux entités dupliquées</div>
-        <p class="difficulty-line"><span class="tag warn">Professionnelle</span></p>
-        <p>Le framework NovaCart a deux fonctions de factory presque identiques, une pour <code>Produit</code> et une pour <code>Commande</code>, chacune réécrivant la même logique de fusion d'overrides. Remplace-les par une seule fonction générique <code>creerBuilder&lt;T&gt;</code>, réutilisée pour les deux entités.</p>
-        <details>
-          <summary>Voir la correction</summary>
-          <div class="exercise-solution-body">
-            <pre>function creerBuilder&lt;T&gt;(valeursParDefaut: T) {
-  return (overrides: Partial&lt;T&gt; = {}): T =&gt; ({ ...valeursParDefaut, ...overrides });
-}
-
-const buildProduit = creerBuilder&lt;Produit&gt;({
-  id: 'prod-1', nom: 'Chaussures de running', prix: 79.9, stock: 12
-});
-
-const buildCommande = creerBuilder&lt;Commande&gt;({
-  id: 'cmd-1', utilisateurId: 'user-1', articles: [], statut: 'en_attente'
-});
-
-const produitEnRupture = buildProduit({ stock: 0 });
-const commandeAnnulee = buildCommande({ statut: 'annulee' });</pre>
-            <p>Une seule implémentation générique remplace les deux factories dupliquées, et chaque appel garde l'autocomplétion et la vérification de type propres à son entité — <code>buildCommande({ stock: 0 })</code> serait rejeté à la compilation, puisque <code>Commande</code> n'a pas de champ <code>stock</code>.</p>
-          </div>
-        </details>
-      </div>
-
-      <button class="done-toggle" data-toggle="m40"><span class="box"></span> Marquer ce module comme terminé</button>
-    </section>
-
-    <section class="module" id="m41">
-      <div class="mod-eyebrow">Niveau 12 · Module 41</div>
-      <h2 class="mod-title">Architecturer un framework de test TypeScript comme un senior</h2>
-      <p>C'est ce que regarde un lead QA ou un recruteur technique sur un projet TypeScript présenté en portfolio : pas seulement si les tests passent, mais si le framework qui les fait tourner est lui-même conçu avec discipline — erreurs gérées explicitement, retries typés, tooling qui empêche une régression de typage de fusionner.</p>
-
-      <h3>Erreurs typées plutôt qu'un <code>try/catch</code> à l'aveugle</h3>
-      <p>Un type <code>Resultat&lt;T&gt;</code> — parfois appelé pattern <em>Result</em> ou <em>Either</em> — oblige l'appelant à gérer l'échec avant de pouvoir toucher la valeur de succès. Contrairement à une exception, impossible de l'oublier par erreur : le compilateur ne laisse pas accéder à <code>.valeur</code> sans avoir vérifié <code>.ok</code> d'abord.</p>
-      <pre>type Resultat&lt;T&gt; =
-  | { ok: true; valeur: T }
-  | { ok: false; erreur: string };
-
-async function tenterConnexion(
-  email: string,
-  motDePasse: string
-): Promise&lt;Resultat&lt;Session&gt;&gt; {
-  const reponse = await api.post('/connexion', { email, motDePasse });
-  if (reponse.status !== 200) {
-    return { ok: false, erreur: `Connexion refusée (${reponse.status})` };
-  }
-  return { ok: true, valeur: reponse.data as Session };
-}
-
-const resultat = await tenterConnexion(email, motDePasse);
-if (!resultat.ok) {
-  throw new Error(`Setup du test impossible : ${resultat.erreur}`);
-}
-// TypeScript garantit ici que resultat.valeur existe et est de type Session.
-const session = resultat.valeur;</pre>
-
-      <h3>Un retry générique et typé</h3>
-      <p>La version copier-collée à la va-vite d'un retry n'a ni type de retour ni limite claire. La version générique se réutilise partout, avec le bon type de retour à chaque fois.</p>
-      <pre>async function avecRetry&lt;T&gt;(
-  action: () =&gt; Promise&lt;T&gt;,
-  tentatives = 3,
-  delaiMs = 500
-): Promise&lt;T&gt; {
-  let derniereErreur: unknown;
-  for (let i = 0; i &lt; tentatives; i++) {
-    try {
-      return await action();
-    } catch (erreur) {
-      derniereErreur = erreur;
-      await new Promise((resolve) =&gt; setTimeout(resolve, delaiMs * (i + 1)));
-    }
-  }
-  throw derniereErreur;
-}
-
-const panier = await avecRetry(() =&gt; api.recupererPanier(idUtilisateur));
-// panier est inféré comme Panier, pas comme unknown ni any.</pre>
-      <p>C'est la version disciplinée du réflexe déjà vu au module 21 (diagnostiquer un test flaky) : au lieu d'un <code>time.sleep()</code> ou d'un retry écrit en urgence dans un seul test, une fonction générique réutilisable dans tout le framework, avec un type de retour garanti.</p>
-
-      <h3><code>Promise.all</code> contre <code>Promise.allSettled</code> : le bon choix selon le typage</h3>
-      <p><code>Promise.all</code> rejette entièrement dès le premier échec — on perd l'information sur les autres promesses. <code>Promise.allSettled</code> résout toujours, avec pour chaque entrée une union typée <code>{ status: 'fulfilled'; value } | { status: 'rejected'; reason }</code> : utile quand on initialise plusieurs fixtures indépendantes et qu'on veut savoir précisément laquelle a échoué.</p>
-      <pre>const resultats = await Promise.allSettled([
-  api.creerUtilisateurDeTest(),
-  api.creerProduitDeTest(),
-  api.creerCommandeDeTest()
-]);
-
-resultats.forEach((r, i) =&gt; {
-  if (r.status === 'rejected') {
-    console.error(`Fixture ${i} a échoué :`, r.reason);
-  }
-});</pre>
-
-      <h3>Le tooling qui fait tenir tout ça dans le temps</h3>
-      <div class="table-scroll"><table>
-        <tr><th>Outil</th><th>Rôle</th><th>Où il s'exécute</th></tr>
-        <tr><td class="mono">tsconfig strict (module 39)</td><td>Bloque les régressions de typage à la compilation</td><td>Local + CI</td></tr>
-        <tr><td class="mono">@typescript-eslint/recommended-type-checked</td><td>Attrape les <code>any</code> implicites, les promesses non attendues, les comparaisons incohérentes</td><td>Local + CI</td></tr>
-        <tr><td class="mono">tsc --noEmit en étape de CI dédiée</td><td>Empêche une pull request avec un type cassé de fusionner (lien module 14)</td><td>CI uniquement, avant les tests eux-mêmes</td></tr>
-      </table></div>
-
-      <div class="exercise">
-        <div class="exercise-label">Exercice — MISSION QA : relire et retyper un morceau de framework existant</div>
-        <p class="difficulty-line"><span class="tag fail">Difficile</span></p>
-        <p>Ce fragment vient d'un vrai framework de test — il compile, ses tests passent, et pourtant il est truffé de typage relâché. Identifie au moins cinq problèmes avant de regarder la correction, dans le même esprit que la revue de code du module 23.</p>
-        <pre>async function getData(url: any): Promise&lt;any&gt; {
-  const res = await fetch(url);
-  return res.json();
-}
-
-function retry(fn, tries) {
-  return fn().catch((e) =&gt; {
-    if (tries &lt;= 1) throw e;
-    return retry(fn, tries - 1);
-  });
-}
-
-let userCache: any = {};</pre>
-        <details>
-          <summary>Voir la correction</summary>
-          <div class="exercise-solution-body">
-            <p><strong>Problèmes identifiés :</strong> <code>url: any</code> accepte n'importe quoi, y compris une faute de frappe non détectée ; le retour <code>Promise&lt;any&gt;</code> propage l'absence de type à tout le code appelant, quel que soit l'endpoint interrogé ; aucune vérification de <code>res.ok</code> avant de parser — une erreur 500 renvoyant du JSON serait traitée comme un succès ; <code>fn</code> et <code>tries</code> sans aucune annotation dans <code>retry</code>, ce qui ne compile que parce que <code>noImplicitAny</code> n'est pas activé (module 39) — un tsconfig assez strict aurait refusé de compiler ce fichier ; <code>userCache: any</code> en variable globale mutable, sans aucune garantie sur ce qu'elle contient réellement à un instant donné.</p>
-            <p class="code-label">Version retypée</p>
-            <pre>async function getData&lt;T&gt;(url: string): Promise&lt;T&gt; {
-  const res = await fetch(url);
-  if (!res.ok) {
-    throw new Error(`Requête échouée (${res.status}) : ${url}`);
-  }
-  return (await res.json()) as T;
-}
-
-function retry&lt;T&gt;(fn: () =&gt; Promise&lt;T&gt;, tentativesRestantes: number): Promise&lt;T&gt; {
-  return fn().catch((erreur: unknown) =&gt; {
-    if (tentativesRestantes &lt;= 1) throw erreur;
-    return retry(fn, tentativesRestantes - 1);
-  });
-}
-
-const userCache = new Map&lt;string, Utilisateur&gt;();</pre>
-            <p>Cinq problèmes, une seule cause commune : chaque <code>any</code> était un endroit où le compilateur avait été désactivé sans que personne ne le décide consciemment.</p>
-          </div>
-        </details>
-      </div>
-
-      <div class="callout">
-        <div class="callout-label">Ce que cette section prouve, au-delà du code</div>
-        <p>N'importe qui peut annoter quelques variables et appeler ça « faire du TypeScript ». Ce qui distingue un profil top 5% sur un projet TypeScript, c'est d'utiliser le système de types pour rendre certaines classes de bugs structurellement impossibles — pas seulement moins probables. C'est exactement ce qu'un recruteur technique cherche à vérifier en te faisant lire du code existant en entretien (module 31, niveau 10).</p>
-      </div>
-
-      <button class="done-toggle" data-toggle="m41"><span class="box"></span> Marquer ce module comme terminé</button>
-    </section>
 
     <div class="footer-note">
       <p>Cours rédigé pour un usage personnel, à partir des techniques de conception de tests ISTQB (fondamentaux intemporels) et de données 2026 sur l'outillage — téléchargements npm et taux de rétention Playwright/Cypress/Selenium, comparatif des outils de test d'API, tendances d'automatisation assistée par IA. Le lien de progression (les cases à cocher) est enregistré uniquement dans ce navigateur.</p>
@@ -4098,7 +3757,7 @@ const userCache = new Map&lt;string, Utilisateur&gt;();</pre>
 <script>
 (function(){
   var STORAGE_KEY = 'qa-course-progress-v1';
-  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','m15','m16','m17','m18','m19','m20','m21','m22','m23','m24','m25','m26','m27','m28','m29','m30','m31','m32','m33','m34','m35','m36','m37','m38','m39','m40','m41'];
+  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','m15','m16','m17','m18','m19','m20','m21','m22','m23','m24','m25','m26','m27','m28','m29','m30','m31','m32','m33','m34','m35','m36','m37','m38'];
 
   function loadDone(){
     try{
