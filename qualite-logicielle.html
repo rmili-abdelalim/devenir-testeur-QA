@@ -621,6 +621,46 @@
       </div>
     </header>
 
+    <div class="callout" id="parcours-essentiel">
+      <div class="callout-label">Parcours essentiel — 25 modules sur 66</div>
+      <p>Peu de temps devant toi ? Ces 25 modules suffisent pour aller de zéro à un premier portfolio de testeur en automatisation, à raison d'environ 9 heures par semaine pendant 6 mois. Les 41 autres sont en bonus : reviens-y quand une offre ou un entretien le demande (SQL, Docker, Selenium, k6 et JMeter, Robot Framework, accessibilité, Appium, sécurité).</p>
+      <p><strong>1. Les bases du test (environ mois 1-2)</strong></p>
+      <ul>
+        <li><a href="#m1">Module 01 — Tester, qu'est-ce que ça veut dire</a></li>
+        <li><a href="#m3">Module 03 — Les familles de tests</a></li>
+        <li><a href="#m4">Module 04 — Les niveaux de test</a></li>
+        <li><a href="#m5">Module 05 — Concevoir des cas de test</a></li>
+        <li><a href="#m6">Module 06 — Écrire un cas de test et un bug</a></li>
+        <li><a href="#m7">Module 07 — Stratégie et plan de test</a></li>
+        <li><a href="#m42">Module 10 — Le testeur dans une équipe agile</a></li>
+        <li><a href="#m49">Module 17 — Préparer et passer l'ISTQB CTFL</a></li>
+      </ul>
+      <p><strong>2. Automatiser avec Playwright (environ mois 3-4)</strong></p>
+      <ul>
+        <li><a href="#m45">Module 13 — HTML, CSS et JavaScript vus par un testeur</a></li>
+        <li><a href="#m17">Module 20 — Git pour testeurs</a></li>
+        <li><a href="#m9">Module 21 — Choisir son langage</a></li>
+        <li><a href="#m34">Module 23 — Passerelle Python ↔ TypeScript / JavaScript</a></li>
+        <li><a href="#m8">Module 25 — Pourquoi (et quoi) automatiser</a></li>
+        <li><a href="#m11">Module 33 — Playwright en pratique</a></li>
+        <li><a href="#m18">Module 34 — Le Page Object Model</a></li>
+        <li><a href="#m19">Module 35 — Architecture d'une suite d'automatisation</a></li>
+        <li><a href="#m21">Module 37 — Diagnostiquer et éliminer les tests flaky</a></li>
+      </ul>
+      <p><strong>3. Portfolio et marché (environ mois 5-6)</strong></p>
+      <ul>
+        <li><a href="#m12">Module 40 — Tester une API</a></li>
+        <li><a href="#m14">Module 27 — Brancher les tests en CI/CD</a></li>
+        <li><a href="#m25">Module 44 — Suivre un bug de bout en bout avec Jira</a></li>
+        <li><a href="#m15">Module 49 — L'IA dans la QA en 2026</a></li>
+        <li><a href="#m16">Module 55 — Projet : ta première suite + MISSION QA</a></li>
+        <li><a href="#m36">Module 57 — Projet 2 — QA Automation : Playwright + TypeScript (POM)</a></li>
+        <li><a href="#m38">Module 59 — Projet 4 — CI/CD : pipeline complet UI + API</a></li>
+        <li><a href="#m32">Module 61 — Te positionner sur le marché</a></li>
+      </ul>
+      <p>Fais-les dans l'ordre du cours, sauf le module 27 (CI/CD) que tu ne fais qu'une fois ta première suite écrite. Garde le reste du cours pour plus tard : ce parcours n'enlève rien, il fixe seulement les priorités.</p>
+    </div>
+
 
     <div class="part-divider"><span class="part-tag">SEMAINES 1–2</span><h2 class="part-title">Prise en main du métier de testeur</h2></div>
     <p class="part-intro">Les fondamentaux, ceux de l'ISTQB : ce qu'est un test, où il se place dans le cycle de vie, les familles et niveaux de tests, les techniques de conception, la rédaction des cas et des bugs, la gestion des tests, les techniques statiques et les outils de support. Rien de ça n'est daté : ces techniques ont 30 ans et fonctionnent toujours.</p>
@@ -2604,7 +2644,7 @@ AssertionError: Expected "Commande validée" but got ""
       <p>"Ça passe sur ma machine mais pas en CI" est un symptôme classique : une version de Node différente, une police système absente, une dépendance installée à la main un jour et oubliée. <strong>Docker</strong> élimine cette classe entière de problèmes en empaquetant exactement le même environnement, partout.</p>
 
       <p class="code-label">Dockerfile — Python, pour exécuter les tests Playwright du module 33</p>
-      <pre>FROM mcr.microsoft.com/playwright/python:v1.48.0-jammy
+      <pre>FROM mcr.microsoft.com/playwright/python:v1.64.1-noble
 
 WORKDIR /app
 COPY requirements.txt .
@@ -2614,7 +2654,7 @@ COPY . .
 CMD ["pytest", "--browser", "chromium"]</pre>
 
       <p class="code-label">Dockerfile — TypeScript (équivalent)</p>
-      <pre>FROM mcr.microsoft.com/playwright:v1.48.0-jammy
+      <pre>FROM mcr.microsoft.com/playwright:v1.64.1-noble
 
 WORKDIR /app
 COPY package*.json .
@@ -2622,6 +2662,8 @@ RUN npm ci
 COPY . .
 
 CMD ["npx", "playwright", "test"]</pre>
+
+      <p><strong>Épingle toujours la version de l'image</strong> (ici <code>v1.64.1-noble</code>, soit Ubuntu 24.04) et garde exactement la même version de Playwright dans <code>requirements.txt</code> (<code>playwright==1.64.1</code>) ou dans <code>package-lock.json</code>. Si les deux divergent, Playwright ne retrouve pas les navigateurs installés dans l'image. Quand tu passes à une nouvelle version de Playwright, change les deux ensemble.</p>
 
       <p>La même image tourne en local (<code>docker build -t novacart-tests . &amp;&amp; docker run novacart-tests</code>) et dans le pipeline GitHub Actions du module 27 — plus de surprise entre "chez moi" et "en CI", parce que c'est littéralement le même système de fichiers qui exécute les tests dans les deux cas. Les deux images officielles Microsoft (<code>playwright</code> pour Node, <code>playwright/python</code> pour Python) embarquent déjà les navigateurs et leurs dépendances système — pas besoin de gérer soi-même l'installation de Chromium/Firefox/WebKit dans l'image.</p>
 
@@ -5740,7 +5782,7 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright/python:v1.48.0-jammy
+    container: mcr.microsoft.com/playwright/python:v1.64.1-noble
     steps:
       - uses: actions/checkout@v4
       - name: Installer les dépendances
