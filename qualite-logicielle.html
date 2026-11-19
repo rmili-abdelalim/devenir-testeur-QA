@@ -2512,7 +2512,7 @@ jobs:
     branches: [main, develop]
   pull_request:
   schedule:
-    - cron: '0 2 * * *'</pre>
+    - cron: '0 2 * * *'   # 02:00 UTC (pas l'heure locale)</pre>
             <p>Le déclencheur <code>schedule</code> avec une expression cron fait tourner le job à heure fixe, indépendamment de toute activité sur le dépôt — valable à l'identique dans la version TypeScript et la version Python, seul le reste du job change entre les deux.</p>
           </div>
         </details>
@@ -3206,20 +3206,21 @@ test('TC-CONN-014 — mot de passe de 7 caractères est rejeté', async ({ page 
   <h3>Fixtures : séparer la préparation du test de sa logique</h3>
   <p>Une fixture prépare un état (navigateur ouvert, utilisateur connecté, données de test créées) et le nettoie après, indépendamment du contenu du test lui-même — c'est ce qui évite qu'un test dépende de ce qu'un autre test a laissé derrière lui.</p>
   <p class="code-label">conftest.py</p>
-  <pre>import pytest
+  <pre>import os
+import pytest
 from playwright.sync_api import Page
 
 @pytest.fixture
 def utilisateur_connecte(page: Page):
-    page.goto("/login")
-    page.get_by_label("Email").fill("qa.test@novacart.com")
-    page.get_by_label("Mot de passe").fill("Test1234!")
+    page.goto("/login")   # URL relative : lancer pytest avec --base-url (voir config par environnement ci-dessous)
+    page.get_by_label("Email").fill("qa.test@novacart.fr")
+    page.get_by_label("Mot de passe").fill(os.environ["NOVACART_TEST_PASSWORD"])   # jamais en dur (module 28)
     page.get_by_role("button", name="Se connecter").click()
     yield page
     page.get_by_role("button", name="Déconnexion").click()   # nettoyage systématique
 
 @pytest.fixture
-def commande_de_test(api_client):
+def commande_de_test(api_client):   # api_client : fixture qui enveloppe l'API de NovaCart, définie ailleurs dans la suite
     commande = api_client.creer_commande(produits=["SKU-042"])
     yield commande
     api_client.supprimer_commande(commande["id"])   # aucune donnée de test ne survit au test</pre>
@@ -4777,7 +4778,7 @@ npx playwright init-agents --loop=claude</pre>
 
       <h3>Ce qu'un agent ne sait pas faire seul</h3>
       <ul>
-        <li><strong>Se connecter</strong> : sans une session préparée (fichier <code>storageState</code>, module 34), il bloque à l'écran de login.</li>
+        <li><strong>Se connecter</strong> : sans une session préparée (une session de connexion enregistrée au préalable, dans un fichier <code>storageState</code>), il bloque à l'écran de login.</li>
         <li><strong>Savoir ce qui est juste</strong> : il compare à ce qu'il voit, pas aux règles métier. C'est toi qui fournis les règles (story, critères d'acceptation).</li>
         <li><strong>Choisir quoi garder</strong> : générer 300 tests est facile ; décider lesquels méritent de tourner en CI à chaque commit, c'est le travail du testeur (module 52).</li>
         <li><strong>Rester dans son périmètre</strong> : un agent a accès à tes fichiers et à ton terminal. On ne lui donne jamais les secrets de production, et on travaille sur une branche dédiée (module 20).</li>
@@ -5262,7 +5263,10 @@ def test_connexion_refusee_locked_out_user(page: Page):
     expect(page.locator("[data-test='error']")).to_contain_text("locked out")</pre>
 
       <p class="code-label">tests/test_saucedemo_panier.py</p>
-      <pre>def test_ajout_de_deux_articles_met_a_jour_le_total(page: Page):
+      <pre>from playwright.sync_api import Page, expect
+
+
+def test_ajout_de_deux_articles_met_a_jour_le_total(page: Page):
     page.goto("https://www.saucedemo.com")
     page.get_by_placeholder("Username").fill("standard_user")
     page.get_by_placeholder("Password").fill("secret_sauce")
@@ -5421,14 +5425,18 @@ class AlertsPage:
         self.page.get_by_role("button", name="Click for JS Alert").click()</pre>
 
       <p class="code-label">tests/test_alertes.py — réécrit avec le Page Object</p>
-      <pre>def test_alerte_javascript_est_acceptee(page: Page):
+      <pre>from playwright.sync_api import Page, expect
+from pages.alerts_page import AlertsPage
+
+
+def test_alerte_javascript_est_acceptee(page: Page):
     alerts_page = AlertsPage(page)
     alerts_page.ouvrir()
     alerts_page.declencher_alerte_simple()
 
     expect(alerts_page.result).to_have_text("You successfully clicked an alert")</pre>
 
-      <p class="code-label">pages/AlertsPage.ts — équivalent TypeScript</p>
+      <p class="code-label">pages-ts/AlertsPage.ts — équivalent TypeScript</p>
       <pre>import { Page, Locator } from '@playwright/test';
 
 export class AlertsPage {
@@ -5452,7 +5460,7 @@ export class AlertsPage {
 
       <p class="code-label">tests/alertes.spec.ts — équivalent TypeScript</p>
       <pre>import { test, expect } from '@playwright/test';
-import { AlertsPage } from '../pages/AlertsPage';
+import { AlertsPage } from '../pages-ts/AlertsPage';
 
 test('accepte une alerte JavaScript simple', async ({ page }) => {
   const alertsPage = new AlertsPage(page);
@@ -5525,9 +5533,11 @@ pytest tests/ -v
 
       <h3>CRUD complet</h3>
       <p class="code-label">tests/test_api_reqres.py</p>
-      <pre>from playwright.sync_api import Page
+      <pre>import os
 
-EN_TETES = {"x-api-key": "TA_CLE_ICI"}
+from playwright.sync_api import Page
+
+EN_TETES = {"x-api-key": os.environ["REQRES_API_KEY"]}   # clé lue dans l'environnement (voir .env.example), jamais écrite dans le code
 
 
 def test_get_liste_utilisateurs_paginee(page: Page):
@@ -5839,7 +5849,7 @@ def test_recherche():
           <div class="exercise-solution-body">
             <p><strong>Bloquants (risque réel) :</strong> mot de passe en clair dans le code source (<code>PASSWORD</code>, module 35) ; <code>assert True</code> dans <code>test_recherche</code> qui ne teste littéralement rien (module 63) ; <code>test_2</code> dépend implicitement de l'état laissé par <code>test_1</code> — aucun des deux tests n'est autonome (module 35 et 37) ; aucune CI configurée, donc rien ne s'exécute automatiquement à chaque changement (module 27) ; assertions <code>status_code != 500</code> beaucoup trop permissives, un 401 ou 403 passerait sans être détecté (module 63).</p>
             <p><strong>Inconfort, à corriger mais moins urgent :</strong> noms de tests non descriptifs (<code>test_1</code>, <code>test_2</code>) qui ne disent rien de ce qu'ils vérifient ; <code>time.sleep()</code> systématique plutôt qu'une attente explicite, source de lenteur et de flakiness (module 37) ; aucune séparation UI/API dans la structure du dépôt (module 35) ; pas de <code>.gitignore</code> visible ; README qui ne documente ni le contexte ni comment lancer réellement la suite.</p>
-            <p>Neuf problèmes distincts couvrant quatre catégories différentes — un vrai audit professionnel ne se contente jamais de dire "c'est mal écrit", il nomme précisément chaque défaut pour pouvoir le prioriser.</p>
+            <p>Dix problèmes distincts couvrant quatre catégories différentes — un vrai audit professionnel ne se contente jamais de dire "c'est mal écrit", il nomme précisément chaque défaut pour pouvoir le prioriser.</p>
           </div>
         </details>
       </div>
@@ -5909,9 +5919,9 @@ def test_recherche():
 
       <div class="table-scroll"><table>
         <tr><th>Palier</th><th>Mots-clés</th><th>Couvert dans ce cours</th></tr>
-        <tr><td><strong>Présents dans 60&nbsp;%+ des offres</strong></td><td>CI/CD, tests d'API, Python, Git, SQL</td><td>Modules 33, 40, 20, 43</td></tr>
-        <tr><td><strong>Présents dans 30 à 60&nbsp;% des offres</strong></td><td>Docker, Agile/Scrum, BDD, tests de performance, cloud</td><td>Modules 2, 38, 35, 44</td></tr>
-        <tr><td><strong>Émergents, en forte croissance</strong></td><td>IA/génération de tests, tests de sécurité, observabilité</td><td>Modules 49, 18</td></tr>
+        <tr><td><strong>Présents dans 60&nbsp;%+ des offres</strong></td><td>CI/CD, tests d'API, Python, Git, SQL</td><td>Modules 27, 40, 22, 20, 18</td></tr>
+        <tr><td><strong>Présents dans 30 à 60&nbsp;% des offres</strong></td><td>Docker, Agile/Scrum, BDD, tests de performance, cloud</td><td>Modules 29, 10, 43, 38-39</td></tr>
+        <tr><td><strong>Émergents, en forte croissance</strong></td><td>IA/génération de tests, tests de sécurité, observabilité</td><td>Modules 49, 65, 62</td></tr>
       </table></div>
 
       <p>Concrètement : la section compétences d'un CV doit citer ces mots <em>littéralement</em> — un ATS (le logiciel qui trie les candidatures avant qu'un humain les lise) cherche des correspondances de texte, pas des synonymes. "J'ai testé un site" ne matche rien ; "Tests fonctionnels, Playwright, Python, Git, CI/CD (GitHub Actions), SQL" matche directement les critères de recherche d'un recruteur. C'est ce filtre-là, pas une certification, qui décide si ton CV arrive jusqu'à un humain.</p>
@@ -6150,7 +6160,7 @@ jobs:
     time.sleep(3)
     assert page.status_code != 500
     # crée une recherche sauvegardée pour l'utilisateur test — jamais supprimée
-    api_client.creer_recherche_sauvegardee(user="qa.test@novacart.com", terme="chaussures")
+    api_client.creer_recherche_sauvegardee(user="qa.test@novacart.fr", terme="chaussures")
 
 def test_recherche2():
     # suppose que test_recherche a tourné avant et a laissé la page sur les résultats
@@ -6162,7 +6172,7 @@ def test_recherche2():
             <p><strong>1. Nommage</strong> — <code>test_recherche</code> et <code>test_recherche2</code> ne disent rien du comportement vérifié ; renommer en <code>test_recherche_affiche_resultats_pertinents</code> et <code>test_pagination_resultats_recherche</code>.</p>
             <p><strong>2. Sélecteurs fragiles</strong> — <code>.search-input-field-v2</code> et <code>.btn.btn-primary.mt-2</code> dépendent de classes CSS ; préférer <code>page.get_by_role("searchbox")</code> et <code>page.get_by_role("button", name="Rechercher")</code>.</p>
             <p><strong>3. Attente inutile</strong> — <code>time.sleep(3)</code> à remplacer par une attente explicite sur l'apparition des résultats (module 37).</p>
-            <p><strong>4. Assertion faible</strong> — <code>status_code != 500</code> ne vérifie même pas que des résultats pertinents s'affichent ; un 404 ou une page de résultats vides passerait ce test. Il faut vérifier le contenu réel : <code>expect(page.locator(".result-item")).to_have_count_greater_than(0)</code> et idéalement que les résultats contiennent bien "chaussures".</p>
+            <p><strong>4. Assertion faible</strong> — <code>status_code != 500</code> ne vérifie même pas que des résultats pertinents s'affichent ; un 404 ou une page de résultats vides passerait ce test. Il faut vérifier le contenu réel : <code>expect(page.locator(".result-item").first).to_be_visible()</code> (au moins un résultat s'affiche) et idéalement que les résultats contiennent bien "chaussures".</p>
             <p><strong>5. Absence de nettoyage</strong> — la recherche sauvegardée créée par <code>api_client</code> n'est jamais supprimée ; à déplacer dans une fixture avec <code>yield</code> et suppression après le test (module 35).</p>
             <p><strong>6. Tests couplés</strong> — <code>test_recherche2</code> suppose que <code>test_recherche</code> a tourné juste avant et a laissé la page sur les résultats ; chaque test doit reconstruire son propre état de départ (naviguer et rechercher lui-même) plutôt que d'hériter de celui d'un autre test.</p>
           </div>
