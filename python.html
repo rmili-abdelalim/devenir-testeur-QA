@@ -556,7 +556,7 @@ print(f"Total du panier : {total:.2f} €")</textarea>
     <p class="tagline">Les bases du langage, SOLID et le TDD, des projets guidés par domaine, le Python avancé (décorateurs, context managers), et l'outillage professionnel (CLI, architecture, CI/CD, asyncio, bases de données), et un portfolio de 5 projets jusqu'au capstone</p>
 
     <div class="progress-wrap">
-      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/46</span></div>
+      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/47</span></div>
       <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
     </div>
 
@@ -631,6 +631,7 @@ print(f"Total du panier : {total:.2f} €")</textarea>
       <li class="nav-item"><a class="nav-link" data-id="m35" href="#m35"><span class="nav-check" data-modcheck="m35"></span><span class="nav-num">35</span> asyncio et la concurrence</a></li>
       <li class="nav-item"><a class="nav-link" data-id="m36" href="#m36"><span class="nav-check" data-modcheck="m36"></span><span class="nav-num">36</span> Threading, multiprocessing et le GIL</a></li>
       <li class="nav-item"><a class="nav-link" data-id="m37" href="#m37"><span class="nav-check" data-modcheck="m37"></span><span class="nav-num">37</span> Ingénierie API côté client</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m37b" href="#m37b"><span class="nav-check" data-modcheck="m37b"></span><span class="nav-num">37b</span> Pydantic et FastAPI</a></li>
       <li class="nav-item"><a class="nav-link" data-id="m38" href="#m38"><span class="nav-check" data-modcheck="m38"></span><span class="nav-num">38</span> Python et les bases de données</a></li>
     </ul>
 
@@ -662,10 +663,10 @@ print(f"Total du panier : {total:.2f} €")</textarea>
       <h1 class="doc-title">Python pour la Qualité Logicielle</h1>
       <p class="doc-lede">Les bases du langage utilisées dans tout le reste du parcours : la syntaxe, les structures de données, les fonctions, la conception orientée objet et les principes SOLID, jusqu'aux notions dont tu auras besoin pour écrire tes premiers tests Playwright — puis la ligne de commande, la résolution de problèmes, pytest en profondeur (mocking, TDD, tests basés sur les propriétés), des projets guidés par domaine (web, data, un aperçu ML/jeu vidéo, cybersécurité), le Python "avancé" — décorateurs, générateurs, context managers, typing, logging — et enfin l'outillage professionnel d'une équipe : ligne de commande soignée, architecture de projet, CI/CD, performance, asyncio, threading, clients API et bases de données, un portfolio de 5 projets professionnels avec capstone complet, et une préparation aux entretiens techniques Python. Chaque notion a son exemple exécutable, et chaque module se termine par un exercice corrigé.</p>
       <div class="stat-row">
-        <span class="stat-chip"><b>46</b> modules</span>
+        <span class="stat-chip"><b>47</b> modules</span>
         <span class="stat-chip"><b>12</b> parties : bases → réutilisable → robuste → automatisation → compétences → projets → avancé → outillage → concurrence/données → portfolio → entretiens → conclusion</span>
         <span class="stat-chip">Version : <b>Python 3.11+</b></span>
-        <span class="stat-chip"><b>46</b> exercices corrigés</span>
+        <span class="stat-chip"><b>47</b> exercices corrigés</span>
       </div>
     </header>
 
@@ -4452,6 +4453,84 @@ def recuperer_commande(id_commande, session):
     <p>Encapsuler les appels API dans une classe ou un module dédié (module 32 — architecture) rend le reste du code testable avec un mock (module 21) plutôt que dépendant d'un vrai réseau à chaque exécution de test — le même principe d'inversion des dépendances que le module 14 (SOLID).</p>
   </div>
 
+  <h3>Quand l'API répond 429 : respecter <code>Retry-After</code></h3>
+  <p>Un <strong>429 Too Many Requests</strong> signifie « tu vas trop vite ». Le serveur indique souvent, dans l'en-tête <code>Retry-After</code>, combien de secondes attendre. Quatre règles : (1) respecter <code>Retry-After</code> s'il est présent ; (2) sinon attendre de plus en plus longtemps (<strong>backoff exponentiel</strong>) avec un peu de hasard (<strong>jitter</strong>) pour que tous les clients ne repartent pas en même temps ; (3) <strong>limiter le nombre d'essais</strong> — jamais de retry infini ; (4) ne rejouer automatiquement que les requêtes <strong>sans effet de bord</strong> (GET).</p>
+  <p class="code-label">Version courte : la session gère 429 et 5xx</p>
+  <pre>import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+
+def creer_session() -&gt; requests.Session:
+    retry = Retry(
+        total=4,
+        backoff_factor=0.5,                 # 0,5 s puis 1 s puis 2 s…
+        status_forcelist=[429, 500, 502, 503, 504],
+        allowed_methods=["GET"],            # pas de retry automatique sur POST
+        respect_retry_after_header=True,    # lit Retry-After
+    )
+    session = requests.Session()
+    session.mount("https://", HTTPAdapter(max_retries=retry))
+    session.mount("http://", HTTPAdapter(max_retries=retry))
+    return session</pre>
+  <p>Pour comprendre — et pour pouvoir <strong>tester</strong> l'attente — voici la même logique écrite à la main. Le paramètre <code>dormir</code> est injectable : en test, on lui passe une fausse fonction, le test est instantané et on peut vérifier combien de temps le client <em>aurait</em> attendu.</p>
+  <p class="code-label">Version écrite à la main, testable</p>
+  <pre>import random
+import time
+
+def get_avec_retry(session, url, *, essais=4, attente_base=0.5, dormir=time.sleep, **kw):
+    """GET qui gère 429 et 5xx. `dormir` est injectable pour les tests."""
+    for essai in range(1, essais + 1):
+        reponse = session.get(url, timeout=3, **kw)
+        if reponse.status_code not in (429, 500, 502, 503, 504):
+            reponse.raise_for_status()
+            return reponse
+        if essai == essais:
+            reponse.raise_for_status()      # on abandonne : l'erreur remonte
+        retry_after = reponse.headers.get("Retry-After")
+        if retry_after and retry_after.isdigit():
+            attente = int(retry_after)
+        else:
+            attente = attente_base * (2 ** (essai - 1)) + random.uniform(0, 0.2)
+        dormir(attente)</pre>
+  <div class="callout warn">
+    <div class="callout-label">Ne rejoue jamais un POST sans réfléchir</div>
+    <p>Un paiement ou une création peut être exécuté deux fois si on rejoue la requête (le double débit vu dans le cours QA, module 40). C'est pourquoi <code>allowed_methods=["GET"]</code> : seules les requêtes sans effet de bord sont rejouées automatiquement.</p>
+  </div>
+  <h3>Authentification : la clé vient de l'environnement</h3>
+  <pre>import os
+
+def en_tetes() -&gt; dict[str, str]:
+    cle = os.environ["API_KEY"]             # KeyError claire si absente
+    return {"Authorization": f"Bearer {cle}"}</pre>
+  <p>Mêmes règles qu'au module 27 : la clé vient d'une <strong>variable d'environnement</strong> (ou d'un <code>.env</code> ignoré par Git, avec un <code>.env.example</code> sans valeur réelle), on ne la <strong>logge jamais</strong> en clair (masquer en <code>Bearer ****</code>). Un <strong>401</strong> signifie clé absente ou fausse : inutile de réessayer. Un <strong>403</strong> signifie clé valide mais droits insuffisants. Certaines API utilisent un autre en-tête (<code>x-api-key</code> sur reqres.in) : lis toujours la documentation du service.</p>
+  <h3>Pagination</h3>
+  <p>Beaucoup d'API renvoient leurs listes page par page (<code>?page=2</code>) ou avec un curseur. Un <strong>générateur</strong> (module 28) évite de tout charger en mémoire, et un <strong>garde-fou</strong> évite la boucle infinie :</p>
+  <pre>def toutes_les_pages(session, url, *, max_pages=50):
+    page = 1
+    while page &lt;= max_pages:                # garde-fou obligatoire
+        reponse = get_avec_retry(session, url, params={"page": page})
+        donnees = reponse.json().get("data", [])
+        if not donnees:
+            return
+        yield from donnees
+        page += 1</pre>
+  <h3>Tester sans réseau (et sans attendre)</h3>
+  <p class="code-label">pip install responses — le test ne dort pas vraiment</p>
+  <pre>import requests
+import responses
+
+@responses.activate
+def test_429_puis_200_respecte_retry_after():
+    url = "https://api.exemple.test/articles"
+    responses.add(responses.GET, url, status=429, headers={"Retry-After": "2"})
+    responses.add(responses.GET, url, json={"data": [1]}, status=200)
+    pauses = []
+
+    reponse = get_avec_retry(requests.Session(), url, dormir=pauses.append)
+
+    assert reponse.json() == {"data": [1]}
+    assert pauses == [2]                    # a attendu exactement 2 s</pre>
+
   <div class="exercise">
     <div class="exercise-label">Exercice</div>
     <p>Cette fonction ne gère aucune erreur. Ajoute un <code>timeout</code> de 3 secondes et transforme toute erreur réseau ou statut HTTP en erreur en levant une <code>RuntimeError</code> avec un message clair.</p>
@@ -4475,7 +4554,148 @@ def recuperer_commande(id_commande, session):
     </details>
   </div>
 
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p><em>Complément 429 — </em>Écris un test où le serveur renvoie <strong>429 trois fois</strong> puis 200, avec <code>essais=4</code> et sans en-tête <code>Retry-After</code>. Vérifie : (a) le résultat final est un 200 ; (b) il y a 3 pauses ; (c) chaque pause est plus longue que la précédente.</p>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+      <pre>@responses.activate
+def test_backoff_croissant():
+    url = "https://api.exemple.test/x"
+    for _ in range(3):
+        responses.add(responses.GET, url, status=429)
+    responses.add(responses.GET, url, json={}, status=200)
+    pauses = []
+
+    get_avec_retry(requests.Session(), url, essais=4, dormir=pauses.append)
+
+    assert len(pauses) == 3
+    assert pauses[0] &lt; pauses[1] &lt; pauses[2]</pre>
+      <p>Avec <code>attente_base=0.5</code>, les pauses valent environ 0,5 s, 1 s puis 2 s ; le jitter (0 à 0,2 s) est trop petit pour inverser l'ordre. Le test s'exécute instantanément parce que <code>dormir</code> est remplacé par <code>pauses.append</code>.</p>
+      </div>
+    </details>
+  </div>
+
   <button class="done-toggle" data-toggle="m37"><span class="box"></span> Marquer ce module comme terminé</button>
+</section>
+<!-- ============ MODULE m37b (Pydantic et FastAPI) ============ -->
+<section class="module" id="m37b">
+  <div class="mod-eyebrow">Partie 9 · Module 37 bis</div>
+  <h2 class="mod-title">Pydantic et FastAPI : valider et exposer</h2>
+  <p>Deux outils très présents dans l'écosystème Python moderne : <strong>Pydantic</strong> pour décrire et <strong>valider</strong> des données (venues d'une API, d'un fichier… ou d'un modèle d'IA), et <strong>FastAPI</strong> pour <strong>exposer</strong> une API qui valide automatiquement ce qu'elle reçoit et ce qu'elle renvoie. Ce module prépare aussi le cours « IA appliquée », où la sortie d'un modèle doit toujours passer par un schéma.</p>
+  <div class="callout warn">
+    <div class="callout-label">Version de référence</div>
+    <p>Ce module utilise <strong>Pydantic v2</strong> (<code>pip install pydantic fastapi uvicorn httpx pytest</code>). La syntaxe de la v1 (<code>@validator</code>, <code>.dict()</code>, <code>.parse_obj()</code>) est différente et ne doit plus être utilisée sur un nouveau projet.</p>
+  </div>
+  <h3>Pydantic : un modèle = un contrat</h3>
+  <p class="code-label">Un cas de test décrit comme un modèle</p>
+  <pre>from typing import Literal
+from pydantic import BaseModel, Field
+
+class CasDeTest(BaseModel):
+    id: str = Field(pattern=r"^TC-[A-Z]+-\d{3}$")   # ex. TC-CONN-021
+    titre: str = Field(min_length=5, max_length=120)
+    priorite: Literal["haute", "moyenne", "basse"]
+    etapes: list[str] = Field(min_length=1)
+    resultat_attendu: str</pre>
+  <p>Valider des données qui arrivent de l'extérieur :</p>
+  <pre>from pydantic import ValidationError
+
+brut = '{"id": "TC-CONN-021", "titre": "Mot de passe trop court", "priorite": "haute", "etapes": ["Saisir 7 caractères"], "resultat_attendu": "Message d\'erreur"}'
+
+cas = CasDeTest.model_validate_json(brut)    # lève ValidationError si invalide
+print(cas.priorite)                          # haute
+print(cas.model_dump())                      # retour en dict
+
+try:
+    CasDeTest.model_validate({"id": "X", "titre": "ok", "priorite": "urgente", "etapes": []})
+except ValidationError as e:
+    for erreur in e.errors():
+        print(erreur["loc"], "→", erreur["msg"])</pre>
+  <p><code>e.errors()</code> liste les champs fautifs (<code>loc</code>), le message (<code>msg</code>) et le type d'erreur : parfait pour afficher un message clair, ou pour <strong>redemander</strong> à un modèle d'IA une sortie corrigée. C'est le même principe que <code>unknown</code> en TypeScript (cours TypeScript, module 12) : une donnée externe n'est jamais crue sur parole, on la valide à l'entrée.</p>
+  <h3>Une règle métier personnalisée</h3>
+  <pre>from pydantic import field_validator
+
+class CasDeTest(BaseModel):
+    ...                                   # champs ci-dessus
+
+    @field_validator("etapes")
+    @classmethod
+    def etapes_non_vides(cls, v: list[str]) -&gt; list[str]:
+        if any(not e.strip() for e in v):
+            raise ValueError("une étape ne peut pas être vide")
+        return v</pre>
+  <h3>FastAPI : exposer et valider</h3>
+  <p class="code-label">app.py — une route de santé et une route métier</p>
+  <pre>from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel, Field
+
+app = FastAPI(title="NovaQA")
+
+class DemandeRemise(BaseModel):
+    montant: float = Field(gt=0)
+    code: str = Field(min_length=4, max_length=8)
+
+class ReponseRemise(BaseModel):
+    montant_final: float
+
+@app.get("/health")
+def health() -&gt; dict[str, str]:
+    return {"statut": "ok"}
+
+@app.post("/remise", response_model=ReponseRemise)
+def appliquer_remise(demande: DemandeRemise) -&gt; ReponseRemise:
+    if demande.code != "SOLDES10":
+        raise HTTPException(status_code=404, detail="code inconnu")
+    return ReponseRemise(montant_final=round(demande.montant * 0.9, 2))</pre>
+  <p>FastAPI valide <strong>automatiquement</strong> le corps de la requête : une donnée invalide renvoie un <strong>422</strong> avec le détail. <code>response_model</code> filtre et valide aussi la <strong>sortie</strong>. En lançant <code>uvicorn app:app --reload</code>, la documentation interactive est disponible sur <code>/docs</code>.</p>
+  <h3>Tester sans serveur</h3>
+  <pre>from fastapi.testclient import TestClient
+from app import app
+
+client = TestClient(app)
+
+def test_health():
+    assert client.get("/health").json() == {"statut": "ok"}
+
+def test_remise_valide():
+    r = client.post("/remise", json={"montant": 50.0, "code": "SOLDES10"})
+    assert r.status_code == 200
+    assert r.json() == {"montant_final": 45.0}
+
+def test_montant_negatif_renvoie_422():
+    r = client.post("/remise", json={"montant": -5, "code": "SOLDES10"})
+    assert r.status_code == 422
+
+def test_code_inconnu_renvoie_404():
+    r = client.post("/remise", json={"montant": 50, "code": "ZZZZZZ"})
+    assert r.status_code == 404</pre>
+  <p><code>TestClient</code> appelle l'application <strong>en mémoire</strong> : pas de port ouvert, pas de réseau, des tests rapides — exactement comme le client mocké du module 37.</p>
+  <div class="callout">
+    <div class="callout-label">Erreurs fréquentes</div>
+    <p>Utiliser la syntaxe Pydantic v1 sur un projet v2 ; valider seulement l'entrée et jamais la sortie ; attraper <code>Exception</code> au lieu de <code>ValidationError</code> ; lancer un vrai serveur pour tester au lieu de <code>TestClient</code> ; mettre un secret dans un modèle ou un exemple.</p>
+  </div>
+  <div class="exercise">
+    <div class="exercise-label">Exercice</div>
+    <p>Une API renvoie <code>{"id": "TC-CONN-021", "priorite": "urgente", ...}</code>, alors que le modèle <code>CasDeTest</code> n'accepte que <code>haute</code>, <code>moyenne</code>, <code>basse</code>. Écris un test qui prouve que la validation <strong>rejette</strong> cette donnée et que l'erreur désigne le bon champ.</p>
+    <details>
+      <summary>Voir la correction</summary>
+      <div class="exercise-solution-body">
+      <pre>import pytest
+from pydantic import ValidationError
+
+def test_priorite_inconnue_rejetee():
+    donnees = {"id": "TC-CONN-021", "titre": "Titre valide", "priorite": "urgente",
+               "etapes": ["a"], "resultat_attendu": "ok"}
+    with pytest.raises(ValidationError) as info:
+        CasDeTest.model_validate(donnees)
+    assert info.value.errors()[0]["loc"] == ("priorite",)</pre>
+      <p><code>errors()[0]["loc"]</code> contient le chemin du champ fautif : on vérifie que l'erreur porte bien sur <code>priorite</code> et pas sur un autre champ, ce qui rend le test précis plutôt que de seulement constater « une erreur quelconque ».</p>
+      </div>
+    </details>
+  </div>
+  <button class="done-toggle" data-toggle="m37b"><span class="box"></span> Marquer ce module comme terminé</button>
 </section>
 <!-- ============ MODULE m38 ============ -->
 <!-- ============ MODULE (nouveau) Python et bases de donnees ============ -->
@@ -5255,7 +5475,7 @@ l'ISTQB Foundation pour voir si ça correspond à mes objectifs.</pre>
 <script>
 (function(){
   var STORAGE_KEY = 'python-course-progress-v1';
-  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','m15','m16','m17','m18','m19','m20','m21','m22','m23','m24','m25','m26','m27','m28','m29','m30','m31','m32','m33','m34','m35','m36','m37','m38','m39','m40','m41','m42','m43','m44','m45','m46'];
+  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','m15','m16','m17','m18','m19','m20','m21','m22','m23','m24','m25','m26','m27','m28','m29','m30','m31','m32','m33','m34','m35','m36','m37','m37b','m38','m39','m40','m41','m42','m43','m44','m45','m46'];
 
   function loadDone(){
     try{

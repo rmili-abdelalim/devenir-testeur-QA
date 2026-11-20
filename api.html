@@ -228,7 +228,7 @@
     <p class="tagline">GraphQL, gRPC et contrats d'API — édition 2026</p>
 
     <div class="progress-wrap">
-      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/13</span></div>
+      <div class="progress-label"><span>Progression</span><span><span id="progress-count">0</span>/14</span></div>
       <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
     </div>
 
@@ -260,9 +260,14 @@
       <li class="nav-item"><a class="nav-link" data-id="m12" href="#m12"><span class="nav-check" data-modcheck="m12"></span><span class="nav-num">12</span> Tester l'authentification OAuth2/JWT</a></li>
     </ul>
 
-    <div class="nav-part-label">Partie 5 — Se positionner</div>
+    <div class="nav-part-label">Partie 5 — Temps réel et débit</div>
     <ul class="nav-list">
-      <li class="nav-item"><a class="nav-link" data-id="m13" href="#m13"><span class="nav-check" data-modcheck="m13"></span><span class="nav-num">13</span> L'API testing sur le marché en 2026</a></li>
+      <li class="nav-item"><a class="nav-link" data-id="m14" href="#m14"><span class="nav-check" data-modcheck="m14"></span><span class="nav-num">13</span> Streaming (SSE, WebSocket) et limites de débit</a></li>
+    </ul>
+
+    <div class="nav-part-label">Partie 6 — Se positionner</div>
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" data-id="m13" href="#m13"><span class="nav-check" data-modcheck="m13"></span><span class="nav-num">14</span> L'API testing sur le marché en 2026</a></li>
     </ul>
   </nav>
 
@@ -272,9 +277,9 @@
       <h1 class="doc-title">API Avancé pour la Qualité Logicielle</h1>
       <p class="doc-lede">Le cours QA t'a donné les bases du test d'API REST avec Postman et Playwright. Celui-ci va plus loin : GraphQL et gRPC, deux protocoles que tu croiseras de plus en plus souvent dès que tu travailleras sur des architectures en microservices, plus le test de contrat, le mocking, et l'authentification — les sujets qui distinguent un testeur API confirmé d'un testeur qui sait juste envoyer une requête GET.</p>
       <div class="stat-row">
-        <span class="stat-chip"><b>13</b> modules</span>
-        <span class="stat-chip"><b>5</b> parties : REST → GraphQL → gRPC → contrats → marché</span>
-        <span class="stat-chip"><b>13</b> exercices corrigés</span>
+        <span class="stat-chip"><b>14</b> modules</span>
+        <span class="stat-chip"><b>6</b> parties : REST → GraphQL → gRPC → contrats → temps réel → marché</span>
+        <span class="stat-chip"><b>14</b> exercices corrigés</span>
         <span class="stat-chip">Exemples en <b>Python</b></span>
       </div>
 
@@ -777,12 +782,134 @@ def test_endpoint_protege_avec_jeton_expire_renvoie_401(jeton_expire):
       <button class="done-toggle" data-toggle="m12"><span class="box"></span> Marquer ce module comme terminé</button>
     </section>
 
-    <!-- ============ PARTIE 5 ============ -->
-    <div class="part-divider"><span class="part-tag">PARTIE 5</span><h2 class="part-title">Se positionner</h2></div>
+    <!-- ============ PARTIE 5 : TEMPS RÉEL ET DÉBIT ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 5</span><h2 class="part-title">Temps réel et débit</h2></div>
+    <p class="part-intro">Un module pour tester ce qui arrive « au fil de l'eau » et ce qui est limité en nombre d'appels — deux réalités des API modernes, y compris celles des modèles d'IA.</p>
+
+    <section class="module" id="m14">
+      <div class="mod-eyebrow">Partie 5 · Module 13</div>
+      <h2 class="mod-title">Streaming (SSE, WebSocket) et limites de débit</h2>
+      <p>Jusqu'ici, une requête recevait une réponse et c'était terminé. Beaucoup d'API envoient au contraire leurs données <strong>par morceaux</strong> (le texte d'un assistant IA qui s'écrit à l'écran, des notifications) et <strong>limitent</strong> le nombre d'appels par minute. Le cours a déjà vu le streaming gRPC (module 7) et les subscriptions GraphQL (module 3) ; il manque les deux formes les plus courantes sur le web : <strong>SSE</strong> et <strong>WebSocket</strong>.</p>
+      <div class="table-scroll"><table>
+        <tr><th></th><th>Requête classique</th><th>SSE (Server-Sent Events)</th><th>WebSocket</th></tr>
+        <tr><td><strong>Sens</strong></td><td>Client → serveur → réponse</td><td>Serveur → client, un seul sens</td><td>Dans les deux sens</td></tr>
+        <tr><td><strong>Protocole</strong></td><td>HTTP</td><td>HTTP (<code>text/event-stream</code>)</td><td>Connexion dédiée (<code>ws://</code>, <code>wss://</code>)</td></tr>
+        <tr><td><strong>Cas d'usage</strong></td><td>Lire / écrire une ressource</td><td>Texte généré au fil de l'eau, notifications</td><td>Chat, jeux, collaboration</td></tr>
+        <tr><td><strong>Reprise après coupure</strong></td><td>Rejouer la requête</td><td>Prévue (<code>Last-Event-ID</code>)</td><td>À gérer soi-même</td></tr>
+      </table></div>
+      <h3>Le format SSE</h3>
+      <p>Le serveur envoie des blocs de texte séparés par une <strong>ligne vide</strong> : <code>data:</code> porte le contenu, <code>event:</code> le type (optionnel), <code>id:</code> un identifiant (optionnel). La réponse porte l'en-tête <code>Content-Type: text/event-stream</code> et la connexion reste ouverte jusqu'à la fin du flux. Les API de modèles d'IA fonctionnent ainsi : chaque morceau de texte arrive dans un bloc <code>data:</code>, et un dernier événement signale la fin (son nom varie selon le fournisseur : lis sa documentation).</p>
+      <p class="code-label">Un flux SSE : trois blocs, séparés par des lignes vides</p>
+      <pre>data: Bonjour
+
+data: tout le
+
+event: fin
+data: ok</pre>
+      <h3>Un serveur d'entraînement</h3>
+      <pre># serveur_sse.py   (pip install fastapi uvicorn)
+import asyncio
+from fastapi import FastAPI
+from fastapi.responses import StreamingResponse
+
+app = FastAPI()
+
+async def flux():
+    for i in range(3):
+        yield f"data: mot{i}\n\n"
+        await asyncio.sleep(0.1)
+    yield "event: fin\ndata: ok\n\n"
+
+@app.get("/flux")
+def get_flux():
+    return StreamingResponse(flux(), media_type="text/event-stream")</pre>
+      <h3>Tester un flux SSE avec pytest</h3>
+      <pre>from fastapi.testclient import TestClient
+from serveur_sse import app
+
+client = TestClient(app)
+
+def lire_evenements(reponse):
+    """Transforme les lignes SSE en liste de (type, données)."""
+    evenements, type_courant, donnees = [], "message", []
+    for ligne in reponse.iter_lines():
+        if ligne == "":                       # ligne vide = fin d'un bloc
+            if donnees:
+                evenements.append((type_courant, "\n".join(donnees)))
+            type_courant, donnees = "message", []
+        elif ligne.startswith("event:"):
+            type_courant = ligne.removeprefix("event:").strip()
+        elif ligne.startswith("data:"):
+            donnees.append(ligne.removeprefix("data:").strip())
+    return evenements
+
+def test_flux_ordre_et_fin():
+    with client.stream("GET", "/flux") as r:
+        assert r.status_code == 200
+        assert r.headers["content-type"].startswith("text/event-stream")
+        evenements = lire_evenements(r)
+
+    assert [d for _, d in evenements[:3]] == ["mot0", "mot1", "mot2"]
+    assert evenements[-1] == ("fin", "ok")</pre>
+      <p>Sur un flux, on vérifie quatre choses : le <strong>statut et le type de contenu</strong>, l'<strong>ordre</strong> des morceaux, l'<strong>événement de fin</strong>, et le comportement en cas de <strong>coupure</strong>. Toujours avec un <strong>timeout</strong> : un flux qui ne se termine jamais ne doit pas bloquer la suite de tests.</p>
+      <h3>Limitation de débit (rate limiting)</h3>
+      <p>Pour se protéger, un serveur limite le nombre de requêtes par période. Au-delà : <strong>429 Too Many Requests</strong>, souvent accompagné de <code>Retry-After</code> (secondes à attendre). Certaines API ajoutent des en-têtes d'information du type <code>X-RateLimit-Remaining</code> : ce n'est <strong>pas un standard unique</strong>, leur nom varie d'un service à l'autre.</p>
+      <p class="code-label">Serveur d'entraînement : 3 appels acceptés, puis 429</p>
+      <pre># à ajouter à serveur_sse.py
+from fastapi import Response
+
+compteur = {"n": 0}
+
+@app.get("/limite")
+def limite(reponse: Response):
+    compteur["n"] += 1
+    if compteur["n"] &gt; 3:
+        reponse.status_code = 429
+        reponse.headers["Retry-After"] = "1"
+        return {"erreur": "trop de requêtes"}
+    return {"ok": True}
+
+@app.post("/reinitialiser")
+def reinitialiser():
+    compteur["n"] = 0
+    return {"ok": True}</pre>
+      <pre>def test_429_apres_3_requetes():
+    client.post("/reinitialiser")
+    codes = [client.get("/limite").status_code for _ in range(5)]
+    assert codes == [200, 200, 200, 429, 429]
+
+def test_429_contient_retry_after():
+    client.post("/reinitialiser")
+    for _ in range(3):
+        client.get("/limite")
+    r = client.get("/limite")
+    assert r.status_code == 429
+    assert r.headers["Retry-After"] == "1"</pre>
+      <div class="callout warn">
+        <div class="callout-label">Ne teste jamais la limite d'un service tiers</div>
+        <p>Envoyer volontairement des centaines de requêtes à une API qui n'est pas la tienne peut te faire bloquer et n'est pas autorisé. Pour tester la limitation, utilise ton propre environnement ou un mock (module 11), et un test de charge (k6, cours QA) uniquement sur un service dont tu as l'accord.</p>
+      </div>
+      <h3>WebSocket (aperçu)</h3>
+      <p>Une connexion reste ouverte et chaque côté peut envoyer à tout moment. Pour tester : ouvrir la connexion, envoyer un message, <strong>attendre la réponse avec un timeout</strong>, puis fermer proprement. Cas à couvrir : message invalide, coupure réseau, reconnexion, ordre des messages. En Python : la bibliothèque <code>websockets</code>, ou <code>TestClient.websocket_connect</code> avec FastAPI.</p>
+      <div class="exercise">
+        <div class="exercise-label">Exercice</div>
+        <p>Le test <code>test_flux_ordre_et_fin</code> passe, mais un collègue signale que le serveur coupe parfois le flux sans envoyer l'événement <code>fin</code>. Pourquoi ce test ne le détecte-t-il pas toujours, et que modifier ?</p>
+        <details>
+          <summary>Voir la correction</summary>
+          <div class="exercise-solution-body">
+        <p>Le test lit toutes les lignes : si le serveur coupe avant <code>fin</code>, la dernière assertion échoue — <strong>à condition de la vérifier</strong>. Si on se contentait de contrôler les trois premiers mots, la coupure passerait inaperçue. Il faut donc (1) toujours <strong>asserter l'événement de fin</strong>, et (2) ajouter un <strong>timeout</strong> pour qu'un flux qui ne se termine jamais fasse <em>échouer</em> le test au lieu de le bloquer.</p>
+          </div>
+        </details>
+      </div>
+      <button class="done-toggle" data-toggle="m14"><span class="box"></span> Marquer ce module comme terminé</button>
+    </section>
+
+    <!-- ============ PARTIE 6 ============ -->
+    <div class="part-divider"><span class="part-tag">PARTIE 6</span><h2 class="part-title">Se positionner</h2></div>
     <p class="part-intro">Un dernier module pour situer ces compétences sur le marché du travail 2026.</p>
 
     <section class="module" id="m13">
-      <div class="mod-eyebrow">Partie 5 · Module 13</div>
+      <div class="mod-eyebrow">Partie 6 · Module 14</div>
       <h2 class="mod-title">L'API testing sur le marché en 2026</h2>
       <p>Le test d'API REST (Postman, requests) reste, de très loin, la compétence attendue en priorité — c'est ce que couvre déjà le cours QA, et c'est suffisant pour la grande majorité des postes juniors. GraphQL et gRPC, en revanche, fonctionnent comme des <strong>signaux de différenciation</strong> : peu de candidats juniors les mentionnent, ce qui les rend disproportionnellement remarqués sur un CV, même sans expérience professionnelle dessus.</p>
 
@@ -823,7 +950,7 @@ def test_endpoint_protege_avec_jeton_expire_renvoie_401(jeton_expire):
 <script>
 (function(){
   var STORAGE_KEY = 'api-course-progress-v1';
-  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13'];
+  var ids = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m14','m13'];
 
   function loadDone(){
     try{ var raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : {}; }catch(e){ return {}; }
