@@ -1,0 +1,25 @@
+name: ia-eval
+on:
+  pull_request:
+jobs:
+  tests-deterministes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -r requirements.txt pytest
+      - run: pytest -q                       # faux modèle : rapide, gratuit, bloquant
+  evaluation-ia:
+    if: ${{ vars.IA_ACTIVE == 'true' }}      # interrupteur d'urgence : mettre la variable à false
+    runs-on: ubuntu-latest
+    continue-on-error: true                  # l'évaluation signale, elle ne bloque pas (modèle non déterministe)
+    permissions: {pull-requests: write}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -r requirements.txt
+      - run: python evaluer.py > rapport.md
+      - run: gh pr comment ${{ github.event.pull_request.number }} --body-file rapport.md
+        env: {GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"}
